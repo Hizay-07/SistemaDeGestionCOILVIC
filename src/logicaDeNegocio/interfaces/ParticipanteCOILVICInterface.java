@@ -3,5 +3,5 @@ package logicaDeNegocio.interfaces;
 
 
 public interface ParticipanteCOILVICInterface {
-    public void descargarConstancia();
+    public String agregarParticipanteCOILVIC();
 }
