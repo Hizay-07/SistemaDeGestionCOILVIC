@@ -13,8 +13,8 @@ import logicaDeNegocio.interfaces.CursoTallerInterface;
 public class DAOCursoTallerImplementacion implements CursoTallerInterface {
 
     @Override
-    public void crearCursoTaller() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int ingresarCursoTaller() {
+        
     }
     
 }
