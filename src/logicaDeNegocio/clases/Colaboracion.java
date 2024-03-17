@@ -7,6 +7,7 @@ public class Colaboracion {
     private String fechaCierre;
     private String idioma;
     private String experienciaEducativa;
+    private int idColaboracion;
 
     public Colaboracion() {
     }
@@ -49,6 +50,23 @@ public class Colaboracion {
 
     public void setExperienciaEducativa(String experienciaEducativa) {
         this.experienciaEducativa = experienciaEducativa;
+    }
+
+    public int getIdColaboracion() {
+        return idColaboracion;
+    }
+
+    public void setIdColaboracion(int idColaboracion) {
+        this.idColaboracion = idColaboracion;
+    }       
+    
+    public boolean equals(Object obj){
+        Colaboracion colaboracionTemporal=(Colaboracion)obj;
+        return tipoColaboracion.equals(colaboracionTemporal.getTipoColaboracion())&&
+                fechaInicio.equals(colaboracionTemporal.getFechaInicio())&&
+                fechaCierre.equals(colaboracionTemporal.getFechaCierre())&&
+                idioma.equals(colaboracionTemporal.getIdioma())&&
+                experienciaEducativa.equals(colaboracionTemporal.getExperienciaEducativa());        
     }
     
     

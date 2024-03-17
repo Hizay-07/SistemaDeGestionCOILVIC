@@ -10,7 +10,7 @@ public class ManejadorBaseDeDatos {
     
     private Connection conexion;
     private static final String NOMBRE_BASE_DE_DATOS="jdbc:mysql://127.0.0.1/bdsistemacoilvic";;
-    private final String USUARIO_BASE_DE_DATOS="chris";
+    private final String USUARIO_BASE_DE_DATOS="mario";
     private final String CONTRASENA_BASE_DE_DATOS="PruebaFei123";
     
     public Connection getConexion() throws SQLException{
