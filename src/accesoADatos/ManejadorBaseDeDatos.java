@@ -34,6 +34,3 @@ public class ManejadorBaseDeDatos {
         }
     }
 }
-
-
-//Prueba de confirmación Oscar a Mario 

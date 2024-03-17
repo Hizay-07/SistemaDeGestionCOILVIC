@@ -1,4 +1,4 @@
-package logicaDeNegocio.DAOImplementacion;
+    package logicaDeNegocio.DAOImplementacion;
 
 import accesoADatos.ManejadorBaseDeDatos;
 import logicaDeNegocio.clases.Colaboracion;
