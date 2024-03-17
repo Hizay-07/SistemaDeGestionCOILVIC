@@ -1,5 +1,6 @@
 package logicaDeNegocio.interfaces;
 
-public interface EstudianteInterface {
+
+public interface Pais {
     
 }
