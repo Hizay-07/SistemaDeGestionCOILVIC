@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/chris/Escritorio/PrincipiosDeConstrucción/SistemaDeGestionCOILVIC/src/logicaDeNegocio/interfaces/RepresentanteInstitucionalInterface.java</file>
-            <file>file:/C:/Users/chris/Escritorio/PrincipiosDeConstrucción/SistemaDeGestionCOILVIC/test/pruebaLogicaDeNegocio/DAOImplementacion/PruebaDAORepresentanteInstitucionalImplementacionPruebas.java</file>
-            <file>file:/C:/Users/chris/Escritorio/PrincipiosDeConstrucción/SistemaDeGestionCOILVIC/src/logicaDeNegocio/DAOImplementacion/DAORepresentanteInstitucionalImplementacion.java</file>
-            <file>file:/C:/Users/chris/Escritorio/PrincipiosDeConstrucción/SistemaDeGestionCOILVIC/src/logicaDeNegocio/DAOImplementacion/DAOPaisImplementacion.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/logicaDeNegocio/interfaces/RepresentanteInstitucionalInterface.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/test/pruebaLogicaDeNegocio/DAOImplementacion/PruebaDAORepresentanteInstitucionalImplementacionPruebas.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/logicaDeNegocio/clases/RepresentanteInstitucional.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/logicaDeNegocio/DAOImplementacion/DAORepresentanteInstitucionalImplementacion.java</file>
         </group>
     </open-files>
 </project-private>

@@ -12,7 +12,7 @@ public class pruebaDAOPaisImplementacion {
     public void pruebaRegistrarPaisExitosa(){
         Pais paisPrueba = new Pais();
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        paisPrueba.setNombrePais("Mexico");
+        paisPrueba.setNombrePais("Colombia");
        
         int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);
         

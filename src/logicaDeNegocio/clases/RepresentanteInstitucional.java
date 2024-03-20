@@ -44,6 +44,13 @@ public class RepresentanteInstitucional{
         this.pais = pais;
     }
     
-    
+    @Override
+    public boolean equals(Object obj){
+        RepresentanteInstitucional representanteTemporal = (RepresentanteInstitucional)obj;
+        return nombreInstitucion.equals(representanteTemporal.getNombreInstitucion())&&
+                claveInstitucional.equals(representanteTemporal.getClaveInstitucional())&&
+                contacto.equals(representanteTemporal.getContacto())&&
+                pais.equals(representanteTemporal.getPais());
+    }
     
 }

@@ -1,12 +1,15 @@
 package logicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.clases.RepresentanteInstitucional;
+import logicaDeNegocio.clases.Pais;
 import logicaDeNegocio.interfaces.RepresentanteInstitucionalInterface;
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,9 +41,47 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     }
 
     @Override
-    public int eliminarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
-        return 0;
+    public int desactivarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
+        int resultadoDesactivacion=0;
+        
+        try{
+            Connection conexion = BASE_DE_DATOS.getConexion();
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoColaboracion = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
+            sentencia.setString(1, "Desactivo");
+            sentencia.setString(2, representanteIngresado.getNombreInstitucion());
+            sentencia.setString(3, representanteIngresado.getClaveInstitucional());
+            sentencia.setString(4,representanteIngresado.getContacto());
+            resultadoDesactivacion = sentencia.executeUpdate();
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException excepcion){
+            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            resultadoDesactivacion = -1;
+        }
+        
+        return resultadoDesactivacion;
     }
+    
+    @Override
+    public int activarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado){
+         int resultadoDesactivacion=0;
+        
+        try{
+            Connection conexion = BASE_DE_DATOS.getConexion();
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoColaboracion = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
+            sentencia.setString(1, "Activo");
+            sentencia.setString(2, representanteIngresado.getNombreInstitucion());
+            sentencia.setString(3, representanteIngresado.getClaveInstitucional());
+            sentencia.setString(4,representanteIngresado.getContacto());
+            resultadoDesactivacion = sentencia.executeUpdate();
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException excepcion){
+            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            resultadoDesactivacion = -1;
+        }
+        
+        return resultadoDesactivacion;
+    }
+    
 
     @Override
     public int modificarNombreRepresentanteInstitucional(String nombreActualizado, RepresentanteInstitucional representanteAActualizar) {
@@ -133,7 +174,84 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return validacionDeExistencia;
     }
     
-
+    @Override
+    public boolean obtenerEstadoRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
+        boolean estadoRepresentanteInstitucional = false;
+        String resultadoDeEstado="";
+        
+        try{
+            Connection conexion = BASE_DE_DATOS.getConexion();
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT estadoColaboracion from representanteinstitucional where nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
+            sentenciaConsulta.setString(1, representanteAConsultar.getNombreInstitucion());
+            sentenciaConsulta.setString(2, representanteAConsultar.getClaveInstitucional());
+            sentenciaConsulta.setString(3, representanteAConsultar.getContacto());
+            ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
+            
+            while(resultadoDeConsulta.next()){
+                resultadoDeEstado = (String)resultadoDeConsulta.getString(1);
+            }
+            
+            estadoRepresentanteInstitucional = resultadoDeEstado.equals("Activo");
+            
+        }catch(SQLException excepcion){
+             Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+             estadoRepresentanteInstitucional = false;
+        }
+       
+       return  estadoRepresentanteInstitucional;
+    }
     
+    @Override
+    public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales(){
+       List<RepresentanteInstitucional> representantes = new ArrayList();
+       
+       try{
+           Connection conexion = BASE_DE_DATOS.getConexion();
+           PreparedStatement sentencia = conexion.prepareStatement("SELECT nombreInstitucion,claveInstitucional,contacto,nombrePais FROM representanteinstitucional,pais WHERE pais.numeroDePais = Pais_numeroDePais");
+           ResultSet resultado = sentencia.executeQuery();
+           while(resultado.next()){
+               RepresentanteInstitucional representanteConsultado = new RepresentanteInstitucional();
+               Pais paisRepresentante = new Pais();
+               representanteConsultado.setNombreInstitucion(resultado.getString(1));
+               representanteConsultado.setClaveInstitucional(resultado.getString(2));
+               representanteConsultado.setContacto(resultado.getString(3));
+               paisRepresentante.setNombrePais(resultado.getString(4));
+               representanteConsultado.setPais(paisRepresentante);
+               representantes.add(representanteConsultado);
+           }
+           BASE_DE_DATOS.cerrarConexion(conexion);
+       }catch(SQLException excepcion){
+           Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+       }
+       
+       return representantes;
+    }
+    
+    @Override
+    public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionalesPorPais(Pais paisIngresado){
+        List<RepresentanteInstitucional> representantes = new ArrayList();
+        
+        try{
+            Connection conexion = BASE_DE_DATOS.getConexion();
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT nombreInstitucion,claveInstitucional,contacto,nombrePais FROM representanteinstitucional,pais where nombrepais = ? AND numeroDePais = Pais_numeroDePais");
+            sentencia.setString(1, paisIngresado.getNombrePais());
+            ResultSet resultado = sentencia.executeQuery();
+            while(resultado.next()){
+               RepresentanteInstitucional representanteConsultado = new RepresentanteInstitucional();
+               Pais paisRepresentante = new Pais();
+               representanteConsultado.setNombreInstitucion(resultado.getString(1));
+               representanteConsultado.setClaveInstitucional(resultado.getString(2));
+               representanteConsultado.setContacto(resultado.getString(3));
+               paisRepresentante.setNombrePais(resultado.getString(4));
+               representanteConsultado.setPais(paisRepresentante);
+               representantes.add(representanteConsultado);
+            }
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException excepcion){
+            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+        }
+        
+        return representantes;
+    }
     
 }
