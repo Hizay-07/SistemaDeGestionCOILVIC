@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class ManejadorBaseDeDatos {
     
     private Connection conexion;
-    private static final String NOMBRE_BASE_DE_DATOS="jdbc:mysql://127.0.0.1/bdsistemacoilvic";;
+    private static final String NOMBRE_BASE_DE_DATOS="jdbc:mysql://localhost/bdsistemacoilvic";;
     private final String USUARIO_BASE_DE_DATOS="mario";
     private final String CONTRASENA_BASE_DE_DATOS="PruebaFei123";
     

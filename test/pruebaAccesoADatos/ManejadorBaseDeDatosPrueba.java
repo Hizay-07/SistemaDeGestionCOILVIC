@@ -1,4 +1,4 @@
-package accesoADatosTest;
+package pruebaAccesoADatos;
 
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.Connection;
