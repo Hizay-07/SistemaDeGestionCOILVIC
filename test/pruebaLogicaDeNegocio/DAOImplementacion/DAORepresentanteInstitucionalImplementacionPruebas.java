@@ -1,4 +1,4 @@
-package logicaDeNegocioTest.DAOImplementacion;
+package pruebaLogicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.clases.RepresentanteInstitucional;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
