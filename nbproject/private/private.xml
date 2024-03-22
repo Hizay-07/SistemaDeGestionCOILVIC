@@ -3,15 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/interfaces/TipoColaboracionInterface.java</file>
-            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/clases/TipoColaboracion.java</file>
+            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/clases/Actividad.java</file>
             <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/interfaces/PropuestaColaboracionInterface.java</file>
             <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/DAOImplementacion/DAOPropuestaColaboracionImplementacion.java</file>
             <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/clases/PropuestaColaboracion.java</file>
-            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/interfaces/RetroalimentacionInterface.java</file>
             <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/test/pruebaLogicaDeNegocio/DAOImplementacion/PruebaDAOTipoColaboracion.java</file>
             <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/test/pruebaLogicaDeNegocio/DAOImplementacion/PruebaDAOColaboracionImplementacion.java</file>
             <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/clases/Retroalimentacion.java</file>
+            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/test/pruebaLogicaDeNegocio/DAOImplementacion/PruebaDAOPropuestaColaboracionImplementacion.java</file>
+            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/test/pruebaLogicaDeNegocio/DAOImplementacion/DAORepresentanteInstitucionalImplementacionPruebas.java</file>
+            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/interfaces/RetroalimentacionInterface.java</file>
+            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/clases/Colaboracion.java</file>
+            <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/DAOImplementacion/DAOColaboracionImplementacion.java</file>
             <file>file:/C:/Users/mario/Desktop/SistemaDeGestionCOILVIC/src/logicaDeNegocio/DAOImplementacion/DAOTipoColaboracion.java</file>
         </group>
     </open-files>
