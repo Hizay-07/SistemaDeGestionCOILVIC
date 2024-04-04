@@ -1,6 +1,6 @@
-
 package logicaDeNegocio.clases;
 
+import logicaDeNegocio.enums.EnumPais;
 
 public class Pais{
     private String nombrePais;

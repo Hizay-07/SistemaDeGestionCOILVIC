@@ -3,6 +3,7 @@ package logicaDeNegocio.DAOImplementacion;
 import logicaDeNegocio.clases.RepresentanteInstitucional;
 import logicaDeNegocio.clases.Pais;
 import logicaDeNegocio.interfaces.RepresentanteInstitucionalInterface;
+import logicaDeNegocio.enums.EnumEstados;
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.SQLException;
 import java.sql.Connection;
@@ -26,11 +27,12 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
          
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO representanteinstitucional (nombreInstitucion,claveInstitucional,contacto, Pais_numerodepais) values (?,?,?,?)") ;
+            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO representanteInstitucional (nombreInstitucion,claveInstitucional,contacto,estadoRepresentante ,Pais_numerodepais) values (?,?,?,?,?)") ;
             sentencia.setString(1, representanteIngresado.getNombreInstitucion());
             sentencia.setString(2, representanteIngresado.getClaveInstitucional());
             sentencia.setString(3, representanteIngresado.getContacto());
-            sentencia.setInt(4, numeroDePais);
+            sentencia.setString(4, EnumEstados.Activo.toString());
+            sentencia.setInt(5, numeroDePais);
             resultadoRegistro = sentencia.executeUpdate();       
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
@@ -46,8 +48,8 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoColaboracion = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
-            sentencia.setString(1, "Desactivo");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoRepresentante = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
+            sentencia.setString(1, EnumEstados.Desactivado.toString());
             sentencia.setString(2, representanteIngresado.getNombreInstitucion());
             sentencia.setString(3, representanteIngresado.getClaveInstitucional());
             sentencia.setString(4,representanteIngresado.getContacto());
@@ -67,8 +69,8 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoColaboracion = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
-            sentencia.setString(1, "Activo");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoRepresentante = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
+            sentencia.setString(1, EnumEstados.Activo.toString());
             sentencia.setString(2, representanteIngresado.getNombreInstitucion());
             sentencia.setString(3, representanteIngresado.getClaveInstitucional());
             sentencia.setString(4,representanteIngresado.getContacto());

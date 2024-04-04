@@ -3,6 +3,7 @@ package pruebaLogicaDeNegocio.DAOImplementacion;
 import logicaDeNegocio.clases.RepresentanteInstitucional;
 import logicaDeNegocio.clases.Pais;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
+import logicaDeNegocio.enums.EnumPais;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,10 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
-        pruebaPais.setNombrePais("Colombia");
-        representanteDePrueba.setNombreInstitucion("Universidad de Bogota");
-        representanteDePrueba.setClaveInstitucional("9999");
-        representanteDePrueba.setContacto("5267231821");
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setNombreInstitucion("UV");
+        representanteDePrueba.setClaveInstitucional("1234");
+        representanteDePrueba.setContacto("2281709292");
         representanteDePrueba.setPais(pruebaPais);
         
         int resultadoDePrueba =pruebaRegistro.registrarRepresentanteInstitucional(representanteDePrueba);
@@ -62,7 +63,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
-        pruebaPais.setNombrePais("Mexico");
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
         representanteDePrueba.setNombreInstitucion("UV");
         representanteDePrueba.setClaveInstitucional("1234");
         representanteDePrueba.setContacto("2281709292");
@@ -79,7 +80,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
-        pruebaPais.setNombrePais("Mexico");
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
         representanteDePrueba.setNombreInstitucion("UNAM");
         representanteDePrueba.setClaveInstitucional("1234");
         representanteDePrueba.setContacto("2281709292");
@@ -96,7 +97,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
-        pruebaPais.setNombrePais("Mexico");
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
         representanteDePrueba.setNombreInstitucion("UNAM");
         representanteDePrueba.setClaveInstitucional("5678");
         representanteDePrueba.setContacto("2281709292");
@@ -146,8 +147,8 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         Pais pais1 = new Pais();
         Pais pais2 = new Pais();
         
-        pais2.setNombrePais("Colombia");
-        pais1.setNombrePais("Mexico");
+        pais2.setNombrePais(EnumPais.Colombia.toString());
+        pais1.setNombrePais(EnumPais.Mexico.toString());
         
         representante1.setNombreInstitucion("UV");
         representante1.setClaveInstitucional("1234");
@@ -180,7 +181,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         List<RepresentanteInstitucional> representantesEsperados = new ArrayList();
         RepresentanteInstitucional representante1 = new RepresentanteInstitucional();
         Pais pais1 = new Pais();
-        pais1.setNombrePais("Colombia");
+        pais1.setNombrePais(EnumPais.Colombia.toString());
         representante1.setNombreInstitucion("Universidad de Bogota");
         representante1.setClaveInstitucional("9999");
         representante1.setContacto("5267231821");
