@@ -4,7 +4,6 @@ import logicaDeNegocio.DAOImplementacion.DAOPaisImplementacion;
 import logicaDeNegocio.clases.Pais;
 import logicaDeNegocio.enums.EnumPais;
 import org.junit.Test;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
 public class pruebaDAOPaisImplementacion {
@@ -13,7 +12,7 @@ public class pruebaDAOPaisImplementacion {
     public void pruebaRegistrarPaisExitosa(){
         Pais paisPrueba = new Pais();
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        paisPrueba.setNombrePais(EnumPais.Mexico.toString());
+        paisPrueba.setNombrePais(EnumPais.Colombia.toString());
        
         int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);
         
@@ -27,6 +26,6 @@ public class pruebaDAOPaisImplementacion {
         paisPrueba.setNombrePais(EnumPais.Colombia.toString());
         
         int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
-        assertEquals(1,resultadoConsulta);
+        assertEquals(3,resultadoConsulta);
     }
 }

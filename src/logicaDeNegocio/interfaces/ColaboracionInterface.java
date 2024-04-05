@@ -8,6 +8,6 @@ public interface ColaboracionInterface {
     
     public List<Colaboracion> consultarColaboraciones();
     
-    public int registrarRetroalimentacionColaboracionPorId(int idColaboracion,String retroalimentacion);    
+    public int registrarRetroalimentacionColaboracionPorId(int idColaboracion,String retroalimentacion);
     
 }

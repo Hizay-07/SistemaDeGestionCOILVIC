@@ -5,6 +5,7 @@ public class RepresentanteInstitucional{
     private String nombreInstitucion;
     private String claveInstitucional;
     private String contacto;
+    private String estadoRepresentante;
     private Pais pais;
 
     public RepresentanteInstitucional(){
@@ -34,6 +35,14 @@ public class RepresentanteInstitucional{
 
     public void setContacto(String contacto) {
         this.contacto = contacto;
+    }
+
+    public String getEstadoRepresentante() {
+        return estadoRepresentante;
+    }
+
+    public void setEstadoRepresentante(String estadoRepresentante) {
+        this.estadoRepresentante = estadoRepresentante;
     }
 
     public Pais getPais() {

@@ -75,5 +75,4 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         return numeroFilasAfectadas;        
     }
     
-    
 }
