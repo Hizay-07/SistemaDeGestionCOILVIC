@@ -183,7 +183,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT estadoColaboracion from representanteinstitucional where nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT estadoRepresentante from representanteinstitucional where nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
             sentenciaConsulta.setString(1, representanteAConsultar.getNombreInstitucion());
             sentenciaConsulta.setString(2, representanteAConsultar.getClaveInstitucional());
             sentenciaConsulta.setString(3, representanteAConsultar.getContacto());
