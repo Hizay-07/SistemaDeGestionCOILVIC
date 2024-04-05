@@ -2,6 +2,7 @@ package logicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.interfaces.ActividadInterface;
 import logicaDeNegocio.clases.Actividad;
+import logicaDeNegocio.enums.EnumActividades;
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.SQLException;
 import java.sql.Connection;
@@ -25,13 +26,14 @@ public class DAOActividadImplementacion implements ActividadInterface {
         
         try{
             conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroActividad) VALUES (?,?,?,?,?,?)");
+            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroActividad,estadoActividad) VALUES (?,?,?,?,?,?,?)");
             sentencia.setString(1,actividadNueva.getNombre());
             sentencia.setString(2,actividadNueva.getDescripcion());
             sentencia.setString(3,actividadNueva.getFechaDeInicio());
             sentencia.setString(4, actividadNueva.getFechaDeCierre());
             sentencia.setInt(5, actividadNueva.getIdColaboracion());
             sentencia.setInt(6,actividadNueva.getNumeroActividad());
+            sentencia.setString(7, EnumActividades.Inactiva.toString());
             resultadoRegistro = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
@@ -100,6 +102,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
                 actividadConsultada.setFechaDeCierre(actividadesObtenidas.getString(5));
                 actividadConsultada.setIdColaboracion(actividadesObtenidas.getInt(6));
                 actividadConsultada.setNumeroActividad(actividadesObtenidas.getInt(7));
+                actividadConsultada.setEstado(actividadesObtenidas.getString(8));
                 actividades.add(actividadConsultada);
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
@@ -131,6 +134,55 @@ public class DAOActividadImplementacion implements ActividadInterface {
         }
         
         return numeroDeActividad;
+    }
+
+    @Override
+    public boolean validarInexistenciaDeActividad(Actividad actividad) {
+        boolean resultadoValidacion;
+        
+        try{
+            conexion = BASE_DE_DATOS.getConexion();
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroActividad = ? OR nombre = ?");
+            sentencia.setInt(1, actividad.getNumeroActividad());
+            sentencia.setString(2, actividad.getNombre());
+            ResultSet resultadoConsulta = sentencia.executeQuery();
+           
+            int numeroDeResultados=0;
+            while(resultadoConsulta.next()){
+               numeroDeResultados = (int)resultadoConsulta.getLong(1);
+            }
+            
+            if(numeroDeResultados>=1){
+                resultadoValidacion=true;
+            }else{
+                resultadoValidacion=false;
+            }    
+        }catch(SQLException excepcion){
+             Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            resultadoValidacion = false;
+        }
+        return resultadoValidacion;
+    }
+
+    @Override
+    public int actualizarEstadoActividad(Actividad actividad, String estado) {
+        int resultadoActualizacion;
+        
+        try{
+            conexion = BASE_DE_DATOS.getConexion();
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET estadoActividad = ? where numeroActividad = ? AND idActividad = ?");
+            sentencia.setString(1, estado);
+            sentencia.setInt(2, actividad.getNumeroActividad());
+            sentencia.setInt(3, actividad.getIdActividad());
+            resultadoActualizacion = sentencia.executeUpdate();
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException excepcion){
+            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            resultadoActualizacion = -1;
+        }
+        
+        
+        return resultadoActualizacion;
     }
     
 }

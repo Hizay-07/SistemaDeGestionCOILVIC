@@ -7,6 +7,7 @@ public class Actividad {
     private String descripcion;
     private String fechaDeInicio;
     private String fechaDeCierre;
+    private String estado;
     private int idColaboracion;
 
     public Actividad() {
@@ -58,6 +59,14 @@ public class Actividad {
 
     public void setFechaDeCierre(String fechaDeCierre) {
         this.fechaDeCierre = fechaDeCierre;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public int getIdColaboracion() {
