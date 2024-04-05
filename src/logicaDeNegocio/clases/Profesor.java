@@ -7,6 +7,7 @@ public class Profesor{
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo; 
+    private int idProfesor;
     
     public Profesor(){
         
@@ -43,6 +44,16 @@ public class Profesor{
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+
+    public int getIdProfesor() {
+        return idProfesor;
+    }
+
+    public void setIdProfesor(int idProfesor) {
+        this.idProfesor = idProfesor;
+    }
+    
+    
     
     
     
