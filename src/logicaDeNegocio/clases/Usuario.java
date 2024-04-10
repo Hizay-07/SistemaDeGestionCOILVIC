@@ -34,5 +34,11 @@ public class Usuario {
         this.correo = correo;
     }
     
+    @Override
+    public boolean equals(Object obj){
+        Usuario usuarioTemp = (Usuario)obj;
+        return this.nombreUsuario.equals(usuarioTemp.getNombreUsuario())&&
+                this.contrasenia.equals(usuarioTemp.getContrasenia()); 
+    }
     
 }

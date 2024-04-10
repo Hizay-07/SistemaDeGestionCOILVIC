@@ -142,7 +142,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
         
         try{
             conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroActividad = ? OR nombre = ?");
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroActividad = ? or nombre = ?");
             sentencia.setInt(1, actividad.getNumeroActividad());
             sentencia.setString(2, actividad.getNombre());
             ResultSet resultadoConsulta = sentencia.executeQuery();
