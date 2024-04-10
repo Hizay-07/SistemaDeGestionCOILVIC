@@ -7,11 +7,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ManejadorBaseDeDatos {
-    
+       private static ManejadorBaseDeDatos instancia;
     private Connection conexion;
     private static final String NOMBRE_BASE_DE_DATOS="jdbc:mysql://localhost/bdsistemacoilvic";;
-    private final String USUARIO_BASE_DE_DATOS="mario";
-    private final String CONTRASENA_BASE_DE_DATOS="PruebaFei123";
+    private final String USUARIO_BASE_DE_DATOS="root";
+    private final String CONTRASENA_BASE_DE_DATOS="Tortadejamon79";
     
     public Connection getConexion() throws SQLException{
         connect();
@@ -32,5 +32,11 @@ public class ManejadorBaseDeDatos {
                 Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.SEVERE, null, excepcion);
             }
         }
+    }
+    public static synchronized ManejadorBaseDeDatos getInstancia() {
+        if (instancia == null) {
+            instancia = new ManejadorBaseDeDatos();
+        }
+        return instancia;
     }
 }

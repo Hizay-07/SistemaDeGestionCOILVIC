@@ -3,7 +3,7 @@ package logicaDeNegocio.DAOImplementacion;
 import logicaDeNegocio.interfaces.ProfesorInterface;
 import logicaDeNegocio.clases.Profesor;
 import accesoADatos.ManejadorBaseDeDatos;
-
+import logicaDeNegocio.enums.EnumEstados;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 public class DAOProfesorImplementacion implements ProfesorInterface {
 
-    private static int NUMERO_FILAS_AFECTADAS = 0;
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private Connection conexion;
     
@@ -23,11 +22,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         int numeroFilasAfectadas = 0; 
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo) VALUES (?, ?, ?, ?)");
+            declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, estadoProfesor) VALUES (?, ?, ?, ?, ?)");
             declaracion.setString(1, profesor.getNombre());
             declaracion.setString(2, profesor.getApellidoPaterno());
             declaracion.setString(3, profesor.getApellidoMaterno());
             declaracion.setString(4, profesor.getCorreo());
+            declaracion.setString(5, profesor.getEstado().toString()); // Asignar estado al profesor
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException ex) {
@@ -38,20 +38,20 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
     }
 
     @Override
-    public int eliminarProfesor(String correo) {
+    public int cambiarEstadoProfesor(int idProfesor, String nuevoEstado) {
+        int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
-        int numeroFilasAfectadas = 0; 
         try {
             conexion = BASE_DE_DATOS.getConexion();
-            declaracion = conexion.prepareStatement("DELETE FROM profesor WHERE correo = ?");
-            declaracion.setString(1, correo);
+            declaracion = conexion.prepareStatement("UPDATE profesor SET estadoProfesor=? WHERE idProfesor=?;");
+            declaracion.setString(1, nuevoEstado);
+            declaracion.setInt(2, idProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
+            conexion.close();
         } catch (SQLException ex) {
             Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
-            numeroFilasAfectadas = -1;
         }
-        return numeroFilasAfectadas; 
+        return numeroFilasAfectadas;
     }
 
     @Override
