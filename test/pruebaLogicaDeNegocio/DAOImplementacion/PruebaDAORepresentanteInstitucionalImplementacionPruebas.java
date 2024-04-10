@@ -153,16 +153,17 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         representante1.setNombreInstitucion("UV");
         representante1.setClaveInstitucional("1234");
         representante1.setContacto("2281709292");
-        representante2.setNombreInstitucion("UNAM");
-        representante2.setClaveInstitucional("5679");
-        representante2.setContacto("2281709295");
-        representante3.setNombreInstitucion("Universidad de Bogota");
-        representante3.setClaveInstitucional("9999");
-        representante3.setContacto("5267231821");
+        representante2.setNombreInstitucion("Universidad de Bogota");
+        representante2.setClaveInstitucional("9999");
+        representante2.setContacto("5267231821");
+        representante3.setNombreInstitucion("UNAM");
+        representante3.setClaveInstitucional("5678");
+        representante3.setContacto("2281024672");
+     
         
         representante1.setPais(pais1);
-        representante2.setPais(pais1);
-        representante3.setPais(pais2);
+        representante2.setPais(pais2);
+        representante3.setPais(pais1);
         
         representantesEsperados.add(representante1);
         representantesEsperados.add(representante2);
