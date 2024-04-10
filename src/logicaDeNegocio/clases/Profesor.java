@@ -1,4 +1,6 @@
 package logicaDeNegocio.clases;
+import logicaDeNegocio.enums.EnumEstados;
+
     
 
 public class Profesor{
@@ -7,6 +9,10 @@ public class Profesor{
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo; 
+<<<<<<< HEAD
+    private String estado;
+=======
+>>>>>>> 6e68de9982ea7cd0166f11b23f681a3d4a524a57
     private int idProfesor;
     
     public Profesor(){
@@ -54,6 +60,23 @@ public class Profesor{
     }
     
     
+    
+    public String getEstado(){
+        return estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    public int getIdProfesor() {
+        return idProfesor;
+    }
+
+    public void setIdProfesor(int idProfesor) {
+        this.idProfesor = idProfesor;
+    }
+
     
     
     
