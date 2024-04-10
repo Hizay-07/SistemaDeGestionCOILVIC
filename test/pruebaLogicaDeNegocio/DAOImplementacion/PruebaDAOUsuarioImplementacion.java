@@ -12,8 +12,8 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaRegistrarUsuarioExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("ChrisVZ120904");
-        usuarioPrueba.setContrasenia("cristianoRonaldo777");
+        usuarioPrueba.setNombreUsuario("Equipo2");
+        usuarioPrueba.setContrasenia("contrasena123");
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
         assertEquals(1,resultado);
@@ -24,7 +24,7 @@ public class PruebaDAOUsuarioImplementacion {
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("ChrisVZ120904");
-        usuarioPrueba.setContrasenia("cristianoRonaldo777");
+        usuarioPrueba.setContrasenia("contrasena123");
         
         boolean resultado = implementacion.validarCredenciales(usuarioPrueba);
         assertTrue(resultado);
