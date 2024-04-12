@@ -7,6 +7,7 @@ import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.enums.EnumActividades;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PruebaDAOActividadImplementacion {
@@ -26,6 +27,19 @@ public class PruebaDAOActividadImplementacion {
         int resultadoInsercion = implementacion.registrarActividad(actividadPrueba);
         assertEquals(1,resultadoInsercion);
     } 
+    @Test
+    public void pruebaFlujoFallidoRegistrarActividadExitosa(){
+        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
+        Actividad actividadPrueba = new Actividad();
+        actividadPrueba.setFechaDeInicio("2024-04-04");
+        actividadPrueba.setFechaDeCierre("2024-04-10");
+        actividadPrueba.setIdColaboracion(1);
+        actividadPrueba.setNumeroActividad(25);
+        actividadPrueba.setEstado(EnumActividades.Inactiva.toString());
+        
+        int resultadoInsercion = implementacion.registrarActividad(actividadPrueba);
+        assertEquals(-1,resultadoInsercion);
+    }
     
     @Test
     public void pruebaModificarActividadExitosa(){
@@ -36,10 +50,24 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeInicio("2024-04-04");
         actividadPrueba.setFechaDeCierre("2024-04-10");
         actividadPrueba.setIdColaboracion(1);
-        actividadPrueba.setNumeroActividad(25);
+        actividadPrueba.setIdActividad(1);
         
-        int resultadoInsercion = implementacion.modificarActividad(actividadPrueba, actividadPrueba.getNumeroActividad());
+        int resultadoInsercion = implementacion.modificarActividad(actividadPrueba);
         assertEquals(1,resultadoInsercion);
+    }
+    
+    @Test
+    public void pruebaFlujoFallidoModificarActividadExitosa(){
+        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
+        Actividad actividadPrueba = new Actividad();
+        actividadPrueba.setNombre("Prueba");
+        actividadPrueba.setDescripcion("Poder entender el patron DAO");
+        actividadPrueba.setFechaDeInicio("2024-04-04");
+        actividadPrueba.setFechaDeCierre("2024-04-10");
+        actividadPrueba.setIdActividad(25);
+        
+        int resultadoInsercion = implementacion.modificarActividad(actividadPrueba);
+        assertEquals(0, resultadoInsercion);
     }
     
     @Test
@@ -52,10 +80,26 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeCierre("2024-04-20");
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(25);
+        actividadPrueba.setIdActividad(1);
         
-        int resultadoInsercion = implementacion.modificarFechaActividad(actividadPrueba, actividadPrueba.getNumeroActividad());
+        int resultadoInsercion = implementacion.modificarFechaActividad(actividadPrueba);
         assertEquals(1,resultadoInsercion);
     }
+    
+    @Test
+    public void pruebaFlujoFallidoModificarFechaActividadExitosa(){
+        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
+        Actividad actividadPrueba = new Actividad();
+        actividadPrueba.setNombre("Prueba");
+        actividadPrueba.setDescripcion("Poder entender el patron DAO");
+        actividadPrueba.setFechaDeInicio("2024-04-04");
+        actividadPrueba.setFechaDeCierre("2024-04-10");
+        actividadPrueba.setIdActividad(25);
+        
+        int resultadoInsercion = implementacion.modificarActividad(actividadPrueba);
+        assertEquals(0, resultadoInsercion);
+    }
+    
     
     @Test
     public void pruebaObtenerActividadesExitosa(){
@@ -64,7 +108,7 @@ public class PruebaDAOActividadImplementacion {
         List<Actividad> actividadesEsperadas = new ArrayList();
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setIdActividad(1);
-        actividadPrueba.setNombre("Codigo de DAO");
+        actividadPrueba.setNombre("Prueba");
         actividadPrueba.setDescripcion("Poder entender el patron DAO");
         actividadPrueba.setFechaDeInicio("2024-04-12");
         actividadPrueba.setFechaDeCierre("2024-04-20");
@@ -77,6 +121,28 @@ public class PruebaDAOActividadImplementacion {
         assertEquals(actividadesObtenidas,actividadesEsperadas);
     }
     
+    @Test
+    public void pruebaFlujoFallidoObtenerActividades(){
+        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
+        List<Actividad> actividadesObtenidas = new ArrayList();
+        List<Actividad> actividadesEsperadas = new ArrayList();
+        Actividad actividadPrueba = new Actividad();
+        actividadPrueba.setIdActividad(1);
+        actividadPrueba.setNombre("Prueba");
+        actividadPrueba.setDescripcion("Poder entender el patron DAO");
+        actividadPrueba.setFechaDeInicio("2024-04-12");
+        actividadPrueba.setFechaDeCierre("2024-04-20");
+        actividadPrueba.setIdColaboracion(1);
+        actividadPrueba.setNumeroActividad(25);
+        actividadPrueba.setEstado(EnumActividades.Finalizada.toString());
+        actividadesEsperadas.add(actividadPrueba);
+        
+        actividadesObtenidas = implementacion.obtenerActividades(2);
+        assertEquals(actividadesObtenidas,actividadesEsperadas);
+    }
+    
+    
+    //Preguntar como realizar sus flujos fallidos
     @Test
     public void pruebaObtenerNumeroDeActividadExitosa(){
         DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
@@ -107,7 +173,21 @@ public class PruebaDAOActividadImplementacion {
     }
     
     @Test
-    public void pruebaActualizarEstadoActividad(){
+    public void pruebaFlujoFallidoValidarInexistenciaDeActividadExitosa(){
+        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
+        Actividad actividadPrueba = new Actividad();
+        actividadPrueba.setNombre("Prueba");
+        actividadPrueba.setDescripcion("Poder entender el patron DAO");
+        actividadPrueba.setFechaDeInicio("2024-04-12");
+        actividadPrueba.setFechaDeCierre("2024-04-20");
+        actividadPrueba.setNumeroActividad(25);
+
+        boolean resultado = implementacion.validarInexistenciaDeActividad(actividadPrueba);
+        assertTrue(resultado);
+    }
+    
+    @Test
+    public void pruebaActualizarEstadoActividadExitosa(){
         DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setNombre("Introduccion a la colaboracion");
@@ -120,6 +200,22 @@ public class PruebaDAOActividadImplementacion {
         
         int resultado = implementacion.actualizarEstadoActividad(actividadPrueba, EnumActividades.Finalizada.toString());
         assertEquals(1, resultado);
+    }
+    
+    @Test
+    public void pruebaFlujoFallidoActualizarEstadoActividad(){
+        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
+        Actividad actividadPrueba = new Actividad();
+        actividadPrueba.setNombre("Introduccion a la colaboracion");
+        actividadPrueba.setDescripcion("Poder entender el patron DAO");
+        actividadPrueba.setFechaDeInicio("2024-05-12");
+        actividadPrueba.setFechaDeCierre("2024-05-20");
+        actividadPrueba.setNumeroActividad(23);
+        actividadPrueba.setIdActividad(2);
+        actividadPrueba.setIdColaboracion(2);
+        
+        int resultado = implementacion.actualizarEstadoActividad(actividadPrueba, EnumActividades.Finalizada.toString());
+        assertEquals(0, resultado);
     }
     
 }

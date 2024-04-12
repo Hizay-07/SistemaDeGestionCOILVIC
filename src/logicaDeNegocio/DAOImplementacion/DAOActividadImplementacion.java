@@ -45,15 +45,15 @@ public class DAOActividadImplementacion implements ActividadInterface {
     }
 
     @Override
-    public int modificarActividad(Actividad actividadActualizada, int idActividad) {
+    public int modificarActividad(Actividad actividadActualizada) {
         int resultadoModificacion;
         
         try{
             conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET nombre = ?, descripcion = ? WHERE numeroActividad = ? ");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET nombre = ?, descripcion = ? WHERE idActividad = ? ");
             sentencia.setString(1, actividadActualizada.getNombre());
             sentencia.setString(2, actividadActualizada.getDescripcion());
-            sentencia.setInt(3, idActividad);
+            sentencia.setInt(3, actividadActualizada.getIdActividad());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
@@ -65,15 +65,15 @@ public class DAOActividadImplementacion implements ActividadInterface {
     }
 
     @Override
-    public int modificarFechaActividad(Actividad actividadActualizada, int idActividad) {
+    public int modificarFechaActividad(Actividad actividadActualizada) {
         int resultadoModificacion;
         
         try{
             conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET fechaDeInicio = ?, FechaDeCierre = ? WHERE numeroActividad = ? ");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET fechaDeInicio = ?, FechaDeCierre = ? WHERE idActividad = ? ");
             sentencia.setString(1, actividadActualizada.getFechaDeInicio());
             sentencia.setString(2, actividadActualizada.getFechaDeCierre());
-            sentencia.setInt(3, idActividad);
+            sentencia.setInt(3, actividadActualizada.getIdActividad());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){

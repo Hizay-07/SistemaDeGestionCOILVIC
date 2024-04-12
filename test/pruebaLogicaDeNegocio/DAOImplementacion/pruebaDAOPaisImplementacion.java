@@ -20,7 +20,17 @@ public class pruebaDAOPaisImplementacion {
     }
     
     @Test
-    public void pruebaObtenerNumeroDePaisExitoso(){
+    public void pruebaFlujoFallidoRegistrarPaisExitosa(){
+        Pais paisPrueba = new Pais();
+        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
+        
+        int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);
+        
+        assertEquals(-1,resultadoInsercion); 
+    }
+    
+    @Test
+    public void pruebaObtenerNumeroDePaisExitosa(){
         Pais paisPrueba = new Pais();
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
         paisPrueba.setNombrePais(EnumPais.Colombia.toString());
@@ -28,4 +38,14 @@ public class pruebaDAOPaisImplementacion {
         int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
         assertEquals(3,resultadoConsulta);
     }
+    
+    @Test
+    public void pruebaFlujoFallidoObtenerNumeroDePaisExitoso(){
+        Pais paisPrueba = new Pais();
+        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
+        
+        int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
+        assertEquals(0,resultadoConsulta);
+    }
 }
+
