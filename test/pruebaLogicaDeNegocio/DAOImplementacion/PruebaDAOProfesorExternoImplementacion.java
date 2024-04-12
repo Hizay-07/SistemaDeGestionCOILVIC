@@ -19,12 +19,28 @@ public class PruebaDAOProfesorExternoImplementacion {
         int resultadoObtenido = instancia.registrarProfesorExterno(profesorExterno);
         assertEquals(resultadoEsperado, resultadoObtenido);
     }
+    
+    @Test
+    public void pruebaRegistrarProfesorExternoFracaso() {
+        ProfesorExterno profesorExterno = new ProfesorExterno();
+        DAOProfesorExternoImplementacion instancia = new DAOProfesorExternoImplementacion();
+        int resultadoEsperado = 0;
+        int resultadoObtenido = instancia.registrarProfesorExterno(profesorExterno);
+        assertEquals(resultadoEsperado, resultadoObtenido);
+    }
 
     @Test
     public void pruebaConsultarProfesoresExternosExitosa() {
         DAOProfesorExternoImplementacion instancia = new DAOProfesorExternoImplementacion();
         List<ProfesorExterno> externo = instancia.consultarProfesoresExternos();
         assertEquals(false, externo.isEmpty());
+    }
+    
+    @Test
+    public void pruebaConsultarProfesoresExternosFracaso() {
+        DAOProfesorExternoImplementacion instancia = new DAOProfesorExternoImplementacion();
+        List<ProfesorExterno> externo = instancia.consultarProfesoresExternos();
+        assertEquals(true, externo.isEmpty()); 
     }
     
     @Test
@@ -38,5 +54,15 @@ public class PruebaDAOProfesorExternoImplementacion {
         int idRepresentanteInstitucional = 3;
         resultadoObtenido=instancia.consultarProfesoresExternosPorRepresentanteInstitucional(idRepresentanteInstitucional);
         assertEquals(resultadoEsperado, resultadoObtenido);                                           
+    }
+    
+    @Test
+    public void pruebaConsultarProfesoresExternosPorRepresentanteInstitucionalFracaso(){
+        List<ProfesorExterno> resultadoEsperado = new ArrayList<>();
+        DAOProfesorExternoImplementacion instancia = new DAOProfesorExternoImplementacion();
+        List<ProfesorExterno> resultadoObtenido = new ArrayList<>();
+        int idRepresentanteInstitucional = 3; 
+        resultadoObtenido = instancia.consultarProfesoresExternosPorRepresentanteInstitucional(idRepresentanteInstitucional);
+        assertEquals(resultadoEsperado, resultadoObtenido); 
     }
 }
