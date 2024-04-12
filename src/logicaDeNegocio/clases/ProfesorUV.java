@@ -59,8 +59,11 @@ public class ProfesorUV extends Profesor {
         this.idProfesorUV = idProfesorUV;
     }
     
-    public boolean equals(Object obj){
+    public boolean equals(Object obj){        
         ProfesorUV profesorUVTemporal=(ProfesorUV)obj;
+        if(numeroDePersonal==null || profesorUVTemporal.getNumeroDePersonal()==null){
+            return false;
+        }
         return numeroDePersonal.equals(profesorUVTemporal.getNumeroDePersonal());
     }
             

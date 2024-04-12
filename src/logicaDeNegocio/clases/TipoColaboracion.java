@@ -1,4 +1,3 @@
-
 package logicaDeNegocio.clases;
 
 public class TipoColaboracion {
@@ -23,6 +22,9 @@ public class TipoColaboracion {
     
     public boolean equals(Object obj){
         TipoColaboracion tipoColaboracionTemporal=(TipoColaboracion)obj;
+        if(tipo==null||tipoColaboracionTemporal.getTipo()==null){
+            return false;
+        }
         return tipo.equals(tipoColaboracionTemporal.getTipo())&&
                 idTipoColaboracion==tipoColaboracionTemporal.getIdTipoColaboracion();
     }

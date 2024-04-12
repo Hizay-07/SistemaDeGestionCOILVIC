@@ -7,6 +7,7 @@ import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class PruebaDAOPropuestaColaboracionImplementacion {
     
@@ -29,6 +30,15 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     }
     
     @Test
+    public void pruebaRegistrarPropuestaColaboracionFracaso(){
+        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
+        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();       
+        int resultadoEsperado=0;       
+        int resultadoObtenido=instancia.registrarPropuestaColaboracion(propuestaColaboracion);
+        assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
+    
+    @Test
     public void pruebaConsultarPropuestasColaboracionExitosa(){
         PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
         propuestaColaboracion.setIdPropuestaColaboracion(1);
@@ -40,6 +50,17 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         listaObtenida=instancia.consultarPropuestasColaboracion();
         assertEquals(listaEsperada,listaObtenida);                
+    }
+    
+    @Test
+    public void pruebaConsultarPropuestasColaboracionFracaso(){
+        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                                
+        List<PropuestaColaboracion> listaEsperada=new ArrayList<>();
+        listaEsperada.add(propuestaColaboracion);
+        List<PropuestaColaboracion> listaObtenida=new ArrayList<>();
+        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
+        listaObtenida=instancia.consultarPropuestasColaboracion();
+        assertNotEquals(listaEsperada,listaObtenida);        
     }
     
     
@@ -58,18 +79,45 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     }
     
     @Test
+    public void pruebaConsultarPropuestasColaboracionPorFechaDeInicioFracaso(){
+        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                           
+        List<PropuestaColaboracion> listaEsperada=new ArrayList<>();
+        listaEsperada.add(propuestaColaboracion);
+        List<PropuestaColaboracion> listaObtenida=new ArrayList<>();
+        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
+        listaObtenida=instancia.consultarPropuestasColaboracionPorFechaDeInicio("2024-08-10");
+        assertNotEquals(listaEsperada,listaObtenida);        
+    }        
+    
+    @Test
     public void pruebaEditarFechaDeInicioDePropuestaColaboracionPorIdExitosa(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 1);
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
+    
+    @Test
+    public void pruebaEditarFechaDeInicioDePropuestaColaboracionPorIdFracaso(){
+        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
+        int resultadoEsperado=0;
+        int resultadoObtenido=instancia.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 0);
+        assertEquals(resultadoEsperado,resultadoObtenido);          
+    }
         
     @Test
     public void pruebaEditarFechaDeCierreDePropuestaColaboracionPorIdExitosa(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         int resultadoEsperado=1;
-        int resultadoObtenido=instancia.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", resultadoEsperado);
+        int resultadoObtenido=instancia.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 1);
+        assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
+    
+    @Test
+    public void pruebaEditarFechaDeCierreDePropuestaColaboracionPorIdFracaso(){
+         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
+        int resultadoEsperado=0;
+        int resultadoObtenido=instancia.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 0);
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
     
@@ -82,11 +130,27 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     }
         
     @Test
+    public void pruebaAprobarPropuestaColaboracionPorIdFracaso(){
+        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
+        int resultadoEsperado=0;
+        int resultadoObtenido=instancia.aprobarPropuestaColaboracionPorId(0);
+        assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
+    
+    @Test
     public void pruebaRechazarPropuestaColaboracionPorIdExitosa(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.rechazarPropuestaColaboracionPorId(1);
         assertEquals(resultadoEsperado,resultadoObtenido);                                
     }            
+    
+    @Test
+    public void pruebaRechazarPropuestaColaboracionPorIdFracaso(){
+        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
+        int resultadoEsperado=0;
+        int resultadoObtenido=instancia.rechazarPropuestaColaboracionPorId(0);
+        assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
     
 }
