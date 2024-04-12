@@ -1,5 +1,5 @@
 package logicaDeNegocio.DAOImplementacion;
-//
+
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

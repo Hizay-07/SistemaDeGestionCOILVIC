@@ -77,8 +77,5 @@ public class DAOTipoColaboracion implements TipoColaboracionInterface{
             Logger.getLogger(DAOTipoColaboracion.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tiposColaboracion;
-    }
-    
-    
-    
+    }            
 }
