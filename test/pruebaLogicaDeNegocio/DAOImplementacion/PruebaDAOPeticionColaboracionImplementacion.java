@@ -24,10 +24,26 @@ public class PruebaDAOPeticionColaboracionImplementacion {
     }
     
     @Test
+    public void pruebaRegistrarPeticionColaboracionFracaso(){
+        PeticionColaboracion peticion = new PeticionColaboracion();        
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoEsperado = 0; 
+        int resultadoObtenido = instancia.registrarPeticionColaboracion(peticion);
+        assertEquals(resultadoEsperado, resultadoObtenido);
+    }
+
+    @Test
     public void pruebaConsultarPeticionesExitosa() {
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         List<PeticionColaboracion> peticiones = instancia.consultarPeticiones();
         assertEquals(false, peticiones.isEmpty());
+    }
+    
+    @Test
+    public void pruebaConsultarPeticionesFracaso() {
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<PeticionColaboracion> peticiones = instancia.consultarPeticiones();
+        assertEquals(true, peticiones.isEmpty());
     }
     
     @Test
@@ -38,15 +54,40 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         int resultado = instancia.aceptarColaboracion(idColaboracion, nuevoEstado);
         assertEquals(1, resultado); 
     }
+    
+    @Test
+    public void pruebaAceptarColaboracionFracaso() {
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int idColaboracion = 2; 
+        String nuevoEstado = EnumEstados.Aceptado.toString();
+        int resultado = instancia.aceptarColaboracion(idColaboracion, nuevoEstado);
+        assertEquals(0, resultado); 
+    }
+ 
 
     @Test
     public void pruebaRechazarColaboracionExitosa() {
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
-        int idColaboracion = 4; 
+        int idColaboracion = 2; 
         String nuevoEstado = EnumEstados.Rechazado.toString();
         int resultado = instancia.rechazarColaboracion(idColaboracion, nuevoEstado);
         assertEquals(1, resultado); 
     }
+    
+    @Test
+    public void pruebaRechazarColaboracionFracaso() {
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int idColaboracion = 2;
+        String nuevoEstado = EnumEstados.Rechazado.toString();
+        int resultado = instancia.rechazarColaboracion(idColaboracion, nuevoEstado);
+        assertEquals(0, resultado);
+    }
+    
+    
+    
+    
+    
+    
     
     
 
