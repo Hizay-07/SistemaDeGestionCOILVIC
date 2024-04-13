@@ -4,9 +4,34 @@ import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.Test;
+import logicaDeNegocio.clases.Usuario;
 import static org.junit.Assert.assertNotNull;
 
 public class ManejadorBaseDeDatosPrueba{
+    
+    @Test
+    public void pruebaConectarBaseDeDatos()throws SQLException{
+        Usuario usuario = new Usuario();
+        ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
+        usuario.setNombreUsuario("Equipo4");
+        usuario.setContrasenia("contrasena123");
+        usuario.setTipoDeUsuario(1);
+        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos(usuario);
+        assertNotNull(resultado);
+        resultado.close();
+    }
+    
+    @Test
+    public void pruebaFalloConectarBaseDeDatos()throws SQLException{
+        Usuario usuario = new Usuario();
+        ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
+        usuario.setNombreUsuario("Equipo4");
+        usuario.setContrasenia("contrasena123");
+        usuario.setTipoDeUsuario(4);
+        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos(usuario);
+        assertNotNull(resultado);
+        resultado.close();
+    }
     
     @Test
     public void pruebaGetConexionExitosa() throws SQLException{
