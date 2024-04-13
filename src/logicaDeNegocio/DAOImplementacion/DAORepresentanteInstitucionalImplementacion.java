@@ -164,7 +164,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
             
             while(resultadoDeConsulta.next()){
-                validacionDeExistencia = (int)resultadoDeConsulta.getLong(1);
+                validacionDeExistencia++;
             }
             
             BASE_DE_DATOS.cerrarConexion(conexion);

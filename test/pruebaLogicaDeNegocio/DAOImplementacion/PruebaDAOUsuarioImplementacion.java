@@ -13,8 +13,9 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaRegistrarUsuarioExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("Equipo2");
+        usuarioPrueba.setNombreUsuario("Equipo4");
         usuarioPrueba.setContrasenia("contrasena123");
+        usuarioPrueba.setTipoDeUsuario(2);
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
         assertEquals(1,resultado);
@@ -26,6 +27,7 @@ public class PruebaDAOUsuarioImplementacion {
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
+        usuarioPrueba.setTipoDeUsuario(1);
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
         assertEquals(0, resultado);
@@ -35,7 +37,7 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaValidarCredencialesExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("ChrisVZ120904");
+        usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
         
         boolean resultado = implementacion.validarCredenciales(usuarioPrueba);
@@ -46,10 +48,32 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaFlujoFallidoValidarCredencialesExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("pepito123");
-        usuarioPrueba.setContrasenia("contrasena123");
+        usuarioPrueba.setNombreUsuario("Equipo2");
+        usuarioPrueba.setContrasenia("contrasena1234");
         
         boolean resultado = implementacion.validarCredenciales(usuarioPrueba);
         assertFalse(resultado);
+    }
+    
+    @Test
+    public void pruebaObtenerTipoDeUsuario(){
+        Usuario usuarioPrueba = new Usuario();
+        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
+        usuarioPrueba.setNombreUsuario("Equipo2");
+        usuarioPrueba.setContrasenia("contrasena123");
+        
+        int resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        assertEquals(1, resultado);
+    }
+    
+    @Test
+    public void pruebaFlujoFallidoObtenerTipoDeUsuario(){
+        Usuario usuarioPrueba = new Usuario();
+        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
+        usuarioPrueba.setNombreUsuario("Equipo2");
+        usuarioPrueba.setContrasenia("contrasena1234");
+        
+        int resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        assertEquals(0,resultado);
     }
 }
