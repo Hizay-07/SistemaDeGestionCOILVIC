@@ -13,9 +13,9 @@ public class ManejadorBaseDeDatosPrueba{
     public void pruebaConectarBaseDeDatos()throws SQLException{
         Usuario usuario = new Usuario();
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
-        usuario.setNombreUsuario("Equipo4");
+        usuario.setNombreUsuario("Equipo2");
         usuario.setContrasenia("contrasena123");
-        usuario.setTipoDeUsuario(1);
+        usuario.setTipoDeUsuario("Administrativo");
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos(usuario);
         assertNotNull(resultado);
         resultado.close();
@@ -27,7 +27,7 @@ public class ManejadorBaseDeDatosPrueba{
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
         usuario.setNombreUsuario("Equipo4");
         usuario.setContrasenia("contrasena123");
-        usuario.setTipoDeUsuario(4);
+        usuario.setTipoDeUsuario("Administrativo");
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos(usuario);
         assertNotNull(resultado);
         resultado.close();

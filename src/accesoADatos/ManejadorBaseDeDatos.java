@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
 import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.enums.EnumUsuario;
 
 public class ManejadorBaseDeDatos {
     private static ManejadorBaseDeDatos instancia;
@@ -31,9 +32,9 @@ public class ManejadorBaseDeDatos {
     
     public Connection conectarBaseDeDatos(Usuario usuario){
         Properties datosUsuario = new Properties();
-        if(usuario.getTipoDeUsuario()==1){
+        if(usuario.getTipoDeUsuario().equals(EnumUsuario.Administrativo.toString())){
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionAdministrativo();
-        }else if(usuario.getTipoDeUsuario()==2){
+        }else if(usuario.getTipoDeUsuario().equals(EnumUsuario.Profesor.toString())){
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionProfesor();
         }
         
