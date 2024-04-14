@@ -13,9 +13,9 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaRegistrarUsuarioExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("Equipo4");
+        usuarioPrueba.setNombreUsuario("Equipo5");
         usuarioPrueba.setContrasenia("contrasena123");
-        usuarioPrueba.setTipoDeUsuario(2);
+        usuarioPrueba.setTipoDeUsuario("Profesor");
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
         assertEquals(1,resultado);
@@ -27,7 +27,7 @@ public class PruebaDAOUsuarioImplementacion {
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
-        usuarioPrueba.setTipoDeUsuario(1);
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
         assertEquals(0, resultado);
@@ -62,8 +62,8 @@ public class PruebaDAOUsuarioImplementacion {
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
         
-        int resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
-        assertEquals(1, resultado);
+        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        assertEquals("Administrativo", resultado);
     }
     
     @Test
@@ -73,7 +73,7 @@ public class PruebaDAOUsuarioImplementacion {
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena1234");
         
-        int resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
-        assertEquals(0,resultado);
+        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        assertEquals("",resultado);
     }
 }

@@ -36,7 +36,8 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             resultadoRegistro = sentencia.executeUpdate();       
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            return -1;
+            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            resultadoRegistro = -1;
         }
         
         return resultadoRegistro;
