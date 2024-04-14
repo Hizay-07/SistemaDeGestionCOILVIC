@@ -27,7 +27,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             CallableStatement sentencia = conexion.prepareCall("call registrarUsuario(?,?,?,?)");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
-            sentencia.setInt(3, usuario.getTipoDeUsuario());
+            sentencia.setString(3, usuario.getTipoDeUsuario());
             sentencia.registerOutParameter(4,Types.INTEGER);
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(4);
@@ -69,23 +69,22 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     }
 
     @Override
-    public int obtenerTipoDeUsuario(Usuario usuario){
-        int resultadoTipoDeUsuario=0;
+    public String obtenerTipoDeUsuario(Usuario usuario){
+        String resultadoTipoDeUsuario="";
         
         try{
             conexion = BASE_DE_DATOS.getConexion();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT TipoDeUsuario_idTipoDeUsuario from usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT tipodeusuario.tipodeusuario from usuario,tipodeusuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?) AND usuario.TipoDeUsuario_idTipoDeUsuario = tipodeusuario.idTipoDeUsuario");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
             sentencia.setInt(3,256);
             ResultSet resultado = sentencia.executeQuery();
             while(resultado.next()){
-                resultadoTipoDeUsuario = (int)resultado.getLong(1);
+                resultadoTipoDeUsuario = resultado.getString(1);
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
             Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
-            resultadoTipoDeUsuario = -1;
         }
         
         return resultadoTipoDeUsuario;

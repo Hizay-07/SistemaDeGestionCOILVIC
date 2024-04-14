@@ -5,7 +5,7 @@ public class Usuario {
     
     private String nombreUsuario;
     private String contrasenia;
-    private int tipoDeUsuario;
+    private String tipoDeUsuario;
 
     public Usuario() {
     } 
@@ -26,11 +26,11 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
-    public int getTipoDeUsuario() {
+    public String getTipoDeUsuario() {
         return tipoDeUsuario;
     }
 
-    public void setTipoDeUsuario(int tipoDeUsuario) {
+    public void setTipoDeUsuario(String tipoDeUsuario) {
         this.tipoDeUsuario = tipoDeUsuario;
     }
     
@@ -39,7 +39,7 @@ public class Usuario {
         Usuario usuarioTemp = (Usuario)obj;
         return this.nombreUsuario.equals(usuarioTemp.getNombreUsuario())&&
                 this.contrasenia.equals(usuarioTemp.getContrasenia())&&
-                this.tipoDeUsuario == usuarioTemp.getTipoDeUsuario(); 
+                this.tipoDeUsuario.equals(usuarioTemp.getTipoDeUsuario()); 
     }
     
 }
