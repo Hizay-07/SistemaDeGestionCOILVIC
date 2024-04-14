@@ -7,8 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 public class PruebaDAOEvidenciaImplementacion {
     
@@ -50,6 +49,23 @@ public class PruebaDAOEvidenciaImplementacion {
         evidenciasEsperadas.add(evidenciaPrueba);
         evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(actividadPrueba);
         assertEquals(evidenciasEsperadas,evidenciasObtenidas);
+    }
+    
+    @Test
+    public void pruebaFlujoFallidoObtenerEvidenciaDeActividad(){
+        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
+        List<Evidencia> evidenciasEsperadas = new ArrayList();
+        List<Evidencia> evidenciasObtenidas = new ArrayList();
+        Actividad actividadPrueba = new Actividad();
+        Evidencia evidenciaPrueba = new Evidencia();
+        actividadPrueba.setIdActividad(1);
+        evidenciaPrueba.setNombre("Evidencia de prueba");
+        evidenciaPrueba.setRutaEvidencia("C:\\Users\\chris\\OneDrive\\Escritorio");
+        evidenciaPrueba.setIdActividad(1);
+        evidenciaPrueba.setIdEvidencia(1);
+        evidenciasEsperadas.add(evidenciaPrueba);
+        evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(actividadPrueba);
+        assertNotEquals(evidenciasEsperadas,evidenciasObtenidas);
     }
     
 }
