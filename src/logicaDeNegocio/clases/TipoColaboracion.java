@@ -20,7 +20,11 @@ public class TipoColaboracion {
         this.idTipoColaboracion = idTipoColaboracion;
     }
     
+    @Override
     public boolean equals(Object obj){
+        if(!(obj instanceof TipoColaboracion)){
+            return false;
+        }
         TipoColaboracion tipoColaboracionTemporal=(TipoColaboracion)obj;
         if(tipo==null||tipoColaboracionTemporal.getTipo()==null){
             return false;

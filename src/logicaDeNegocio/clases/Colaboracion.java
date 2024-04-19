@@ -1,6 +1,5 @@
-
 package logicaDeNegocio.clases;
-//
+
 public class Colaboracion {
     private int idColaboracion;
     private String retroalimentacion;
@@ -42,7 +41,11 @@ public class Colaboracion {
         this.idPropuestaColaboracion = idPropuestaColaboracion;
     }
     
+    @Override
     public boolean equals(Object obj) {
+        if(!(obj instanceof Colaboracion)){
+            return false;
+        }
         Colaboracion colaboracionTemporal=(Colaboracion)obj;
         return idColaboracion==colaboracionTemporal.getIdColaboracion()&&
                 idPropuestaColaboracion==colaboracionTemporal.getIdPropuestaColaboracion();                        

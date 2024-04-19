@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.interfaces.ColaboracionInterface;
 import java.sql.ResultSet;
@@ -15,6 +13,7 @@ import java.sql.ResultSet;
 public class DAOColaboracionImplementacion implements ColaboracionInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private Connection conexion;
+    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOColaboracionImplementacion.class);
 
     @Override
     public int registrarColaboracion(Colaboracion colaboracion) {
@@ -29,7 +28,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.fatal(ex);
         }
         return numeroFilasAfectadas;        
     }
@@ -53,7 +52,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             }
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
         return colaboraciones;
     }
@@ -70,7 +69,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;        
     }

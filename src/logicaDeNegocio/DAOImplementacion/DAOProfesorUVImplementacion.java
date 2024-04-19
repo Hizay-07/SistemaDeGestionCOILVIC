@@ -7,15 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logicaDeNegocio.clases.ProfesorUV;
 import logicaDeNegocio.interfaces.ProfesorUVInterface;
 
 public class DAOProfesorUVImplementacion implements ProfesorUVInterface{    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private Connection conexion;
-    
+    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOProfesorUVImplementacion.class);
 
     @Override
     public int registrarProfesorUV(ProfesorUV profesorUV) {
@@ -34,7 +32,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.fatal(ex);
         }
         return numeroFilasAfectadas;        
     }
@@ -61,7 +59,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             }
             conexion.close();                        
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
         return profesoresUV;
     }
@@ -89,7 +87,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             }
             conexion.close();                        
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return profesoresUV;                
     }
@@ -117,7 +115,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             }
             conexion.close();                        
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return profesoresUV;  
     }
@@ -134,7 +132,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;                
     }
@@ -151,7 +149,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;         
     }
@@ -168,7 +166,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;         
     }
@@ -185,7 +183,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;    
     }
@@ -201,25 +199,9 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;        
-    }
-
-    @Override
-    public int registrarRegion(String region) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try {
-            conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("INSERT INTO RegionAcademica (region) VALUES (?);");
-            declaracion.setString(1, region);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorUVImplementacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return numeroFilasAfectadas;      
     }
     
 }

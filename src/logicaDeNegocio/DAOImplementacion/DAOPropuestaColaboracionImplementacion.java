@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import logicaDeNegocio.interfaces.PropuestaColaboracionInterface;
@@ -15,16 +13,8 @@ import logicaDeNegocio.interfaces.PropuestaColaboracionInterface;
 public class DAOPropuestaColaboracionImplementacion implements PropuestaColaboracionInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private Connection conexion;
-    
-
-    public Connection getConexion() {
-        return conexion;
-    }
-
-    public void setConexion(Connection conexion) {
-        this.conexion = conexion;
-    }
-    
+    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOPropuestaColaboracionImplementacion.class);
+          
     @Override
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion) {
         int numeroFilasAfectadas=0;
@@ -46,7 +36,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPropuestaColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.fatal(ex);
         }
         return numeroFilasAfectadas;        
     }
@@ -77,7 +67,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPropuestaColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
         return propuestasColaboracion;
     }
@@ -109,7 +99,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPropuestaColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return propuestasColaboracion;        
     }
@@ -126,7 +116,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPropuestaColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;            
     }
@@ -143,7 +133,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPropuestaColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.warn(ex);
         }
         return numeroFilasAfectadas;                    
     }
@@ -159,7 +149,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPropuestaColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
         return numeroFilasAfectadas;        
     }
@@ -175,7 +165,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPropuestaColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
         return numeroFilasAfectadas;         
     }
