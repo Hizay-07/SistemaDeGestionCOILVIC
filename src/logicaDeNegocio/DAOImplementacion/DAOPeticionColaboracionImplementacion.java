@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import logicaDeNegocio.clases.PeticionColaboracion;
 import logicaDeNegocio.interfaces.PeticionColaboracionInterface;
-import logicaDeNegocio.enums.EnumEstados;
 
 public class DAOPeticionColaboracionImplementacion implements PeticionColaboracionInterface {
 

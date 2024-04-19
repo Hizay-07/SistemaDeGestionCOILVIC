@@ -41,14 +41,14 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     }
     
     @Override
-    public boolean validarCredenciales(Usuario usuario) {
+    public boolean validarCredenciales(Usuario usuarioAIngresar, Usuario logger) {
         boolean resultadoValidacion;
         
         try{
             conexion = BASE_DE_DATOS.getConexion();
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
-            sentencia.setString(1, usuario.getNombreUsuario());
-            sentencia.setString(2, usuario.getContrasenia());
+            sentencia.setString(1, usuarioAIngresar.getNombreUsuario());
+            sentencia.setString(2, usuarioAIngresar.getContrasenia());
             sentencia.setInt(3, 256);
             ResultSet resultado = sentencia.executeQuery();
             int resultadoCoincidencias=0;

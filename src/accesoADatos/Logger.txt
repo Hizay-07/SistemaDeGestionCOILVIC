@@ -1,0 +1,3 @@
+Direccion = jdbc:mysql://localhost/bdsistemacoilvic
+Usuario = Logger
+Contrasenia = CoilVIC123

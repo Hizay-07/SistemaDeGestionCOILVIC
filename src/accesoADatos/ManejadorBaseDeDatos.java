@@ -36,6 +36,8 @@ public class ManejadorBaseDeDatos {
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionAdministrativo();
         }else if(usuario.getTipoDeUsuario().equals(EnumUsuario.Profesor.toString())){
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionProfesor();
+        }else if(usuario.getTipoDeUsuario().equals(EnumUsuario.Logger.toString())){
+            datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionLogger();
         }
         
         try{
@@ -63,6 +65,21 @@ public class ManejadorBaseDeDatos {
         }
         
         return propiedadesAdministrativo;
+    }
+    
+    public Properties obtenerArchivoConexionLogger(){
+        Properties propiedadesLogger = new Properties();
+        
+          try{
+           DataInputStream archivoUsuario = new DataInputStream(new FileInputStream("src\\accesoADatos\\Logger.txt"));
+           propiedadesLogger.load(archivoUsuario);
+        }catch(FileNotFoundException archivoNoEncontrado){
+            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, archivoNoEncontrado);
+        }catch(IOException excepcion){
+            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
+        }
+        
+        return propiedadesLogger;
     }
     
     public Properties obtenerArchivoConexionProfesor(){
