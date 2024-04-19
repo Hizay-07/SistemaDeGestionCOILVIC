@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import interfazDeUsuario.Alertas.Alertas;
 
 
 public class NewFXMain extends Application {
@@ -20,9 +21,6 @@ public class NewFXMain extends Application {
                            
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch();
     }
