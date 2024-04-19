@@ -107,7 +107,11 @@ public class PropuestaColaboracion {
     
     
     
+    @Override
     public boolean equals(Object obj){
+        if(!(obj instanceof PropuestaColaboracion)){
+            return false;
+        }
         PropuestaColaboracion propuestaColaboracionTemporal=(PropuestaColaboracion)obj;
         return idPropuestaColaboracion==propuestaColaboracionTemporal.getIdPropuestaColaboracion()&&
                 idTipoColaboracion==propuestaColaboracionTemporal.getIdTipoColaboracion()&&

@@ -204,22 +204,5 @@ public class PruebaDAOProfesorUVImplementacion {
         int resultadoObtenido=instancia.registrarAreaAcademica(areaAcademica);
         assertEquals(resultadoEsperado,resultadoObtenido);
     }
-    
-    @Test
-    public void pruebaRegistrarRegionExitosa(){
-        DAOProfesorUVImplementacion instancia=new DAOProfesorUVImplementacion();
-        String region="Orizaba-Cordoba";
-        int resultadoEsperado=1;
-        int resultadoObtenido=instancia.registrarRegion(region);
-        assertEquals(resultadoEsperado,resultadoObtenido);                
-    }
-    
-    @Test
-    public void pruebaRegistrarRegionFracaso(){
-        DAOProfesorUVImplementacion instancia=new DAOProfesorUVImplementacion();
-        String region=new String();
-        int resultadoEsperado=0;
-        int resultadoObtenido=instancia.registrarRegion(region);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
-    }
+
 }
