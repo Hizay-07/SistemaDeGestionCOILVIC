@@ -41,23 +41,6 @@ public class DAOTipoColaboracion implements TipoColaboracionInterface{
     }
 
     @Override
-    public int editarTipoPorId(int idTipoColaboracion,String tipo) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try {
-            conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("UPDATE TipoColaboracion set tipo=? where idTipoColaboracion=?");
-            declaracion.setString(1, tipo);
-            declaracion.setInt(2, idTipoColaboracion);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOTipoColaboracion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return numeroFilasAfectadas;
-    }
-
-    @Override
     public List<TipoColaboracion> consultarTiposDeColaboracion() {
         PreparedStatement declaracion;
         ResultSet resultado;

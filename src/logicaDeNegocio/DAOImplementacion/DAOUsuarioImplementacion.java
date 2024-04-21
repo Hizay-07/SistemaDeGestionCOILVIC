@@ -45,7 +45,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         boolean resultadoValidacion;
         
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos(logger);
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
             sentencia.setString(1, usuarioAIngresar.getNombreUsuario());
             sentencia.setString(2, usuarioAIngresar.getContrasenia());

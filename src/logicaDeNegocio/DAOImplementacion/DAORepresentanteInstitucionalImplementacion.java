@@ -11,13 +11,13 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 
 public class DAORepresentanteInstitucionalImplementacion implements RepresentanteInstitucionalInterface {
     
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
+    private static final Logger LOG=Logger.getLogger(DAOAreaAcademicaImplementacion.class);
 
     @Override
     public int registrarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
@@ -36,7 +36,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             resultadoRegistro = sentencia.executeUpdate();       
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoRegistro = -1;
         }
         
@@ -57,7 +57,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             resultadoDesactivacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoDesactivacion = -1;
         }
         
@@ -78,7 +78,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             resultadoDesactivacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoDesactivacion = -1;
         }
         
@@ -102,7 +102,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoModificacion = -1;
         }
         return resultadoModificacion;
@@ -124,7 +124,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoModificacion = -1;
         }
         return resultadoModificacion;
@@ -146,7 +146,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoModificacion = -1;
         }
         return resultadoModificacion;
@@ -170,7 +170,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             validacionDeExistencia = -1;
         }
         
@@ -197,7 +197,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             estadoRepresentanteInstitucional = resultadoDeEstado.equals("Activo");
             
         }catch(SQLException excepcion){
-             Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+             LOG.error(excepcion);
              estadoRepresentanteInstitucional = false;
         }
        
@@ -224,7 +224,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
            }
            BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException excepcion){
-           Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+          LOG.error(excepcion);
        }
        
        return representantes;
@@ -251,7 +251,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
         }
         
         return representantes;

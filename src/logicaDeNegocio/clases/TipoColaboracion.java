@@ -1,23 +1,35 @@
 package logicaDeNegocio.clases;
 
+import java.util.regex.Pattern;
+
 public class TipoColaboracion {
     private String tipo;
     private int idTipoColaboracion;
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTipo(String tipo)throws IllegalArgumentException {
+        if(tipo!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, tipo)){
+            this.tipo = tipo;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }    
 
     public int getIdTipoColaboracion() {
         return idTipoColaboracion;
     }
 
-    public void setIdTipoColaboracion(int idTipoColaboracion) {
-        this.idTipoColaboracion = idTipoColaboracion;
+    public void setIdTipoColaboracion(int idTipoColaboracion)throws IllegalArgumentException {
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idTipoColaboracion))){
+            this.idTipoColaboracion = idTipoColaboracion;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
     
     @Override

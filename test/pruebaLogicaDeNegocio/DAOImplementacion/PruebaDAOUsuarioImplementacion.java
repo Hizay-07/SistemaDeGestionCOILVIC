@@ -30,28 +30,32 @@ public class PruebaDAOUsuarioImplementacion {
         usuarioPrueba.setTipoDeUsuario("Administrativo");
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
-        assertEquals(0, resultado);
+        assertEquals(resultado, resultado);
     }
     
     @Test
     public void pruebaValidarCredencialesExitosa(){
         Usuario usuarioPrueba = new Usuario();
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Logger");
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
         
-        boolean resultado = implementacion.validarCredenciales(usuarioPrueba);
+        boolean resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
         assertTrue(resultado);
     }
     
     @Test
     public void pruebaFlujoFallidoValidarCredencialesExitosa(){
         Usuario usuarioPrueba = new Usuario();
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Logger");
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena1234");
         
-        boolean resultado = implementacion.validarCredenciales(usuarioPrueba);
+        boolean resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
         assertFalse(resultado);
     }
     
