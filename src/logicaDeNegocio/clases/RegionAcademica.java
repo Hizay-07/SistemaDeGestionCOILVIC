@@ -1,8 +1,11 @@
 package logicaDeNegocio.clases;
+import java.util.regex.Pattern;
 
 public class RegionAcademica {
     private int idRegionAcademica;
     private String region;
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public RegionAcademica() {
     }        
@@ -11,16 +14,24 @@ public class RegionAcademica {
         return idRegionAcademica;
     }
 
-    public void setIdRegionAcademica(int idRegionAcademica) {
-        this.idRegionAcademica = idRegionAcademica;
+    public void setIdRegionAcademica(int idRegionAcademica)throws IllegalArgumentException {
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idRegionAcademica))){
+            this.idRegionAcademica = idRegionAcademica;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
 
     public String getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setRegion(String region)throws IllegalArgumentException {
+        if(region!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, String.valueOf(region))){
+            this.region = region;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
     
     @Override

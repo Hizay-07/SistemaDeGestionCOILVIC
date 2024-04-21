@@ -1,11 +1,13 @@
 package logicaDeNegocio.clases;
 
+import java.util.regex.Pattern;
 
 public class Usuario {
     
     private String nombreUsuario;
     private String contrasenia;
     private String tipoDeUsuario;
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
 
     public Usuario() {
     } 
@@ -14,24 +16,36 @@ public class Usuario {
         return nombreUsuario;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setNombreUsuario(String nombreUsuario)throws IllegalArgumentException {
+        if(nombreUsuario!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombreUsuario)){
+            this.nombreUsuario = nombreUsuario;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
 
     public String getContrasenia() {
         return contrasenia;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setContrasenia(String contrasenia)throws IllegalArgumentException {
+        if(contrasenia!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, contrasenia)){
+            this.contrasenia = contrasenia;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
 
     public String getTipoDeUsuario() {
         return tipoDeUsuario;
     }
 
-    public void setTipoDeUsuario(String tipoDeUsuario) {
-        this.tipoDeUsuario = tipoDeUsuario;
+    public void setTipoDeUsuario(String tipoDeUsuario)throws IllegalArgumentException {
+        if(tipoDeUsuario!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, tipoDeUsuario)){
+            this.tipoDeUsuario = tipoDeUsuario;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
     
     @Override

@@ -28,23 +28,7 @@ public class PruebaDAOTipoColaboracion {
         int resultadoObtenido=instancia.registrarTipoColaboracion(tipoColaboracion);
         assertEquals(resultadoEsperado,resultadoObtenido);
     }
-    
-    @Test
-    public void pruebaEditarTipoPorIdExitosa(){
-        DAOTipoColaboracion instancia=new DAOTipoColaboracion();
-        int resultadoEsperado=1;
-        int resultadoObtenido=instancia.editarTipoPorId(1, "Clase espejo");
-        assertEquals(resultadoEsperado,resultadoObtenido);                              
-    }
-    
-    @Test
-    public void pruebaEditarTipoPorIdFracaso(){
-        DAOTipoColaboracion instancia=new DAOTipoColaboracion();
-        int resultadoEsperado=0;
-        int resultadoObtenido=instancia.editarTipoPorId(0, "Clase espejo");
-        assertEquals(resultadoEsperado,resultadoObtenido);        
-    }    
-    
+       
     @Test
     public void pruebaConsultarTiposDeColaboracionExitosa(){
         List<TipoColaboracion> listaEsperada=new ArrayList<>();

@@ -1,9 +1,10 @@
 package logicaDeNegocio.clases;
 
-import logicaDeNegocio.enums.EnumPais;
+import java.util.regex.Pattern;
 
 public class Pais{
     private String nombrePais;
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
 
     public Pais(){
     }
@@ -13,8 +14,12 @@ public class Pais{
         return nombrePais;
     }
 
-    public void setNombrePais(String nombrePais){
-        this.nombrePais = nombrePais;
+    public void setNombrePais(String nombrePais)throws IllegalArgumentException{
+        if(nombrePais!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombrePais)){
+            this.nombrePais = nombrePais;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
     
     @Override

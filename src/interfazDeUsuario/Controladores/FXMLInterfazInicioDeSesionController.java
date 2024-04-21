@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumUsuario;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
@@ -18,13 +19,15 @@ public class FXMLInterfazInicioDeSesionController implements Initializable {
     private TextField txtf_Usuario;
     @FXML
     private PasswordField pwdf_Contrasenia;
+    @FXML
+    private Button btn_Ingresar;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
     }    
     
-    public void iniciarSesion(){
+    public void iniciarSesion(ActionEvent event){
         Usuario logger = new Usuario();
         logger.setTipoDeUsuario(EnumUsuario.Logger.toString());
         Usuario usuarioAIngresar = new Usuario();
@@ -37,7 +40,7 @@ public class FXMLInterfazInicioDeSesionController implements Initializable {
         
         if(validacionCredencial==true){
             usuarioAIngresar.setTipoDeUsuario(DAOUsuario.obtenerTipoDeUsuario(usuarioAIngresar));
-        }else{
+        }else if(validacionCredencial==false){
             Alertas.mostrarMensajeUsuarioNoEncontrado();
         }
     }
