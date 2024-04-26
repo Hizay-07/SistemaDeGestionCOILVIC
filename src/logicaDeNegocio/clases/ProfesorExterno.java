@@ -45,4 +45,9 @@ public class ProfesorExterno extends Profesor {
         ProfesorExterno profesorExternoTemporal = (ProfesorExterno) obj;
         return idProfesorExterno == profesorExternoTemporal.getIdProfesorExterno();
     }
+    
+    @Override
+    public boolean validarAtributos(){
+        return idRepresentanteInstitucional>0;
+    }
 }

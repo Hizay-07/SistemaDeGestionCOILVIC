@@ -10,6 +10,7 @@ public class RepresentanteInstitucional{
     private String estadoRepresentante;
     private Pais pais;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public RepresentanteInstitucional(){
         
@@ -45,7 +46,7 @@ public class RepresentanteInstitucional{
     }
 
     public void setContacto(String contacto)throws IllegalArgumentException{
-        if(contacto!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, contacto)){
+        if(contacto!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN, contacto)){
             this.contacto = contacto;
         }else{
             throw new IllegalArgumentException();
