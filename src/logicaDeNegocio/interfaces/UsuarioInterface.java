@@ -6,6 +6,6 @@ public interface UsuarioInterface {
     
     public boolean validarCredenciales(Usuario usuario, Usuario logger);
     public int registrarUsuario(Usuario usuario);
-    public String obtenerTipoDeUsuario(Usuario usuario);
+    public String obtenerTipoDeUsuario(Usuario usuario,Usuario logger);
     public int obtenerIdUsuario(Usuario usuario);
 }
