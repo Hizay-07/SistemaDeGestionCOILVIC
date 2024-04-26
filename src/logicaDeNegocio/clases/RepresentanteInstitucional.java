@@ -2,7 +2,6 @@ package logicaDeNegocio.clases;
 
 import java.util.regex.Pattern;
 
-
 public class RepresentanteInstitucional{
     private String nombreInstitucion;
     private String claveInstitucional;
@@ -15,8 +14,7 @@ public class RepresentanteInstitucional{
     public RepresentanteInstitucional(){
         
     }
-    
-    
+        
     public String getNombreInstitucion(){
         return nombreInstitucion;
     }

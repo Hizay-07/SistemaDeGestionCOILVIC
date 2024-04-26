@@ -105,8 +105,6 @@ public class ProfesorUV extends Profesor {
                 categoriaDeContratacion!=null&&!categoriaDeContratacion.isEmpty()&&
                 idAreaAcademica>0&&
                 idRegion>0;                
-    }
-            
-    
+    }                
     
 }

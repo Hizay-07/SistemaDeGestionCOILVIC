@@ -95,6 +95,5 @@ public class Profesor{
                 apellidoMaterno!=null&&!apellidoMaterno.isEmpty()&&
                 correo!=null&&!correo.isEmpty();
                 
-    }
-    
+    }    
 }

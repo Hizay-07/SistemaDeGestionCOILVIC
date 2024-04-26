@@ -41,6 +41,5 @@ public class RegionAcademica {
         }
         RegionAcademica regionAcademicaTemporal=(RegionAcademica)obj;
         return region.equals(regionAcademicaTemporal.getRegion());    
-    }
-    
+    }    
 }

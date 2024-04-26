@@ -50,4 +50,5 @@ public class ProfesorExterno extends Profesor {
     public boolean validarAtributos(){
         return idRepresentanteInstitucional>0;
     }
+    
 }
