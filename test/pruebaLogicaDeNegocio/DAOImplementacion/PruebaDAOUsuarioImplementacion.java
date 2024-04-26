@@ -62,22 +62,26 @@ public class PruebaDAOUsuarioImplementacion {
     @Test
     public void pruebaObtenerTipoDeUsuario(){
         Usuario usuarioPrueba = new Usuario();
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Logger");
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
         
-        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba,logger);
         assertEquals("Administrativo", resultado);
     }
     
     @Test
     public void pruebaFlujoFallidoObtenerTipoDeUsuario(){
         Usuario usuarioPrueba = new Usuario();
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Logger");
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena1234");
         
-        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba,logger);
         assertEquals("",resultado);
     }
     

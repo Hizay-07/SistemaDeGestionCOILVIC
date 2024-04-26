@@ -23,7 +23,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         int resultadoInsercion;
         
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             CallableStatement sentencia = conexion.prepareCall("call registrarUsuario(?,?,?,?)");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
@@ -69,11 +69,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     }
 
     @Override
-    public String obtenerTipoDeUsuario(Usuario usuario){
+    public String obtenerTipoDeUsuario(Usuario usuario,Usuario logger){
         String resultadoTipoDeUsuario="";
         
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
             PreparedStatement sentencia = conexion.prepareStatement("SELECT tipodeusuario.tipodeusuario from usuario,tipodeusuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?) AND usuario.TipoDeUsuario_idTipoDeUsuario = tipodeusuario.idTipoDeUsuario");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());

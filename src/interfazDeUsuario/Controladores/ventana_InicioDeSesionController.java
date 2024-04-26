@@ -57,7 +57,7 @@ public class ventana_InicioDeSesionController implements Initializable {
             boolean validacionCredencial = DAOUsuario.validarCredenciales(usuarioAIngresar, logger);
 
             if(validacionCredencial){
-                usuarioAIngresar.setTipoDeUsuario(DAOUsuario.obtenerTipoDeUsuario(usuarioAIngresar));
+                usuarioAIngresar.setTipoDeUsuario(DAOUsuario.obtenerTipoDeUsuario(usuarioAIngresar,logger));
                 desplegarVentanaCorrespondiente(usuarioAIngresar);
             }else{
                 Alertas.mostrarMensajeUsuarioNoEncontrado();
