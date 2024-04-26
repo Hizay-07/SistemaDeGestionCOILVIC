@@ -29,11 +29,19 @@ public class Alertas extends Application {
     
     public static void mostrarMensajeDatosIngresados(){
          Platform.runLater(() ->{
-            Alert mensaje = new Alert(AlertType.WARNING);
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
             mensaje.setTitle("Datos correctos");
             mensaje.setContentText("Los datos han sido insertados correctamente");
             mensaje.showAndWait();
         
+        });
+    }
+    public static void mostrarMensajeDatosIncompletos(){
+        Platform.runLater(() ->{
+        Alert mensaje = new Alert (AlertType.ERROR);
+        mensaje.setTitle("Información invalida");
+        mensaje.setContentText("Asegúrese de llenar correctamente todos los campos");
+        mensaje.showAndWait();
         });
     }
     
@@ -42,6 +50,24 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.ERROR);
             mensaje.setTitle("Error en la conexion");
             mensaje.setContentText("Se ha perdido la conexión en la base de datos");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeRegistroExitoso(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("Inserción Correcta");
+            mensaje.setContentText("Los datos han sido registrados correctamente");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeActualizacionExitoso(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("Actualización Correcta");
+            mensaje.setContentText("Los datos han sido actualizados correctamente");
             mensaje.showAndWait();
         });
     }
