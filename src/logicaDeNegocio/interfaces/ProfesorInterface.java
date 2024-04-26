@@ -10,4 +10,5 @@ public interface ProfesorInterface {
     int modificarApellidoPaternoProfesor(String apellidoPaternoActualizado, String correoProfesor);
     int modificarApellidoMaternoProfesor(String apellidoMaternoActualizado, String correoProfesor);
     int modificarCorreoProfesor(String correoActualizado, String correoProfesor);
+    public int obtenerIdProfesorPorCorreo(String correo);
 }

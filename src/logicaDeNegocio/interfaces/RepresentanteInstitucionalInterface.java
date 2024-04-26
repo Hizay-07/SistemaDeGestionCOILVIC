@@ -15,4 +15,5 @@ public interface RepresentanteInstitucionalInterface{
     public boolean obtenerEstadoRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales();
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionalesPorPais(Pais paisIngresado);
+    public int consultarIdRepresentanteInstitucionalPorUniversidad(String universidad);
 }

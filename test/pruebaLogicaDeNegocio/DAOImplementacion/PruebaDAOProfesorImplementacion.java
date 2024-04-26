@@ -129,4 +129,13 @@ public class PruebaDAOProfesorImplementacion {
         int resultadoObtenido = dao.modificarCorreoProfesor(correoActualizado, correoProfesor);
         assertEquals(resultadoEsperado, resultadoObtenido);
     }
+    
+    @Test
+    public void pruebaObtenerIdProfesorPorCorreoExitosa(){
+        DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
+        String correo="eduardo@gmail.com";
+        int resultadoEsperado=1;
+        int resultadoObtenido=instancia.obtenerIdProfesorPorCorreo(correo);
+        assertEquals(resultadoEsperado,resultadoObtenido);
+    }
 }

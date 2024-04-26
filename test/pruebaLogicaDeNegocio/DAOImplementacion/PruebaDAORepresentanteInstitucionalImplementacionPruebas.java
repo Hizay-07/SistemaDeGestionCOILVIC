@@ -292,5 +292,14 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         assertNotEquals(representantesEsperados,representantesObtenidos);
     }
     
+    @Test
+    public void pruebaConsultarIdRepresentanteInstitucionalPorUniversidadExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
+        String universidad="UNAM";
+        int resultadoEsperado=1;
+        int resultadoObtenido=pruebaConsulta.consultarIdRepresentanteInstitucionalPorUniversidad(universidad);
+        assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
+    
     
 }

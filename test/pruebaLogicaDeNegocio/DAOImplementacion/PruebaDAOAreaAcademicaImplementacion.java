@@ -58,4 +58,13 @@ public class PruebaDAOAreaAcademicaImplementacion {
         resultadoObtenido=instancia.consultarAreasAcademicas();
         assertNotEquals(resultadoEsperado,resultadoObtenido);         
     }    
+    
+    @Test
+    public void pruebaConsultarIdDeAreaAcademicaPorAreaExitosa(){
+        DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();
+        String area="Humanidades";
+        int resultadoEsperado=1;
+        int resultadoObtenido=instancia.consultarIdDeAreaAcademicaPorArea(area);
+        assertEquals(resultadoEsperado,resultadoObtenido);            
+    }
 }

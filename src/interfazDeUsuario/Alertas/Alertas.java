@@ -45,6 +45,15 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+    
+    public static void mostrarRegistroProfesorExitoso(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Registro de profesor correcto");
+            mensaje.setContentText("El profesor fue registrado correctamente");
+            mensaje.showAndWait();
+        });
+    }
 
     @Override
     public void start(Stage stage){
