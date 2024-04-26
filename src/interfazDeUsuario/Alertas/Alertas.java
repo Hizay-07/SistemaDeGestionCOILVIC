@@ -29,9 +29,29 @@ public class Alertas extends Application {
     
     public static void mostrarMensajeDatosIngresados(){
          Platform.runLater(() ->{
-            Alert mensaje = new Alert(AlertType.WARNING);
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
             mensaje.setTitle("Datos correctos");
             mensaje.setContentText("Los datos han sido insertados correctamente");
+            mensaje.showAndWait();
+        
+        });
+    }
+    
+    public static void mostrarMensajeDatosModificados(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("Datos modificados");
+            mensaje.setContentText("Los datos han sido modificados correctamente");
+            mensaje.showAndWait();
+        
+        });
+    }
+    
+    public static void mostrarMensajeFechaInvalida(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Fecha inválida");
+            mensaje.setContentText("Verifique que la fecha ingresada sea correcta");
             mensaje.showAndWait();
         
         });

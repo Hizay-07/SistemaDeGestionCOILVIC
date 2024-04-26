@@ -18,6 +18,6 @@ public class PruebaProfesor {
     public void pruebaSetNombreInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
         profesorPrueba.setNombre("Juan124");
-        assertNotNull(profesorPrueba.getNombre());
+        assertNull(profesorPrueba.getNombre());
     }
 }

@@ -13,7 +13,7 @@ public class Actividad {
     private int idColaboracion;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
-    private static final String FECHA_PATTERN = "^\\d{2}/\\d{2}/\\d{4}$";
+    private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
 
 
     public Actividad() {
