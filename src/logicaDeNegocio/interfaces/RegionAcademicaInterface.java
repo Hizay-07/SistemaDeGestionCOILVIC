@@ -7,4 +7,6 @@ public interface RegionAcademicaInterface {
     public int registrarRegionAcademica(RegionAcademica regionAcademica);
     
     public List<RegionAcademica> consultarRegionesAcademicas();                
+    
+    public int consultarIdDeRegionPorRegion(String region);
 }

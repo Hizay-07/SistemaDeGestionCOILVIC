@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 
@@ -257,4 +258,23 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return representantes;
     }
     
+    @Override
+    public int consultarIdRepresentanteInstitucionalPorUniversidad(String universidad){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idRepresentanteInstitucional=0;
+        try {
+            Connection conexion = BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT idRepresentanteInstitucional from RepresentanteInstitucional where nombreInstitucion=?");
+            declaracion.setString(1, universidad);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                idRepresentanteInstitucional=resultado.getInt("idRepresentanteInstitucional");                
+            }
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idRepresentanteInstitucional;        
+    }
 }
