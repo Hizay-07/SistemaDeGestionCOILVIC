@@ -4,33 +4,54 @@ import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.Test;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.clases.Usuario;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class ManejadorBaseDeDatosPrueba{
     
     @Test
-    public void pruebaConectarBaseDeDatos()throws SQLException{
-        Usuario usuario = new Usuario();
+    public void pruebaConectarBaseDeDatosExitosa()throws SQLException{
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("CuentaPruebaUno");
+        usuarioPrueba.setContrasenia("Contrasena123*");
+        usuarioPrueba.setTipoDeUsuario("Profesor");
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
-        usuario.setNombreUsuario("Equipo2");
-        usuario.setContrasenia("contrasena123");
-        usuario.setTipoDeUsuario("Administrativo");
-        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos(usuario);
+        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos();
         assertNotNull(resultado);
         resultado.close();
     }
     
     @Test
-    public void pruebaFalloConectarBaseDeDatos()throws SQLException{
-        Usuario usuario = new Usuario();
+    public void pruebaFalloConectarBaseDeDatosExitosa()throws SQLException{
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("CuentaPruebaUno");
+        usuarioPrueba.setContrasenia("Contrasena123*");
+        usuarioPrueba.setTipoDeUsuario("Profesor");
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
-        usuario.setNombreUsuario("Equipo4");
-        usuario.setContrasenia("contrasena123");
-        usuario.setTipoDeUsuario("Administrativo");
-        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos(usuario);
+        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos();
+        assertNull(resultado);
+    }
+    
+    @Test
+    public void pruebaConectarBaseDeDatosLoggerExitosa(){
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Logger");
+        ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
+        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatosLogger(logger);
         assertNotNull(resultado);
-        resultado.close();
+    }
+    
+    @Test
+    public void pruebaFalloConectarBaseDeDatosLoggerExitosa(){
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Administrativo");
+        ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
+        Connection resultado = baseDeDatosPrueba.conectarBaseDeDatosLogger(logger);
+        assertNull(resultado);
     }
     
     @Test

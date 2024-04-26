@@ -25,7 +25,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
         int resultadoRegistro;
         
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroActividad,estadoActividad) VALUES (?,?,?,?,?,?,?)");
             sentencia.setString(1,actividadNueva.getNombre());
             sentencia.setString(2,actividadNueva.getDescripcion());

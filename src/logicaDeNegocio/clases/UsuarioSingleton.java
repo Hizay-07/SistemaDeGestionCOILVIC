@@ -2,8 +2,9 @@ package logicaDeNegocio.clases;
 
 import java.util.regex.Pattern;
 
-public final class Usuario {
+public final class UsuarioSingleton {
     
+    private static UsuarioSingleton instancia;
     private int idUsuario;
     private String nombreUsuario;
     private String contrasenia;
@@ -12,15 +13,21 @@ public final class Usuario {
     private static final String CONTRASENA_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
-    public Usuario(){
-        
-    }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    private UsuarioSingleton(Usuario usuario) {
+        setNombreUsuario(usuario.getNombreUsuario());
+        setContrasenia(usuario.getContrasenia());
+        setTipoDeUsuario(usuario.getTipoDeUsuario());
+    } 
+    
+    public static UsuarioSingleton getInstancia(Usuario usuario)throws IllegalArgumentException{
+        if(instancia==null){
+            instancia = new UsuarioSingleton(usuario);
+        }
+        return instancia;
     }
-
-    public void setIdUsuario(int idUsuario)throws IllegalArgumentException{
+    
+    private void setIdUsuario(int idUsuario)throws IllegalArgumentException{
         if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idUsuario))){
             this.idUsuario = idUsuario;
         }else{
@@ -28,7 +35,11 @@ public final class Usuario {
         }
     }
     
-    public void setNombreUsuario(String nombreUsuario)throws IllegalArgumentException{
+    public int getIdUsuario(){
+        return idUsuario;
+    }
+    
+    private void setNombreUsuario(String nombreUsuario)throws IllegalArgumentException{
         if(nombreUsuario!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombreUsuario)){
             this.nombreUsuario = nombreUsuario;
         }else{
@@ -40,7 +51,7 @@ public final class Usuario {
         return nombreUsuario;
     }
     
-    public void setContrasenia(String contrasenia)throws IllegalArgumentException{
+    private void setContrasenia(String contrasenia)throws IllegalArgumentException{
         if(contrasenia!=null&&Pattern.matches(CONTRASENA_PATTERN, contrasenia)){
             this.contrasenia = contrasenia;
         }else{
@@ -52,7 +63,7 @@ public final class Usuario {
         return contrasenia;
     }
     
-    public void setTipoDeUsuario(String tipoDeUsuario)throws IllegalArgumentException{
+    private void setTipoDeUsuario(String tipoDeUsuario)throws IllegalArgumentException{
         if(tipoDeUsuario!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, tipoDeUsuario)){
             this.tipoDeUsuario = tipoDeUsuario;
         }else{
@@ -64,12 +75,7 @@ public final class Usuario {
         return tipoDeUsuario;
     }
     
-    @Override
-    public boolean equals(Object obj){
-        Usuario usuarioTemp = (Usuario)obj;
-        return this.nombreUsuario.equals(usuarioTemp.getNombreUsuario())&&
-                this.contrasenia.equals(usuarioTemp.getContrasenia())&&
-                this.tipoDeUsuario.equals(usuarioTemp.getTipoDeUsuario()); 
+    public static UsuarioSingleton getInstancia(){
+        return instancia;
     }
-    
 }
