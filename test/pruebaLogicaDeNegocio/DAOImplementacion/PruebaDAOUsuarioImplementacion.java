@@ -13,8 +13,8 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaRegistrarUsuarioExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("Equipo5");
-        usuarioPrueba.setContrasenia("contrasena123");
+        usuarioPrueba.setNombreUsuario("CuentaPruebaDos");
+        usuarioPrueba.setContrasenia("Contrasena123*");
         usuarioPrueba.setTipoDeUsuario("Profesor");
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
@@ -62,22 +62,38 @@ public class PruebaDAOUsuarioImplementacion {
     @Test
     public void pruebaObtenerTipoDeUsuario(){
         Usuario usuarioPrueba = new Usuario();
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Logger");
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
         
-        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba,logger);
         assertEquals("Administrativo", resultado);
     }
     
     @Test
     public void pruebaFlujoFallidoObtenerTipoDeUsuario(){
         Usuario usuarioPrueba = new Usuario();
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario("Logger");
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena1234");
         
-        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba);
+        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba,logger);
         assertEquals("",resultado);
+    }
+    
+    @Test
+    public void pruebaObtenerIdUsuario(){
+        Usuario usuarioPrueba = new Usuario();
+        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
+        usuarioPrueba.setNombreUsuario("CuentaPruebaDos");
+        usuarioPrueba.setContrasenia("Contrasena123*");
+        usuarioPrueba.setTipoDeUsuario("Profesor");
+        
+        int resultado = implementacion.obtenerIdUsuario(usuarioPrueba);
+        assertEquals(2,resultado);
     }
 }

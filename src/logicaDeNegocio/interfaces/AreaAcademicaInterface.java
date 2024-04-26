@@ -8,4 +8,6 @@ public interface AreaAcademicaInterface {
     
     public List<AreaAcademica> consultarAreasAcademicas();
     
+    public int consultarIdDeAreaAcademicaPorArea(String area);
+    
 }

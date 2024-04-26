@@ -45,6 +45,26 @@ public class Alertas extends Application {
         });
     }
     
+    public static void mostrarMensajeDatosModificados(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("Datos modificados");
+            mensaje.setContentText("Los datos han sido modificados correctamente");
+            mensaje.showAndWait();
+        
+        });
+    }
+    
+    public static void mostrarMensajeFechaInvalida(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Fecha inválida");
+            mensaje.setContentText("Verifique que la fecha ingresada sea correcta");
+            mensaje.showAndWait();
+        
+        });
+    }
+    
     public static void mostrarMensajeErrorEnLaConexion(){
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.ERROR);
@@ -54,24 +74,6 @@ public class Alertas extends Application {
         });
     }
     
-    public static void mostrarMensajeRegistroExitoso(){
-        Platform.runLater(() ->{
-            Alert mensaje = new Alert(AlertType.CONFIRMATION);
-            mensaje.setTitle("Inserción Correcta");
-            mensaje.setContentText("Los datos han sido registrados correctamente");
-            mensaje.showAndWait();
-        });
-    }
-    
-    public static void mostrarMensajeActualizacionExitoso(){
-        Platform.runLater(() ->{
-            Alert mensaje = new Alert(AlertType.CONFIRMATION);
-            mensaje.setTitle("Actualización Correcta");
-            mensaje.setContentText("Los datos han sido actualizados correctamente");
-            mensaje.showAndWait();
-        });
-    }
-
     @Override
     public void start(Stage stage){
         try{

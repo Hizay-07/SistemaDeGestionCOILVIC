@@ -1,8 +1,10 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
-public class Profesor{
+public final class ProfesorSingleton {
     
+    private static ProfesorSingleton instancia;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -13,10 +15,21 @@ public class Profesor{
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
-    public Profesor(){
-        
+    private ProfesorSingleton(Profesor profesor){
+        setNombre(profesor.getNombre());
+        setApellidoPaterno(profesor.getApellidoPaterno());
+        setApellidoMaterno(profesor.getApellidoMaterno());
+        setCorreo(profesor.getCorreo());
+        setEstado(profesor.getEstado());
+        setIdProfesor(profesor.getIdProfesor());
     }
-
+    
+    public static ProfesorSingleton getInstancia(Profesor profesor){
+        if(instancia==null){
+            instancia = new ProfesorSingleton(profesor);
+        }
+        return instancia;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -88,12 +101,4 @@ public class Profesor{
             throw new IllegalArgumentException();
         }
     }
-    
-    public boolean validarAtributos(){
-        return nombre!=null&&!nombre.isEmpty()&&
-                apellidoPaterno!=null&&!apellidoPaterno.isEmpty()&&
-                apellidoMaterno!=null&&!apellidoMaterno.isEmpty()&&
-                correo!=null&&!correo.isEmpty();
-                
-    }    
 }

@@ -19,7 +19,7 @@ public class ProfesorUV extends Profesor {
     }
 
     public void setNumeroDePersonal(String numeroDePersonal)throws IllegalArgumentException{
-        if(numeroDePersonal!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,numeroDePersonal)){
+        if(numeroDePersonal!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN,numeroDePersonal)){
             this.numeroDePersonal = numeroDePersonal;
         }else{
             throw new IllegalArgumentException();
@@ -97,7 +97,14 @@ public class ProfesorUV extends Profesor {
         }
         return numeroDePersonal.equals(profesorUVTemporal.getNumeroDePersonal());
     }
-            
-
+    
+    @Override
+    public boolean validarAtributos(){
+        return numeroDePersonal!=null&&!numeroDePersonal.isEmpty()&&
+                tipoDeContratacion!=null&&!tipoDeContratacion.isEmpty()&&
+                categoriaDeContratacion!=null&&!categoriaDeContratacion.isEmpty()&&
+                idAreaAcademica>0&&
+                idRegion>0;                
+    }                
     
 }

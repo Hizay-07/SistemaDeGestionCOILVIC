@@ -23,7 +23,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         int resultadoInsercion;
         
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             CallableStatement sentencia = conexion.prepareCall("call registrarUsuario(?,?,?,?)");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
@@ -45,7 +45,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         boolean resultadoValidacion;
         
         try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos(logger);
+            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
             sentencia.setString(1, usuarioAIngresar.getNombreUsuario());
             sentencia.setString(2, usuarioAIngresar.getContrasenia());
@@ -69,11 +69,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     }
 
     @Override
-    public String obtenerTipoDeUsuario(Usuario usuario){
+    public String obtenerTipoDeUsuario(Usuario usuario,Usuario logger){
         String resultadoTipoDeUsuario="";
         
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
             PreparedStatement sentencia = conexion.prepareStatement("SELECT tipodeusuario.tipodeusuario from usuario,tipodeusuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?) AND usuario.TipoDeUsuario_idTipoDeUsuario = tipodeusuario.idTipoDeUsuario");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
@@ -90,6 +90,29 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoTipoDeUsuario;
     }
     
+    @Override
+    public int obtenerIdUsuario(Usuario usuario){
+        int resultadoId=0;
+        
+        try{
+            conexion = BASE_DE_DATOS.getConexion();
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT idUsuario from usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
+            sentencia.setString(1, usuario.getNombreUsuario());
+            sentencia.setString(2, usuario.getContrasenia());
+            sentencia.setInt(3,256);
+            ResultSet resultado = sentencia.executeQuery();
+            while(resultado.next()){
+                resultadoId = resultado.getInt("idUsuario");
+            }
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException excepcion){
+            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            resultadoId = -1;
+        }
+        
+        return resultadoId;
+        
+    }
     
     
 }

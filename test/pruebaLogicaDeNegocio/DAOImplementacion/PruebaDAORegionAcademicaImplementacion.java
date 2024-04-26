@@ -62,4 +62,12 @@ public class PruebaDAORegionAcademicaImplementacion {
         assertNotEquals(resultadoEsperado,resultadoObtenido);        
     }
     
+    @Test
+    public void pruebaConsultarIdDeRegionPorRegionExitosa(){
+        DAORegionAcademicaImplementacion instancia=new DAORegionAcademicaImplementacion();
+        String region="Xalapa";
+        int resultadoEsperado=1;
+        int resultadoObtenido=instancia.consultarIdDeRegionPorRegion(region);
+        assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
 }

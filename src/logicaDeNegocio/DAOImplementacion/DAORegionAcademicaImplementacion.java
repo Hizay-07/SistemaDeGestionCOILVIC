@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import logicaDeNegocio.clases.RegionAcademica;
 import logicaDeNegocio.interfaces.RegionAcademicaInterface;
 import org.apache.log4j.Logger;
@@ -52,6 +53,26 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             LOG.error(ex);
         }
         return regionesAcademicas;        
+    }
+    
+    @Override
+    public int consultarIdDeRegionPorRegion(String region){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idRegion=0;
+        try {
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT idRegionAcademica from RegionAcademica where region=?");
+            declaracion.setString(1, region);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                idRegion=resultado.getInt("idRegionAcademica");
+            }
+            conexion.close();                      
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DAORegionAcademicaImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idRegion;                
     }
     
 }

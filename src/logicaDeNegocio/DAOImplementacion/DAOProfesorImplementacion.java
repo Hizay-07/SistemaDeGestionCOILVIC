@@ -27,7 +27,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, profesor.getApellidoPaterno());
             declaracion.setString(3, profesor.getApellidoMaterno());
             declaracion.setString(4, profesor.getCorreo());
-            declaracion.setString(5, profesor.getEstado().toString()); // Asignar estado al profesor
+            declaracion.setString(5, "Sin colaboracion"); // Asignar estado al profesor
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException ex) {
@@ -124,6 +124,26 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
+    }
+    
+    @Override
+    public int obtenerIdProfesorPorCorreo(String correo){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idProfesor=0;
+        try {
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT idProfesor from Profesor where correo=?;");
+            declaracion.setString(1, correo);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                idProfesor=resultado.getInt("idProfesor");
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idProfesor;                
     }
     
     

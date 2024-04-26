@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
 import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumUsuario;
 
 public class ManejadorBaseDeDatos {
@@ -30,14 +31,14 @@ public class ManejadorBaseDeDatos {
         conexion = DriverManager.getConnection(NOMBRE_BASE_DE_DATOS,USUARIO_BASE_DE_DATOS,CONTRASENA_BASE_DE_DATOS);
     }
     
-    public Connection conectarBaseDeDatos(Usuario usuario){
+    public Connection conectarBaseDeDatos(){
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
         Properties datosUsuario = new Properties();
+        
         if(usuario.getTipoDeUsuario().equals(EnumUsuario.Administrativo.toString())){
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionAdministrativo();
         }else if(usuario.getTipoDeUsuario().equals(EnumUsuario.Profesor.toString())){
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionProfesor();
-        }else if(usuario.getTipoDeUsuario().equals(EnumUsuario.Logger.toString())){
-            datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionLogger();
         }
         
         try{
@@ -49,6 +50,24 @@ public class ManejadorBaseDeDatos {
             Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
         }
         
+        return conexion;
+    }
+    
+    public Connection conectarBaseDeDatosLogger(Usuario usuario){
+        Properties datosLogger = new Properties();
+        if(usuario.getTipoDeUsuario().equals(EnumUsuario.Logger.toString())){
+            datosLogger = new ManejadorBaseDeDatos().obtenerArchivoConexionLogger();
+        }
+        
+        try{
+            String nombreBaseDeDatos = datosLogger.getProperty("Direccion");
+            String nombreUsuario = datosLogger.getProperty("Usuario");
+            String contrasenia = datosLogger.getProperty("Contrasenia");
+            conexion = DriverManager.getConnection(nombreBaseDeDatos,nombreUsuario,contrasenia);
+        }catch(SQLException excepcion){
+            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
+        }
+       
         return conexion;
     }
     
