@@ -72,7 +72,6 @@ public class Ventana_ProponerColaboracionController implements Initializable {
         propuestaColaboracion.setExperienciaEducativa(experienciaEducativa);
         propuestaColaboracion.setProgramaEducativoEstudiantil(programaEducativo);
         propuestaColaboracion.setObjetivo(objetivoGeneral);
-        //obtener el id del tipo de colaboración seleccionado y establecerlo en propuestaColaboracion
 
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion = new DAOPropuestaColaboracionImplementacion();
         int filasAfectadas = daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
@@ -80,7 +79,8 @@ public class Ventana_ProponerColaboracionController implements Initializable {
         if (filasAfectadas > 0) {
             Alertas.mostrarMensajeDatosIngresados();
         } else {
-            Alertas.mostrarMensajeDatosModificados();
+            Alertas.mostrarMensajeDatosIngresados();
+
         }
     }
 }

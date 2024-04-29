@@ -24,12 +24,14 @@ public final class ProfesorSingleton {
         setIdProfesor(profesor.getIdProfesor());
     }
     
-    public static ProfesorSingleton getInstancia(Profesor profesor){
-        if(instancia==null){
-            instancia = new ProfesorSingleton(profesor);
-        }
+    public static void setInstancia(Profesor profesor){
+       instancia = new ProfesorSingleton(profesor);
+    }
+    
+    public static ProfesorSingleton getInstancia(){
         return instancia;
     }
+    
     public String getNombre() {
         return nombre;
     }

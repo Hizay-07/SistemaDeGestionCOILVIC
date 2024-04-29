@@ -8,8 +8,10 @@ public final class Usuario {
     private String nombreUsuario;
     private String contrasenia;
     private String tipoDeUsuario;
+    private String correo;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
     private static final String CONTRASENA_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public Usuario(){
@@ -63,6 +65,19 @@ public final class Usuario {
     public String getTipoDeUsuario() {
         return tipoDeUsuario;
     }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo)throws IllegalArgumentException{
+        if(correo!=null&&Pattern.matches(EMAIL_PATTERN, correo)){
+            this.correo = correo;
+        }else{
+            throw new IllegalArgumentException();
+        }
+    }
+    
     
     @Override
     public boolean equals(Object obj){
