@@ -44,9 +44,8 @@ public class Ventana_IniciarActividadController implements Initializable {
         escenario.close();
     }
     
-    public void realizarRegistroDeActividad(ActionEvent event){
+    public Actividad obtenerDatosActividad(){
         Actividad nuevaActividad = new Actividad();
-        DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
         try{
             nuevaActividad.setNumeroActividad(Integer.parseInt(txfd_NumeroDeActividad.getText()));
             nuevaActividad.setNombre(txfd_NombreDeActividad.getText());
@@ -55,15 +54,22 @@ public class Ventana_IniciarActividadController implements Initializable {
             nuevaActividad.setDescripcion(txa_Descripcion.getText());
             nuevaActividad.setIdColaboracion(1);
             nuevaActividad.setEstado("nueva");
-            int resultadoRegistro = daoActividad.registrarActividad(nuevaActividad);
-            if(resultadoRegistro == 1){
-                Alertas.mostrarMensajeDatosIngresados();
-            }else if (resultadoRegistro == -1){
-                Alertas.mostrarMensajeErrorEnLaConexion();
-            }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion);
             Alertas.mostrarMensajeDatosInvalidos();
+        }
+        return nuevaActividad;
+    }
+    
+    public void realizarRegistroDeActividad(ActionEvent event){
+        Actividad nuevaActividad = obtenerDatosActividad();
+        DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
+  
+        int resultadoRegistro = daoActividad.registrarActividad(nuevaActividad);
+        if (resultadoRegistro == 1) {
+            Alertas.mostrarMensajeDatosIngresados();
+        } else if (resultadoRegistro == -1) {
+            Alertas.mostrarMensajeErrorEnLaConexion();
         }
         
     }

@@ -6,13 +6,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import interfazDeUsuario.Alertas.Alertas;
+import java.io.IOException;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.clases.Profesor;
-
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import logicaDeNegocio.clases.ProfesorSingleton;
+import org.apache.log4j.Logger;
 
 public class Ventana_DetallesProfesorController implements Initializable {
+    
+    private static final Logger LOG=Logger.getLogger(Ventana_DetallesProfesorController.class);
+    
+    private Stage escenario;
+    
+    @FXML
+    private AnchorPane anchor_Ventana;
 
     @FXML
     private TextField txfd_Nombre;
@@ -52,15 +66,13 @@ public class Ventana_DetallesProfesorController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         daoProfesor = new DAOProfesorImplementacion();
 
-        // Acción del botón Actualizar Perfil
+        
         btn_ActualizarPerfil.setOnAction(event -> {
-            // Aquí puedes implementar la lógica para abrir la ventana de actualizar perfil del profesor
-            // Puedes pasar el ID del profesor a la ventana de actualización si es necesario
+            abrirSiguienteVentana();
         });
 
-        // Acción del botón Cancelar
         btn_Cancelar.setOnAction(event -> {
-            // Aquí puedes implementar la lógica para cerrar la ventana
+           cerrarVentana();
         });
     }
 
@@ -68,15 +80,31 @@ public class Ventana_DetallesProfesorController implements Initializable {
         idProfesor = id;
         cargarDetallesProfesor();
     }
+    
+    public void abrirSiguienteVentana(){
+        String rutaVentana = "/interfazDeUsuario/Ventana_ActualizarPerfilProfesor.fxml";
+        try{
+             Parent root = FXMLLoader.load(getClass().getResource(rutaVentana));
+             Scene scene = new Scene(root);
+             Stage stage = new Stage();
+             stage.setScene(scene);
+             stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
+        }
+        cerrarVentana();
+    }
+    
+    public void cerrarVentana(){
+        escenario = (Stage) anchor_Ventana.getScene().getWindow();
+        escenario.close();
+    }
 
     private void cargarDetallesProfesor() {
-        // Aquí debes cargar los detalles del profesor utilizando el ID proporcionado
-        // Por ejemplo:
-        // Profesor profesor = daoProfesor.obtenerProfesorPorId(idProfesor);
-        // Luego, establecer los valores en los campos de texto
-        // txfd_Nombre.setText(profesor.getNombre());
-        // txfd_ApellidoPaterno.setText(profesor.getApellidoPaterno());
-        // txfd_ApellidoMaterno.setText(profesor.getApellidoMaterno());
-        // txfd_Correo.setText(profesor.getCorreo());
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        txfd_Nombre.setText(profesor.getNombre());
+        txfd_ApellidoPaterno.setText(profesor.getApellidoPaterno());
+        txfd_ApellidoMaterno.setText(profesor.getApellidoMaterno());
+        txfd_Correo.setText(profesor.getCorreo());
     }
 }

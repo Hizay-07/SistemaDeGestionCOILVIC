@@ -79,7 +79,7 @@ public class Ventana_ProponerColaboracionController implements Initializable {
         if (filasAfectadas > 0) {
             Alertas.mostrarMensajeDatosIngresados();
         } else {
-            Alertas.mostrarMensajeRegistroExitoso();
+            Alertas.mostrarMensajeDatosIngresados();
         }
     }
 }

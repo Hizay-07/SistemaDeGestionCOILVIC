@@ -42,29 +42,32 @@ public class Ventana_ModificarActividadController implements Initializable {
         escenario.close();
     }
     
-    public void realizarModificacionDeActividad(){
-        Actividad actividadAModificar = new Actividad();
-        DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
-        
+    public Actividad obtenerDatosActividad(){
+        Actividad actividadAModificar = new Actividad();  
         try{
             actividadAModificar.setNombre(txfd_NombreDeActividad.getText());
             actividadAModificar.setFechaDeCierre(dtp_FechaDeCierre.getValue().toString());
             actividadAModificar.setFechaDeInicio(dtp_FechaDeInicio.getValue().toString());
             actividadAModificar.setDescripcion(txa_Descripcion.getText());
             actividadAModificar.setIdActividad(3);
-            int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
-            int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
-            
-            if(resultadoModificacionDatos==-1||resultadoModificacionFechas==-1){
-                Alertas.mostrarMensajeErrorEnLaConexion();
-            }else if(resultadoModificacionDatos==1&&resultadoModificacionFechas==1){
-                Alertas.mostrarMensajeDatosModificados();
-            }
-        }catch(IllegalArgumentException excepcion){
+         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion);
             Alertas.mostrarMensajeDatosInvalidos();
-        }catch(Exception excepcionFecha){
-            LOG.error(excepcionFecha);
+         }
+        return actividadAModificar;
+    }    
+    
+     public void realizarModificacionDeActividad(){
+        Actividad actividadAModificar = new Actividad();
+        DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
+
+        int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
+        int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
+
+        if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
+            Alertas.mostrarMensajeErrorEnLaConexion();
+        } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {
+            Alertas.mostrarMensajeDatosModificados();
         }
     }
 }
