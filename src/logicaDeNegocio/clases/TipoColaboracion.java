@@ -44,4 +44,9 @@ public class TipoColaboracion {
         return tipo.equals(tipoColaboracionTemporal.getTipo())&&
                 idTipoColaboracion==tipoColaboracionTemporal.getIdTipoColaboracion();
     }
+    
+    @Override
+    public String toString(){
+        return tipo;        
+    }
 }

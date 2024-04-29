@@ -18,4 +18,6 @@ public interface PropuestaColaboracionInterface {
     public int aprobarPropuestaColaboracionPorId(int idPropuestaColaboracion);
     
     public int rechazarPropuestaColaboracionPorId(int idPropuestaColaboracion);
+    
+    public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadas();
 }

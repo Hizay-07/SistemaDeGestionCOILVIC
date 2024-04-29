@@ -74,6 +74,24 @@ public class Alertas extends Application {
         });
     }
     
+    public static void mostrarRegistroProfesorExitoso(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Registro de profesor correcto");
+            mensaje.setContentText("El profesor fue registrado correctamente");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarRegistroRepresentanteInstitucionalExitoso(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Representante institucional registrado");
+            mensaje.setContentText("Representante institucional registrado correctamente");
+            mensaje.showAndWait();
+        });
+    }
+    
     @Override
     public void start(Stage stage){
         try{

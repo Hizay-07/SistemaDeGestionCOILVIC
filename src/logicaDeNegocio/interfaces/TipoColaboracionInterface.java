@@ -8,4 +8,6 @@ public interface TipoColaboracionInterface {
             
     public List<TipoColaboracion> consultarTiposDeColaboracion();
     
+    public String consultarTipoColaboracionPorId(int idTipoColaboracion);
+    
 }

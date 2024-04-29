@@ -148,6 +148,31 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         return idProfesor;                
     }
     
+
+    public Profesor consultarProfesorPorId(int idProfesor){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        Profesor profesor=new Profesor();
+        try {
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT * from Profesor where idProfesor=?;");
+            declaracion.setInt(1, idProfesor);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                profesor.setIdProfesor(resultado.getInt("idProfesor"));
+                profesor.setNombre(resultado.getString("nombre"));
+                profesor.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                profesor.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                profesor.setCorreo(resultado.getString("correo"));                                
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return profesor;        
+    }    
+    
+
    @Override
    public int asignarUsuarioDeProfesorPorCorreo(String correo){
        int resultadoModificacion;
@@ -165,6 +190,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
        }
        return resultadoModificacion;
    }
+
    
 
 

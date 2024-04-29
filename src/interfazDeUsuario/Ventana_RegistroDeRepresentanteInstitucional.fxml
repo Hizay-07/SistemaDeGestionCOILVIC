@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_RegistroDeRepresentanteInstitucionalController">
+<AnchorPane fx:id="anchor_RepresentanteInstitucional" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_RegistroDeRepresentanteInstitucionalController">
    <children>
-      <Label layoutX="146.0" layoutY="35.0" prefHeight="27.0" prefWidth="308.0" text="Registro de representante institucional">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
       <Label layoutX="72.0" layoutY="98.0" text="Nombre de institución:" />
       <Label layoutX="72.0" layoutY="128.0" text="Clave institucional:" />
       <Label layoutX="72.0" layoutY="164.0" text="País:" />
       <Label layoutX="72.0" layoutY="204.0" text="Contacto:" />
-      <TextField layoutX="207.0" layoutY="94.0" prefHeight="25.0" prefWidth="257.0" />
-      <TextField layoutX="187.0" layoutY="125.0" prefHeight="25.0" prefWidth="278.0" />
-      <TextField layoutX="136.0" layoutY="200.0" prefHeight="25.0" prefWidth="328.0" promptText="ejemplo@gmail.com" />
-      <ComboBox layoutX="112.0" layoutY="161.0" prefWidth="150.0" promptText="Seleccionar país" />
+      <TextField fx:id="txfd_NombreDeInstitucion" layoutX="207.0" layoutY="94.0" prefHeight="25.0" prefWidth="257.0" />
+      <TextField fx:id="txfd_ClaveInstitucional" layoutX="187.0" layoutY="125.0" prefHeight="25.0" prefWidth="278.0" />
+      <TextField fx:id="txfd_Contacto" layoutX="136.0" layoutY="200.0" prefHeight="25.0" prefWidth="328.0" promptText="ejemplo@gmail.com" />
+      <ComboBox fx:id="cmb_Pais" layoutX="112.0" layoutY="161.0" prefWidth="150.0" promptText="Seleccionar país" />
+      <Pane layoutY="-2.0" prefHeight="79.0" prefWidth="600.0" style="-fx-background-color: #168394;" />
+      <Label layoutX="146.0" layoutY="35.0" prefHeight="27.0" prefWidth="308.0" text="Registro de representante institucional" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="193.0" layoutY="343.0" mnemonicParsing="false" onAction="#registrarRepresentanteInstitucional" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #00913f;" text="Aceptar" textFill="WHITE" />
+      <Button layoutX="336.0" layoutY="343.0" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #FF0000;" text="Cancelar" textFill="WHITE" />
    </children>
 </AnchorPane>

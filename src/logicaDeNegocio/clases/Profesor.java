@@ -96,4 +96,21 @@ public class Profesor{
                 correo!=null&&!correo.isEmpty();
                 
     }    
+    
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Profesor)){        
+            return false;
+        }
+        Profesor profesorTemporal=(Profesor)obj;
+        return nombre.equals(profesorTemporal.getNombre())&&
+                apellidoPaterno.equals(profesorTemporal.getApellidoPaterno())&&
+                apellidoMaterno.equals(profesorTemporal.getApellidoMaterno())&&
+                correo.equals(profesorTemporal.getCorreo());
+    }
+    
+    @Override
+    public String toString(){
+        return nombre+" "+apellidoPaterno+" "+apellidoMaterno;
+    }
 }

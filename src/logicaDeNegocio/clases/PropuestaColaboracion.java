@@ -2,8 +2,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class PropuestaColaboracion {
-    private int idPropuestaColaboracion;
-    private int idTipoColaboracion;
+    private int idPropuestaColaboracion;    
     private String fechaInicio;
     private String fechaCierre;
     private String idioma;
@@ -13,9 +12,11 @@ public class PropuestaColaboracion {
     private String programaEducativoEstudiantil;
     private String estadoPropuesta;
     private String informacionAdicional;
+    private TipoColaboracion tipoColaboracion;
+    private Profesor profesor;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
-    private static final String FECHA_PATTERN = "^\\d{2}/\\d{2}/\\d{4}$";
+    private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
     
     public PropuestaColaboracion() {
     }
@@ -30,19 +31,7 @@ public class PropuestaColaboracion {
         }else{
             throw new IllegalArgumentException();
         }
-    }    
-
-    public int getIdTipoColaboracion() {
-        return idTipoColaboracion;
-    }
-
-    public void setIdTipoColaboracion(int idTipoColaboracion)throws IllegalArgumentException {
-        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idTipoColaboracion))){
-            this.idTipoColaboracion = idTipoColaboracion;
-        }else{
-            throw new IllegalArgumentException();
-        }
-    }
+    }        
 
     public String getObjetivo() {
         return objetivo;
@@ -109,7 +98,7 @@ public class PropuestaColaboracion {
     }
 
     public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
-        if(Pattern.matches(SOLO_LETRAS_PATTERN, String.valueOf(cantidadEstudiantes))){
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes))){
             this.cantidadEstudiantes = cantidadEstudiantes;
         }else{
             throw new IllegalArgumentException();
@@ -144,13 +133,25 @@ public class PropuestaColaboracion {
         return informacionAdicional;
     }
 
-    public void setInformacionAdicional(String informacionAdicional)throws IllegalArgumentException {
-        if(informacionAdicional!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, informacionAdicional)){
-            this.informacionAdicional = informacionAdicional;
-        }else{
-            throw new IllegalArgumentException();
-        }
+    public void setInformacionAdicional(String informacionAdicional){
+        this.informacionAdicional=informacionAdicional;
     }
+
+    public TipoColaboracion getTipoColaboracion() {
+        return tipoColaboracion;
+    }
+
+    public void setTipoColaboracion(TipoColaboracion tipoColaboracion) {
+        this.tipoColaboracion = tipoColaboracion;
+    }     
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }        
         
     @Override
     public boolean equals(Object obj){
@@ -158,8 +159,8 @@ public class PropuestaColaboracion {
             return false;
         }
         PropuestaColaboracion propuestaColaboracionTemporal=(PropuestaColaboracion)obj;
-        return idPropuestaColaboracion==propuestaColaboracionTemporal.getIdPropuestaColaboracion()&&
-                idTipoColaboracion==propuestaColaboracionTemporal.getIdTipoColaboracion()&&
+        return experienciaEducativa.equals(propuestaColaboracionTemporal.getExperienciaEducativa())&&
+                tipoColaboracion.equals(propuestaColaboracionTemporal.getTipoColaboracion())&&
                 objetivo.equals(propuestaColaboracionTemporal.getObjetivo());                
     }
     
