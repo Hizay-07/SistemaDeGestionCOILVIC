@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import logicaDeNegocio.clases.TipoColaboracion;
 import logicaDeNegocio.interfaces.TipoColaboracionInterface;
 import org.apache.log4j.Logger;
@@ -52,5 +53,25 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             LOG.error(ex);
         }
         return tiposColaboracion;
-    }            
+    }     
+    
+    @Override
+    public String consultarTipoColaboracionPorId(int idTipoColaboracion){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        String tipo=new String();
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT tipo from TipoColaboracion where idTipoColaboracion=?;");
+            declaracion.setInt(1, idTipoColaboracion);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                tipo=resultado.getString("tipo");                
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DAOTipoColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tipo;        
+    }
 }

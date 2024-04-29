@@ -99,7 +99,7 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
 
         // Verificar si se actualizaron los datos correctamente
         if (filasAfectadas > 0) {
-            Alertas.mostrarMensajeActualizacionExitoso();
+            Alertas.mostrarMensajeDatosModificados();
         } else {
             Alertas.mostrarMensajeErrorEnLaConexion();
         }
