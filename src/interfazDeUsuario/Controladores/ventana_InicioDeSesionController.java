@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.event.ActionEvent;
 import logicaDeNegocio.clases.Usuario;
-import logicaDeNegocio.enums.EnumUsuario;
+import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import interfazDeUsuario.Alertas.Alertas;
@@ -49,7 +49,7 @@ public class ventana_InicioDeSesionController implements Initializable {
         Usuario usuarioAIngresar = new Usuario();
         
         try{
-            logger.setTipoDeUsuario(EnumUsuario.Logger.toString());
+            logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
             usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText());
             usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText());
             
@@ -70,11 +70,11 @@ public class ventana_InicioDeSesionController implements Initializable {
     
     public void desplegarVentanaCorrespondiente(Usuario usuario){
         UsuarioSingleton usuarioIngresado = UsuarioSingleton.getInstancia(usuario);
+        String rutaVentanaFXML=null;
         try{
-            String rutaVentanaFXML=null;
-            if(usuarioIngresado.getTipoDeUsuario().equals(EnumUsuario.Administrativo.toString())){
-                rutaVentanaFXML = "/interfazDeUsuario/Ventana_ModificarActividad.fxml";
-            }else if(usuarioIngresado.getTipoDeUsuario().equals(EnumUsuario.Profesor.toString())){
+            if(usuarioIngresado.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_CreacionDeUsuario.fxml";
+            }else if(usuarioIngresado.getTipoDeUsuario().equals(EnumTipoDeUsuario.Profesor.toString())){
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_ColaboracionActiva.fxml";
             }
             

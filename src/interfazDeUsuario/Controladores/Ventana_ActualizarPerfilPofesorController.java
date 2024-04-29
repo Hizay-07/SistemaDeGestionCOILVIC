@@ -6,13 +6,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import interfazDeUsuario.Alertas.Alertas;
+import java.io.IOException;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
-
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import logicaDeNegocio.DAOImplementacion.DAOAreaAcademicaImplementacion;
+import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.ProfesorSingleton;
+import org.apache.log4j.Logger;
 
 public class Ventana_ActualizarPerfilPofesorController implements Initializable {
+    
+    private static final Logger LOG=Logger.getLogger(DAOAreaAcademicaImplementacion.class);
 
+    @FXML
+    private AnchorPane anchor_Ventana;
+    
     @FXML
     private TextField txfd_Nombre;
 
@@ -31,75 +45,71 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
     @FXML
     private Button btn_Cancelar;
 
-    @FXML
-    private Label lbl_Nombre;
-
-    @FXML
-    private Label lbl_ApellidoMaterno_;
-
-    @FXML
-    private Label lbl_ApellidoMaterno;
-
-    @FXML
-    private Label lbl_Correo;
-
     private String correoProfesor;
-
-    private DAOProfesorImplementacion daoProfesor;
+    
+    private Stage escenario;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        daoProfesor = new DAOProfesorImplementacion();
-
-        // Acción del botón Confirmar
         btn_Confirmar.setOnAction(event -> {
             actualizarPerfilProfesor();
         });
-
-        // Acción del botón Cancelar
         btn_Cancelar.setOnAction(event -> {
-            // Aquí puedes implementar la lógica para cerrar la ventana o limpiar los campos
+           regresarDeVentana();
         });
     }
 
     public void initData(String correo) {
-        correoProfesor = correo;
         cargarDatosProfesor();
     }
-
+    
+    public void regresarDeVentana(){
+        String rutaVentanaFXML="/interfazDeUsuario/Ventana_DetallesProfesor.fxml";
+        try{
+            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
+        }
+        cerrarVentana();
+    }
+    
+    public void cerrarVentana(){
+        escenario = (Stage) anchor_Ventana.getScene().getWindow();
+        escenario.close();
+    }
+    
     private void cargarDatosProfesor() {
-        // Aquí debes cargar los datos del profesor utilizando el correo proporcionado
-        // Por ejemplo:
-        // Profesor profesor = daoProfesor.obtenerProfesorPorCorreo(correoProfesor);
-        // Luego, establecer los valores en los campos de texto
-        // txfd_Nombre.setText(profesor.getNombre());
-        // txfd_ApellidoPaterno.setText(profesor.getApellidoPaterno());
-        // txfd_ApellidoMaterno.setText(profesor.getApellidoMaterno());
-        // txfd_Correo.setText(profesor.getCorreo());
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        txfd_Nombre.setText(profesor.getNombre());
+        txfd_ApellidoPaterno.setText(profesor.getApellidoPaterno());
+        txfd_ApellidoMaterno.setText(profesor.getApellidoMaterno());
+        txfd_Correo.setText(profesor.getCorreo());
     }
 
     private void actualizarPerfilProfesor() {
-        // Obtener los nuevos valores de los campos de texto
-        String nombre = txfd_Nombre.getText();
-        String apellidoPaterno = txfd_ApellidoPaterno.getText();
-        String apellidoMaterno = txfd_ApellidoMaterno.getText();
-        String correo = txfd_Correo.getText();
-
-        // Verificar si se ingresaron todos los datos
-        if (nombre.isEmpty() || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || correo.isEmpty()) {
-            Alertas.mostrarMensajeDatosIncompletos();
-            return;
+        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+        Profesor profesorAActualizar = new Profesor();
+        correoProfesor = ProfesorSingleton.getInstancia().getCorreo();
+        try{
+            profesorAActualizar.setNombre(txfd_Nombre.getText());
+            profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
+            profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
+            profesorAActualizar.setCorreo(txfd_Correo.getText());
+        }catch(IllegalArgumentException excepcion){
+            LOG.error(excepcion);
         }
+        
+        int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
+        filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
+        filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
+        filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
 
-        // Actualizar el perfil del profesor en la base de datos
-        int filasAfectadas = daoProfesor.modificarNombreProfesor(nombre, correoProfesor);
-        filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(apellidoPaterno, correoProfesor);
-        filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(apellidoMaterno, correoProfesor);
-        filasAfectadas += daoProfesor.modificarCorreoProfesor(correo, correoProfesor);
-
-        // Verificar si se actualizaron los datos correctamente
-        if (filasAfectadas > 0) {
-            Alertas.mostrarMensajeActualizacionExitoso();
+        if (filasAfectadas == 4) {
+            Alertas.mostrarMensajeDatosModificados();
         } else {
             Alertas.mostrarMensajeErrorEnLaConexion();
         }

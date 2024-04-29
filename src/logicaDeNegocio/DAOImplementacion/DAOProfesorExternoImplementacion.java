@@ -22,7 +22,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("INSERT INTO profesorexterno (idProfesor, idRepresentanteInstitucional)"
                     + "VALUES (?, ?);");
             declaracion.setInt(1, profesorExterno.getIdProfesor());
@@ -41,7 +41,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         ResultSet resultado;
         List<ProfesorExterno> profesoresExternos = new ArrayList<>();
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno;");
             resultado = declaracion.executeQuery();
             while (resultado.next()) {
@@ -64,7 +64,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         ResultSet resultado;
         List<ProfesorExterno> profesoresExternos = new ArrayList<>();
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno WHERE idRepresentanteInstitucional=?;");
             declaracion.setInt(1, idRepresentanteInstitucional);
             resultado = declaracion.executeQuery();

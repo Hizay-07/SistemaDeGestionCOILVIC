@@ -166,7 +166,7 @@ public class Ventana_RegistroDeProfesorController implements Initializable {
         daoProfesorUV.registrarProfesorUV(profesorUV);  
         limpiarInformacionProfesor();
         limpiarInformacionProfesorUV();
-        Alertas.mostrarRegistroProfesorExitoso();
+        Alertas.mostrarMensajeDatosIngresados();
         cerrarVentana();
     }
     
@@ -198,7 +198,7 @@ public class Ventana_RegistroDeProfesorController implements Initializable {
         daoProfesorExterno.registrarProfesorExterno(profesorExterno);     
         limpiarInformacionProfesor();
         limpiarInformacionProfesorExterno();
-        Alertas.mostrarRegistroProfesorExitoso();
+        Alertas.mostrarMensajeDatosIngresados();
         cerrarVentana();
     }
     
