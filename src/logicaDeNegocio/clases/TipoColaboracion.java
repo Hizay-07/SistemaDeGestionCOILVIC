@@ -13,7 +13,7 @@ public class TipoColaboracion {
     }
 
     public void setTipo(String tipo)throws IllegalArgumentException {
-        if(tipo!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, tipo)){
+        if(tipo!=null&&!tipo.isEmpty()&&Pattern.matches(SOLO_LETRAS_PATTERN, tipo)){
             this.tipo = tipo;
         }else{
             throw new IllegalArgumentException();

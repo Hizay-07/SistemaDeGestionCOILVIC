@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.TipoColaboracion;
 import logicaDeNegocio.interfaces.PropuestaColaboracionInterface;
 
@@ -177,6 +178,8 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         ResultSet resultado;
         List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
         DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
         try {
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where estadoPropuesta='Aprobada';");            
@@ -198,7 +201,10 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 tipoColaboracion.setIdTipoColaboracion(idTipoColaboracion);
                 String tipo=daoTipoColaboracion.consultarTipoColaboracionPorId(idTipoColaboracion);
                 tipoColaboracion.setTipo(tipo);
-                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
+                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);                
+                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                Profesor profesor=daoProfesor.consultarProfesorPorId(idProfesor);            
+                propuestaColaboracion.setProfesor(profesor);                
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
             conexion.close();

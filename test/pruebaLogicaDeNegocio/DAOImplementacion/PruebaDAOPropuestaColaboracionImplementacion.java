@@ -176,4 +176,4 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
     
-}
+

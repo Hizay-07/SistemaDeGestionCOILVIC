@@ -52,4 +52,22 @@ public class PruebaDAOTipoColaboracionImplementacion {
         listaObtenida=instancia.consultarTiposDeColaboracion();
         assertNotEquals(listaEsperada,listaObtenida);        
     }
+    
+    @Test
+    public void pruebaConsultarTipoColaboracionPorIdExitosa(){
+        DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+        int idTipoColaboracion=1;
+        String resultadoEsperado="Clase espejo";
+        String resultadoObtenido=daoTipoColaboracion.consultarTipoColaboracionPorId(idTipoColaboracion);
+        assertEquals(resultadoEsperado,resultadoObtenido);                
+    }
+    
+    @Test
+    public void pruebaConsultarIdTipoColaboracionPorTipoExitosa(){
+        DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+        String tipo="Clase espejo";
+        int resultadoEsperado=1;        
+        int resultadoObtenido=daoTipoColaboracion.consultarIdTipoColaboracionPorTipo(tipo);
+        assertEquals(resultadoEsperado,resultadoObtenido);         
+    }
 }
