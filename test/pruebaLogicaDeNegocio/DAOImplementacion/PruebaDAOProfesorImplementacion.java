@@ -5,6 +5,7 @@ import logicaDeNegocio.enums.EnumEstados;
 import logicaDeNegocio.clases.Profesor;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class PruebaDAOProfesorImplementacion {
 
@@ -133,6 +134,15 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaObtenerIdProfesorPorCorreoExitosa(){
         DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
+        String correo="Juan@gmail.com";
+        int resultadoEsperado=1;
+        int resultadoObtenido=instancia.obtenerIdProfesorPorCorreo(correo);
+        assertEquals(resultadoEsperado,resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaFlujoFallidoObtenerIdProfesorPorCorreoExitosa(){
+        DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
         String correo="eduardo@gmail.com";
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.obtenerIdProfesorPorCorreo(correo);
@@ -151,5 +161,62 @@ public class PruebaDAOProfesorImplementacion {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         profesorObtenido=dao.consultarProfesorPorId(idProfesor);
         assertEquals(profesorEsperado,profesorObtenido);        
+    }
+    
+    @Test
+    public void pruebaObtenerProfesorPorIdExitosa(){
+        DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setIdProfesor(3);
+        profesorEsperado.setNombre("Juan");
+        profesorEsperado.setApellidoPaterno("Cumplido");
+        profesorEsperado.setApellidoMaterno("Negrete");
+        profesorEsperado.setCorreo("juan@gmail.com"); 
+        profesorEsperado.setEstado("Activo");
+        Profesor profesorObtenido = instancia.obtenerProfesorPorIdUsuario(3);
+        assertEquals(profesorEsperado,profesorObtenido);
+    }
+    
+     @Test
+    public void pruebaFlujoFallidoObtenerProfesorPorIdExitosa(){
+        DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setIdProfesor(3);
+        profesorEsperado.setNombre("Chris");
+        profesorEsperado.setApellidoPaterno("Vasquez");
+        profesorEsperado.setApellidoMaterno("Zapata");
+        profesorEsperado.setCorreo("chris@gmail.com"); 
+        profesorEsperado.setEstado("Activo");
+        Profesor profesorObtenido = instancia.obtenerProfesorPorIdUsuario(4);
+        assertNotEquals(profesorEsperado,profesorObtenido);
+    }
+    
+    
+    @Test
+    public void pruebaObtenerProfesorPorIdUsarioExitosa(){
+        DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setIdProfesor(3);
+        profesorEsperado.setNombre("Juan");
+        profesorEsperado.setApellidoPaterno("Cumplido");
+        profesorEsperado.setApellidoMaterno("Negrete");
+        profesorEsperado.setCorreo("juan@gmail.com"); 
+        profesorEsperado.setEstado("Activo");
+        Profesor profesorObtenido = instancia.obtenerProfesorPorIdUsuario(13);
+        assertEquals(profesorEsperado,profesorObtenido);
+    }
+    
+    @Test
+    public void pruebaFallidaObtenerProfesorPorIdUsarioExitosa(){
+        DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setIdProfesor(3);
+        profesorEsperado.setNombre("Chris");
+        profesorEsperado.setApellidoPaterno("Vasquez");
+        profesorEsperado.setApellidoMaterno("Zapata");
+        profesorEsperado.setCorreo("chris@gmail.com"); 
+        profesorEsperado.setEstado("Activo");
+        Profesor profesorObtenido = instancia.obtenerProfesorPorIdUsuario(13);
+        assertEquals(profesorEsperado,profesorObtenido);
     }
 }

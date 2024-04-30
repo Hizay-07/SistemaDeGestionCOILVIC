@@ -58,6 +58,7 @@ public class ventana_InicioDeSesionController implements Initializable {
 
             if(validacionCredencial){
                 usuarioAIngresar.setTipoDeUsuario(DAOUsuario.obtenerTipoDeUsuario(usuarioAIngresar,logger));
+                usuarioAIngresar.setIdUsuario(DAOUsuario.obtenerIdUsuario(usuarioAIngresar,logger));
                 desplegarVentanaCorrespondiente(usuarioAIngresar);
             }else{
                 Alertas.mostrarMensajeUsuarioNoEncontrado();
@@ -70,12 +71,13 @@ public class ventana_InicioDeSesionController implements Initializable {
     
     public void desplegarVentanaCorrespondiente(Usuario usuario){
         UsuarioSingleton usuarioIngresado = UsuarioSingleton.getInstancia(usuario);
+        usuarioIngresado.getIdUsuario();
         String rutaVentanaFXML=null;
         try{
             if(usuarioIngresado.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
-                rutaVentanaFXML = "/interfazDeUsuario/Ventana_CreacionDeUsuario.fxml";
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
             }else if(usuarioIngresado.getTipoDeUsuario().equals(EnumTipoDeUsuario.Profesor.toString())){
-                rutaVentanaFXML = "/interfazDeUsuario/Ventana_ColaboracionActiva.fxml";
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
             }
             
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
