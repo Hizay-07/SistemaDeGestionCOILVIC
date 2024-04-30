@@ -91,11 +91,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     }
     
     @Override
-    public int obtenerIdUsuario(Usuario usuario){
+    public int obtenerIdUsuario(Usuario usuario, Usuario logger){
         int resultadoId=0;
         
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
             PreparedStatement sentencia = conexion.prepareStatement("SELECT idUsuario from usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
