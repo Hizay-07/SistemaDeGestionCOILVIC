@@ -9,6 +9,7 @@ public class RepresentanteInstitucional{
     private String estadoRepresentante;
     private Pais pais;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public RepresentanteInstitucional(){
@@ -44,7 +45,7 @@ public class RepresentanteInstitucional{
     }
 
     public void setContacto(String contacto)throws IllegalArgumentException{
-        if(contacto!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN, contacto)){
+        if(contacto!=null&&Pattern.matches(EMAIL_PATTERN, contacto)){
             this.contacto = contacto;
         }else{
             throw new IllegalArgumentException();
@@ -78,6 +79,13 @@ public class RepresentanteInstitucional{
                 claveInstitucional.equals(representanteTemporal.getClaveInstitucional())&&
                 contacto.equals(representanteTemporal.getContacto())&&
                 pais.equals(representanteTemporal.getPais());
+    }
+    
+    public boolean validarDatos(){
+        return nombreInstitucion!=null&&!nombreInstitucion.isEmpty()&&
+                claveInstitucional!=null&&!claveInstitucional.isEmpty()&&
+                contacto!=null&&!contacto.isEmpty()&&
+                pais!=null;                                
     }
     
 }

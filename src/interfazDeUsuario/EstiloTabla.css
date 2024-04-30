@@ -1,0 +1,5 @@
+.table-view .cell {
+    -fx-wrap-text: true;
+    -fx-cell-size: 75px;    
+}
+

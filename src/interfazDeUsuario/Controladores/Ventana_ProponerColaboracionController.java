@@ -80,6 +80,7 @@ public class Ventana_ProponerColaboracionController implements Initializable {
             Alertas.mostrarMensajeDatosIngresados();
         } else {
             Alertas.mostrarMensajeDatosIngresados();
+
         }
     }
 }

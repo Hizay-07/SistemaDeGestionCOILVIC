@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 public class Pais{
     private String nombrePais;
+    private int numeroDePais;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
 
     public Pais(){
@@ -21,6 +22,14 @@ public class Pais{
             throw new IllegalArgumentException();
         }
     }
+
+    public int getNumeroDePais() {
+        return numeroDePais;
+    }
+
+    public void setNumeroDePais(int numeroDePais) {
+        this.numeroDePais = numeroDePais;
+    }        
     
     @Override
     public boolean equals(Object obj){

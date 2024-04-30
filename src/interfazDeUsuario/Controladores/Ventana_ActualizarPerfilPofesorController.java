@@ -102,6 +102,7 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion);
         }
+
         
         int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
         filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
@@ -109,6 +110,7 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
         filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
 
         if (filasAfectadas == 4) {
+
             Alertas.mostrarMensajeDatosModificados();
         } else {
             Alertas.mostrarMensajeErrorEnLaConexion();

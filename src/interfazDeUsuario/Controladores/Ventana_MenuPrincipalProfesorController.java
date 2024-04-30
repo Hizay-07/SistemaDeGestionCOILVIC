@@ -95,7 +95,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     public void desplegarVentanaOfertasDeColaboracion(){
         String rutaVentanaFXML = null;
         try{
-            rutaVentanaFXML = "/interfazDeUsuario/Ventana_ProponerColaboracion.fxml";
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_OfertaDeColaboraciones.fxml";
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();

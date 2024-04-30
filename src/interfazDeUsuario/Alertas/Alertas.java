@@ -99,6 +99,23 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.ERROR);
             mensaje.setTitle("Correo inválido");
             mensaje.setContentText("El correo asociado no pertenece a ningún profesor registrado");
+        });
+    }
+    
+    public static void mostrarRegistroProfesorExitoso(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Registro de profesor correcto");
+            mensaje.setContentText("El profesor fue registrado correctamente");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarRegistroRepresentanteInstitucionalExitoso(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Representante institucional registrado");
+            mensaje.setContentText("Representante institucional registrado correctamente");
             mensaje.showAndWait();
         });
     }

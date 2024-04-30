@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1140.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_OfertaDeColaboracionesController">
+   <children>
+      <Pane prefHeight="75.0" prefWidth="800.0" style="-fx-background-color: #168394;">
+         <children>
+            <Label layoutX="470.0" layoutY="23.0" text="Oferta de colaboraciones" textFill="#fffcfc">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TableView fx:id="tableView_OfertaDeColaboracion" prefHeight="331.0" prefWidth="600.0" stylesheets="@EstiloTabla.css">
+        <columns>
+          <TableColumn fx:id="column_TipoDeColaboracion" prefWidth="140.0" text="Tipo de colaboración" />
+          <TableColumn fx:id="column_Idioma" prefWidth="75.0" text="Idioma" />
+            <TableColumn prefWidth="75.0" text="Fechas">
+               <columns>
+                  <TableColumn fx:id="column_FechaInicio" prefWidth="75.0" text="Inicio" />
+                  <TableColumn fx:id="column_FechaCierre" prefWidth="75.0" text="Ciere" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="column_ExperienciaEducativa" prefWidth="130.0" text="Experiencia educativa" />
+            <TableColumn fx:id="column_ProgramaEducativo" prefWidth="120.0" text="Programa educativo" />
+            <TableColumn fx:id="column_Profesor" prefWidth="100.0" text="Profesor" />
+            <TableColumn fx:id="column_Institucion" prefWidth="75.0" text="Institución" />
+            <TableColumn fx:id="column_ObjetivoGeneral" prefWidth="150.0" text="Objetivo general" />
+            <TableColumn fx:id="column_Opcion" prefWidth="200.0" text="Opción" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>
