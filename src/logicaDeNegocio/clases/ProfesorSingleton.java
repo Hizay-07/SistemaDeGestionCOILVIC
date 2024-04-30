@@ -103,4 +103,8 @@ public final class ProfesorSingleton {
             throw new IllegalArgumentException();
         }
     }
+    
+    public static void resetSingleton(){
+        ProfesorSingleton.instancia = null;
+    }
 }

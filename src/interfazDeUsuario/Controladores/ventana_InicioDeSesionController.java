@@ -71,6 +71,7 @@ public class ventana_InicioDeSesionController implements Initializable {
     
     public void desplegarVentanaCorrespondiente(Usuario usuario){
         UsuarioSingleton usuarioIngresado = UsuarioSingleton.getInstancia(usuario);
+        usuarioIngresado.getIdUsuario();
         String rutaVentanaFXML=null;
         try{
             if(usuarioIngresado.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){

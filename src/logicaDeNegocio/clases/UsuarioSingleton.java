@@ -18,6 +18,7 @@ public final class UsuarioSingleton {
         setNombreUsuario(usuario.getNombreUsuario());
         setContrasenia(usuario.getContrasenia());
         setTipoDeUsuario(usuario.getTipoDeUsuario());
+        setIdUsuario(usuario.getIdUsuario());
     } 
     
     public static UsuarioSingleton getInstancia(Usuario usuario)throws IllegalArgumentException{
@@ -76,6 +77,11 @@ public final class UsuarioSingleton {
     }
     
     public static UsuarioSingleton getInstancia(){
-        return instancia;
+        return UsuarioSingleton.instancia;
     }
+    
+    public static void resetSingleton(){
+        UsuarioSingleton.instancia = null;
+    }
+
 }
