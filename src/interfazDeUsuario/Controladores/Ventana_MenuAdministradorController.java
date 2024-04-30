@@ -45,6 +45,8 @@ public class Ventana_MenuAdministradorController implements Initializable{
     private Button btn_VisualizarPropuestasDeColaboracion;
     @FXML
     private Button btn_ConsultarRepresentanteInstitucional;
+    @FXML
+    private Button btn_CreacionDeUsuario;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -54,6 +56,10 @@ public class Ventana_MenuAdministradorController implements Initializable{
         
         btn_RegistrarProfesor.setOnAction(Event ->{
             registrarProfesor();
+        });
+        
+        btn_CreacionDeUsuario.setOnAction(Event ->{
+            registrarUsuario();
         });
         
         mostrarDetallesUsuario();
@@ -66,6 +72,11 @@ public class Ventana_MenuAdministradorController implements Initializable{
     
     public void registrarProfesor(){
         String ruta = "/interfazDeUsuario/Ventana_RegistroDeProfesor.fxml";
+        desplegarVentana(ruta);
+    }
+    
+    public void registrarUsuario(){
+        String ruta = "/interfazDeUsuario/Ventana_CreacionDeUsuario.fxml";
         desplegarVentana(ruta);
     }
     
