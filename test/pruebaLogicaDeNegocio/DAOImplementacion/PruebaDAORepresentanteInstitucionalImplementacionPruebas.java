@@ -7,7 +7,6 @@ import logicaDeNegocio.enums.EnumPais;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -299,6 +298,15 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         int resultadoEsperado=1;
         int resultadoObtenido=pruebaConsulta.consultarIdRepresentanteInstitucionalPorUniversidad(universidad);
         assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
+    
+    @Test
+    public void pruebaConsultarNombreInstitucionPorIdRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
+        int idRepresentanteInstitucional=1;
+        String resultadoEsperado="UNAM";
+        String resultadoObtenido=pruebaConsulta.consultarNombreInstitucionPorIdRepresentanteInstitucional(idRepresentanteInstitucional);
+        assertEquals(resultadoEsperado,resultadoObtenido);          
     }
     
     

@@ -10,4 +10,6 @@ public interface TipoColaboracionInterface {
     
     public String consultarTipoColaboracionPorId(int idTipoColaboracion);
     
+    public int consultarIdTipoColaboracionPorTipo(String tipo);
+    
 }

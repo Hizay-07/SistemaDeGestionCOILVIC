@@ -1,10 +1,12 @@
 package logicaDeNegocio.DAOImplementacion;
 
 import accesoADatos.ManejadorBaseDeDatos;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -79,5 +81,23 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             Logger.getLogger(DAOProfesorExternoImplementacion.class.getName()).log(Level.SEVERE, null, ex);
         }
         return profesoresExternos;
+    }
+        
+    @Override
+    public int consultarIdRepresentanteInstitucionalPorIdProfesor(int idProfesor){
+        CallableStatement declaracion;        
+        int idProfesorExterno=0;
+        try {
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareCall("CALL existeIdRepresentanteInstitucional(?,?);");            
+            declaracion.setInt(1, idProfesor);
+            declaracion.registerOutParameter(2,Types.INTEGER);
+            declaracion.execute();
+            idProfesorExterno=declaracion.getInt(2);
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOProfesorExternoImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idProfesorExterno;                
     }
 }

@@ -137,5 +137,19 @@ public class PruebaDAOProfesorImplementacion {
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.obtenerIdProfesorPorCorreo(correo);
         assertEquals(resultadoEsperado,resultadoObtenido);
+    }    
+    
+    @Test
+    public void pruebaConsultarProfesorPorIdExitosa(){
+        Profesor profesorEsperado=new Profesor();
+        profesorEsperado.setNombre("Eduardo");
+        profesorEsperado.setApellidoPaterno("Aguilar");
+        profesorEsperado.setApellidoMaterno("Garcia");
+        profesorEsperado.setCorreo("eduardo@gmail.com");
+        int idProfesor=1;
+        Profesor profesorObtenido=new Profesor();
+        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
+        profesorObtenido=dao.consultarProfesorPorId(idProfesor);
+        assertEquals(profesorEsperado,profesorObtenido);        
     }
 }

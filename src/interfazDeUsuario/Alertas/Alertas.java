@@ -91,6 +91,36 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+     public static void mostrarMensajeDatosDuplicados(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Duplicado de datos");
+            mensaje.setContentText("Los datos que desea ingresar ya han sido previamente insertados");
+            mensaje.showAndWait();
+        
+        });
+    }
+     
+    public static void mostrarMensajeProfesorConUsuario(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Profesor con usuario");
+            mensaje.setContentText("El profesor al que desea asignar un usuario, ya cuenta con una cuenta");
+            mensaje.showAndWait();
+        
+        });
+    }
+
+    public static void mostrarCorreoDeProfesorInexistente(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Correo inválido");
+            mensaje.setContentText("El correo asociado no pertenece a ningún profesor registrado");
+            mensaje.showAndWait();
+        });
+    }
+
+
     
     @Override
     public void start(Stage stage){
