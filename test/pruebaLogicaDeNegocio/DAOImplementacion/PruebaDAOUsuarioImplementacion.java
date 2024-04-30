@@ -88,12 +88,14 @@ public class PruebaDAOUsuarioImplementacion {
     @Test
     public void pruebaObtenerIdUsuario(){
         Usuario usuarioPrueba = new Usuario();
+        Usuario logger = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
+        logger.setTipoDeUsuario("Logger");
         usuarioPrueba.setNombreUsuario("CuentaPruebaDos");
         usuarioPrueba.setContrasenia("Contrasena123*");
         usuarioPrueba.setTipoDeUsuario("Profesor");
         
-        int resultado = implementacion.obtenerIdUsuario(usuarioPrueba);
+        int resultado = implementacion.obtenerIdUsuario(usuarioPrueba,logger);
         assertEquals(2,resultado);
     }
 }

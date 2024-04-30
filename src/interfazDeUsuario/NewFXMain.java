@@ -6,14 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import interfazDeUsuario.Alertas.Alertas;
 
 
 public class NewFXMain extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root=FXMLLoader.load(getClass().getResource("/interfazDeUsuario/Ventana_ProponerColaboracion.fxml"));
+        Parent root=FXMLLoader.load(getClass().getResource("/interfazDeUsuario/Ventana_InicioDeSesion.fxml"));
         
         Scene scene = new Scene(root);
         stage.setScene(scene);  

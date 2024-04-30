@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_MenuPrincipalProfesorController">
+<AnchorPane id="anchor_Ventana" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_MenuPrincipalProfesorController">
    <children>
       <AnchorPane fx:id="anchor_PanelPrincipal" layoutY="97.0" prefHeight="301.0" prefWidth="600.0" style="-fx-background-color: #A8A8A8;" />
       <ImageView fx:id="img_ImagenDeFondo" fitHeight="273.0" fitWidth="573.0" layoutX="13.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
