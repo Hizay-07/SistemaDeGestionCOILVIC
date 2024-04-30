@@ -2,84 +2,91 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_MenuAdministradorController">
+<AnchorPane fx:id="anchor_PanelPrincipal" prefHeight="347.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_MenuAdministradorController">
    <children>
-      <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane id="AnchorPane" prefHeight="340.0" prefWidth="605.0">
          <children>
-            <AnchorPane fx:id="anchor_PanelPrincipal" layoutY="97.0" prefHeight="301.0" prefWidth="600.0" style="-fx-background-color: #A8A8A8;" />
-            <ImageView fx:id="img_ImagenDeFondo" fitHeight="273.0" fitWidth="573.0" layoutX="13.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_ImagenDeFondo" fitHeight="542.0" fitWidth="1008.0" layoutX="-2.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/fondo.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="423.0" fitWidth="515.0" layoutX="433.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/MAPAMUNDO.png" />
                </image>
             </ImageView>
-            <Pane fx:id="Pane_Superior" prefHeight="96.0" prefWidth="600.0" style="-fx-background-color: #168394;">
-               <children>
-                  <ImageView fx:id="img_Logo" fitHeight="96.0" fitWidth="86.0" layoutX="510.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Imagenes/Coil-Interfaz.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="lbl_Administrador" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="244.0" layoutY="48.0" text="Administrador" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="23.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Button fx:id="btn_RegistrarProfesor" layoutX="24.0" layoutY="146.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Registrar Profesor" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <ImageView fitHeight="233.0" fitWidth="416.0" layoutX="14.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/icono.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="btn_RegistrarProfesor" layoutX="468.0" layoutY="251.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Registrar Profesor" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_ConaultarColaboracionesEnCurso" layoutX="64.0" layoutY="246.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #A24BFA; -fx-border-color: #0aff7a;" text="Consultar Colaboraciones En Curso" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_ConaultarColaboracionesEnCurso" layoutX="533.0" layoutY="349.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #A24BFA; -fx-border-color: #0aff7a;" text="Consultar Colaboraciones En Curso" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_ConsultarProfesores" layoutX="166.0" layoutY="146.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #694BFA; -fx-border-color: #0aff7a;" text="Consultar Profesores" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_ConsultarProfesores" layoutX="468.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #694BFA; -fx-border-color: #0aff7a;" text="Consultar Profesores" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_ConsultarColaboracionesPendientes" layoutX="404.0" layoutY="246.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4BD4FA; -fx-border-color: #0aff7a;" text="Consultar Colaboraciones Pendientes" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_ConsultarColaboracionesPendientes" layoutX="758.0" layoutY="251.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #694BFA; -fx-border-color: #0aff7a;" text="Consultar Colaboraciones Pendientes" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_VisualizarColaboraciones" layoutX="306.0" layoutY="146.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #0026FA; -fx-border-color: #0aff7a;" text="Registrar Representante Intituional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_VisualizarColaboraciones" layoutX="614.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #0026FA; -fx-border-color: #0aff7a;" text="Registrar Representante Intituional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_Salir" layoutX="504.0" layoutY="342.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: FF0000;" text="Salir" textFill="WHITE">
+            <Button fx:id="btn_Salir" layoutX="35.0" layoutY="480.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: FF0000;" text="Salir" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Label fx:id="lbl_Acción" layoutX="38.0" layoutY="95.0" text="Selecione lo que desea hacer" textFill="WHITE">
+            <Label fx:id="lbl_Acción" layoutX="342.0" layoutY="82.0" text="Selecione lo que desea hacer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_Bienvenido" layoutX="256.0" layoutY="14.0" text="¡Bienvenido!" textFill="WHITE">
+            <Label fx:id="lbl_Bienvenido" layoutX="411.0" layoutY="-4.0" text="¡Bienvenido!" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Separator fx:id="sprt_Divisor" layoutY="124.0" prefHeight="5.0" prefWidth="600.0" />
-            <Button fx:id="btn_VisualizarPropuestasDeColaboracion" layoutX="234.0" layoutY="246.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Visualizar Propuestas De Colaboraión" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_VisualizarPropuestasDeColaboracion" layoutX="758.0" layoutY="154.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Visualizar Propuestas De Colaboraión" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_ConsultarRepresentanteInstitucional" layoutX="446.0" layoutY="146.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Consultar Representante Institucional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_ConsultarRepresentanteInstitucional" layoutX="612.0" layoutY="251.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Consultar Representante Institucional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Label layoutX="103.0" layoutY="389.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_Administrador" layoutX="344.0" layoutY="40.0" prefHeight="32.0" prefWidth="270.0" text="Usuario" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="btn_CreacionDeUsuario" layoutX="692.0" layoutY="349.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="131.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Crear Usuario" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
