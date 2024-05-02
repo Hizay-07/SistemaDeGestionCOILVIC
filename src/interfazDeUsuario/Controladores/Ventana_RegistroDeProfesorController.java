@@ -1,13 +1,17 @@
 package interfazDeUsuario.Controladores;
 
 import interfazDeUsuario.Alertas.Alertas;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -23,9 +27,11 @@ import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementa
 import logicaDeNegocio.clases.AreaAcademica;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorExterno;
+import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.ProfesorUV;
 import logicaDeNegocio.clases.RegionAcademica;
 import logicaDeNegocio.clases.RepresentanteInstitucional;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_RegistroDeProfesorController implements Initializable {
@@ -114,7 +120,8 @@ public class Ventana_RegistroDeProfesorController implements Initializable {
     
     public void cerrarVentana(){
         escenario=(Stage) anchor_RegistoProfesor.getScene().getWindow(); 
-        escenario.close();        
+        escenario.close();      
+        
     }
     
     public Profesor obtenerProfesor(){
@@ -167,7 +174,7 @@ public class Ventana_RegistroDeProfesorController implements Initializable {
         limpiarInformacionProfesor();
         limpiarInformacionProfesorUV();
         Alertas.mostrarMensajeDatosIngresados();
-        cerrarVentana();
+        salirDeLaVentana();
     }
     
     public ProfesorExterno obtenerProfesorExterno(){
@@ -198,8 +205,8 @@ public class Ventana_RegistroDeProfesorController implements Initializable {
         daoProfesorExterno.registrarProfesorExterno(profesorExterno);     
         limpiarInformacionProfesor();
         limpiarInformacionProfesorExterno();
-        Alertas.mostrarMensajeDatosIngresados();
-        cerrarVentana();
+        Alertas.mostrarMensajeDatosIngresados();        
+        salirDeLaVentana();
     }
     
     public void limpiarInformacionProfesor(){
@@ -226,5 +233,20 @@ public class Ventana_RegistroDeProfesorController implements Initializable {
         cmb_Universidad.getSelectionModel().clearSelection();                
         cmb_Universidad.setPromptText(prompText_Universidad);
     }
-                               
+                 
+    public void salirDeLaVentana(){
+         String rutaVentanaFXML = null;
+        try{
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
+            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
+        }
+        cerrarVentana();                
+    }
+    
 }

@@ -15,6 +15,7 @@ public class PruebaDAOColaboracionImplementacion {
         Colaboracion colaboracion=new Colaboracion();
         colaboracion.setEstadoColaboracion("En proceso");
         colaboracion.setIdPropuestaColaboracion(1);
+        colaboracion.setCantidadEstudiantes(20);
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.registrarColaboracion(colaboracion);
@@ -35,6 +36,7 @@ public class PruebaDAOColaboracionImplementacion {
         Colaboracion colaboracion=new Colaboracion();
         colaboracion.setIdColaboracion(1);
         colaboracion.setIdPropuestaColaboracion(1);
+        colaboracion.setCantidadEstudiantes(20);
         List<Colaboracion> listaEsperada=new ArrayList<>();
         listaEsperada.add(colaboracion);
         List<Colaboracion> listaObtenida=new ArrayList<>();

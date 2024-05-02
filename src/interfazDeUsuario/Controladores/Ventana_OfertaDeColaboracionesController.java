@@ -1,13 +1,20 @@
 package interfazDeUsuario.Controladores;
 
+import interfazDeUsuario.Alertas.Alertas;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -16,12 +23,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorExternoImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
+import logicaDeNegocio.clases.PeticionColaboracion;
+import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
+import org.apache.log4j.Logger;
 
 public class Ventana_OfertaDeColaboracionesController implements Initializable {
+    private static final Logger LOG=Logger.getLogger(Ventana_OfertaDeColaboracionesController.class);    
     @FXML
     private VBox vbox_OfertaDeColaboraciones;
     
@@ -101,7 +113,18 @@ public class Ventana_OfertaDeColaboracionesController implements Initializable {
                     btn_EnviarPeticion.setText("Enviar peticion de colaboracion");
                     btn_EnviarPeticion.setOnAction((ActionEvent event) -> {
                         PropuestaColaboracion propuestaColaboracion = getTableView().getItems().get(getIndex());
-                        System.out.println("selectedData: " + propuestaColaboracion);
+                        int idPropuestaColaboracion=propuestaColaboracion.getIdPropuestaColaboracion();                        
+                        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+                        int idProfesor=profesor.getIdProfesor();
+                        PeticionColaboracion peticionColaboracion=new PeticionColaboracion();                        
+                        peticionColaboracion.setEstado("En proceso");
+                        peticionColaboracion.setIdPropuestaColaboracion(idPropuestaColaboracion);
+                        peticionColaboracion.setIdProfesor(idProfesor);
+                        peticionColaboracion.setFechaEnvio(obtenerFechaActual());
+                        DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
+                        daoPeticionColaboracion.registrarPeticionColaboracion(peticionColaboracion);                        
+                        column_Opcion.setVisible(false);
+                        Alertas.mostrarPeticionColaboracionRegistrada();
                     });
                 }                
                 @Override
@@ -131,8 +154,32 @@ public class Ventana_OfertaDeColaboracionesController implements Initializable {
         }                        
     }    
     
+    public String obtenerFechaActual(){
+        LocalDate fechaActual = LocalDate.now();                
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fechaActualFormateada = fechaActual.format(formatter);
+        return fechaActualFormateada;
+    }
+    
+    public void salirDeLaVentana(){
+         String rutaVentanaFXML = null;
+        try{
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
+            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
+        }
+        cerrarVentana();                
+    }
+    
+    
     public void cerrarVentana(){
         stage_ventana=(Stage) vbox_OfertaDeColaboraciones.getScene().getWindow();
         stage_ventana.close();
     }
+        
 }

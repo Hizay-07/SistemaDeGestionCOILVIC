@@ -3,14 +3,13 @@ import java.util.regex.Pattern;
 
 public class PeticionColaboracion {
     
-    private int idProfesor;
-    private int idColaboracion;
+    private int idProfesor;    
     private String estado;
     private String fechaEnvio;
+    private int idPropuestaColaboracion;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
-    private static final String FECHA_PATTERN = "^\\d{2}/\\d{2}/\\d{4}$";
-    
+    private static final String FECHA_PATTERN = "^\\d{2}/\\d{2}/\\d{4}$";    
     
     public PeticionColaboracion() {
     }
@@ -25,19 +24,7 @@ public class PeticionColaboracion {
         }else{
             throw new IllegalArgumentException();
         }
-    }
-
-    public int getIdColaboracion() {
-        return idColaboracion;
-    }
-
-    public void setIdColaboracion(int idColaboracion)throws IllegalArgumentException {
-        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idColaboracion))){
-            this.idColaboracion = idColaboracion;
-        }else{
-            throw new IllegalArgumentException();
-        }
-    }
+    }    
 
     public String getEstado() {
         return estado;
@@ -62,6 +49,20 @@ public class PeticionColaboracion {
             throw new IllegalArgumentException();
         }
     }
+
+    public int getIdPropuestaColaboracion() {
+        return idPropuestaColaboracion;
+    }
+
+    public void setIdPropuestaColaboracion(int idPropuestaColaboracion) {
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idPropuestaColaboracion))){
+            this.idPropuestaColaboracion = idPropuestaColaboracion;
+        }else{
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    
     
    
 

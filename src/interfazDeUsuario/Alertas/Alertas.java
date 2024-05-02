@@ -119,36 +119,34 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
-     public static void mostrarMensajeDatosDuplicados(){
-        Platform.runLater(() ->{
+    
+    public static void mostrarMensajeColaboracionActiva(String mensajeVentana){
+        Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.WARNING);
-            mensaje.setTitle("Duplicado de datos");
-            mensaje.setContentText("Los datos que desea ingresar ya han sido previamente insertados");
-            mensaje.showAndWait();
-        
-        });
-    }
-     
-    public static void mostrarMensajeProfesorConUsuario(){
-        Platform.runLater(() ->{
-            Alert mensaje = new Alert(AlertType.ERROR);
-            mensaje.setTitle("Profesor con usuario");
-            mensaje.setContentText("El profesor al que desea asignar un usuario, ya cuenta con una cuenta");
-            mensaje.showAndWait();
-        
-        });
-    }
-
-    public static void mostrarCorreoDeProfesorInexistente(){
-        Platform.runLater(() ->{
-            Alert mensaje = new Alert(AlertType.ERROR);
-            mensaje.setTitle("Correo inválido");
-            mensaje.setContentText("El correo asociado no pertenece a ningún profesor registrado");
+            mensaje.setTitle("Colaboracion activa");
+            mensaje.setContentText(mensajeVentana);
             mensaje.showAndWait();
         });
     }
-
-
+    
+    public static void mostrarColaboracionInactiva(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Sin colaboracion");
+            mensaje.setContentText("Por el momento no hay una colaboracion activa la cual se pueda visualizar");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarPeticionColaboracionRegistrada(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Petición colaboración");
+            mensaje.setContentText("La petición de colaboración ha sido registrada");
+            mensaje.showAndWait();
+        });
+    }
+    
     
     @Override
     public void start(Stage stage){

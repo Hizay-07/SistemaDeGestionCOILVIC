@@ -14,9 +14,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOTipoColaboracionImplementacion;
+import logicaDeNegocio.clases.EmisionPropuesta;
+import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.TipoColaboracion;
 import org.apache.log4j.Logger;
 
@@ -83,13 +86,11 @@ public class Ventana_ProponerColaboracionController implements Initializable {
             propuestaColaboracion.setIdioma(txfd_Idioma.getText());
             propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
             propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());            
-            
-            //Pasar cantidad de estudiantes a Colaboracion            
-            propuestaColaboracion.setCantidadEstudiantes(15);
-            
+                                                
             //Revisar estado en maquina de estado
             propuestaColaboracion.setEstadoPropuesta("Registrada");            
             daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
+            registrarEmisionPropuesta(propuestaColaboracion);
         }catch(IllegalArgumentException excepcion){ 
             Alertas.mostrarMensajeDatosInvalidos();  
             LOG.info(excepcion);
@@ -98,7 +99,14 @@ public class Ventana_ProponerColaboracionController implements Initializable {
     }
     
     public void registrarEmisionPropuesta(PropuestaColaboracion propuesta){
-        
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        int idProfesor=profesor.getIdProfesor();
+        int idPropuesta=propuesta.getIdPropuestaColaboracion();
+        EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
+        emisionPropuesta.setIdProfesor(idProfesor);
+        emisionPropuesta.setIdPropuestaColaboracion(idPropuesta);
+        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+        daoEmisionPropuesta.registrarEmisionPropuesta(emisionPropuesta);        
     }
     
     

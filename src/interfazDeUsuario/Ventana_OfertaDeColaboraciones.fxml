@@ -17,7 +17,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btn_Regresar" layoutX="41.0" layoutY="14.0" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="44.0" prefWidth="104.0" style="-fx-background-color: #33CAFF;" text="Regresar" textFill="WHITE" />
+            <Button fx:id="btn_Regresar" layoutX="41.0" layoutY="14.0" mnemonicParsing="false" onAction="#salirDeLaVentana" prefHeight="44.0" prefWidth="104.0" style="-fx-background-color: FFA233;" text="Regresar" />
          </children>
       </Pane>
       <TableView fx:id="tableView_OfertaDeColaboracion" prefHeight="331.0" prefWidth="600.0" stylesheets="@EstiloTabla.css">

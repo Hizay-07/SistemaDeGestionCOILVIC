@@ -21,10 +21,11 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         PreparedStatement declaracion;
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("INSERT INTO Colaboracion(estadoColaboracion,idPropuestaColaboracion)"
-                    + "VALUES (?,?);");
+            declaracion=conexion.prepareStatement("INSERT INTO Colaboracion(estadoColaboracion,idPropuestaColaboracion,cantidadEstudiantes)"
+                    + "VALUES (?,?,?);");
             declaracion.setString(1, colaboracion.getEstadoColaboracion());
             declaracion.setInt(2, colaboracion.getIdPropuestaColaboracion());
+            declaracion.setInt(3, colaboracion.getCantidadEstudiantes());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
@@ -48,6 +49,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                 colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
                 colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
                 colaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
                 colaboraciones.add(colaboracion);
             }
             conexion.close();

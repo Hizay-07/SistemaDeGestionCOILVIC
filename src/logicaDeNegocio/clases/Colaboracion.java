@@ -7,6 +7,7 @@ public class Colaboracion {
     private String retroalimentacion;
     private String estadoColaboracion;
     private int idPropuestaColaboracion;
+    private int cantidadEstudiantes;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
@@ -60,6 +61,18 @@ public class Colaboracion {
             throw new IllegalArgumentException();
         }
     }
+
+    public int getCantidadEstudiantes() {
+        return cantidadEstudiantes;
+    }
+
+    public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes))){
+            this.cantidadEstudiantes = cantidadEstudiantes;
+        }else{
+            throw new IllegalArgumentException();
+        }
+    }        
     
     @Override
     public boolean equals(Object obj) {
