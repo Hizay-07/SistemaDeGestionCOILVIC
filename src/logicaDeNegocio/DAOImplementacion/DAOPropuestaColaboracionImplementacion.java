@@ -24,17 +24,16 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         try {
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("INSERT INTO propuestaColaboracion(fechaInicio,fechaCierre,idioma,experienciaEducativa,"
-                    + "objetivo,cantidadEstudiantes,programaEducativoEstudiantil,estadoPropuesta,idTipoColaboracion)"
-                    + "VALUES (?,?,?,?,?,?,?,?,?);");
+                    + "objetivo,programaEducativoEstudiantil,estadoPropuesta,idTipoColaboracion)"
+                    + "VALUES (?,?,?,?,?,?,?,?);");
             declaracion.setString(1, propuestaColaboracion.getFechaInicio());
             declaracion.setString(2, propuestaColaboracion.getFechaCierre());
             declaracion.setString(3, propuestaColaboracion.getIdioma());
             declaracion.setString(4, propuestaColaboracion.getExperienciaEducativa());
-            declaracion.setString(5,propuestaColaboracion.getObjetivo());
-            declaracion.setInt(6,propuestaColaboracion.getCantidadEstudiantes());
-            declaracion.setString(7, propuestaColaboracion.getProgramaEducativoEstudiantil());
-            declaracion.setString(8, propuestaColaboracion.getEstadoPropuesta());
-            declaracion.setInt(9, propuestaColaboracion.getTipoColaboracion().getIdTipoColaboracion());
+            declaracion.setString(5,propuestaColaboracion.getObjetivo());            
+            declaracion.setString(6, propuestaColaboracion.getProgramaEducativoEstudiantil());
+            declaracion.setString(7, propuestaColaboracion.getEstadoPropuesta());
+            declaracion.setInt(8, propuestaColaboracion.getTipoColaboracion().getIdTipoColaboracion());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException ex) {
@@ -59,10 +58,8 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
                 propuestaColaboracion.setIdioma(resultado.getString("idioma"));
                 propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
-                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
-                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
-                propuestaColaboracion.setInformacionAdicional(resultado.getString("informacionAdicional"));
+                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));                
+                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));                
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
                 propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
                 propuestasColaboracion.add(propuestaColaboracion);                
@@ -91,10 +88,8 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
                 propuestaColaboracion.setIdioma(resultado.getString("idioma"));
                 propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
-                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
-                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
-                propuestaColaboracion.setInformacionAdicional(resultado.getString("informacionAdicional"));
+                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));               
+                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));                
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
                 propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
                 propuestasColaboracion.add(propuestaColaboracion);                
@@ -191,10 +186,8 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
                 propuestaColaboracion.setIdioma(resultado.getString("idioma"));
                 propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
-                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
-                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
-                propuestaColaboracion.setInformacionAdicional(resultado.getString("informacionAdicional"));
+                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));                
+                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));                
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));                
                 TipoColaboracion tipoColaboracion=new TipoColaboracion();
                 int idTipoColaboracion=resultado.getInt("idTipoColaboracion");

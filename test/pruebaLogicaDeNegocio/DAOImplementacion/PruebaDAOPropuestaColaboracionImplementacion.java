@@ -20,8 +20,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         propuestaColaboracion.setFechaCierre("2025-12-16");
         propuestaColaboracion.setIdioma("Aleman");
         propuestaColaboracion.setExperienciaEducativa("Sistemas operativos");
-        propuestaColaboracion.setObjetivo("Compartir los distintos enfoques para aprender sistemas operativos");
-        propuestaColaboracion.setCantidadEstudiantes(20);
+        propuestaColaboracion.setObjetivo("Compartir los distintos enfoques para aprender sistemas operativos");        
         propuestaColaboracion.setProgramaEducativoEstudiantil("Ingenieria de software");
         propuestaColaboracion.setEstadoPropuesta("En proceso");
         TipoColaboracion tipoColaboracion=new TipoColaboracion();
@@ -132,7 +131,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     public void pruebaAprobarPropuestaColaboracionPorIdExitosa(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         int resultadoEsperado=1;
-        int resultadoObtenido=instancia.aprobarPropuestaColaboracionPorId(4);
+        int resultadoObtenido=instancia.aprobarPropuestaColaboracionPorId(3);
         assertEquals(resultadoEsperado,resultadoObtenido);                        
     }
         
@@ -175,5 +174,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         resultadoObtenido=daoPropuestaColaboracion.consultarPropuestasDeColaboracionAprobadas();
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
+    
+}
     
 
