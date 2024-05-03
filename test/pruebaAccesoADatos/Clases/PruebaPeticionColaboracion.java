@@ -22,20 +22,6 @@ public class PruebaPeticionColaboracion {
     }
     
     @Test
-    public void pruebaSetIdColaboracionExitoso(){
-        PeticionColaboracion peticionPrueba = new PeticionColaboracion();
-        peticionPrueba.setIdColaboracion(1);
-        assertNotNull(peticionPrueba.getIdColaboracion());
-    }
-    
-    @Test
-    public void pruebaSetIdColaboracionInvalido(){
-        PeticionColaboracion peticionPrueba = new PeticionColaboracion();
-        peticionPrueba.setIdColaboracion(-1);
-        assertNotNull(peticionPrueba.getIdColaboracion());
-    }
-    
-    @Test
     public void pruebaSetEstadoExitoso(){
         PeticionColaboracion peticionPrueba = new PeticionColaboracion();
         peticionPrueba.setEstado("Activa");

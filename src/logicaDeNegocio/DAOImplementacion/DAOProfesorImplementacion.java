@@ -9,14 +9,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.Types;
 
 public class DAOProfesorImplementacion implements ProfesorInterface {
 
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private Connection conexion;
+    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOColaboracionImplementacion.class);
     
     @Override
     public int registrarProfesor(Profesor profesor) {
@@ -29,11 +28,11 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, profesor.getApellidoPaterno());
             declaracion.setString(3, profesor.getApellidoMaterno());
             declaracion.setString(4, profesor.getCorreo());
-            declaracion.setString(5, "Sin colaboracion"); // Asignar estado al profesor
+            declaracion.setString(5, "Activo");
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -50,8 +49,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setInt(2, idProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
     }
@@ -67,8 +66,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -85,8 +84,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -103,8 +102,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -121,8 +120,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -142,8 +141,9 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                 idProfesor=resultado.getInt("idProfesor");
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
+            idProfesor = -1;
         }
         return idProfesor;                
     }
@@ -167,8 +167,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                 profesor.setEstado(resultado.getString("estadoProfesor"));
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return profesor;        
     }    
@@ -186,7 +186,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
            resultadoModificacion = declaracion.getInt(2);
            BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException excepcion){
-           Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, excepcion);
+           LOG.error(excepcion.getCause());
            resultadoModificacion = -1;
        }
        return resultadoModificacion;
@@ -211,8 +211,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                 profesor.setEstado(resultado.getString("estadoProfesor"));
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return profesor; 
    }
