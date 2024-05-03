@@ -49,14 +49,16 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("SELECT * FROM Colaboracion");
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                Colaboracion colaboracion=new Colaboracion();
-                colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
-                colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
-                colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
-                colaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
-                colaboraciones.add(colaboracion);
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    Colaboracion colaboracion=new Colaboracion();
+                    colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
+                    colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
+                    colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
+                    colaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
+                    colaboraciones.add(colaboracion);
+                }
             }
             conexion.close();
         } catch (SQLException ex) {

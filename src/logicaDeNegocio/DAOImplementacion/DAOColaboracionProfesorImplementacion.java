@@ -30,15 +30,17 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
            sentencia = conexion.prepareStatement("SELECT profesor.* from profesor,colaboracionprofesor where profesor.idProfesor = colaboracionprofesor.idProfesor and idColaboracion = ?");
            sentencia.setInt(1, colaboracion.getIdColaboracion());
            resultado = sentencia.executeQuery();
-           while(resultado.next()){
-               Profesor profesorObtenido = new Profesor();
-               profesorObtenido.setNombre(resultado.getString("nombre"));
-               profesorObtenido.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-               profesorObtenido.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-               profesorObtenido.setCorreo(resultado.getString("correo"));
-               profesorObtenido.setEstado(resultado.getString("estadoProfesor"));
-               profesorObtenido.setIdProfesor(resultado.getInt("idProfesor"));
-               profesoresObtenidos.add(profesorObtenido);
+           if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    Profesor profesorObtenido = new Profesor();
+                    profesorObtenido.setNombre(resultado.getString("nombre"));
+                    profesorObtenido.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesorObtenido.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesorObtenido.setCorreo(resultado.getString("correo"));
+                    profesorObtenido.setEstado(resultado.getString("estadoProfesor"));
+                    profesorObtenido.setIdProfesor(resultado.getInt("idProfesor"));
+                    profesoresObtenidos.add(profesorObtenido);
+                }
            }
            BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException excepcion){
@@ -58,10 +60,13 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
            sentencia = conexion.prepareStatement("SELECT colaboracion.* from colaboracion,colaboracionprofesor where ? = colaboracionprofesor.idProfesor and colaboracionProfesor.idColaboracion = colaboracion.idColaboracion");
            sentencia.setInt(1, profesor.getIdProfesor());
            resultado = sentencia.executeQuery();
-           while(resultado.next()){
-               colaboracionObtenida.setIdColaboracion(resultado.getInt("idColaboracion"));
-               colaboracionObtenida.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
-               colaboracionObtenida.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+           if(resultado.isBeforeFirst()){
+               while(resultado.next()){
+                   colaboracionObtenida.setIdColaboracion(resultado.getInt("idColaboracion"));
+                   colaboracionObtenida.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
+                   colaboracionObtenida.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                
+               }
            }
            BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException excepcion){

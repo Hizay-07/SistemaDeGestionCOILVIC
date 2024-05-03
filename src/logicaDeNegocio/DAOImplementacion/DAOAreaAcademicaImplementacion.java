@@ -28,7 +28,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
              numeroFilasAfectadas=declaracion.executeUpdate();
              conexion.close();
          } catch (SQLException ex) {
-             LOG.error(ex);             
+             LOG.error(ex); 
          }
          return numeroFilasAfectadas;
     }
@@ -42,11 +42,13 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
              conexion=BASE_DE_DATOS.getConexion();
              declaracion=conexion.prepareStatement("SELECT * from areaAcademica;");
              resultado=declaracion.executeQuery();
-             while(resultado.next()){
-                 AreaAcademica areaAcademica=new AreaAcademica();
-                 areaAcademica.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
-                 areaAcademica.setArea(resultado.getString("area"));
-                 areasAcademicas.add(areaAcademica);
+             if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    AreaAcademica areaAcademica=new AreaAcademica();
+                    areaAcademica.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
+                    areaAcademica.setArea(resultado.getString("area"));
+                    areasAcademicas.add(areaAcademica);
+                }
              }
              conexion.close();
          } catch (SQLException ex) {
@@ -65,12 +67,15 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
             declaracion=conexion.prepareStatement("SELECT idAreaAcademica from AreaAcademica where area=?;");
             declaracion.setString(1, area);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idArea=resultado.getInt("idAreaAcademica");                                
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idArea=resultado.getInt("idAreaAcademica");                                
+                }
             }
             conexion.close();
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DAOAreaAcademicaImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
+            idArea = -1;
         }
         return idArea;        
     }

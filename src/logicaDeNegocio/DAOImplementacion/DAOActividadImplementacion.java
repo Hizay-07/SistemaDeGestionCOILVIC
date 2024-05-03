@@ -15,10 +15,13 @@ import java.util.logging.Logger;
 
 
 
+
 public class DAOActividadImplementacion implements ActividadInterface {
     
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private Connection conexion;
+    //private static final Logger LOG=Logger.getLogger(DAOActividadImplementacion.class);
+    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOActividadImplementacion.class);
     
     @Override
     public int registrarActividad(Actividad actividadNueva){
@@ -37,7 +40,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoRegistro = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoRegistro = -1;
         }
         
@@ -57,7 +60,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoModificacion = -1;
         }
         
@@ -77,7 +80,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoModificacion = -1;
         }
         
@@ -93,21 +96,23 @@ public class DAOActividadImplementacion implements ActividadInterface {
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM actividad WHERE idColaboracion = ?");
             sentencia.setInt(1, idColaboracion);
             ResultSet actividadesObtenidas = sentencia.executeQuery();
-            while(actividadesObtenidas.next()){
-                Actividad actividadConsultada = new Actividad();
-                actividadConsultada.setIdActividad(actividadesObtenidas.getInt(1));
-                actividadConsultada.setNombre(actividadesObtenidas.getString(2));
-                actividadConsultada.setDescripcion(actividadesObtenidas.getString(3));
-                actividadConsultada.setFechaDeInicio(actividadesObtenidas.getString(4));
-                actividadConsultada.setFechaDeCierre(actividadesObtenidas.getString(5));
-                actividadConsultada.setIdColaboracion(actividadesObtenidas.getInt(6));
-                actividadConsultada.setNumeroActividad(actividadesObtenidas.getInt(7));
-                actividadConsultada.setEstado(actividadesObtenidas.getString(8));
-                actividades.add(actividadConsultada);
+            if(actividadesObtenidas.isBeforeFirst()){
+                while(actividadesObtenidas.next()){
+                    Actividad actividadConsultada = new Actividad();
+                    actividadConsultada.setIdActividad(actividadesObtenidas.getInt(1));
+                    actividadConsultada.setNombre(actividadesObtenidas.getString(2));
+                    actividadConsultada.setDescripcion(actividadesObtenidas.getString(3));
+                    actividadConsultada.setFechaDeInicio(actividadesObtenidas.getString(4));
+                    actividadConsultada.setFechaDeCierre(actividadesObtenidas.getString(5));
+                    actividadConsultada.setIdColaboracion(actividadesObtenidas.getInt(6));
+                    actividadConsultada.setNumeroActividad(actividadesObtenidas.getInt(7));
+                    actividadConsultada.setEstado(actividadesObtenidas.getString(8));
+                    actividades.add(actividadConsultada);
+                }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
         }
         
         return actividades;
@@ -123,13 +128,13 @@ public class DAOActividadImplementacion implements ActividadInterface {
             sentencia.setString(1, actividad.getNombre());
             sentencia.setString(2, actividad.getDescripcion());
             ResultSet numeroObtenido = sentencia.executeQuery();
-            
-            while(numeroObtenido.next()){
-                numeroDeActividad = (int)numeroObtenido.getObject(1);
+            if(numeroObtenido.isBeforeFirst()){
+                while(numeroObtenido.next()){
+                    numeroDeActividad = (int)numeroObtenido.getObject(1);
+                }
             }
-            
         }catch(SQLException excepcion){
-            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             numeroDeActividad = -1;
         }
         
@@ -158,7 +163,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
                 resultadoValidacion=false;
             }    
         }catch(SQLException excepcion){
-             Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoValidacion = false;
         }
         return resultadoValidacion;
@@ -177,7 +182,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoActualizacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion);
             resultadoActualizacion = -1;
         }
         
