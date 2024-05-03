@@ -16,13 +16,13 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     public void pruebaRegistrarPropuestaColaboracionExitosa(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-        propuestaColaboracion.setFechaInicio("2025-08-10");
-        propuestaColaboracion.setFechaCierre("2025-12-16");
+        propuestaColaboracion.setFechaInicio("2024-05-02");
+        propuestaColaboracion.setFechaCierre("2024-06-23");
         propuestaColaboracion.setIdioma("Aleman");
         propuestaColaboracion.setExperienciaEducativa("Sistemas operativos");
-        propuestaColaboracion.setObjetivo("Compartir los distintos enfoques para aprender sistemas operativos");        
+        propuestaColaboracion.setObjetivo("Compartir los distintos enfoques para aprender sistemas operativos");
         propuestaColaboracion.setProgramaEducativoEstudiantil("Ingenieria de software");
-        propuestaColaboracion.setEstadoPropuesta("En proceso");
+        propuestaColaboracion.setEstadoPropuesta("Activa");
         TipoColaboracion tipoColaboracion=new TipoColaboracion();
         tipoColaboracion.setIdTipoColaboracion(1);
         propuestaColaboracion.setTipoColaboracion(tipoColaboracion);

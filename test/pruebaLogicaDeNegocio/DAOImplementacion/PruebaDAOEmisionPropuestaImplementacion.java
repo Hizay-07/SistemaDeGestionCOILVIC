@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
 import logicaDeNegocio.clases.EmisionPropuesta;
+import logicaDeNegocio.clases.Profesor;
+
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -46,4 +49,16 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         int resultadoObtenido=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
+  
+    @Test
+    public void pruebaConsultarIdPropuestaColaboracionProIdProfesor(){
+        Profesor profesor = new Profesor();
+        profesor.setIdProfesor(1);
+        int resultadoEsperado=1;
+        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+        int resultadoObtenido=daoEmisionPropuesta.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
+        assertEquals(resultadoEsperado,resultadoObtenido);  
+        
+    }
 }
+

@@ -3,6 +3,8 @@ import java.util.regex.Pattern;
 
 public class PeticionColaboracion {
     
+
+
     private int idProfesor;    
     private String estado;
     private String fechaEnvio;
@@ -54,16 +56,14 @@ public class PeticionColaboracion {
         return idPropuestaColaboracion;
     }
 
-    public void setIdPropuestaColaboracion(int idPropuestaColaboracion) {
-        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idPropuestaColaboracion))){
+
+    public void setIdPropuestaColaboracion(int idPropuestaColaboracion)throws IllegalArgumentException{
+       if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idPropuestaColaboracion))){
             this.idPropuestaColaboracion = idPropuestaColaboracion;
         }else{
             throw new IllegalArgumentException();
         }
     }
-    
-    
-    
    
 
 }

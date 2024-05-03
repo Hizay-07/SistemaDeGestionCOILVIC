@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logicaDeNegocio.clases.PeticionColaboracion;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.interfaces.PeticionColaboracionInterface;
 
 public class DAOPeticionColaboracionImplementacion implements PeticionColaboracionInterface {
@@ -93,5 +94,26 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
         }
         return numeroFilasAfectadas;
+    }
+    
+    @Override
+    public int consultarIdPropuestaDeColaboracionPorIdProfesor(Profesor profesor){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idPropuestaColaboracion=0;
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from PeticionColaboracion where idProfesor=?;");
+            declaracion.setInt(1, profesor.getIdProfesor());
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+            }
+            conexion.close();
+        } catch (SQLException excepcion) {
+            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, excepcion);
+            idPropuestaColaboracion=-1;
+        }
+        return idPropuestaColaboracion;
     }
 }

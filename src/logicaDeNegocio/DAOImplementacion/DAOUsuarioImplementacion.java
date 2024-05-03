@@ -23,7 +23,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         int resultadoInsercion;
         
         try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            conexion = BASE_DE_DATOS.getConexion();
             CallableStatement sentencia = conexion.prepareCall("call registrarUsuario(?,?,?,?)");
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());

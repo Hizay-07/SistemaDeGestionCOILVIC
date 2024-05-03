@@ -31,7 +31,7 @@ public class Colaboracion {
     }
 
     public void setRetroalimentacion(String retroalimentacion)throws IllegalArgumentException {
-        if(retroalimentacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, retroalimentacion)){
+        if(retroalimentacion==null||Pattern.matches(SOLO_LETRAS_PATTERN, retroalimentacion)){
             this.retroalimentacion = retroalimentacion;
         }else{
             throw new IllegalArgumentException();
@@ -66,13 +66,17 @@ public class Colaboracion {
         return cantidadEstudiantes;
     }
 
+
     public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
+
         if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes))){
             this.cantidadEstudiantes = cantidadEstudiantes;
         }else{
             throw new IllegalArgumentException();
         }
-    }        
+
+    }
+    
     
     @Override
     public boolean equals(Object obj) {

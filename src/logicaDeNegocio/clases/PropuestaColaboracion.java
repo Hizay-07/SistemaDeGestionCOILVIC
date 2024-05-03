@@ -8,6 +8,7 @@ public class PropuestaColaboracion {
     private String idioma;
     private String experienciaEducativa;    
     private String objetivo;    
+
     private String programaEducativoEstudiantil;
     private String estadoPropuesta;    
     private TipoColaboracion tipoColaboracion;
@@ -89,8 +90,8 @@ public class PropuestaColaboracion {
         }else{
             throw new IllegalArgumentException();
         }
-    }    
-
+    }
+  
     public String getProgramaEducativoEstudiantil() {
         return programaEducativoEstudiantil;
     }

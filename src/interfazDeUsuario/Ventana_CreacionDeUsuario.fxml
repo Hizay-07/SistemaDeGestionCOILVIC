@@ -60,7 +60,7 @@
             </Label>
             <ComboBox fx:id="cmb_TipoDeUsuario" layoutX="210.0" layoutY="212.0" prefWidth="150.0" promptText="Tipo de usuario" />
             <Button fx:id="btn_Registrar" layoutX="262.0" layoutY="269.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Registrar" textFill="WHITE" onAction="#registrarUsuario" />
-            <Button fx:id="btn_Cancelar" layoutX="335.0" layoutY="269.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
+            <Button fx:id="btn_Cancelar" layoutX="335.0" layoutY="269.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" onAction="#regresarVentanaPrincipal"/>
          </children>
       </AnchorPane>
    </children>

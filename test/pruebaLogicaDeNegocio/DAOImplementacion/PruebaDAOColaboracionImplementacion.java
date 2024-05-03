@@ -13,9 +13,10 @@ public class PruebaDAOColaboracionImplementacion {
     @Test
     public void pruebaRegistrarColaboracionExitosa(){
         Colaboracion colaboracion=new Colaboracion();
-        colaboracion.setEstadoColaboracion("En proceso");
-        colaboracion.setIdPropuestaColaboracion(1);
-        colaboracion.setCantidadEstudiantes(20);
+        colaboracion.setEstadoColaboracion("Activa");
+        colaboracion.setIdPropuestaColaboracion(3);
+        colaboracion.setCantidadEstudiantes(24);
+
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.registrarColaboracion(colaboracion);
@@ -26,19 +27,28 @@ public class PruebaDAOColaboracionImplementacion {
     public void pruebaRegistrarColaboracionFracaso(){
         Colaboracion colaboracion=new Colaboracion();        
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
-        int resultadoEsperado=0;
+        int resultadoEsperado=-1;
         int resultadoObtenido=instancia.registrarColaboracion(colaboracion);
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
     
     @Test
     public void pruebaConsultarColaboracionesExitosa(){
-        Colaboracion colaboracion=new Colaboracion();
-        colaboracion.setIdColaboracion(1);
-        colaboracion.setIdPropuestaColaboracion(1);
-        colaboracion.setCantidadEstudiantes(20);
+        Colaboracion colaboracion1=new Colaboracion();
+        Colaboracion colaboracion2=new Colaboracion();
+        colaboracion1.setIdColaboracion(1);
+        colaboracion1.setIdPropuestaColaboracion(1);
+        colaboracion1.setCantidadEstudiantes(32);
+        colaboracion1.setEstadoColaboracion("Activa");
+        colaboracion1.setRetroalimentacion(null);
+        colaboracion2.setIdColaboracion(2);
+        colaboracion2.setIdPropuestaColaboracion(2);
+        colaboracion2.setCantidadEstudiantes(32);
+        colaboracion2.setEstadoColaboracion("Activa");
+        colaboracion2.setRetroalimentacion(null);
         List<Colaboracion> listaEsperada=new ArrayList<>();
-        listaEsperada.add(colaboracion);
+        listaEsperada.add(colaboracion1);
+        listaEsperada.add(colaboracion2);
         List<Colaboracion> listaObtenida=new ArrayList<>();
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         listaObtenida=instancia.consultarColaboraciones();
