@@ -82,4 +82,21 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         return numeroFilasAfectadas;        
     }
     
+    @Override
+    public int cambiarEstadoColaboracion(String estado,Colaboracion colaboracion){
+        int numeroFilasAfectadas = 0;
+        PreparedStatement declaracion;
+        try{
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion = conexion.prepareStatement("update colaboracion set estadoColaboracion = ? where idColaboracion = ?");
+            declaracion.setString(1, estado);
+            declaracion.setInt(2,colaboracion.getIdColaboracion());
+            numeroFilasAfectadas = declaracion.executeUpdate();
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException excepcion){
+            LOG.error(excepcion.getCause());
+            numeroFilasAfectadas = -1;
+        }
+        return numeroFilasAfectadas;
+    }
 }

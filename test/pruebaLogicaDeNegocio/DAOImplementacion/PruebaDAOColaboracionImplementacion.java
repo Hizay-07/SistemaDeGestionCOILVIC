@@ -84,4 +84,25 @@ public class PruebaDAOColaboracionImplementacion {
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
     
+    @Test
+    public void pruebaModificarEstadoColaboracionExitosa(){
+        DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
+        Colaboracion colaboracionPrueba = new Colaboracion();
+        colaboracionPrueba.setIdColaboracion(2);
+        String estadoPrueba = "Cerrada";
+        int resultadoEsperado = 1;
+        int resultadoObtenido = instancia.cambiarEstadoColaboracion(estadoPrueba, colaboracionPrueba);
+        assertEquals(resultadoEsperado,resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaFlujoAlternoModificarEstadoColaboracionExitoso(){
+        DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
+        Colaboracion colaboracionPrueba = new Colaboracion();
+        colaboracionPrueba.setIdColaboracion(1);
+        String estadoPrueba = "Cerrada";
+        int resultadoEsperado = 1;
+        int resultadoObtenido = instancia.cambiarEstadoColaboracion(estadoPrueba, colaboracionPrueba);
+        assertNotEquals(resultadoEsperado,resultadoObtenido);
+    }
 }
