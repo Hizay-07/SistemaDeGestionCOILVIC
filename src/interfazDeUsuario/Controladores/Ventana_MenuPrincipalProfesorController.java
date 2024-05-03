@@ -62,12 +62,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
         
         mostrarMensajeProfesor();
     }    
-    
-    public void cerrarVentana(){
-        escenario = (Stage) anchor_PanelPrincipal.getScene().getWindow();
-        escenario.close();
-    }
-    
+       
     public void mostrarMensajeProfesor(){
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
@@ -140,4 +135,10 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
         ProfesorSingleton.resetSingleton();
         cerrarVentana();
     }
+    
+     public void cerrarVentana(){
+        escenario = (Stage) anchor_PanelPrincipal.getScene().getWindow();
+        escenario.close();
+    }
+    
 }

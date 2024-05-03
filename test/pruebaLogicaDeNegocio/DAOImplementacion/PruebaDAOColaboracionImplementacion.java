@@ -16,6 +16,7 @@ public class PruebaDAOColaboracionImplementacion {
         colaboracion.setEstadoColaboracion("Activa");
         colaboracion.setIdPropuestaColaboracion(3);
         colaboracion.setCantidadEstudiantes(24);
+
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.registrarColaboracion(colaboracion);

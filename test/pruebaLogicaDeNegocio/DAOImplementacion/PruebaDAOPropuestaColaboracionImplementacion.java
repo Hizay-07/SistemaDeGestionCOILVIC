@@ -131,7 +131,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     public void pruebaAprobarPropuestaColaboracionPorIdExitosa(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         int resultadoEsperado=1;
-        int resultadoObtenido=instancia.aprobarPropuestaColaboracionPorId(4);
+        int resultadoObtenido=instancia.aprobarPropuestaColaboracionPorId(3);
         assertEquals(resultadoEsperado,resultadoObtenido);                        
     }
         
@@ -176,3 +176,5 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     }
     
 }
+    
+

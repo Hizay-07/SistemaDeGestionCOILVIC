@@ -74,4 +74,24 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         }
         return tipo;        
     }
+    
+    @Override
+    public int consultarIdTipoColaboracionPorTipo(String tipo){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idTipoColaboracion=0;
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT idTipoColaboracion from TipoColaboracion where tipo=?;");
+            declaracion.setString(1, tipo);
+            resultado=declaracion.executeQuery();
+            if(resultado.next()){
+                idTipoColaboracion=resultado.getInt("idTipoColaboracion");                               
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DAOTipoColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idTipoColaboracion;                
+    }
 }

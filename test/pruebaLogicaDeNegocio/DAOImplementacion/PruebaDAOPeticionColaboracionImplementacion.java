@@ -1,6 +1,5 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.clases.PeticionColaboracion;
@@ -13,8 +12,8 @@ public class PruebaDAOPeticionColaboracionImplementacion {
     @Test
     public void pruebaRegistrarPeticionColaboracionExitosa(){
         PeticionColaboracion peticion = new PeticionColaboracion();
-        peticion.setIdProfesor(7); 
-        peticion.setIdColaboracion(4); 
+        peticion.setIdProfesor(2); 
+        peticion.setIdPropuestaColaboracion(1);
         peticion.setEstado(EnumEstados.Activo.toString());
         peticion.setFechaEnvio("2024-04-08");
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();

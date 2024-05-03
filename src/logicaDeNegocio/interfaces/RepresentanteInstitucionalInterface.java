@@ -16,4 +16,5 @@ public interface RepresentanteInstitucionalInterface{
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales();
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionalesPorPais(Pais paisIngresado);
     public int consultarIdRepresentanteInstitucionalPorUniversidad(String universidad);
+    public String consultarNombreInstitucionPorIdRepresentanteInstitucional(int idRepresentanteInstitucional);
 }

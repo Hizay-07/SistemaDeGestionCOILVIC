@@ -24,10 +24,10 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         PreparedStatement declaracion;
         try {
             conexion = BASE_DE_DATOS.getConexion();
-            declaracion = conexion.prepareStatement("INSERT INTO peticioncolaboracion (idProfesor, idColaboracion, estadoPeticion, fechaEnvio)"
+            declaracion = conexion.prepareStatement("INSERT INTO peticioncolaboracion (idProfesor, idPropuestaColaboracion, estadoPeticion, fechaEnvio)"
                     + "VALUES (?, ?, ?, ?);");
             declaracion.setInt(1, peticion.getIdProfesor());
-            declaracion.setInt(2, peticion.getIdColaboracion());
+            declaracion.setInt(2, peticion.getIdPropuestaColaboracion());
             declaracion.setString(3, peticion.getEstado());
             declaracion.setString(4, peticion.getFechaEnvio());
             numeroFilasAfectadas = declaracion.executeUpdate();
@@ -50,7 +50,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             while (resultado.next()) {
                 PeticionColaboracion peticion = new PeticionColaboracion();
                 peticion.setIdProfesor(resultado.getInt("idProfesor"));
-                peticion.setIdColaboracion(resultado.getInt("idColaboracion"));
+                peticion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
                 peticion.setEstado(resultado.getString("estadoPeticion"));
                 peticion.setFechaEnvio(resultado.getString("fechaEnvio"));
                 peticiones.add(peticion);

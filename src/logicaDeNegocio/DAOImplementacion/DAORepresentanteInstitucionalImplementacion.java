@@ -277,4 +277,24 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         }
         return idRepresentanteInstitucional;        
     }
+    
+    @Override
+    public String consultarNombreInstitucionPorIdRepresentanteInstitucional(int idRepresentanteInstitucional){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        String nombreInstitucion=new String();
+        try {
+            Connection conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT nombreInstitucion from RepresentanteInstitucional where idRepresentanteInstitucional=?;");
+            declaracion.setInt(1, idRepresentanteInstitucional);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                nombreInstitucion=resultado.getString("nombreInstitucion");                
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nombreInstitucion;        
+    }
+    
 }

@@ -66,14 +66,16 @@ public class Colaboracion {
         return cantidadEstudiantes;
     }
 
-    public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException{
+
+    public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
+
         if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes))){
             this.cantidadEstudiantes = cantidadEstudiantes;
         }else{
             throw new IllegalArgumentException();
         }
+
     }
-    
     
     
     @Override

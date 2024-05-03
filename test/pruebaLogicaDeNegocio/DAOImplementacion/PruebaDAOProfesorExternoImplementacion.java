@@ -65,4 +65,13 @@ public class PruebaDAOProfesorExternoImplementacion {
         resultadoObtenido = instancia.consultarProfesoresExternosPorRepresentanteInstitucional(idRepresentanteInstitucional);
         assertEquals(resultadoEsperado, resultadoObtenido); 
     }
+    
+    @Test
+    public void pruebaConsultarIdRepresentanteInstitucionalPorIdProfesorExitosa(){
+        int idProfesor=20;        
+        int resultadoEsperado=1;
+        DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
+        int resultadoObtenido=daoProfesorExterno.consultarIdRepresentanteInstitucionalPorIdProfesor(idProfesor);
+        assertEquals(resultadoEsperado, resultadoObtenido); 
+    }
 }

@@ -1,5 +1,7 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
+import java.util.ArrayList;
+import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOPaisImplementacion;
 import logicaDeNegocio.clases.Pais;
 import logicaDeNegocio.enums.EnumPais;
@@ -46,6 +48,20 @@ public class pruebaDAOPaisImplementacion {
         
         int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
         assertEquals(0,resultadoConsulta);
+    }
+    
+    @Test
+    public void pruebaConsultarPaisesExitosa(){        
+        List<Pais> resultadoEsperado=new ArrayList<>();
+        Pais pais1=new Pais();
+        pais1.setNombrePais("Colombia");
+        Pais pais2=new Pais();
+        pais2.setNombrePais("Mexico");
+        resultadoEsperado.add(pais1);
+        resultadoEsperado.add(pais2);
+        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
+        List<Pais> resultadoObtenido=pruebaMetodo.consultarPaises();
+        assertEquals(resultadoEsperado,resultadoObtenido);               
     }
 }
 
