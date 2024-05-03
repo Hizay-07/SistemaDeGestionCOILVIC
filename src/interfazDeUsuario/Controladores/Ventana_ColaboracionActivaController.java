@@ -3,6 +3,7 @@ package interfazDeUsuario.Controladores;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.Objects;
+import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.ClasesAuxiliares.EmisionPropuestaAuxiliar;
+import logicaDeNegocio.ClasesAuxiliares.PropuestaColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
@@ -95,11 +99,43 @@ public class Ventana_ColaboracionActivaController implements Initializable {
             inicializarVentanaIniciarActividad();
         });
        
+        asignarDatosDeColaboracion();
     }   
     
      public void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
+    }
+    
+    public void cerrarColaboracion(){
+        PropuestaColaboracionAuxiliar propuesta = PropuestaColaboracionAuxiliar.getInstnacia();
+        ColaboracionAuxiliar colaboracionAuxiliar = ColaboracionAuxiliar.getInstancia();
+        Colaboracion colaboracionActiva = new Colaboracion();
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaCierrePropuesta = LocalDate.parse(propuesta.getFechaCierre());
+        colaboracionActiva.setIdColaboracion(colaboracionAuxiliar.getIdColaboracion());
+        if(fechaActual.isEqual(fechaCierrePropuesta)||fechaActual.isAfter(fechaCierrePropuesta)){
+            DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+            int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion("Cerrada", colaboracionActiva);
+            if(resultadoModificacion==1){
+                Alertas.mostrarMensajeDatosModificados();
+                List<Profesor> profesoresColaboracion = obtenerProfesoresColaboracion(colaboracionActiva);
+                cambiarEstadoProfesor(profesoresColaboracion);
+                regresarAMenuPrincipal();
+            }else{
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
+        }else{
+            Alertas.mostrarMensajeSinCerrarColaboracion();
+        }
+    }
+    
+    public void cambiarEstadoProfesor(List<Profesor> profesoresColaboracion){
+        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+        for(int numeroProfesor=0;numeroProfesor<profesoresColaboracion.size();numeroProfesor++){
+            Profesor profesorObtenido = profesoresColaboracion.get(numeroProfesor);
+            daoProfesor.cambiarEstadoProfesor(profesorObtenido.getIdProfesor(), "Activo");
+        }
     }
      
     public Profesor obtenerDatosDeProfesorSingleton(){
@@ -136,14 +172,14 @@ public class Ventana_ColaboracionActivaController implements Initializable {
     public PropuestaColaboracion obtenerDatosPropuestaColaboracion(Colaboracion colaboracion){
         PropuestaColaboracion propuestaObtenida = new PropuestaColaboracion();
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion = new DAOPropuestaColaboracionImplementacion();
-        daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(colaboracion.getIdPropuestaColaboracion());
+        propuestaObtenida = daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(colaboracion.getIdPropuestaColaboracion());
         return propuestaObtenida;
     }
     
     public void cargarDatosColaboracion(PropuestaColaboracion propuestaActiva,List<Profesor> profesoresObtenidos, Colaboracion colaboracionObtenida){
         Profesor[] profesoresDeColaboracion = new Profesor[4];
         int numeroDeProfesor = 0;
-        while(!profesoresObtenidos.isEmpty()){
+        while(numeroDeProfesor<profesoresObtenidos.size()){
             profesoresDeColaboracion[numeroDeProfesor] = profesoresObtenidos.get(numeroDeProfesor);
             numeroDeProfesor++;
         }   
@@ -172,9 +208,16 @@ public class Ventana_ColaboracionActivaController implements Initializable {
         try{
             Profesor profesorActivo = obtenerDatosDeProfesorSingleton();
             colaboracionActiva = obtenerDatosColaboracion(profesorActivo);
-            profesoresObtenidos = obtenerProfesoresColaboracion(colaboracionActiva);
-            propuestaActiva = obtenerDatosPropuestaColaboracion(colaboracionActiva);
-            cargarDatosColaboracion(propuestaActiva,profesoresObtenidos,colaboracionActiva);
+            if(Objects.nonNull(colaboracionActiva)){
+                profesoresObtenidos = obtenerProfesoresColaboracion(colaboracionActiva);
+                propuestaActiva = obtenerDatosPropuestaColaboracion(colaboracionActiva);
+                cargarDatosColaboracion(propuestaActiva,profesoresObtenidos,colaboracionActiva);
+                ColaboracionAuxiliar.setInstancia(colaboracionActiva);
+                PropuestaColaboracionAuxiliar.setInstancia(propuestaActiva);
+            }else{
+                Alertas.mostrarMensajeColaboracionActiva("Por el momento no hay ninguna colaboracion activa");
+                regresarAMenuPrincipal();
+            }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
             Alertas.mostrarMensajeErrorAlObtenerDatos();

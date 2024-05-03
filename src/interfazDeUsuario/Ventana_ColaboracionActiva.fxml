@@ -68,7 +68,7 @@
                </font>
             </Button>
             <Button fx:id="btn_Actividades" layoutX="285.0" layoutY="289.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="80.0" style="-fx-background-color: #05DCFE;" text="Actividades" textFill="WHITE" />
-            <Button fx:id="btn_CerrarColaboracion" layoutX="25.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #FF4F57;" text="Cerrar Colaboración" textFill="WHITE" />
+            <Button fx:id="btn_CerrarColaboracion" layoutX="25.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #FF4F57;" text="Cerrar Colaboración" textFill="WHITE" onAction="#cerrarColaboracion"/>
             <VBox fx:id="vb_Profesores" layoutX="150.0" layoutY="73.0" prefHeight="68.0" prefWidth="270.0" style="-fx-border-color: grey;">
                <children>
                   <Label fx:id = "lbl_Profesor1" prefHeight="18.0" prefWidth="270.0" style="-fx-border-color: grey;" />
