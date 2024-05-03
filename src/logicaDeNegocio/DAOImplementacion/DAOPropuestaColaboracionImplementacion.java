@@ -1,10 +1,12 @@
 package logicaDeNegocio.DAOImplementacion;
 
 import accesoADatos.ManejadorBaseDeDatos;
+import com.mysql.cj.jdbc.CallableStatement;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -19,25 +21,26 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     @Override
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion) {
         int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
+        CallableStatement declaracion;
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("INSERT INTO propuestaColaboracion(fechaInicio,fechaCierre,idioma,experienciaEducativa,"
-                    + "objetivo,cantidadEstudiantes,programaEducativoEstudiantil,estadoPropuesta,idTipoColaboracion)"
-                    + "VALUES (?,?,?,?,?,?,?,?,?);");
+            declaracion=(CallableStatement) conexion.prepareCall("call registrarPropuestaColaboracion(?,?,?,?,?,?,?,?,?)");
             declaracion.setString(1, propuestaColaboracion.getFechaInicio());
             declaracion.setString(2, propuestaColaboracion.getFechaCierre());
             declaracion.setString(3, propuestaColaboracion.getIdioma());
             declaracion.setString(4, propuestaColaboracion.getExperienciaEducativa());
             declaracion.setString(5,propuestaColaboracion.getObjetivo());
-            declaracion.setInt(6,propuestaColaboracion.getCantidadEstudiantes());
-            declaracion.setString(7, propuestaColaboracion.getProgramaEducativoEstudiantil());
-            declaracion.setString(8, propuestaColaboracion.getEstadoPropuesta());
-            declaracion.setInt(9, propuestaColaboracion.getTipoColaboracion().getIdTipoColaboracion());
-            numeroFilasAfectadas=declaracion.executeUpdate();
+            declaracion.setString(6, propuestaColaboracion.getProgramaEducativoEstudiantil());
+            declaracion.setString(7, propuestaColaboracion.getEstadoPropuesta());
+            declaracion.setInt(8, propuestaColaboracion.getTipoColaboracion().getIdTipoColaboracion());
+            declaracion.registerOutParameter(9, Types.INTEGER);
+            declaracion.execute();
+            numeroFilasAfectadas = declaracion.getInt(9);
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.fatal(ex);
+        } catch (SQLException excepcion) {
+            LOG.fatal(excepcion.getCause());
+            System.out.println(excepcion.getMessage());
+            numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;        
     }
@@ -59,7 +62,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setIdioma(resultado.getString("idioma"));
                 propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
                 propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
                 propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
                 propuestaColaboracion.setInformacionAdicional(resultado.getString("informacionAdicional"));
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
@@ -91,7 +93,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setIdioma(resultado.getString("idioma"));
                 propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
                 propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
                 propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
                 propuestaColaboracion.setInformacionAdicional(resultado.getString("informacionAdicional"));
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
@@ -189,7 +190,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setIdioma(resultado.getString("idioma"));
                 propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
                 propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
                 propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
                 propuestaColaboracion.setInformacionAdicional(resultado.getString("informacionAdicional"));
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));                
@@ -206,6 +206,40 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             LOG.warn(ex);
         }
         return propuestasColaboracion;        
+    }
+    
+    @Override
+    public PropuestaColaboracion obtenerPropuestaDeColaboracionPorId(int idPropuestaColaboracion){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
+        DAOTipoColaboracionImplementacion daoTipoColaboracion = new DAOTipoColaboracionImplementacion();
+        TipoColaboracion tipoColaboracion = new TipoColaboracion();
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where idPropuestaColaboracion=?");
+            declaracion.setInt(1, idPropuestaColaboracion);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
+                propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
+                propuestaColaboracion.setIdioma(resultado.getString("idioma"));
+                propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
+                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
+                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
+                propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
+                int idTipoColaboracion = resultado.getInt("idTipoColaboracion");
+                tipoColaboracion.setIdTipoColaboracion(idTipoColaboracion);
+                String tipo = daoTipoColaboracion.consultarTipoColaboracionPorId(idTipoColaboracion);
+                tipoColaboracion.setTipo(tipo);
+                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            LOG.warn(ex);
+        }
+        return propuestaColaboracion;
     }
     
 }

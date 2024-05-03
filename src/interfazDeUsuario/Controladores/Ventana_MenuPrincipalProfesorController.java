@@ -5,9 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
 import javafx.fxml.Initializable;
-import javafx.event.ActionEvent;
-import logicaDeNegocio.clases.Usuario;
-import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
@@ -26,7 +23,7 @@ import org.apache.log4j.Logger;
 
 public class Ventana_MenuPrincipalProfesorController implements Initializable{
     
-    private static final Logger LOG=Logger.getLogger(ventana_InicioDeSesionController.class);
+    private static final Logger LOG=Logger.getLogger(Ventana_MenuPrincipalProfesorController.class);
     private Stage escenario;
     @FXML 
     private AnchorPane anchor_PanelPrincipal;
@@ -83,17 +80,17 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     public void visualizarColaboracionActiva(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         if(profesor.getEstado().equals(EnumProfesor.Colaborando.toString())){
-            String rutafxml = "/interfazDeUsuario/Ventana_ColaboracionActiva.fxml" ;
+            String rutafxml = "/interfazDeUsuario/Ventana_ColaboracionActiva.fxml";
             desplegarVentana(rutafxml);
         }else{
-            Alertas.mostrarColaboracionInactiva();
+          Alertas.mostrarColaboracionInactiva();
         }
     }
     
     public void realizarPropuestaDeColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         if(profesor.getEstado().equals(EnumProfesor.Disponible.toString())){
-            String rutafxml = "/interfazDeUsuario/Ventana_ProponerColaboracion.fxml" ;
+            String rutafxml = "/interfazDeUsuario/Ventana_ProponerColaboracion.fxml";
             desplegarVentana(rutafxml);
         }else{
             String mensaje = "No se pueden realizar propuestas de colaboración estando en una colaboracion activa";
@@ -113,18 +110,17 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
         }
     }
 
-    public void desplegarVentana(String ruta){
-        String rutaVentanaFXML = ruta;
+    public void desplegarVentana(String rutaFxml){
         try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            cerrarVentana();
         }catch(IOException excepcion){
-            LOG.error(excepcion);
+            LOG.error(excepcion.getCause());
         }
-        cerrarVentana();
     }
      
     public void salirDelMenuPrincipal(){
@@ -137,7 +133,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
             stage.setScene(scene);
             stage.show();
         }catch(IOException excepcion){
-            LOG.error(excepcion);
+            LOG.error(excepcion.getCause());
         }
         
         UsuarioSingleton.resetSingleton();

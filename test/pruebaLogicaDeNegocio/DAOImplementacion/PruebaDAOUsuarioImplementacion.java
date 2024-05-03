@@ -13,9 +13,9 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaRegistrarUsuarioExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("CuentaPruebaDos");
+        usuarioPrueba.setNombreUsuario("CuentaPruebaUno");
         usuarioPrueba.setContrasenia("Contrasena123*");
-        usuarioPrueba.setTipoDeUsuario("Profesor");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
         
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
         assertEquals(1,resultado);

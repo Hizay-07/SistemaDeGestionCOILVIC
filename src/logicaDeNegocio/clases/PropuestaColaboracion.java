@@ -8,7 +8,6 @@ public class PropuestaColaboracion {
     private String idioma;
     private String experienciaEducativa;    
     private String objetivo;
-    private int cantidadEstudiantes;
     private String programaEducativoEstudiantil;
     private String estadoPropuesta;
     private String informacionAdicional;
@@ -92,19 +91,7 @@ public class PropuestaColaboracion {
             throw new IllegalArgumentException();
         }
     }
-
-    public int getCantidadEstudiantes() {
-        return cantidadEstudiantes;
-    }
-
-    public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
-        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes))){
-            this.cantidadEstudiantes = cantidadEstudiantes;
-        }else{
-            throw new IllegalArgumentException();
-        }
-    }
-
+    
     public String getProgramaEducativoEstudiantil() {
         return programaEducativoEstudiantil;
     }

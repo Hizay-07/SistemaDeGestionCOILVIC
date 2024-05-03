@@ -7,12 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import logicaDeNegocio.clases.EmisionPropuesta;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.interfaces.EmisionPropuestaInterface;
 
 public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterface {
+    
+    private static final Logger LOG=Logger.getLogger(DAOEmisionPropuestaImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private Connection conexion;
     
@@ -21,15 +23,16 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("INSERT INTO EmisionPropuesta (idProfesor,idPropuestaColaboracion,fechaEmision) VALUES (?,?,?);");
             declaracion.setInt(1, emisionPropuesta.getIdProfesor());
             declaracion.setInt(2, emisionPropuesta.getIdPropuestaColaboracion());
             declaracion.setString(3, emisionPropuesta.getFechaEmision());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOEmisionPropuestaImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion);
+            numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;                
     }
@@ -40,7 +43,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         ResultSet resultado;
         List<EmisionPropuesta> emisionesPropuesta=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from EmisionPropuesta;");
             resultado=declaracion.executeQuery();
             while(resultado.next()){
@@ -51,8 +54,8 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
                 emisionesPropuesta.add(emisionPropuesta);
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOEmisionPropuestaImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion);
         }
         return emisionesPropuesta;        
     }
@@ -63,7 +66,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         ResultSet resultado;
         int idProfesor=0;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT idProfesor from EmisionPropuesta where idPropuestaColaboracion=?;");
             declaracion.setInt(1, idPropuestaColaboracion);
             resultado=declaracion.executeQuery();
@@ -71,10 +74,31 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
                 idProfesor=resultado.getInt("idProfesor");
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOEmisionPropuestaImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion);
+            idProfesor=-1;
         }
         return idProfesor;        
+    }
+    
+    public int consultarIdPropuestaDeColaboracionPorIdProfesor(Profesor profesor){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idPropuestaColaboracion=0;
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from EmisionPropuesta where idProfesor=?;");
+            declaracion.setInt(1, profesor.getIdProfesor());
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+            }
+            conexion.close();
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion);
+            idPropuestaColaboracion=-1;
+        }
+        return idPropuestaColaboracion;
     }
     
 }

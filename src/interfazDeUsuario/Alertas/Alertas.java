@@ -99,6 +99,7 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.ERROR);
             mensaje.setTitle("Correo inválido");
             mensaje.setContentText("El correo asociado no pertenece a ningún profesor registrado");
+            mensaje.showAndWait();
         });
     }
     
@@ -116,6 +117,33 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("Representante institucional registrado");
             mensaje.setContentText("Representante institucional registrado correctamente");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeColaboracionActiva(String mensajeVentana){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Colaboracion activa");
+            mensaje.setContentText(mensajeVentana);
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarColaboracionInactiva(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Sin colaboracion");
+            mensaje.setContentText("Por el momento no hay una colaboracion activa la cual se pueda visualizar");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeErrorAlObtenerDatos(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Fallo en la obtención de datos");
+            mensaje.setContentText("No se han podido recuperar los datos de manera correcta");
             mensaje.showAndWait();
         });
     }

@@ -1,21 +1,29 @@
 package interfazDeUsuario.Controladores;
 
 import interfazDeUsuario.Alertas.Alertas;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
+import org.apache.log4j.Logger;
 
 
 public class Ventana_CreacionDeUsuarioController implements Initializable {
-    
+    private static final Logger LOG=Logger.getLogger(ventana_InicioDeSesionController.class);
+    private Stage escenario;
     @FXML
     private TextField txfd_NombreDeUsuario;
     @FXML
@@ -24,12 +32,33 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
     private TextField txfd_Correo;
     @FXML
     private ComboBox cmb_TipoDeUsuario;
-    
+    @FXML
+    private AnchorPane anchor_Ventana;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboboxTipoDeUsuario();
-    }  
+    }
+    
+    public void cerrarVentana(){
+        escenario = (Stage) anchor_Ventana.getScene().getWindow();
+        escenario.close();
+    }
+    
+    public void regresarVentanaPrincipal(){
+        String ruta = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
+        try{
+            Parent root=FXMLLoader.load(getClass().getResource(ruta));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
+        }
+        
+        cerrarVentana();
+    }
     
     public void llenarComboboxTipoDeUsuario(){
         for(EnumTipoDeUsuario tipos : EnumTipoDeUsuario.values()){
@@ -77,7 +106,8 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
     public void registrarUsuarioProfesor(Usuario usuario){
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        if(daoProfesor.obtenerIdProfesorPorCorreo(usuario.getCorreo())!=0){
+        int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(usuario.getCorreo());
+        if(idProfesor!=0){
             int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
             switch (resultadoRegistro) {
                 case 1 -> {
@@ -91,7 +121,7 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
                 case -1 -> Alertas.mostrarMensajeErrorEnLaConexion();
                 default -> Alertas.mostrarMensajeDatosDuplicados();
             }
-        }else{
+        }else if(idProfesor==0){
             Alertas.mostrarCorreoDeProfesorInexistente();
         }
     }

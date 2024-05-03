@@ -5,6 +5,7 @@ public class PeticionColaboracion {
     
     private int idProfesor;
     private int idColaboracion;
+    private int idPropuestaColaboracion;
     private String estado;
     private String fechaEnvio;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
@@ -58,6 +59,18 @@ public class PeticionColaboracion {
     public void setFechaEnvio(String fechaEnvio)throws IllegalArgumentException {
         if(fechaEnvio!=null||Pattern.matches(FECHA_PATTERN, fechaEnvio)){
             this.fechaEnvio = fechaEnvio;
+        }else{
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public int getIdPropuestaColaboracion() {
+        return idPropuestaColaboracion;
+    }
+
+    public void setIdPropuestaColaboracion(int idPropuestaColaboracion)throws IllegalArgumentException{
+       if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idPropuestaColaboracion))){
+            this.idPropuestaColaboracion = idPropuestaColaboracion;
         }else{
             throw new IllegalArgumentException();
         }
