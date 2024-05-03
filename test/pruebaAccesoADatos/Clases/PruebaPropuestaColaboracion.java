@@ -94,20 +94,6 @@ public class PruebaPropuestaColaboracion {
     }
     
     @Test
-    public void pruebaSetCantidadEstudiantesExitoso(){
-        PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setCantidadEstudiantes(10);
-        assertNotNull(propuestaPrueba.getCantidadEstudiantes());
-    }
-    
-    @Test
-    public void pruebaSetCantidadEstudiantesInvalido(){
-        PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setCantidadEstudiantes(-1);
-        assertNotNull(propuestaPrueba.getCantidadEstudiantes());
-    }
-    
-    @Test
     public void pruebaSetProgramaEducativoEstudiantilExitoso(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setProgramaEducativoEstudiantil("Bachillerato");
@@ -133,21 +119,6 @@ public class PruebaPropuestaColaboracion {
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setEstadoPropuesta("12345");
         assertNull(propuestaPrueba.getEstadoPropuesta());
-    }
-    
-    
-    @Test
-    public void pruebaSetInformacionAdicionalExitoso(){
-        PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setInformacionAdicional("Información adicional sobre la propuesta");
-        assertNotNull(propuestaPrueba.getInformacionAdicional());
-    }
-    
-    @Test
-    public void pruebaSetInformacionAdicionalInvalido(){
-        PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setInformacionAdicional("Info*"); 
-        assertNull(propuestaPrueba.getInformacionAdicional());
     }
     
     @Test

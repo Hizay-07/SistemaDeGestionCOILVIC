@@ -235,7 +235,7 @@ public class Ventana_RegistroDeProfesorController implements Initializable {
     }
                  
     public void salirDeLaVentana(){
-         String rutaVentanaFXML = null;
+        String rutaVentanaFXML = null;
         try{
             rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));

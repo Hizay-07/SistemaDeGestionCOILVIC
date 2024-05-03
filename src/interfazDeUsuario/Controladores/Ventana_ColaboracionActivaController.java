@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
-import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
-import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +23,8 @@ import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.EmisionPropuestaAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
+import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.EmisionPropuesta;
 import logicaDeNegocio.clases.PeticionColaboracion;
 import logicaDeNegocio.clases.Profesor;
@@ -117,69 +118,66 @@ public class Ventana_ColaboracionActivaController implements Initializable {
         return profesor;
     }
     
-    public List<Profesor> obtenerProfesoresColaboracion(int idColaboracion){
+    public List<Profesor> obtenerProfesoresColaboracion(Colaboracion colaboracion){
         List<Profesor> profesoresObtenidos = new ArrayList();
-        DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
-        
+        DAOColaboracionProfesorImplementacion daoColaboracionProfesor = new DAOColaboracionProfesorImplementacion();
+        profesoresObtenidos = daoColaboracionProfesor.obtenerProfesoresPorIdColaboracion(colaboracion);
         return profesoresObtenidos;
     }
     
+    public Colaboracion obtenerDatosColaboracion(Profesor profesor){
+        Colaboracion colaboracionObtenida = new Colaboracion();
+        DAOColaboracionProfesorImplementacion daoColaboracionImplementacion = new DAOColaboracionProfesorImplementacion();
+        colaboracionObtenida = daoColaboracionImplementacion.obtenerColaboracionPorIdProfesor(profesor);
+        return colaboracionObtenida;
+    }
     
-    public PropuestaColaboracion obtenerDatosDeColaboracionDesdeEmisiorDeColaboracion(){
-        Profesor profesorActivo = obtenerDatosDeProfesorSingleton();
-        PropuestaColaboracion propuestaActiva = new PropuestaColaboracion();
+    
+    public PropuestaColaboracion obtenerDatosPropuestaColaboracion(Colaboracion colaboracion){
+        PropuestaColaboracion propuestaObtenida = new PropuestaColaboracion();
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion = new DAOPropuestaColaboracionImplementacion();
-        DAOEmisionPropuestaImplementacion daoEmisionPropuesta = new DAOEmisionPropuestaImplementacion();
-        EmisionPropuesta emisionPropuesta = new EmisionPropuesta();
-        
-        int idPropuesta = daoEmisionPropuesta.consultarIdPropuestaDeColaboracionPorIdProfesor(profesorActivo);
-        if(idPropuesta!=-1){
-            emisionPropuesta.setIdPropuestaColaboracion(idPropuesta);
-            EmisionPropuestaAuxiliar.setInstancia(emisionPropuesta);
-            propuestaActiva = daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(idPropuesta);
-        }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();
-        }
-        
-        return propuestaActiva;
+        daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(colaboracion.getIdPropuestaColaboracion());
+        return propuestaObtenida;
     }
     
-    public PropuestaColaboracion obtenerDatosDeColaboracionDesdePeticionesDeColaboracion(){
-        Profesor profesorActivo = obtenerDatosDeProfesorSingleton();
-        PeticionColaboracion peticion= new PeticionColaboracion();
-        PropuestaColaboracion propuestaActiva = new PropuestaColaboracion();
-        DAOPeticionColaboracionImplementacion daoPeticionColaboracion = new DAOPeticionColaboracionImplementacion();
-        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion = new DAOPropuestaColaboracionImplementacion();    
-        int idPropuesta = daoPeticionColaboracion.consultarIdPropuestaDeColaboracionPorIdProfesor(profesorActivo);
-        if(idPropuesta!=-1){
-            peticion.setIdPropuestaColaboracion(idPropuesta);
-            propuestaActiva = daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(peticion.getIdPropuestaColaboracion());
-        }else{
-            Alertas.mostrarMensajeFechaInvalida();
-        }
-        return propuestaActiva;
-    }
-    
-    
-    
-    public void asignarDatosDeColaboracion(PropuestaColaboracion propuestaActiva){
+    public void cargarDatosColaboracion(PropuestaColaboracion propuestaActiva,List<Profesor> profesoresObtenidos, Colaboracion colaboracionObtenida){
+        Profesor[] profesoresDeColaboracion = new Profesor[4];
+        int numeroDeProfesor = 0;
+        while(!profesoresObtenidos.isEmpty()){
+            profesoresDeColaboracion[numeroDeProfesor] = profesoresObtenidos.get(numeroDeProfesor);
+            numeroDeProfesor++;
+        }   
         lbl_NombreColaboracion.setText(propuestaActiva.getExperienciaEducativa());
         lbl_TipoDeColaboracionDato.setText(propuestaActiva.getTipoColaboracion().getTipo());
         lbl_ObjetivoGeneralDato.setText(propuestaActiva.getObjetivo());
+        lbl_Profesor1.setText(profesoresDeColaboracion[0].getNombre()+" "+profesoresDeColaboracion[0].getApellidoPaterno()+" "+profesoresDeColaboracion[0].getApellidoMaterno());
+        lbl_Profesor2.setText(profesoresDeColaboracion[1].getNombre()+" "+profesoresDeColaboracion[1].getApellidoPaterno()+" "+profesoresDeColaboracion[1].getApellidoMaterno());
+        if(profesoresDeColaboracion[2]!=null) {
+            lbl_Profesor3.setText(profesoresDeColaboracion[2].getNombre()+" "+profesoresDeColaboracion[2].getApellidoPaterno()+" "+profesoresDeColaboracion[2].getApellidoMaterno());
+        }else{
+            lbl_Profesor3.setText("---------------------");
+        }
+        if(profesoresDeColaboracion[3]!=null){
+            lbl_Profesor4.setText(profesoresDeColaboracion[3].getNombre()+" "+profesoresDeColaboracion[3].getApellidoPaterno()+" "+profesoresDeColaboracion[3].getApellidoMaterno());
+        }else{
+            lbl_Profesor4.setText("---------------------");
+        }
+        
     }
     
-    public void cargarDatosDeColaboracion(){
+    public void asignarDatosDeColaboracion(){
         PropuestaColaboracion propuestaActiva = new PropuestaColaboracion();
-        propuestaActiva = obtenerDatosDeColaboracionDesdeEmisiorDeColaboracion();
-        if(propuestaActiva!=null){
-          
-        }else{
-            propuestaActiva = obtenerDatosDeColaboracionDesdePeticionesDeColaboracion();
-            if(propuestaActiva!=null){
-                
-            }else{
-                Alertas.mostrarMensajeErrorAlObtenerDatos();
-            }
+        Colaboracion colaboracionActiva = new Colaboracion();
+        List<Profesor> profesoresObtenidos = new ArrayList();
+        try{
+            Profesor profesorActivo = obtenerDatosDeProfesorSingleton();
+            colaboracionActiva = obtenerDatosColaboracion(profesorActivo);
+            profesoresObtenidos = obtenerProfesoresColaboracion(colaboracionActiva);
+            propuestaActiva = obtenerDatosPropuestaColaboracion(colaboracionActiva);
+            cargarDatosColaboracion(propuestaActiva,profesoresObtenidos,colaboracionActiva);
+        }catch(IllegalArgumentException excepcion){
+            LOG.error(excepcion.getCause());
+            Alertas.mostrarMensajeErrorAlObtenerDatos();
         }
     }
     
