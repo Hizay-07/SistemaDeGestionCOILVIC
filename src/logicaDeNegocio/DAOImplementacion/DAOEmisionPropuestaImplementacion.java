@@ -46,12 +46,14 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from EmisionPropuesta;");
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
-                emisionPropuesta.setIdProfesor(resultado.getInt("idProfesor"));
-                emisionPropuesta.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                emisionPropuesta.setFechaEmision(resultado.getString("fechaEmision"));
-                emisionesPropuesta.add(emisionPropuesta);
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
+                    emisionPropuesta.setIdProfesor(resultado.getInt("idProfesor"));
+                    emisionPropuesta.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    emisionPropuesta.setFechaEmision(resultado.getString("fechaEmision"));
+                    emisionesPropuesta.add(emisionPropuesta);
+                }
             }
             conexion.close();
         } catch (SQLException excepcion) {
@@ -70,8 +72,10 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             declaracion=conexion.prepareStatement("SELECT idProfesor from EmisionPropuesta where idPropuestaColaboracion=?;");
             declaracion.setInt(1, idPropuestaColaboracion);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idProfesor=resultado.getInt("idProfesor");
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idProfesor=resultado.getInt("idProfesor");
+                }
             }
             conexion.close();
         } catch (SQLException excepcion) {
@@ -90,8 +94,10 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from EmisionPropuesta where idProfesor=?;");
             declaracion.setInt(1, profesor.getIdProfesor());
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+                }
             }
             conexion.close();
         } catch (SQLException excepcion) {
