@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 
 
 public class Ventana_CreacionDeUsuarioController implements Initializable {
-    private static final Logger LOG=Logger.getLogger(ventana_InicioDeSesionController.class);
+    private static final Logger LOG=Logger.getLogger(Ventana_CreacionDeUsuarioController.class);
     private Stage escenario;
     @FXML
     private TextField txfd_NombreDeUsuario;
