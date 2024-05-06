@@ -17,31 +17,28 @@
                   <Font name="MS Reference Sans Serif" size="33.0" />
                </font>
             </Label>
-         </children>
-      </Pane>
-      <TableView layoutY="55.0" prefHeight="433.0" prefWidth="1198.0" stylesheets="@EstiloTabla.css">
-        <columns>
-          <TableColumn fx:id="No_Actividad" editable="false" prefWidth="87.20001065731049" sortable="false" text="No. Actividad" />
-          <TableColumn fx:id="Nombre" editable="false" prefWidth="193.60004425048828" sortable="false" text="Nombre" />
-            <TableColumn fx:id="Descripcion" editable="false" prefWidth="210.39996337890625" sortable="false" text="Descripción" />
-            <TableColumn fx:id="FechaDeInicio" editable="false" prefWidth="175.99996948242188" sortable="false" text="Fecha de Inicio" />
-            <TableColumn fx:id="FechaDeCierre" editable="false" prefWidth="162.4000244140625" sortable="false" text="Fecha de cierre" />
-            <TableColumn fx:id="EstadoDeActividad" editable="false" prefWidth="107.99993896484375" sortable="false" text="Estado de Actividad" />
-            <TableColumn fx:id="Modificar" editable="false" prefWidth="75.0" sortable="false" text="Modificar" />
-            <TableColumn fx:id="Evidencia" editable="false" prefWidth="75.0" sortable="false" text="Evidencia" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-      <Pane fx:id="pane_Inferior" layoutY="487.0" prefHeight="42.0" prefWidth="1198.0" style="-fx-background-color: #168394;">
-         <children>
-            <Button fx:id="btn_Regresar" layoutX="563.0" layoutY="6.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: red;" text="Regresar" textFill="WHITE">
+            <Button fx:id="btn_Regresar" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: red; -fx-border-color: white;" text="Regresar" textFill="WHITE">
                <font>
                   <Font name="MS Reference Sans Serif" size="12.0" />
                </font>
             </Button>
          </children>
       </Pane>
+      <TableView fx:id="tableView_TablaActividades" layoutY="55.0" prefHeight="433.0" prefWidth="1198.0" stylesheets="@EstiloTabla.css">
+        <columns>
+          <TableColumn fx:id="column_No_Actividad" editable="false" prefWidth="87.20001065731049" sortable="false" text="No. Actividad" />
+          <TableColumn fx:id="column_Nombre" editable="false" prefWidth="193.60004425048828" sortable="false" text="Nombre" />
+            <TableColumn fx:id="column_Descripcion" editable="false" prefWidth="210.39996337890625" sortable="false" text="Descripción" />
+            <TableColumn fx:id="column_FechaDeInicio" editable="false" prefWidth="106.39990234375" sortable="false" text="Fecha de Inicio" />
+            <TableColumn fx:id="column_FechaDeCierre" editable="false" prefWidth="111.20001220703125" sortable="false" text="Fecha de cierre" />
+            <TableColumn fx:id="column_EstadoDeActividad" editable="false" prefWidth="128.00006103515625" sortable="false" text="Estado de Actividad" />
+            <TableColumn fx:id="column_Modificar" editable="false" prefWidth="175.199951171875" sortable="false" text="Modificar" />
+            <TableColumn fx:id="column_Evidencia" editable="false" prefWidth="159.2000732421875" sortable="false" text="Evidencia" />
+        </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+      </TableView>
+      <Pane fx:id="pane_Inferior" layoutY="487.0" prefHeight="42.0" prefWidth="1198.0" style="-fx-background-color: #168394;" />
    </children>
 </AnchorPane>

@@ -75,9 +75,9 @@ public class Ventana_IniciarActividadController implements Initializable {
         LocalDate fechaInicioActividad = dtp_FechaDeInicio.getValue();
         LocalDate fechaCierreActividad = dtp_FechaDeCierre.getValue();
         
-        if(fechaInicioActividad.isBefore(fechaCierreActividad)||fechaCierreActividad.isBefore(fechaActual)||fechaCierreActividad.isEqual(fechaActual)){
+        if(fechaInicioActividad.isBefore(fechaCierreActividad)&&fechaCierreActividad.isAfter(fechaActual)){
             String estadoActividad;
-            if(fechaActual.isAfter(fechaInicioActividad)){
+            if(fechaActual.isAfter(fechaInicioActividad)||fechaActual.isEqual(fechaInicioActividad)){
                 estadoActividad = "Activa";
             }else{
                 estadoActividad = "Inactiva";

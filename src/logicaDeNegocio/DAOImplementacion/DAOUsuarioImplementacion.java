@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 import java.sql.Types;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -112,6 +113,21 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         
         return resultadoId;
         
+    }
+
+    @Override
+    public boolean confirmarConexionDeInicioDeSesion(Usuario logger) {
+        boolean resultadoDeConfirmacionDeConexion=false;
+        try{
+           conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
+           if(Objects.nonNull(conexion)){
+               resultadoDeConfirmacionDeConexion=true;
+           }
+           conexion.close();
+        }catch(SQLException excepcion){
+            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+        }
+        return resultadoDeConfirmacionDeConexion;
     }
     
     

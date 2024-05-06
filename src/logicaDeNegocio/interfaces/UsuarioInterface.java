@@ -8,4 +8,5 @@ public interface UsuarioInterface {
     public int registrarUsuario(Usuario usuario);
     public String obtenerTipoDeUsuario(Usuario usuario,Usuario logger);
     public int obtenerIdUsuario(Usuario usuario,Usuario logger);
+    public boolean confirmarConexionDeInicioDeSesion(Usuario logger);
 }
