@@ -23,7 +23,6 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         CallableStatement declaracion;
         try {
             conexion=BASE_DE_DATOS.getConexion();
-
             declaracion=(CallableStatement) conexion.prepareCall("call registrarColaboracion(?,?,?,?)");
             declaracion.setString(1, colaboracion.getEstadoColaboracion());
             declaracion.setInt(2, colaboracion.getIdPropuestaColaboracion());
@@ -31,10 +30,9 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.registerOutParameter(4, Types.INTEGER);
             declaracion.execute();
             numeroFilasAfectadas = declaracion.getInt(4);
-
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.fatal(excepcion.getCause());
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;        
@@ -61,8 +59,8 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                 }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.error(ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return colaboraciones;
     }
@@ -78,8 +76,8 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.setInt(2, idColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;        
     }

@@ -46,7 +46,6 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
        }catch(SQLException excepcion){
            LOG.error(excepcion.getCause());
        }
-       
        return profesoresObtenidos;
     }
 

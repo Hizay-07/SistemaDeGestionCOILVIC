@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import logicaDeNegocio.clases.TipoColaboracion;
 import logicaDeNegocio.interfaces.TipoColaboracionInterface;
 import org.apache.log4j.Logger;
@@ -27,8 +26,8 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             declaracion.setString(1, tipoColaboracion.getTipo());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.error(ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion);
         }
         return numeroFilasAfectadas;               
     }
@@ -42,15 +41,17 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("SELECT * from TipoColaboracion");
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                TipoColaboracion tipoColaboracion=new TipoColaboracion();
-                tipoColaboracion.setTipo(resultado.getString("tipo"));
-                tipoColaboracion.setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
-                tiposColaboracion.add(tipoColaboracion);
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    TipoColaboracion tipoColaboracion=new TipoColaboracion();
+                    tipoColaboracion.setTipo(resultado.getString("tipo"));
+                    tipoColaboracion.setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
+                    tiposColaboracion.add(tipoColaboracion);
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.error(ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return tiposColaboracion;
     }     
@@ -65,12 +66,14 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             declaracion=conexion.prepareStatement("SELECT tipo from TipoColaboracion where idTipoColaboracion=?;");
             declaracion.setInt(1, idTipoColaboracion);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                tipo=resultado.getString("tipo");                
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    tipo=resultado.getString("tipo");                
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DAOTipoColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return tipo;        
     }
@@ -89,8 +92,9 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
                 idTipoColaboracion=resultado.getInt("idTipoColaboracion");                               
             }
             conexion.close();
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DAOTipoColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
+            idTipoColaboracion = -1;
         }
         return idTipoColaboracion;                
     }
