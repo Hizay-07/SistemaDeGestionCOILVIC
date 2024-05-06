@@ -39,7 +39,7 @@ public class Evidencia {
     }
 
     public void setRutaEvidencia(String rutaEvidencia)throws IllegalArgumentException{
-        if(rutaEvidencia!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, rutaEvidencia)){
+        if(rutaEvidencia!=null){
             this.rutaEvidencia = rutaEvidencia;
         }else{
             throw new IllegalArgumentException();

@@ -1,4 +1,4 @@
-  package logicaDeNegocio.DAOImplementacion;
+package logicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.interfaces.UsuarioInterface;
 import logicaDeNegocio.clases.Usuario;
@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 import java.sql.Types;
+import java.util.Objects;
 import org.apache.log4j.Logger;
+
 
 public class DAOUsuarioImplementacion implements UsuarioInterface{
    
@@ -107,6 +109,21 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             resultadoId = -1;
         }
         return resultadoId;
+    }
+
+    @Override
+    public boolean confirmarConexionDeInicioDeSesion(Usuario logger) {
+        boolean resultadoDeConfirmacionDeConexion=false;
+        try{
+           conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
+           if(Objects.nonNull(conexion)){
+               resultadoDeConfirmacionDeConexion=true;
+           }
+           conexion.close();
+        }catch(SQLException excepcion){
+            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+        }
+        return resultadoDeConfirmacionDeConexion;
     }
     
 }

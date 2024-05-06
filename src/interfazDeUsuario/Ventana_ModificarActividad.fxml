@@ -51,8 +51,13 @@
          </font>
       </Label>
       <TextField fx:id="txfd_NombreDeActividad" layoutX="243.0" layoutY="83.0" prefHeight="26.0" prefWidth="226.0" />
-      <DatePicker fx:id="dtp_FechaDeInicio" layoutX="243.0" layoutY="116.0" prefHeight="26.0" prefWidth="226.0" />
-      <DatePicker fx:id="dtp_FechaDeCierre" layoutX="243.0" layoutY="152.0" prefHeight="26.0" prefWidth="226.0" />
+      <DatePicker fx:id="dtp_FechaDeInicio" editable="false" layoutX="243.0" layoutY="116.0" prefHeight="26.0" prefWidth="226.0" />
+      <DatePicker fx:id="dtp_FechaDeCierre" editable="false" layoutX="243.0" layoutY="152.0" prefHeight="26.0" prefWidth="226.0" />
       <TextArea fx:id="txa_Descripcion" layoutX="238.0" layoutY="189.0" prefHeight="134.0" prefWidth="233.0" />
+      <Label fx:id="lbl_NumeroDeActividad" layoutX="180.0" layoutY="42.0" prefHeight="38.0" prefWidth="291.0" text="Numero de actividad">
+         <font>
+            <Font name="MS Reference Sans Serif" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

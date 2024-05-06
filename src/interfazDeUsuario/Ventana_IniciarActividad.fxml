@@ -36,7 +36,7 @@
             <Font name="Microsoft Sans Serif" size="18.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dtp_FechaDeInicio" layoutX="220.0" layoutY="149.0" prefHeight="26.0" prefWidth="238.0" />
+      <DatePicker fx:id="dtp_FechaDeInicio" editable="false" layoutX="220.0" layoutY="149.0" prefHeight="26.0" prefWidth="238.0" />
       <Label fx:id="lbl_FechaDeInicio" layoutX="84.0" layoutY="151.0" text="Fecha de inicio:">
          <font>
             <Font name="Microsoft Sans Serif" size="18.0" />
@@ -47,7 +47,7 @@
             <Font name="Microsoft Sans Serif" size="18.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dtp_FechaDeCierre" layoutX="219.0" layoutY="187.0" prefHeight="26.0" prefWidth="238.0" />
+      <DatePicker fx:id="dtp_FechaDeCierre" editable="false" layoutX="219.0" layoutY="187.0" prefHeight="26.0" prefWidth="238.0" />
       <Label fx:id="lbl_Descripcion" layoutX="111.0" layoutY="273.0" text="Descripción:">
          <font>
             <Font name="Microsoft Sans Serif" size="18.0" />

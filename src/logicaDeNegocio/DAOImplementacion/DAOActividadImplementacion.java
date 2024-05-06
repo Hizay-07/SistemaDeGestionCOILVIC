@@ -30,7 +30,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             sentencia.setString(4, actividadNueva.getFechaDeCierre());
             sentencia.setInt(5, actividadNueva.getIdColaboracion());
             sentencia.setInt(6,actividadNueva.getNumeroActividad());
-            sentencia.setString(7, EnumActividades.Inactiva.toString());
+            sentencia.setString(7, actividadNueva.getEstado());
             resultadoRegistro = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
@@ -45,10 +45,11 @@ public class DAOActividadImplementacion implements ActividadInterface {
         int resultadoModificacion;   
         try{
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET nombre = ?, descripcion = ? WHERE idActividad = ? ");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET nombre = ?, descripcion = ?, estadoActividad = ? WHERE idActividad = ? ");
             sentencia.setString(1, actividadActualizada.getNombre());
             sentencia.setString(2, actividadActualizada.getDescripcion());
-            sentencia.setInt(3, actividadActualizada.getIdActividad());
+            sentencia.setString(3, actividadActualizada.getEstado());
+            sentencia.setInt(4, actividadActualizada.getIdActividad());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
@@ -92,9 +93,9 @@ public class DAOActividadImplementacion implements ActividadInterface {
                     actividadConsultada.setDescripcion(actividadesObtenidas.getString(3));
                     actividadConsultada.setFechaDeInicio(actividadesObtenidas.getString(4));
                     actividadConsultada.setFechaDeCierre(actividadesObtenidas.getString(5));
-                    actividadConsultada.setIdColaboracion(actividadesObtenidas.getInt(6));
-                    actividadConsultada.setNumeroActividad(actividadesObtenidas.getInt(7));
-                    actividadConsultada.setEstado(actividadesObtenidas.getString(8));
+                    actividadConsultada.setIdColaboracion(actividadesObtenidas.getInt(7));
+                    actividadConsultada.setNumeroActividad(actividadesObtenidas.getInt(8));
+                    actividadConsultada.setEstado(actividadesObtenidas.getString(6));
                     actividades.add(actividadConsultada);
                 }
             }
