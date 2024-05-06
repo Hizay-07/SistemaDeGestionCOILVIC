@@ -31,7 +31,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;                
@@ -57,7 +57,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+            LOG.error(excepcion.getCause());
         }
         return emisionesPropuesta;        
     }
@@ -79,7 +79,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+            LOG.error(excepcion.getCause());
             idProfesor=-1;
         }
         return idProfesor;        
@@ -101,7 +101,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+            LOG.error(excepcion.getCause());
             idPropuestaColaboracion=-1;
         }
         return idPropuestaColaboracion;
