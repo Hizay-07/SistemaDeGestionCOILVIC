@@ -18,15 +18,15 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
         propuestaColaboracion.setFechaInicio("2024-05-02");
         propuestaColaboracion.setFechaCierre("2024-06-23");
-        propuestaColaboracion.setIdioma("Aleman");
-        propuestaColaboracion.setExperienciaEducativa("Sistemas operativos");
-        propuestaColaboracion.setObjetivo("Compartir los distintos enfoques para aprender sistemas operativos");
+        propuestaColaboracion.setIdioma("Ingles");
+        propuestaColaboracion.setExperienciaEducativa("Programacion");
+        propuestaColaboracion.setObjetivo("Compartir los distintos para programar en java");
         propuestaColaboracion.setProgramaEducativoEstudiantil("Ingenieria de software");
-        propuestaColaboracion.setEstadoPropuesta("Activa");
+        propuestaColaboracion.setEstadoPropuesta("Registrada");
         TipoColaboracion tipoColaboracion=new TipoColaboracion();
         tipoColaboracion.setIdTipoColaboracion(1);
         propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-        int resultadoEsperado=1;       
+        int resultadoEsperado=6;       
         int resultadoObtenido=instancia.registrarPropuestaColaboracion(propuestaColaboracion);
         assertEquals(resultadoEsperado,resultadoObtenido);                                
     }
@@ -173,6 +173,15 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
         resultadoObtenido=daoPropuestaColaboracion.consultarPropuestasDeColaboracionAprobadas();
         assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
+    
+    @Test
+    public void pruebaObtenerIdPropuestaColaboracionAprobadaPorIdProfesorExitosa(){
+        int idProfesor=2;
+        int resultadoEsperado=1;
+        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+        int resultadoObtenido=daoPropuestaColaboracion.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(idProfesor);
+        assertEquals(resultadoEsperado,resultadoObtenido);                        
     }
     
 }

@@ -116,4 +116,24 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         }
         return idPropuestaColaboracion;
     }
+    
+    public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracion(int idPropuestaColaboracion){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        List<Integer> idProfesores=new ArrayList<>();
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("Select idProfesor from peticionColaboracion where idPropuestaColaboracion=?;");
+            declaracion.setInt(1, idPropuestaColaboracion);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                int idProfesor=resultado.getInt("idProfesor");
+                idProfesores.add(idProfesor);                
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idProfesores;                        
+    }
 }

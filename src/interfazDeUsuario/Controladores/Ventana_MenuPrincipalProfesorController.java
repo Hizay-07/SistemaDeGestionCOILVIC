@@ -60,6 +60,12 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
             salirDelMenuPrincipal();
         });
         
+        btn_VerPeticionesDeColaboracion.setOnAction(Event ->{
+            visualizarPeticionesColaboracion();
+        });
+        
+        
+        
         mostrarMensajeProfesor();
     }    
        
@@ -84,7 +90,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     
     public void realizarPropuestaDeColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        if(profesor.getEstado().equals(EnumProfesor.Disponible.toString())){
+        if(profesor.getEstado().equals(EnumProfesor.Activo.toString())){
             String rutafxml = "/interfazDeUsuario/Ventana_ProponerColaboracion.fxml";
             desplegarVentana(rutafxml);
         }else{
@@ -96,7 +102,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     public void visualizarOfertasDeColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         
-        if(profesor.getEstado().equals(EnumProfesor.Disponible.toString())){
+        if(profesor.getEstado().equals(EnumProfesor.Activo.toString())){
             String rutafxml = "/interfazDeUsuario/Ventana_OfertaDeColaboraciones.fxml" ;
             desplegarVentana(rutafxml);
         }else{
@@ -114,7 +120,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
             stage.show();
             cerrarVentana();
         }catch(IOException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getCause());            
         }
     }
      
@@ -139,6 +145,11 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
      public void cerrarVentana(){
         escenario = (Stage) anchor_PanelPrincipal.getScene().getWindow();
         escenario.close();
+    }
+     
+    public void visualizarPeticionesColaboracion(){
+        String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
+        desplegarVentana(rutafxml);        
     }
     
 }

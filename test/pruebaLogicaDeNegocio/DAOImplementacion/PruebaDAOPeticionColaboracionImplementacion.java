@@ -1,5 +1,6 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
+import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.clases.PeticionColaboracion;
@@ -82,6 +83,17 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         assertEquals(0, resultado);
     }
     
+    @Test
+    public void pruebaConsultarIdProfesoresPorIdPropuestaColaboracionExitosa(){
+        int idPropuestaColaboracion=1;
+        List<Integer> resultadoEsperado=new ArrayList<>();
+        int idProfesorEsperado=1;
+        resultadoEsperado.add(idProfesorEsperado);
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<Integer> resultadoObtenido=new ArrayList<>();
+        resultadoObtenido=instancia.consultarIdProfesoresPorIdPropuestaColaboracion(idPropuestaColaboracion);
+        assertEquals(resultadoEsperado, resultadoObtenido);        
+    }
     
     
     
