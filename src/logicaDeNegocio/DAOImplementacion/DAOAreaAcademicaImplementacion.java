@@ -21,15 +21,15 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
     public int registrarAreaAcademica(AreaAcademica areaAcademica) {
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
-         try {
+        try{
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("INSERT INTO areaAcademica (area) VALUES (?);");
             declaracion.setString(1, areaAcademica.getArea());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-         } catch (SQLException excepcion) {
+        }catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause()); 
-         }
+        }
          return numeroFilasAfectadas;
     }
 
@@ -51,7 +51,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return areasAcademicas;
@@ -73,7 +73,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             idArea = -1;
         }

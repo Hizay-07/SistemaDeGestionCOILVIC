@@ -33,7 +33,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setString(4, peticion.getFechaEnvio());
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
@@ -59,7 +59,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return peticiones;
@@ -76,7 +76,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setInt(2, idColaboracion);
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
@@ -93,7 +93,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setInt(2, idColaboracion);
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
@@ -115,7 +115,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             idPropuestaColaboracion=-1;
         }

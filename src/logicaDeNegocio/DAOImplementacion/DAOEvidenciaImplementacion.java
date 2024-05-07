@@ -41,7 +41,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(4);
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoInsercion = -1;
         }
@@ -59,7 +59,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             sentencia.setInt(3, evidenciaNueva.getIdEvidencia());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
         }
@@ -85,7 +85,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
                 }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
         }
         return evidenciasDeActividad;
@@ -101,7 +101,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
                 resultadoCreacionDeCarpeta = carpetaActividad.mkdirs();
             }
         }catch(SecurityException excepcion){
-            Logger.getLogger(DAOEvidenciaImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion.getCause());
             resultadoCreacionDeCarpeta = false;
         }
         return resultadoCreacionDeCarpeta;
@@ -118,7 +118,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             Files.copy(rutaDeArchivoOriginal, rutaArchivoDeDestino, StandardCopyOption.REPLACE_EXISTING);
             rutaDeRegistro = rutaDeDestino;
         }catch(IOException excepcion){
-            Logger.getLogger(DAOEvidenciaImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+            LOG.error(excepcion.getCause());
         }
         return rutaDeRegistro;
     }
@@ -131,7 +131,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
            archivoAEliminar.delete();
            resultadoEliminacion = 1;
        }catch(SecurityException excepcion){
-           Logger.getLogger(DAOEvidenciaImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+           LOG.error(excepcion.getCause());
            resultadoEliminacion = -1;
        }
        return resultadoEliminacion;

@@ -32,7 +32,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(5, "Activo");
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -50,7 +50,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setInt(2, idProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
@@ -67,7 +67,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -85,7 +85,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -103,7 +103,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -121,7 +121,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -144,7 +144,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             idProfesor = -1;
         }
@@ -172,7 +172,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return profesor;        
@@ -190,7 +190,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
            declaracion.execute();
            resultadoModificacion = declaracion.getInt(2);
            BASE_DE_DATOS.cerrarConexion(conexion);
-       }catch(SQLException excepcion){
+       }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getCause());
            resultadoModificacion = -1;
        }
@@ -218,7 +218,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return profesor; 

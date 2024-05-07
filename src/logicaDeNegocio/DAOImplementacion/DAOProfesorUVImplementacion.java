@@ -32,7 +32,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setInt(6, profesorUV.getIdAreaAcademica());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;        
@@ -61,7 +61,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
                 }
             }
             conexion.close();                        
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return profesoresUV;
@@ -121,7 +121,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
                 }
             }
             conexion.close();                        
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return profesoresUV;  
@@ -138,7 +138,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;                
@@ -155,7 +155,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;         
@@ -172,7 +172,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;         
@@ -189,7 +189,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;    
@@ -205,7 +205,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(1, areaAcademica);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;        
