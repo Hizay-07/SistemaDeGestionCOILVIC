@@ -34,7 +34,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setInt(5, numeroDePais);
             resultadoRegistro = sentencia.executeUpdate();       
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoRegistro = -1;
         }
@@ -53,7 +53,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setString(4,representanteIngresado.getContacto());
             resultadoDesactivacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoDesactivacion = -1;
         }
@@ -72,7 +72,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setString(4,representanteIngresado.getContacto());
             resultadoDesactivacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoDesactivacion = -1;
         }
@@ -92,7 +92,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setString(4,representanteAActualizar.getContacto());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
         }
@@ -111,7 +111,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setString(4,representanteAActualizar.getContacto());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
         }
@@ -130,7 +130,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setString(4,representanteAActualizar.getContacto());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
         }
@@ -153,7 +153,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
                 }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             validacionDeExistencia = -1;
         }
@@ -177,7 +177,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
                 }
             }
             estadoRepresentanteInstitucional = resultadoDeEstado.equals("Activo");
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
              LOG.error(excepcion.getCause());
              estadoRepresentanteInstitucional = false;
         }
@@ -204,7 +204,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
                 }
             }
            BASE_DE_DATOS.cerrarConexion(conexion);
-       }catch(SQLException excepcion){
+       }catch(SQLException | NullPointerException excepcion){
           LOG.error(excepcion.getCause());
        }
        return representantes;
@@ -231,7 +231,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
                 }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
         }
         return representantes;
@@ -253,7 +253,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
                 }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return idRepresentanteInstitucional;        
@@ -272,7 +272,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             while(resultado.next()){
                 nombreInstitucion=resultado.getString("nombreInstitucion");                
             }
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return nombreInstitucion;        

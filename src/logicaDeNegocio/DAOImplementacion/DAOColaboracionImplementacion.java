@@ -31,7 +31,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.execute();
             numeroFilasAfectadas = declaracion.getInt(4);
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -59,7 +59,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                 }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return colaboraciones;
@@ -69,14 +69,14 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     public int registrarRetroalimentacionColaboracionPorId(int idColaboracion,String retroalimentacion) {
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
-        try {
+        try{
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("UPDATE Colaboracion set retroalimentacion=? where idColaboracion=?;");
             declaracion.setString(1, retroalimentacion);
             declaracion.setInt(2, idColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        }catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;        
@@ -93,7 +93,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.setInt(2,colaboracion.getIdColaboracion());
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }

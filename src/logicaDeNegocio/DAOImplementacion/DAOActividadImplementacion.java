@@ -33,7 +33,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             sentencia.setString(7, actividadNueva.getEstado());
             resultadoRegistro = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoRegistro = -1;
         }
@@ -55,6 +55,9 @@ public class DAOActividadImplementacion implements ActividadInterface {
         }catch(SQLException excepcion){
             LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
+        }catch(NullPointerException excepcion){
+            LOG.fatal(excepcion.getCause());
+            resultadoModificacion = -1;
         }        
         return resultadoModificacion;
     }
@@ -70,10 +73,10 @@ public class DAOActividadImplementacion implements ActividadInterface {
             sentencia.setInt(3, actividadActualizada.getIdActividad());
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
-        }       
+        }      
         return resultadoModificacion;
     }
 
@@ -100,7 +103,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
                 }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
         }      
         return actividades;
@@ -120,7 +123,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
                     numeroDeActividad = (int)numeroObtenido.getObject(1);
                 }
             }
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             numeroDeActividad = -1;
         }      
@@ -145,7 +148,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             }else{
                 resultadoValidacion=false;
             }    
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoValidacion = false;
         }
@@ -163,7 +166,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             sentencia.setInt(3, actividad.getIdActividad());
             resultadoActualizacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoActualizacion = -1;
         }                

@@ -32,7 +32,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(4);
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoInsercion = -1;
         }
@@ -59,7 +59,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                 resultadoValidacion = false;
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoValidacion = false;
         }
@@ -82,7 +82,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                 }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
         }
         return resultadoTipoDeUsuario;
@@ -104,7 +104,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                 }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoId = -1;
         }
@@ -120,8 +120,8 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                resultadoDeConfirmacionDeConexion=true;
            }
            conexion.close();
-        }catch(SQLException excepcion){
-            Logger.getLogger(DAOActividadImplementacion.class.getName()).log(Level.SEVERE, excepcion.getMessage(), excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
         }
         return resultadoDeConfirmacionDeConexion;
     }
