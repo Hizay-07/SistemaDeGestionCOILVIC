@@ -20,9 +20,9 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOPropuestaColaboracionImplementacion.class);
           
     @Override
-    public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion) {
-        int numeroFilasAfectadas=0;
+    public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion) {        
         CallableStatement declaracion;
+        int idPropuestaColaboracion=0;        
         try {
             conexion=BASE_DE_DATOS.getConexion();
 
@@ -37,16 +37,14 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setString(7, propuestaColaboracion.getEstadoPropuesta());
             declaracion.setInt(8, propuestaColaboracion.getTipoColaboracion().getIdTipoColaboracion());
             declaracion.registerOutParameter(9, Types.INTEGER);
-            declaracion.execute();
-            numeroFilasAfectadas = declaracion.getInt(9);
-
+            declaracion.execute();            
+            idPropuestaColaboracion=declaracion.getInt(9);           
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.fatal(excepcion.getCause());
-            System.out.println(excepcion.getMessage());
-            numeroFilasAfectadas = -1;
+            LOG.fatal(excepcion.getCause());            
+            idPropuestaColaboracion = -1;
         }
-        return numeroFilasAfectadas;        
+        return idPropuestaColaboracion;        
     }
   
     @Override
@@ -246,6 +244,66 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             LOG.warn(ex);
         }
         return propuestaColaboracion;
+    }
+    
+    @Override
+    public List<PropuestaColaboracion> consultarPropuestasDeColaboracionRegistradas(){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
+        DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where estadoPropuesta='Registrada';");            
+            resultado=declaracion.executeQuery();            
+            while(resultado.next()){
+                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                
+                propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
+                propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
+                propuestaColaboracion.setIdioma(resultado.getString("idioma"));
+                propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
+                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));                
+                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));                
+                propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));                
+                TipoColaboracion tipoColaboracion=new TipoColaboracion();
+                int idTipoColaboracion=resultado.getInt("idTipoColaboracion");
+                tipoColaboracion.setIdTipoColaboracion(idTipoColaboracion);
+                String tipo=daoTipoColaboracion.consultarTipoColaboracionPorId(idTipoColaboracion);
+                tipoColaboracion.setTipo(tipo);
+                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);                
+                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                Profesor profesor=daoProfesor.consultarProfesorPorId(idProfesor);            
+                propuestaColaboracion.setProfesor(profesor);                
+                propuestasColaboracion.add(propuestaColaboracion);                
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            LOG.warn(ex);
+        }
+        return propuestasColaboracion;                
+    }
+    
+    @Override
+    public int obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(int idProfesor){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idPropuestaColaboracion=0;
+        try{
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("select p.idPropuestaColaboracion from emisionPropuesta e, propuestaColaboracion p where idProfesor=? AND p.idPropuestaColaboracion=e.idPropuestaColaboracion AND p.estadoPropuesta='Aprobada';");
+            declaracion.setInt(1, idProfesor);
+            resultado=declaracion.executeQuery();           
+            if(resultado.next()){
+                idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");                
+            }
+            conexion.close();        
+        }catch (SQLException ex) {
+            LOG.warn(ex);
+        }
+        return idPropuestaColaboracion;                                        
     }
     
 }

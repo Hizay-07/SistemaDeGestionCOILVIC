@@ -61,14 +61,16 @@ public class Ventana_MenuAdministradorController implements Initializable{
         btn_CreacionDeUsuario.setOnAction(Event ->{
             registrarUsuario();
         });
-        
+        btn_VisualizarPropuestasDeColaboracion.setOnAction(Event ->{
+            visualizarPropuestasColaboracion();            
+        });                
         mostrarDetallesUsuario();
     }
     
     public void mostrarDetallesUsuario(){
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
         lbl_Administrador.setText(usuario.getNombreUsuario());
-    }
+    }        
     
     public void registrarProfesor(){
         String ruta = "/interfazDeUsuario/Ventana_RegistroDeProfesor.fxml";
@@ -114,5 +116,10 @@ public class Ventana_MenuAdministradorController implements Initializable{
         
         UsuarioSingleton.resetSingleton();
         cerrarVentana();
+    }
+    
+    public void visualizarPropuestasColaboracion(){
+        String ruta = "/interfazDeUsuario/Ventana_PropuestasDeColaboracion.fxml";
+        desplegarVentana(ruta);        
     }
 }
