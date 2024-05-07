@@ -16,7 +16,7 @@ import java.sql.Types;
 import org.apache.log4j.Logger;
 
 public class DAOColaboracionProfesorImplementacion implements ColaboracionProfesorInterface {
-    private static final Logger LOG=Logger.getLogger(DAOEmisionPropuestaImplementacion.class);
+    private static final Logger LOG=Logger.getLogger(DAOColaboracionProfesorImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private Connection conexion;
 
@@ -30,7 +30,8 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
            sentencia = conexion.prepareStatement("SELECT profesor.* from profesor,colaboracionprofesor where profesor.idProfesor = colaboracionprofesor.idProfesor and idColaboracion = ?");
            sentencia.setInt(1, colaboracion.getIdColaboracion());
            resultado = sentencia.executeQuery();
-           while(resultado.next()){
+            if(resultado.isBeforeFirst()){
+               while(resultado.next()){
                Profesor profesorObtenido = new Profesor();
                profesorObtenido.setNombre(resultado.getString("nombre"));
                profesorObtenido.setApellidoMaterno(resultado.getString("apellidoMaterno"));
@@ -39,12 +40,12 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
                profesorObtenido.setEstado(resultado.getString("estadoProfesor"));
                profesorObtenido.setIdProfesor(resultado.getInt("idProfesor"));
                profesoresObtenidos.add(profesorObtenido);
-           }
+               }
+            }
            BASE_DE_DATOS.cerrarConexion(conexion);
-       }catch(SQLException excepcion){
+       }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getCause());
        }
-       
        return profesoresObtenidos;
     }
 
@@ -55,16 +56,20 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
        Colaboracion colaboracionObtenida = new Colaboracion();
        try{
            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           sentencia = conexion.prepareStatement("SELECT colaboracion.* from colaboracion,colaboracionprofesor where ? = colaboracionprofesor.idProfesor and colaboracionProfesor.idColaboracion = colaboracion.idColaboracion");
+           sentencia = conexion.prepareStatement("SELECT colaboracion.* from colaboracion,colaboracionprofesor where ? = colaboracionprofesor.idProfesor and colaboracionProfesor.idColaboracion = colaboracion.idColaboracion and estadoColaboracion = ?");
            sentencia.setInt(1, profesor.getIdProfesor());
+           sentencia.setString(2, "Activa");
            resultado = sentencia.executeQuery();
-           while(resultado.next()){
-               colaboracionObtenida.setIdColaboracion(resultado.getInt("idColaboracion"));
-               colaboracionObtenida.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
-               colaboracionObtenida.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-           }
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    colaboracionObtenida.setIdColaboracion(resultado.getInt("idColaboracion"));
+                    colaboracionObtenida.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
+                    colaboracionObtenida.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    colaboracionObtenida.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
+                }
+            }
            BASE_DE_DATOS.cerrarConexion(conexion);
-       }catch(SQLException excepcion){
+       }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getCause());
        }
        return colaboracionObtenida;
@@ -82,7 +87,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(3);
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
             resultadoInsercion = -1;
         }

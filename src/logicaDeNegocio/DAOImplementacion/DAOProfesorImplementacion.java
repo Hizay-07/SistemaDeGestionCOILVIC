@@ -10,12 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import org.apache.log4j.Logger;
 
 public class DAOProfesorImplementacion implements ProfesorInterface {
 
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private Connection conexion;
-    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOColaboracionImplementacion.class);
+    private static final Logger LOG=Logger.getLogger(DAOProfesorImplementacion.class);
     
     @Override
     public int registrarProfesor(Profesor profesor) {
@@ -31,7 +32,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(5, "Activo");
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -49,7 +50,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setInt(2, idProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
@@ -66,7 +67,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -84,7 +85,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -102,7 +103,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -120,7 +121,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
@@ -137,11 +138,13 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion=conexion.prepareStatement("SELECT idProfesor from Profesor where correo=?;");
             declaracion.setString(1, correo);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idProfesor=resultado.getInt("idProfesor");
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idProfesor=resultado.getInt("idProfesor");
+                }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
             idProfesor = -1;
         }
@@ -158,16 +161,18 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion=conexion.prepareStatement("SELECT * from Profesor where idProfesor=?;");
             declaracion.setInt(1, idProfesor);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                profesor.setIdProfesor(resultado.getInt("idProfesor"));
-                profesor.setNombre(resultado.getString("nombre"));
-                profesor.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-                profesor.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-                profesor.setCorreo(resultado.getString("correo"));
-                profesor.setEstado(resultado.getString("estadoProfesor"));
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    profesor.setIdProfesor(resultado.getInt("idProfesor"));
+                    profesor.setNombre(resultado.getString("nombre"));
+                    profesor.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesor.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesor.setCorreo(resultado.getString("correo"));
+                    profesor.setEstado(resultado.getString("estadoProfesor"));
+                }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return profesor;        
@@ -185,7 +190,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
            declaracion.execute();
            resultadoModificacion = declaracion.getInt(2);
            BASE_DE_DATOS.cerrarConexion(conexion);
-       }catch(SQLException excepcion){
+       }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getCause());
            resultadoModificacion = -1;
        }
@@ -202,16 +207,18 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion=conexion.prepareStatement("SELECT * from Profesor where Usuario_idUsuario=?;");
             declaracion.setInt(1, idUsuario);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                profesor.setIdProfesor(resultado.getInt("idProfesor"));
-                profesor.setNombre(resultado.getString("nombre"));
-                profesor.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-                profesor.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-                profesor.setCorreo(resultado.getString("correo")); 
-                profesor.setEstado(resultado.getString("estadoProfesor"));
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    profesor.setIdProfesor(resultado.getInt("idProfesor"));
+                    profesor.setNombre(resultado.getString("nombre"));
+                    profesor.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesor.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesor.setCorreo(resultado.getString("correo")); 
+                    profesor.setEstado(resultado.getString("estadoProfesor"));
+                }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
         return profesor; 

@@ -27,8 +27,8 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             declaracion.setString(1, regionAcademica.getRegion());numeroFilasAfectadas=declaracion.executeUpdate();
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();            
-        } catch (SQLException ex) {
-            LOG.error(ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;                        
     }
@@ -42,15 +42,17 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("SELECT * FROM RegionAcademica;");
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                RegionAcademica regionAcademica=new RegionAcademica();
-                regionAcademica.setIdRegionAcademica(resultado.getInt("idRegionAcademica"));
-                regionAcademica.setRegion(resultado.getString("region"));
-                regionesAcademicas.add(regionAcademica);
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    RegionAcademica regionAcademica=new RegionAcademica();
+                    regionAcademica.setIdRegionAcademica(resultado.getInt("idRegionAcademica"));
+                    regionAcademica.setRegion(resultado.getString("region"));
+                    regionesAcademicas.add(regionAcademica);
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.error(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return regionesAcademicas;        
     }
@@ -65,12 +67,14 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             declaracion=conexion.prepareStatement("SELECT idRegionAcademica from RegionAcademica where region=?");
             declaracion.setString(1, region);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idRegion=resultado.getInt("idRegionAcademica");
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idRegion=resultado.getInt("idRegionAcademica");
+                }
             }
             conexion.close();                      
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DAORegionAcademicaImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return idRegion;                
     }

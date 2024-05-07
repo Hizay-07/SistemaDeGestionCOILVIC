@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.clases.ProfesorUV;
 import logicaDeNegocio.interfaces.ProfesorUVInterface;
+import org.apache.log4j.Logger;
 
 public class DAOProfesorUVImplementacion implements ProfesorUVInterface{    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private Connection conexion;
-    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOProfesorUVImplementacion.class);
+    private static final Logger LOG=Logger.getLogger(DAOProfesorUVImplementacion.class);
 
     @Override
     public int registrarProfesorUV(ProfesorUV profesorUV) {
@@ -31,8 +32,8 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setInt(6, profesorUV.getIdAreaAcademica());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.fatal(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;        
     }
@@ -46,20 +47,22 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("SELECT * FROM ProfesorUV;");
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                ProfesorUV profesorUV=new ProfesorUV();
-                profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
-                profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
-                profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
-                profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
-                profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
-                profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
-                profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
-                profesoresUV.add(profesorUV);           
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    ProfesorUV profesorUV=new ProfesorUV();
+                    profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
+                    profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
+                    profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
+                    profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
+                    profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
+                    profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
+                    profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
+                    profesoresUV.add(profesorUV);           
+                }
             }
             conexion.close();                        
-        } catch (SQLException ex) {
-            LOG.error(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return profesoresUV;
     }
@@ -74,20 +77,22 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion=conexion.prepareStatement("SELECT * FROM ProfesorUV where idAreaAcademica=?;");
             declaracion.setInt(1, idAreaAcademica);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                ProfesorUV profesorUV=new ProfesorUV();
-                profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
-                profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
-                profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
-                profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
-                profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
-                profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
-                profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
-                profesoresUV.add(profesorUV);           
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    ProfesorUV profesorUV=new ProfesorUV();
+                    profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
+                    profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
+                    profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
+                    profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
+                    profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
+                    profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
+                    profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
+                    profesoresUV.add(profesorUV);           
+                }
             }
             conexion.close();                        
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return profesoresUV;                
     }
@@ -102,20 +107,22 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion=conexion.prepareStatement("SELECT * FROM ProfesorUV where idRegionAcademica=?;");
             declaracion.setInt(1, idRegion);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                ProfesorUV profesorUV=new ProfesorUV();
-                profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
-                profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
-                profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
-                profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
-                profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
-                profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
-                profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
-                profesoresUV.add(profesorUV);           
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    ProfesorUV profesorUV=new ProfesorUV();
+                    profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
+                    profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
+                    profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
+                    profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
+                    profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
+                    profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
+                    profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
+                    profesoresUV.add(profesorUV);           
+                }
             }
             conexion.close();                        
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return profesoresUV;  
     }
@@ -131,8 +138,8 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;                
     }
@@ -148,8 +155,8 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;         
     }
@@ -165,8 +172,8 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;         
     }
@@ -182,8 +189,8 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(2, numeroDePersonal);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;    
     }
@@ -198,8 +205,8 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(1, areaAcademica);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;        
     }

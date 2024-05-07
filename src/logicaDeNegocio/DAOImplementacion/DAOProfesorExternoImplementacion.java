@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logicaDeNegocio.clases.ProfesorExterno;
 import logicaDeNegocio.interfaces.ProfesorExternoInterface;
+import org.apache.log4j.Logger;
 
 public class DAOProfesorExternoImplementacion implements ProfesorExternoInterface {
 
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
+    private static final Logger LOG=Logger.getLogger(DAOProfesorExternoImplementacion.class);
     private Connection conexion;
 
     @Override
@@ -31,8 +31,8 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             declaracion.setInt(2, profesorExterno.getIdRepresentanteInstitucional());
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorExternoImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
     }
@@ -46,16 +46,18 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno;");
             resultado = declaracion.executeQuery();
-            while (resultado.next()) {
-                ProfesorExterno profesorExterno = new ProfesorExterno();
-                profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
-                profesorExterno.setIdProfesor(resultado.getInt("idProfesor"));
-                profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
-                profesoresExternos.add(profesorExterno);
+            if(resultado.isBeforeFirst()){
+                while (resultado.next()) {
+                    ProfesorExterno profesorExterno = new ProfesorExterno();
+                    profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
+                    profesorExterno.setIdProfesor(resultado.getInt("idProfesor"));
+                    profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
+                    profesoresExternos.add(profesorExterno);
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorExternoImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return profesoresExternos;
     }
@@ -70,15 +72,17 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno WHERE idRepresentanteInstitucional=?;");
             declaracion.setInt(1, idRepresentanteInstitucional);
             resultado = declaracion.executeQuery();
-            while (resultado.next()) {
-                ProfesorExterno profesorExterno = new ProfesorExterno();
-                profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
-                profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
-                profesoresExternos.add(profesorExterno);
+            if(resultado.isBeforeFirst()){
+                while (resultado.next()) {
+                    ProfesorExterno profesorExterno = new ProfesorExterno();
+                    profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
+                    profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
+                    profesoresExternos.add(profesorExterno);
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorExternoImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return profesoresExternos;
     }
@@ -95,8 +99,8 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             declaracion.execute();
             idProfesorExterno=declaracion.getInt(2);
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOProfesorExternoImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return idProfesorExterno;                
     }

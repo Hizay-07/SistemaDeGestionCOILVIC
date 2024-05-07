@@ -30,8 +30,8 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             declaracion.setString(3, emisionPropuesta.getFechaEmision());
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;                
@@ -46,16 +46,18 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from EmisionPropuesta;");
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
-                emisionPropuesta.setIdProfesor(resultado.getInt("idProfesor"));
-                emisionPropuesta.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                emisionPropuesta.setFechaEmision(resultado.getString("fechaEmision"));
-                emisionesPropuesta.add(emisionPropuesta);
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
+                    emisionPropuesta.setIdProfesor(resultado.getInt("idProfesor"));
+                    emisionPropuesta.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    emisionPropuesta.setFechaEmision(resultado.getString("fechaEmision"));
+                    emisionesPropuesta.add(emisionPropuesta);
+                }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return emisionesPropuesta;        
     }
@@ -70,12 +72,14 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             declaracion=conexion.prepareStatement("SELECT idProfesor from EmisionPropuesta where idPropuestaColaboracion=?;");
             declaracion.setInt(1, idPropuestaColaboracion);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idProfesor=resultado.getInt("idProfesor");
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idProfesor=resultado.getInt("idProfesor");
+                }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
             idProfesor=-1;
         }
         return idProfesor;        
@@ -90,12 +94,14 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from EmisionPropuesta where idProfesor=?;");
             declaracion.setInt(1, profesor.getIdProfesor());
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+                }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
             idPropuestaColaboracion=-1;
         }
         return idPropuestaColaboracion;

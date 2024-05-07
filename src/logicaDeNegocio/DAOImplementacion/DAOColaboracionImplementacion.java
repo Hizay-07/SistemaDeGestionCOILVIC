@@ -23,7 +23,6 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         CallableStatement declaracion;
         try {
             conexion=BASE_DE_DATOS.getConexion();
-
             declaracion=(CallableStatement) conexion.prepareCall("call registrarColaboracion(?,?,?,?)");
             declaracion.setString(1, colaboracion.getEstadoColaboracion());
             declaracion.setInt(2, colaboracion.getIdPropuestaColaboracion());
@@ -31,10 +30,9 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.registerOutParameter(4, Types.INTEGER);
             declaracion.execute();
             numeroFilasAfectadas = declaracion.getInt(4);
-
             conexion.close();
-        } catch (SQLException excepcion) {
-            LOG.fatal(excepcion.getCause());
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;        
@@ -49,18 +47,20 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("SELECT * FROM Colaboracion");
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                Colaboracion colaboracion=new Colaboracion();
-                colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
-                colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
-                colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
-                colaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
-                colaboraciones.add(colaboracion);
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    Colaboracion colaboracion=new Colaboracion();
+                    colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
+                    colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
+                    colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
+                    colaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
+                    colaboraciones.add(colaboracion);
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.error(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return colaboraciones;
     }
@@ -69,17 +69,34 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     public int registrarRetroalimentacionColaboracionPorId(int idColaboracion,String retroalimentacion) {
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
-        try {
+        try{
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=conexion.prepareStatement("UPDATE Colaboracion set retroalimentacion=? where idColaboracion=?;");
             declaracion.setString(1, retroalimentacion);
             declaracion.setInt(2, idColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        }catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;        
     }
     
+    @Override
+    public int cambiarEstadoColaboracion(String estado,Colaboracion colaboracion){
+        int numeroFilasAfectadas = 0;
+        PreparedStatement declaracion;
+        try{
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion = conexion.prepareStatement("update colaboracion set estadoColaboracion = ? where idColaboracion = ?");
+            declaracion.setString(1, estado);
+            declaracion.setInt(2,colaboracion.getIdColaboracion());
+            numeroFilasAfectadas = declaracion.executeUpdate();
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
+            numeroFilasAfectadas = -1;
+        }
+        return numeroFilasAfectadas;
+    }
 }

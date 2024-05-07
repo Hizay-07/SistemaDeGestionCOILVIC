@@ -7,15 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logicaDeNegocio.clases.PeticionColaboracion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.interfaces.PeticionColaboracionInterface;
+import org.apache.log4j.Logger;
 
 public class DAOPeticionColaboracionImplementacion implements PeticionColaboracionInterface {
 
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
+    private static final Logger LOG=Logger.getLogger(DAOPeticionColaboracionImplementacion.class);
+
     private Connection conexion;
 
     @Override
@@ -32,8 +33,8 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setString(4, peticion.getFechaEnvio());
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
     }
@@ -47,17 +48,19 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             conexion = BASE_DE_DATOS.getConexion();
             declaracion = conexion.prepareStatement("SELECT * FROM peticioncolaboracion");
             resultado = declaracion.executeQuery();
-            while (resultado.next()) {
-                PeticionColaboracion peticion = new PeticionColaboracion();
-                peticion.setIdProfesor(resultado.getInt("idProfesor"));
-                peticion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                peticion.setEstado(resultado.getString("estadoPeticion"));
-                peticion.setFechaEnvio(resultado.getString("fechaEnvio"));
-                peticiones.add(peticion);
+            if(resultado.isBeforeFirst()){
+                while (resultado.next()) {
+                    PeticionColaboracion peticion = new PeticionColaboracion();
+                    peticion.setIdProfesor(resultado.getInt("idProfesor"));
+                    peticion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    peticion.setEstado(resultado.getString("estadoPeticion"));
+                    peticion.setFechaEnvio(resultado.getString("fechaEnvio"));
+                    peticiones.add(peticion);
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return peticiones;
     }
@@ -73,8 +76,8 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setInt(2, idColaboracion);
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
     }
@@ -90,8 +93,8 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setInt(2, idColaboracion);
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return numeroFilasAfectadas;
     }
@@ -106,12 +109,14 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from PeticionColaboracion where idProfesor=?;");
             declaracion.setInt(1, profesor.getIdProfesor());
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+                }
             }
             conexion.close();
-        } catch (SQLException excepcion) {
-            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, excepcion);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
             idPropuestaColaboracion=-1;
         }
         return idPropuestaColaboracion;

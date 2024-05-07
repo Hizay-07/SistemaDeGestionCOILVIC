@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 
@@ -25,7 +24,6 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         int resultadoRegistro;
         DAOPaisImplementacion paisRepresentante = new DAOPaisImplementacion();
         int numeroDePais = paisRepresentante.obtenerNumeroDePais(representanteIngresado.getPais());
-         
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
             PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO representanteInstitucional (nombreInstitucion,claveInstitucional,contacto,estadoRepresentante ,Pais_numerodepais) values (?,?,?,?,?)") ;
@@ -36,18 +34,16 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setInt(5, numeroDePais);
             resultadoRegistro = sentencia.executeUpdate();       
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
             resultadoRegistro = -1;
         }
-        
         return resultadoRegistro;
     }
 
     @Override
     public int desactivarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
         int resultadoDesactivacion=0;
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoRepresentante = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
@@ -57,18 +53,16 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setString(4,representanteIngresado.getContacto());
             resultadoDesactivacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
             resultadoDesactivacion = -1;
         }
-        
         return resultadoDesactivacion;
     }
     
     @Override
     public int activarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado){
          int resultadoDesactivacion=0;
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoRepresentante = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
@@ -78,11 +72,10 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentencia.setString(4,representanteIngresado.getContacto());
             resultadoDesactivacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
             resultadoDesactivacion = -1;
         }
-        
         return resultadoDesactivacion;
     }
     
@@ -90,20 +83,17 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     @Override
     public int modificarNombreRepresentanteInstitucional(String nombreActualizado, RepresentanteInstitucional representanteAActualizar) {
         int resultadoModificacion=0;
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
-            
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET nombreInstitucion = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
             sentencia.setString(1, nombreActualizado);
             sentencia.setString(2, representanteAActualizar.getNombreInstitucion());
             sentencia.setString(3, representanteAActualizar.getClaveInstitucional());
             sentencia.setString(4,representanteAActualizar.getContacto());
             resultadoModificacion = sentencia.executeUpdate();
-            
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
         }
         return resultadoModificacion;
@@ -112,20 +102,17 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     @Override
     public int modificarClaveRepresentanteInstitucional(String claveActualizada, RepresentanteInstitucional representanteAActualizar) {
         int resultadoModificacion=0;
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
-            
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET claveInstitucional = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
             sentencia.setString(1, claveActualizada);
             sentencia.setString(2, representanteAActualizar.getNombreInstitucion());
             sentencia.setString(3, representanteAActualizar.getClaveInstitucional());
             sentencia.setString(4,representanteAActualizar.getContacto());
             resultadoModificacion = sentencia.executeUpdate();
-            
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
         }
         return resultadoModificacion;
@@ -134,20 +121,17 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     @Override
     public int modificarContactoRepresentanteInstitucional(String contactoActualizado, RepresentanteInstitucional representanteAActualizar) {
        int resultadoModificacion=0;
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
-            
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET contacto = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
             sentencia.setString(1, contactoActualizado);
             sentencia.setString(2, representanteAActualizar.getNombreInstitucion());
             sentencia.setString(3, representanteAActualizar.getClaveInstitucional());
             sentencia.setString(4,representanteAActualizar.getContacto());
             resultadoModificacion = sentencia.executeUpdate();
-            
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
             resultadoModificacion = -1;
         }
         return resultadoModificacion;
@@ -156,7 +140,6 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     @Override
     public int verificarExistenciaRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
         int validacionDeExistencia=0;
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
             PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT COUNT(*) FROM representanteinstitucional WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
@@ -164,17 +147,16 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentenciaConsulta.setString(2, representanteAConsultar.getClaveInstitucional());
             sentenciaConsulta.setString(3, representanteAConsultar.getContacto());
             ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
-            
-            while(resultadoDeConsulta.next()){
-                validacionDeExistencia++;
+            if(resultadoDeConsulta.isBeforeFirst()){
+                while(resultadoDeConsulta.next()){
+                    validacionDeExistencia++;
+                }
             }
-            
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
             validacionDeExistencia = -1;
         }
-        
         return validacionDeExistencia;
     }
     
@@ -182,7 +164,6 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public boolean obtenerEstadoRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
         boolean estadoRepresentanteInstitucional = false;
         String resultadoDeEstado="";
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
             PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT estadoRepresentante from representanteinstitucional where nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
@@ -190,71 +171,69 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             sentenciaConsulta.setString(2, representanteAConsultar.getClaveInstitucional());
             sentenciaConsulta.setString(3, representanteAConsultar.getContacto());
             ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
-            
-            while(resultadoDeConsulta.next()){
-                resultadoDeEstado = (String)resultadoDeConsulta.getString(1);
+            if(resultadoDeConsulta.isBeforeFirst()){
+                while(resultadoDeConsulta.next()){
+                    resultadoDeEstado = (String)resultadoDeConsulta.getString(1);
+                }
             }
-            
             estadoRepresentanteInstitucional = resultadoDeEstado.equals("Activo");
-            
-        }catch(SQLException excepcion){
-             LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+             LOG.error(excepcion.getCause());
              estadoRepresentanteInstitucional = false;
         }
-       
        return  estadoRepresentanteInstitucional;
     }
     
     @Override
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales(){
        List<RepresentanteInstitucional> representantes = new ArrayList();
-       
        try{
            Connection conexion = BASE_DE_DATOS.getConexion();
            PreparedStatement sentencia = conexion.prepareStatement("SELECT nombreInstitucion,claveInstitucional,contacto,nombrePais FROM representanteinstitucional,pais WHERE pais.numeroDePais = Pais_numeroDePais");
            ResultSet resultado = sentencia.executeQuery();
-           while(resultado.next()){
-               RepresentanteInstitucional representanteConsultado = new RepresentanteInstitucional();
-               Pais paisRepresentante = new Pais();
-               representanteConsultado.setNombreInstitucion(resultado.getString(1));
-               representanteConsultado.setClaveInstitucional(resultado.getString(2));
-               representanteConsultado.setContacto(resultado.getString(3));
-               paisRepresentante.setNombrePais(resultado.getString(4));
-               representanteConsultado.setPais(paisRepresentante);
-               representantes.add(representanteConsultado);
-           }
+           if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    RepresentanteInstitucional representanteConsultado = new RepresentanteInstitucional();
+                    Pais paisRepresentante = new Pais();
+                    representanteConsultado.setNombreInstitucion(resultado.getString(1));
+                    representanteConsultado.setClaveInstitucional(resultado.getString(2));
+                    representanteConsultado.setContacto(resultado.getString(3));
+                    paisRepresentante.setNombrePais(resultado.getString(4));
+                    representanteConsultado.setPais(paisRepresentante);
+                    representantes.add(representanteConsultado);
+                }
+            }
            BASE_DE_DATOS.cerrarConexion(conexion);
-       }catch(SQLException excepcion){
-          LOG.error(excepcion);
+       }catch(SQLException | NullPointerException excepcion){
+          LOG.error(excepcion.getCause());
        }
-       
        return representantes;
     }
     
     @Override
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionalesPorPais(Pais paisIngresado){
         List<RepresentanteInstitucional> representantes = new ArrayList();
-        
         try{
             Connection conexion = BASE_DE_DATOS.getConexion();
             PreparedStatement sentencia = conexion.prepareStatement("SELECT nombreInstitucion,claveInstitucional,contacto,nombrePais FROM representanteinstitucional,pais where nombrepais = ? AND numeroDePais = Pais_numeroDePais");
             sentencia.setString(1, paisIngresado.getNombrePais());
             ResultSet resultado = sentencia.executeQuery();
-            while(resultado.next()){
-               RepresentanteInstitucional representanteConsultado = new RepresentanteInstitucional();
-               Pais paisRepresentante = new Pais();
-               representanteConsultado.setNombreInstitucion(resultado.getString(1));
-               representanteConsultado.setClaveInstitucional(resultado.getString(2));
-               representanteConsultado.setContacto(resultado.getString(3));
-               paisRepresentante.setNombrePais(resultado.getString(4));
-               representanteConsultado.setPais(paisRepresentante);
-               representantes.add(representanteConsultado);
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                   RepresentanteInstitucional representanteConsultado = new RepresentanteInstitucional();
+                   Pais paisRepresentante = new Pais();
+                   representanteConsultado.setNombreInstitucion(resultado.getString(1));
+                   representanteConsultado.setClaveInstitucional(resultado.getString(2));
+                   representanteConsultado.setContacto(resultado.getString(3));
+                   paisRepresentante.setNombrePais(resultado.getString(4));
+                   representanteConsultado.setPais(paisRepresentante);
+                   representantes.add(representanteConsultado);
+                }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        }catch(SQLException excepcion){
-            LOG.error(excepcion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
         }
-        
         return representantes;
     }
     
@@ -268,12 +247,14 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             declaracion=conexion.prepareStatement("SELECT idRepresentanteInstitucional from RepresentanteInstitucional where nombreInstitucion=?");
             declaracion.setString(1, universidad);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idRepresentanteInstitucional=resultado.getInt("idRepresentanteInstitucional");                
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idRepresentanteInstitucional=resultado.getInt("idRepresentanteInstitucional");                
+                }
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return idRepresentanteInstitucional;        
     }
@@ -291,8 +272,8 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             while(resultado.next()){
                 nombreInstitucion=resultado.getString("nombreInstitucion");                
             }
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return nombreInstitucion;        
     }

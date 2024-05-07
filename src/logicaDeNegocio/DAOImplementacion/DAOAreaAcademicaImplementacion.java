@@ -21,15 +21,15 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
     public int registrarAreaAcademica(AreaAcademica areaAcademica) {
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
-         try {
-             conexion=BASE_DE_DATOS.getConexion();
-             declaracion=conexion.prepareStatement("INSERT INTO areaAcademica (area) VALUES (?);");
-             declaracion.setString(1, areaAcademica.getArea());
-             numeroFilasAfectadas=declaracion.executeUpdate();
-             conexion.close();
-         } catch (SQLException ex) {
-             LOG.error(ex);             
-         }
+        try{
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("INSERT INTO areaAcademica (area) VALUES (?);");
+            declaracion.setString(1, areaAcademica.getArea());
+            numeroFilasAfectadas=declaracion.executeUpdate();
+            conexion.close();
+        }catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause()); 
+        }
          return numeroFilasAfectadas;
     }
 
@@ -38,21 +38,23 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
         PreparedStatement declaracion;
         ResultSet resultado;
         List<AreaAcademica> areasAcademicas=new ArrayList<>();
-         try {
-             conexion=BASE_DE_DATOS.getConexion();
-             declaracion=conexion.prepareStatement("SELECT * from areaAcademica;");
-             resultado=declaracion.executeQuery();
-             while(resultado.next()){
-                 AreaAcademica areaAcademica=new AreaAcademica();
-                 areaAcademica.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
-                 areaAcademica.setArea(resultado.getString("area"));
-                 areasAcademicas.add(areaAcademica);
-             }
-             conexion.close();
-         } catch (SQLException ex) {
-             LOG.error(ex);
-         }
-         return areasAcademicas;
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT * from areaAcademica;");
+            resultado=declaracion.executeQuery();
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    AreaAcademica areaAcademica=new AreaAcademica();
+                    areaAcademica.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
+                    areaAcademica.setArea(resultado.getString("area"));
+                    areasAcademicas.add(areaAcademica);
+                }
+            }
+            conexion.close();
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+        }
+        return areasAcademicas;
     }
     
     @Override
@@ -65,12 +67,15 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
             declaracion=conexion.prepareStatement("SELECT idAreaAcademica from AreaAcademica where area=?;");
             declaracion.setString(1, area);
             resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                idArea=resultado.getInt("idAreaAcademica");                                
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    idArea=resultado.getInt("idAreaAcademica");                                
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DAOAreaAcademicaImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+            idArea = -1;
         }
         return idArea;        
     }

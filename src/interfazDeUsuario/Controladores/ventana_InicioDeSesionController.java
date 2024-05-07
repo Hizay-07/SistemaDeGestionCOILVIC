@@ -24,9 +24,7 @@ import org.apache.log4j.Logger;
 public class ventana_InicioDeSesionController implements Initializable {
     
     private static final Logger LOG=Logger.getLogger(ventana_InicioDeSesionController.class);
-    
     private Stage escenario;
-    
     @FXML
     private AnchorPane anchor_Ventana;
     @FXML
@@ -44,18 +42,13 @@ public class ventana_InicioDeSesionController implements Initializable {
         escenario.close();
     }
     
-    public void iniciarSesion(ActionEvent event){
-        Usuario logger = new Usuario();
+    public void iniciarSesion(Usuario logger){
         Usuario usuarioAIngresar = new Usuario();
-        
         try{
-            logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
             usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText());
             usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText());
-            
             DAOUsuarioImplementacion DAOUsuario = new DAOUsuarioImplementacion();
             boolean validacionCredencial = DAOUsuario.validarCredenciales(usuarioAIngresar, logger);
-
             if(validacionCredencial){
                 usuarioAIngresar.setTipoDeUsuario(DAOUsuario.obtenerTipoDeUsuario(usuarioAIngresar,logger));
                 usuarioAIngresar.setIdUsuario(DAOUsuario.obtenerIdUsuario(usuarioAIngresar,logger));
@@ -69,6 +62,18 @@ public class ventana_InicioDeSesionController implements Initializable {
         }
     }
     
+    public void confirmarConexionALaBaseDeDatos(){
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
+        DAOUsuarioImplementacion DAOUsuario = new DAOUsuarioImplementacion();
+        boolean resultadoConfirmacionDeAccion = DAOUsuario.confirmarConexionDeInicioDeSesion(logger);
+        if(resultadoConfirmacionDeAccion){
+            iniciarSesion(logger);
+        }else{
+            Alertas.mostrarMensajeErrorEnLaConexion();
+        }
+    }
+    
     public void desplegarVentanaCorrespondiente(Usuario usuario){
         UsuarioSingleton usuarioIngresado = UsuarioSingleton.getInstancia(usuario);
         usuarioIngresado.getIdUsuario();
@@ -79,7 +84,6 @@ public class ventana_InicioDeSesionController implements Initializable {
             }else if(usuarioIngresado.getTipoDeUsuario().equals(EnumTipoDeUsuario.Profesor.toString())){
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
             }
-            
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();

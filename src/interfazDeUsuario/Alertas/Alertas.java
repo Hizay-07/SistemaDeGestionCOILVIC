@@ -157,6 +157,7 @@ public class Alertas extends Application {
         });
     }
     
+
     public static void mostrarRegistroPropuesta(){
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.INFORMATION);
@@ -167,6 +168,27 @@ public class Alertas extends Application {
     }
     
     
+
+    public static void mostrarFechasInvalidas(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Error en las fechas seleccionadas");
+            mensaje.setContentText("Verifique que las fechas a ingresar sean concordantes");
+
+            mensaje.showAndWait();
+        });
+    }
+  
+    public static void mostrarMensajeSinCerrarColaboracion(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Colaboracion activa");
+            mensaje.setContentText("No se puede cerrar la colaboración, aún no es la fecha de cierre");
+
+            mensaje.showAndWait();
+        });
+    }
+
   
     @Override
     public void start(Stage stage){
