@@ -4,9 +4,9 @@ import logicaDeNegocio.clases.Actividad;
 
 
 
-public class ActividadAuxiliar {
+public final class ActividadAuxiliar {
     
-    private ActividadAuxiliar instancia;
+    private static ActividadAuxiliar instancia;
     private int idActividad;
     private int numeroActividad;
     private String nombre;
@@ -15,7 +15,6 @@ public class ActividadAuxiliar {
     private String fechaDeCierre;
     private String estado;
     private int idColaboracion;
-
 
     private ActividadAuxiliar(Actividad actividad) {
         setIdActividad(actividad.getIdActividad());
@@ -28,15 +27,15 @@ public class ActividadAuxiliar {
         setIdColaboracion(actividad.getIdColaboracion());
     }
     
-    public void setInstancia(Actividad actividad){
+    public static void setInstancia(Actividad actividad){
         instancia = new ActividadAuxiliar(actividad);
     }
     
-    public ActividadAuxiliar getInstancia(){
+    public static ActividadAuxiliar getInstancia(){
         return instancia;
     }
     
-    public void resetInstancia(){
+    public static void resetInstancia(){
         instancia = null;
     }
     
