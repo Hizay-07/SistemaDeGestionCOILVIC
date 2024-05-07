@@ -2,7 +2,7 @@ package logicaDeNegocio.ClasesAuxiliares;
 
 import logicaDeNegocio.clases.Colaboracion;
 
-public class ColaboracionAuxiliar {
+public final class ColaboracionAuxiliar {
     
     private static ColaboracionAuxiliar instancia;
     private int idColaboracion;
@@ -21,11 +21,11 @@ public class ColaboracionAuxiliar {
         instancia = new ColaboracionAuxiliar(colaboracion);
     }
     
-    public ColaboracionAuxiliar getInstancia(){
+    public static ColaboracionAuxiliar getInstancia(){
         return instancia;
     }
     
-     public void resetInstancia(){
+    public void resetInstancia(){
         instancia = null;
     }
 
@@ -45,7 +45,7 @@ public class ColaboracionAuxiliar {
         this.retroalimentacion = retroalimentacion;
     }
 
-    private String getEstadoColaboracion() {
+    public String getEstadoColaboracion() {
         return estadoColaboracion;
     }
 
