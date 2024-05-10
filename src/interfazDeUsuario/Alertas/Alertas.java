@@ -156,6 +156,18 @@ public class Alertas extends Application {
         });
     }
     
+
+    public static void mostrarRegistroPropuesta(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Propuesta de colaboracion");
+            mensaje.setContentText("La propuesta de colaboración fue registrada para su evaluación.");
+            mensaje.showAndWait();
+        });
+    }
+    
+    
+
     public static void mostrarFechasInvalidas(){
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.INFORMATION);

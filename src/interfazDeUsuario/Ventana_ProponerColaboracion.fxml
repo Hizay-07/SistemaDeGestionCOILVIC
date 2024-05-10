@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor_ventana" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ProponerColaboracionController">
+<AnchorPane fx:id="anchor_VentanaProponerColaboracion" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ProponerColaboracionController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -35,7 +35,7 @@
                   <TextField fx:id="txfd_ExperienciaEducativa" layoutX="181.0" layoutY="119.0" prefHeight="26.0" prefWidth="366.0" style="-fx-border-color: black;" />
                   <TextField fx:id="txfd_ObjetivoGeneral" layoutX="181.0" layoutY="183.0" prefHeight="68.0" prefWidth="290.0" style="-fx-border-color: black;" />
                   <TextField fx:id="txfd_ProgramaEducativo" layoutX="181.0" layoutY="149.0" prefHeight="28.0" prefWidth="366.0" style="-fx-border-color: black;" />
-                  <Button fx:id="btn_Aceptar" layoutX="166.0" layoutY="327.0" mnemonicParsing="false" style="-fx-background-color: green};" text="Aceptar" textFill="WHITE">
+                  <Button fx:id="btn_Aceptar" layoutX="166.0" layoutY="327.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Aceptar" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
@@ -44,8 +44,8 @@
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
                   <ComboBox fx:id="cmb_TipoColaboracion" layoutX="48.0" layoutY="277.0" prefHeight="28.0" prefWidth="237.0" promptText="Seleccionar tipo de colaboración" />
-                  <DatePicker fx:id="dtp_FechaInicio" layoutX="57.0" layoutY="84.0" prefHeight="25.0" prefWidth="213.0" promptText="Seleccione la fecha de inicio" />
-                  <DatePicker fx:id="dtp_FechaCierre" layoutX="345.0" layoutY="84.0" prefHeight="25.0" prefWidth="201.0" promptText="Seleccione la fecha de cierre" />
+                  <DatePicker fx:id="dtp_FechaInicio" editable="false" layoutX="57.0" layoutY="84.0" prefHeight="25.0" prefWidth="213.0" promptText="Seleccione la fecha de inicio" />
+                  <DatePicker fx:id="dtp_FechaCierre" editable="false" layoutX="345.0" layoutY="84.0" prefHeight="25.0" prefWidth="201.0" promptText="Seleccione la fecha de cierre" />
                   <Label layoutX="60.0" layoutY="124.0" text="Experiencia educativa:" />
                   <Label layoutX="62.0" layoutY="154.0" text="Programa educativo:" />
                   <Label layoutX="62.0" layoutY="191.0" text="Objetivo general:" />

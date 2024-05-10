@@ -1,6 +1,5 @@
 package interfazDeUsuario.Controladores;
 
-import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -23,22 +22,27 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorExternoImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
-import logicaDeNegocio.clases.PeticionColaboracion;
-import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.PropuestaColaboracion;
+import logicaDeNegocio.clases.TipoColaboracion;
 import org.apache.log4j.Logger;
 
-public class Ventana_OfertaDeColaboracionesController implements Initializable {
-    private static final Logger LOG=Logger.getLogger(Ventana_OfertaDeColaboracionesController.class);    
+public class Ventana_PropuestasDeColaboracionControlador implements Initializable {
+    private static final Logger LOG=Logger.getLogger(Ventana_PropuestasDeColaboracionControlador.class);    
     @FXML
-    private VBox vb_OfertaDeColaboraciones;
-    
+    private Button btn_Regresar;
+
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ExperienciaEducativa;
+
+    @FXML
+    private TableColumn<PropuestaColaboracion,String> column_FechaInicio;
+
+    @FXML
+    private TableColumn<PropuestaColaboracion,String> column_FechaCierre;
 
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_Idioma;
@@ -50,28 +54,24 @@ public class Ventana_OfertaDeColaboracionesController implements Initializable {
     private TableColumn<PropuestaColaboracion,String> column_ObjetivoGeneral;
 
     @FXML
-    private TableColumn column_Profesor;
+    private TableColumn column_Opcion;
+
+    @FXML
+    private TableColumn<PropuestaColaboracion,Profesor> column_Profesor;
 
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ProgramaEducativo;
 
     @FXML
-    private TableColumn column_TipoDeColaboracion;
+    private TableColumn<PropuestaColaboracion,TipoColaboracion> column_TipoDeColaboracion;
 
     @FXML
-    private TableColumn<PropuestaColaboracion,String> column_FechaCierre;
+    private TableView<PropuestaColaboracion> tableView_PropuestasDeColaboracion;
 
     @FXML
-    private TableColumn<PropuestaColaboracion,String> column_FechaInicio;
-
-    @FXML
-    private TableView tableView_OfertaDeColaboracion;  
-    
-    @FXML
-    private TableColumn column_Opcion;           
-    
-    private Stage stage_ventana;    
-    
+    private VBox vb_PropuestasDeColaboracion;
+    private Stage stage_ventana;
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         column_Idioma.setCellValueFactory(new PropertyValueFactory<>("idioma"));
@@ -90,57 +90,20 @@ public class Ventana_OfertaDeColaboracionesController implements Initializable {
         });
         
         List<PropuestaColaboracion> propuestas=obtenerPropuestasDeColaboracion();
-        tableView_OfertaDeColaboracion.getItems().addAll(propuestas);                                        
-        agregarBoton();
-    }                  
-       
+        tableView_PropuestasDeColaboracion.getItems().addAll(propuestas);                                        
+        agregarBoton();        
+    }   
+    
     public List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
         List<PropuestaColaboracion> propuestas=new ArrayList<>(); 
         DAOPropuestaColaboracionImplementacion daoPropuestas=new DAOPropuestaColaboracionImplementacion();
-        propuestas=daoPropuestas.consultarPropuestasDeColaboracionAprobadas();
+        propuestas=daoPropuestas.consultarPropuestasDeColaboracionRegistradas();
         List<PropuestaColaboracion> propuestasFinales=new ArrayList<>();                
         for(PropuestaColaboracion propuesta : propuestas){                                                
             propuestasFinales.add(propuesta);
         }
         return propuestasFinales;                
-    }     
-    
-    private void agregarBoton() {        
-        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> cellFactory = (final TableColumn<PropuestaColaboracion, Void> param) -> {
-            final TableCell<PropuestaColaboracion, Void> cell = new TableCell<PropuestaColaboracion, Void>() {                
-                private final Button btn_EnviarPeticion = new Button();                                
-                {
-                    btn_EnviarPeticion.setText("Enviar peticion de colaboracion");
-                    btn_EnviarPeticion.setOnAction((ActionEvent event) -> {
-                        PropuestaColaboracion propuestaColaboracion = getTableView().getItems().get(getIndex());
-                        int idPropuestaColaboracion=propuestaColaboracion.getIdPropuestaColaboracion();                        
-                        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-                        int idProfesor=profesor.getIdProfesor();
-                        PeticionColaboracion peticionColaboracion=new PeticionColaboracion();                        
-                        peticionColaboracion.setEstado("En proceso");
-                        peticionColaboracion.setIdPropuestaColaboracion(idPropuestaColaboracion);
-                        peticionColaboracion.setIdProfesor(idProfesor);
-                        peticionColaboracion.setFechaEnvio(obtenerFechaActual());
-                        DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
-                        daoPeticionColaboracion.registrarPeticionColaboracion(peticionColaboracion);                        
-                        column_Opcion.setVisible(false);
-                        Alertas.mostrarPeticionColaboracionRegistrada();
-                    });
-                }                
-                @Override
-                public void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        setGraphic(btn_EnviarPeticion);
-                    }
-                }
-            };
-            return cell;
-        };
-        column_Opcion.setCellFactory(cellFactory);       
-    }
+    } 
     
     public String obtenerValorInstitucion(PropuestaColaboracion propuesta){
         DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
@@ -161,10 +124,37 @@ public class Ventana_OfertaDeColaboracionesController implements Initializable {
         return fechaActualFormateada;
     }
     
+    private void agregarBoton() {        
+        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> cellFactory = (final TableColumn<PropuestaColaboracion, Void> param) -> {
+            final TableCell<PropuestaColaboracion, Void> cell = new TableCell<PropuestaColaboracion, Void>() {                
+                private final Button btn_EvaluarPropuestaColaboracion = new Button();                                
+                {
+                    btn_EvaluarPropuestaColaboracion.setText("Evaluar propuesta de colaboracion");
+                    btn_EvaluarPropuestaColaboracion.setOnAction((ActionEvent event) -> {
+                        PropuestaColaboracion propuestaColaboracion = getTableView().getItems().get(getIndex());
+                        int idPropuestaColaboracion=propuestaColaboracion.getIdPropuestaColaboracion();                                                                       
+                        desplegarVentanaEvaluacionDePropuesta(idPropuestaColaboracion);                      
+                    });
+                }                
+                @Override
+                public void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn_EvaluarPropuestaColaboracion);
+                    }
+                }
+            };
+            return cell;
+        };
+        column_Opcion.setCellFactory(cellFactory);       
+    }
+    
     public void salirDeLaVentana(){
          String rutaVentanaFXML = null;
         try{
-            rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -176,10 +166,27 @@ public class Ventana_OfertaDeColaboracionesController implements Initializable {
         cerrarVentana();                
     }
     
-    
     public void cerrarVentana(){
-        stage_ventana=(Stage) vb_OfertaDeColaboraciones.getScene().getWindow();
+        stage_ventana=(Stage) vb_PropuestasDeColaboracion.getScene().getWindow();
         stage_ventana.close();
     }
-        
+    
+    public void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){        
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/interfazDeUsuario/Ventana_EvaluacionDePropuesta.fxml"));
+            Parent root = loader.load();
+
+            Ventana_EvaluacionDePropuestaControlador controlador = loader.getController();
+            controlador.inicializar(idPropuestaColaboracion); 
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
+        }       
+        cerrarVentana();
+    }
+    
 }

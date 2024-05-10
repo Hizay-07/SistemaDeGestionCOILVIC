@@ -22,4 +22,8 @@ public interface PropuestaColaboracionInterface {
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadas();
     
     public PropuestaColaboracion obtenerPropuestaDeColaboracionPorId(int idPropuestaColaboracion);
+    
+    public List<PropuestaColaboracion> consultarPropuestasDeColaboracionRegistradas();
+    
+    public int obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(int idProfesor);
 }

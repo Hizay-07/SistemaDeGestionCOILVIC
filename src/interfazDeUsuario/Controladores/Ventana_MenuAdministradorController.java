@@ -66,13 +66,18 @@ public class Ventana_MenuAdministradorController implements Initializable{
             mostrarVentanaColaboraciones();
         });
         
+
+        btn_VisualizarPropuestasDeColaboracion.setOnAction(Event ->{
+            visualizarPropuestasColaboracion();            
+        });                
+
         mostrarDetallesUsuario();
     }
     
     public void mostrarDetallesUsuario(){
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
         lbl_Administrador.setText(usuario.getNombreUsuario());
-    }
+    }        
     
     public void mostrarVentanaColaboraciones(){
         String ruta = "/interfazDeUsuario/Ventana_Colaboraciones.fxml";
@@ -124,5 +129,10 @@ public class Ventana_MenuAdministradorController implements Initializable{
         
         UsuarioSingleton.resetSingleton();
         cerrarVentana();
+    }
+    
+    public void visualizarPropuestasColaboracion(){
+        String ruta = "/interfazDeUsuario/Ventana_PropuestasDeColaboracion.fxml";
+        desplegarVentana(ruta);        
     }
 }

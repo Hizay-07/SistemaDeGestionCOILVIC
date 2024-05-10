@@ -8,9 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import interfazDeUsuario.Alertas.Alertas;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -44,9 +50,9 @@ public class Ventana_ProponerColaboracionController implements Initializable {
     @FXML
     private Button btn_Cancelar;
     @FXML
-    private AnchorPane anchor_ventana;
+    private AnchorPane anchor_VentanaProponerColaboracion;    
+    private Stage stage_ventana;   
     
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarTiposColaboracion();        
@@ -55,11 +61,15 @@ public class Ventana_ProponerColaboracionController implements Initializable {
         });
 
         btn_Cancelar.setOnAction(event -> {
-            Stage escenario = (Stage) anchor_ventana.getScene().getWindow();
-            escenario.close();
+            salirDeLaVentana();
         });
     }
-
+    
+    public void cerrarVentana(){
+        stage_ventana=(Stage) anchor_VentanaProponerColaboracion.getScene().getWindow();
+        stage_ventana.close();
+    }
+        
     private void cargarTiposColaboracion() {
         DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
         List<TipoColaboracion> tiposColaboracion=daoTipoColaboracion.consultarTiposDeColaboracion();
@@ -85,64 +95,49 @@ public class Ventana_ProponerColaboracionController implements Initializable {
             propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
             propuestaColaboracion.setIdioma(txfd_Idioma.getText());
             propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
-            propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());            
-                                                
-            //Revisar estado en maquina de estado
+            propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());                                                                        
             propuestaColaboracion.setEstadoPropuesta("Registrada");            
-            daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
-            registrarEmisionPropuesta(propuestaColaboracion);
+            int idPropuesta=daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
+            registrarEmisionPropuesta(idPropuesta);
         }catch(IllegalArgumentException excepcion){ 
             Alertas.mostrarMensajeDatosInvalidos();  
             LOG.info(excepcion);
-        }
-        
+        }        
     }
     
-    public void registrarEmisionPropuesta(PropuestaColaboracion propuesta){
+    public void registrarEmisionPropuesta(int idPropuesta){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        int idProfesor=profesor.getIdProfesor();
-        int idPropuesta=propuesta.getIdPropuestaColaboracion();
+        int idProfesor=profesor.getIdProfesor();        
         EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
         emisionPropuesta.setIdProfesor(idProfesor);
         emisionPropuesta.setIdPropuestaColaboracion(idPropuesta);
+        emisionPropuesta.setFechaEmision(obtenerFechaActual());
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         daoEmisionPropuesta.registrarEmisionPropuesta(emisionPropuesta);        
+        Alertas.mostrarRegistroPropuesta();
+        salirDeLaVentana();
+    }      
+    
+    public String obtenerFechaActual(){
+        LocalDate fechaActual = LocalDate.now();                
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fechaActualFormateada = fechaActual.format(formatter);
+        return fechaActualFormateada;
     }
     
-    
-    /*
-
-    private void registrarPropuestaColaboracion() {
-        //String fechaInicio = txfd_FechaInicio.getText();
-        //String fechaDeInicio = txfd_FechaDeInicio.getText();
-        String experienciaEducativa = txfd_ExperienciaEducativa.getText();
-        String programaEducativo = txfd_ProgramaEducativo.getText();
-        String objetivoGeneral = txfd_ObjetivoGeneral.getText();
-        String tipoColaboracion = cmb_TipoColaboracion.getValue();
-
-        /*if (fechaInicio.isEmpty() || fechaDeInicio.isEmpty() || experienciaEducativa.isEmpty() ||
-                programaEducativo.isEmpty() || objetivoGeneral.isEmpty() || tipoColaboracion == null) {
-            Alertas.mostrarMensajeDatosIncompletos();
-            return;
+    public void salirDeLaVentana(){
+        String rutaVentanaFXML = null;
+        try{
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
+            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
         }
-
-        PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
-        //propuestaColaboracion.setFechaInicio(fechaInicio);
-        //propuestaColaboracion.setFechaCierre(fechaDeInicio);
-        propuestaColaboracion.setExperienciaEducativa(experienciaEducativa);
-        propuestaColaboracion.setProgramaEducativoEstudiantil(programaEducativo);
-        propuestaColaboracion.setObjetivo(objetivoGeneral);
-
-        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion = new DAOPropuestaColaboracionImplementacion();
-        int filasAfectadas = daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
-
-        if (filasAfectadas > 0) {
-            Alertas.mostrarMensajeDatosIngresados();
-        } else {
-            Alertas.mostrarMensajeDatosIngresados();
-
-        }
+        cerrarVentana();                
     }
-    */
 
 }
