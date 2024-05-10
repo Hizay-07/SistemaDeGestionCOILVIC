@@ -6,8 +6,8 @@ public class Colaboracion {
     private int idColaboracion;
     private String retroalimentacion;
     private String estadoColaboracion;
-    private int idPropuestaColaboracion;
     private int cantidadEstudiantes;
+    private PropuestaColaboracion propuestaColaboracion;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
@@ -50,16 +50,12 @@ public class Colaboracion {
         }
     }
 
-    public int getIdPropuestaColaboracion() {
-        return idPropuestaColaboracion;
+    public PropuestaColaboracion getPropuestaColaboracion() {
+        return propuestaColaboracion;
     }
 
-    public void setIdPropuestaColaboracion(int idPropuestaColaboracion)throws IllegalArgumentException {
-         if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idPropuestaColaboracion))){
-            this.idPropuestaColaboracion = idPropuestaColaboracion;
-        }else{
-            throw new IllegalArgumentException();
-        }
+    public void setPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion) {
+        this.propuestaColaboracion = propuestaColaboracion;
     }
 
     public int getCantidadEstudiantes() {
@@ -84,8 +80,7 @@ public class Colaboracion {
             return false;
         }
         Colaboracion colaboracionTemporal=(Colaboracion)obj;
-        return idColaboracion==colaboracionTemporal.getIdColaboracion()&&
-                idPropuestaColaboracion==colaboracionTemporal.getIdPropuestaColaboracion();                        
+        return idColaboracion==colaboracionTemporal.getIdColaboracion();                      
     }
     
     

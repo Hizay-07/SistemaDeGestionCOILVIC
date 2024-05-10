@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchor_Ventana" prefHeight="472.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_DetallesDeColaboracionController">
+   <children>
+      <Pane fx:id="pane_ColorSuperior" prefHeight="54.0" prefWidth="605.0" style="-fx-background-color: #168394; -fx-border-color: #168394;">
+         <children>
+            <Label fx:id="label_Titulo" layoutX="82.0" layoutY="4.0" text="Detalles de colaboración" textFill="WHITE">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pane_ColorInferior" layoutX="-1.0" layoutY="457.0" prefHeight="46.0" prefWidth="606.0" style="-fx-background-color: #168394; -fx-border-color: #168394;" />
+      <ImageView fitHeight="92.0" fitWidth="86.0" layoutX="-1.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Imagenes/Coil-Interfaz.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="115.0" layoutY="80.0" text="ID de colaboración:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_IdColaboracionDato" layoutX="278.0" layoutY="85.0" prefHeight="23.0" prefWidth="208.0" style="-fx-border-color: grey;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ProgramaEducativo" layoutX="105.0" layoutY="121.0" text="Programa educativo:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ProgramaEducativoDato" layoutX="278.0" layoutY="123.0" prefHeight="23.0" prefWidth="208.0" style="-fx-border-color: grey;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_FechaDeInicio" layoutX="30.0" layoutY="162.0" text="Fecha de inicio:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_FechaDeCierre" layoutX="302.0" layoutY="162.0" text="Fecha de cierre:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_FechaDeInicioDato" layoutX="161.0" layoutY="164.0" prefHeight="23.0" prefWidth="134.0" style="-fx-border-color: grey;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_FechaDeCierreDato" layoutX="433.0" layoutY="164.0" prefHeight="23.0" prefWidth="113.0" style="-fx-border-color: grey;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_EstadoColaboracion" layoutX="31.0" layoutY="197.0" text="Estado Colaboración:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_EstadoDato" layoutX="202.0" layoutY="199.0" prefHeight="23.0" prefWidth="134.0" style="-fx-border-color: grey;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_Idioma" layoutX="348.0" layoutY="197.0" text="Idioma:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_IdiomaDato" layoutX="412.0" layoutY="199.0" prefHeight="23.0" prefWidth="134.0" style="-fx-border-color: grey;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_Objetivo" layoutX="130.0" layoutY="249.0" text="Objetivo:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ObjetivoDato" layoutX="211.0" layoutY="234.0" prefHeight="54.0" prefWidth="334.0" style="-fx-border-color: grey;" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_Profesores" layoutX="114.0" layoutY="313.0" text="Profesores:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <VBox fx:id="vbox_Profesores" layoutX="211.0" layoutY="295.0" prefHeight="86.0" prefWidth="334.0">
+         <children>
+            <Label fx:id="lbl_Profesor1" prefHeight="23.0" prefWidth="339.0" style="-fx-border-color: grey;">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_Profesor2" prefHeight="23.0" prefWidth="339.0" style="-fx-border-color: grey;">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_Profesor3" prefHeight="23.0" prefWidth="339.0" style="-fx-border-color: grey;">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_Profesor4" prefHeight="23.0" prefWidth="339.0" style="-fx-border-color: grey;">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Button fx:id="btn_Regresar" layoutX="458.0" layoutY="412.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Regresar" textFill="WHITE" onAction="#regresarAVentanaCorrespondiente">
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_Actividades" layoutX="346.0" layoutY="413.0" mnemonicParsing="false" style="-fx-background-color: #87CEEB;" text="Actividades" textFill="WHITE" onAction="#visualizarActividades">
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_GenerarInforme" layoutX="193.0" layoutY="414.0" mnemonicParsing="false" style="-fx-background-color: #96CFBE;" text="Generar informe" textFill="WHITE" onAction="#generarInforme">
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

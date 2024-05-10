@@ -11,6 +11,7 @@ import java.util.List;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.interfaces.ColaboracionInterface;
 import java.sql.ResultSet;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 
 public class DAOColaboracionImplementacion implements ColaboracionInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
@@ -25,7 +26,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             conexion=BASE_DE_DATOS.getConexion();
             declaracion=(CallableStatement) conexion.prepareCall("call registrarColaboracion(?,?,?,?)");
             declaracion.setString(1, colaboracion.getEstadoColaboracion());
-            declaracion.setInt(2, colaboracion.getIdPropuestaColaboracion());
+            declaracion.setInt(2, colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion());
             declaracion.setInt(3, colaboracion.getCantidadEstudiantes());
             declaracion.registerOutParameter(4, Types.INTEGER);
             declaracion.execute();
@@ -53,8 +54,42 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                     colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
                     colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
                     colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
-                    colaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
                     colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
+                    int idPropuestaDeColaboracion = resultado.getInt("idPropuestaColaboracion");
+                    DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
+                    PropuestaColaboracion propuestaDeColaboracion = daoPropuesta.obtenerPropuestaDeColaboracionPorId(idPropuestaDeColaboracion);
+                    colaboracion.setPropuestaColaboracion(propuestaDeColaboracion);
+                    colaboraciones.add(colaboracion);
+                }
+            }
+            conexion.close();
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+        }
+        return colaboraciones;
+    }
+    
+    @Override
+    public List<Colaboracion> consultarColaboracionesPorEstado(String estado) {
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        List<Colaboracion> colaboraciones=new ArrayList<>();
+        try {
+            conexion=BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT * FROM Colaboracion where estadoColaboracion = ?");
+            declaracion.setString(1,estado);
+            resultado=declaracion.executeQuery();
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    Colaboracion colaboracion=new Colaboracion();
+                    colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
+                    colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
+                    colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
+                    colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
+                    int idPropuestaDeColaboracion = resultado.getInt("idPropuestaColaboracion");
+                    DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
+                    PropuestaColaboracion propuestaDeColaboracion = daoPropuesta.obtenerPropuestaDeColaboracionPorId(idPropuestaDeColaboracion);
+                    colaboracion.setPropuestaColaboracion(propuestaDeColaboracion);
                     colaboraciones.add(colaboracion);
                 }
             }
