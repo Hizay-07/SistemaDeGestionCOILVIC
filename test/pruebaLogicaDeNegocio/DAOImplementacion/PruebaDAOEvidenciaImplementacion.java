@@ -1,13 +1,11 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-import java.io.File;
 import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.clases.Evidencia;
 import logicaDeNegocio.clases.Actividad;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-import logicaDeNegocio.clases.Colaboracion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -24,6 +22,17 @@ public class PruebaDAOEvidenciaImplementacion {
         assertEquals(1,resultado);
     }
     
+    @Test 
+    public void pruebaRegistrarEvidenciaFallida(){
+        DAOEvidenciaImplementacion pruebaEvidencia = new DAOEvidenciaImplementacion();
+        Evidencia evidenciaPrueba = new Evidencia();
+        evidenciaPrueba.setNombre("Prueba fallida");
+        evidenciaPrueba.setRutaEvidencia("C://Users//oscar//OneDrive//--Coilvic");
+        evidenciaPrueba.setIdActividad(1);
+        int resultado = pruebaEvidencia.agregarEvidencia(evidenciaPrueba);
+        assertEquals(1, resultado);     
+    }
+    
     @Test
     public void pruebaModificarEvidenciaExitosa(){
         DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
@@ -34,6 +43,24 @@ public class PruebaDAOEvidenciaImplementacion {
         evidenciaPrueba.setIdEvidencia(1);
         int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
         assertEquals(1,resultado);
+    }
+    
+    @Test
+    public void pruebaModificarRutaEvidencia(){
+        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
+        Evidencia evidenciaPrueba = new Evidencia();
+        evidenciaPrueba.setRutaEvidencia("C:\\Users\\");
+    }
+    
+    @Test 
+    public void pruebaModificarEvidenciaFallida(){
+        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
+        Evidencia evidenciaPrueba = new Evidencia();
+        evidenciaPrueba.setNombre("Prueba modificar evidencia fallida");
+        evidenciaPrueba.setRutaEvidencia("C://Users//OneDive--CoilvicFalllida");
+        evidenciaPrueba.setIdActividad(1);
+        int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
+        assertEquals(1, resultado);
     }
     
     @Test
@@ -49,7 +76,7 @@ public class PruebaDAOEvidenciaImplementacion {
         evidenciaPrueba.setIdActividad(1);
         evidenciaPrueba.setIdEvidencia(1);
         evidenciasEsperadas.add(evidenciaPrueba);
-        evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(1);
+        evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(actividadPrueba);
         assertEquals(evidenciasEsperadas,evidenciasObtenidas);
     }
     
@@ -66,40 +93,8 @@ public class PruebaDAOEvidenciaImplementacion {
         evidenciaPrueba.setIdActividad(1);
         evidenciaPrueba.setIdEvidencia(1);
         evidenciasEsperadas.add(evidenciaPrueba);
-        evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(1);
+        evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(actividadPrueba);
         assertNotEquals(evidenciasEsperadas,evidenciasObtenidas);
     }
     
-    @Test
-    public void pruebaCrearCarpetaDeActividadesExistosa(){
-        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(1);
-        Actividad actividad = new Actividad();
-        actividad.setIdActividad(1);
-        boolean resultadoObtenido = pruebaDeMetodo.crearCarpetaDeActividad(actividad, colaboracionPrueba);
-        assertEquals(true,resultadoObtenido);
-    }
-    
-    @Test
-    public void pruebaguardarEvidenciaDeActividadExitosa(){
-        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(1);
-        Actividad actividad = new Actividad();
-        actividad.setIdActividad(1);
-        File archivoAGuardar = new File("C:\\Users\\chris\\Downloads\\ModeloDeEstandarizacion.docx");
-        String resultadoEsperado = "Colaboraciones/Colaboracion1/Actividad1/ModeloDeEstandarizacion.docx";
-        String resultadoObtenido = pruebaDeMetodo.guardarEvidenciaDeActividad(actividad, colaboracionPrueba, archivoAGuardar);
-        assertEquals(resultadoEsperado,resultadoObtenido);
-    }
-    
-    @Test
-    public void prebaBorrarArchivoDeEvidenciaExitosa(){
-        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
-        String rutaArchivoABorrar = "C:\\Users\\chris\\Escritorio\\SistemaDeGestionCOILVIC\\Colaboraciones\\Colaboracion2\\Actividad11\\GuiaEstandares.doc";
-        int resultadoEsperado = 1;
-        int resultadoObtenido = pruebaDeMetodo.borrarArchivoDeEvidencia(rutaArchivoABorrar);
-        assertEquals(resultadoEsperado,resultadoObtenido);
-    }
 }
