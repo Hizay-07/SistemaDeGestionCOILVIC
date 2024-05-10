@@ -1,9 +1,11 @@
 package interfazDeUsuario.Alertas;
 
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class Alertas extends Application {
@@ -23,7 +25,6 @@ public class Alertas extends Application {
             mensaje.setTitle("Datos inválidos");
             mensaje.setContentText("Verifique que los datos ingresados sean los correctos");
             mensaje.showAndWait();
-        
         });
     }
     
@@ -33,7 +34,6 @@ public class Alertas extends Application {
             mensaje.setTitle("Duplicado de datos");
             mensaje.setContentText("Los datos que desea ingresar ya han sido previamente insertados");
             mensaje.showAndWait();
-        
         });
     }
     
@@ -43,7 +43,6 @@ public class Alertas extends Application {
             mensaje.setTitle("Profesor con usuario");
             mensaje.setContentText("El profesor al que desea asignar un usuario, ya cuenta con una cuenta");
             mensaje.showAndWait();
-        
         });
     }
     
@@ -144,6 +143,7 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.ERROR);
             mensaje.setTitle("Fallo en la obtención de datos");
             mensaje.setContentText("No se han podido recuperar los datos de manera correcta");
+            mensaje.showAndWait();
         });
     }
 
@@ -152,7 +152,6 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("Petición colaboración");
             mensaje.setContentText("La petición de colaboración ha sido registrada");
-
             mensaje.showAndWait();
         });
     }
@@ -174,7 +173,6 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("Error en las fechas seleccionadas");
             mensaje.setContentText("Verifique que las fechas a ingresar sean concordantes");
-
             mensaje.showAndWait();
         });
     }
@@ -184,11 +182,81 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("Colaboracion activa");
             mensaje.setContentText("No se puede cerrar la colaboración, aún no es la fecha de cierre");
-
             mensaje.showAndWait();
         });
     }
+    
+    public static void mostrarMensajeActividadInactiva(){
+         Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Actividad inactiva");
+            mensaje.setContentText("La actividad se encuentra inactiva, no se pueden subir evidencias; solo visualizarlas");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeErrorAlAccederAlaCarpeta(){
+         Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Error en el guardador");
+            mensaje.setContentText("No se pudo acceder a los elementos deseados");
+            mensaje.showAndWait();
+        });
+    }
+    
+     public static void mostrarMensajeArchivoSinSeleccionar(){
+         Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Seleccione un archiv");
+            mensaje.setContentText("No se ha seleccionado ningun archivo");
+            mensaje.showAndWait();
+        });
+    }
+     
+    public static void mostrarMensajeSinResultadosEncontrados(String mensajeAlerta){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("No se han encontrado resultados");
+            mensaje.setContentText(mensajeAlerta);
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarErrorEnLaCreacionDeInforme(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Error en la creación de informe");
+            mensaje.setContentText("No se ha podido generar el informe, intentelo más tarde.");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeInformeGuardadoExitosamente(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("Archivo guardado");
+            mensaje.setContentText("El informe ha sido guardado exitosamente.");
+            mensaje.showAndWait();
+        });
+    }
+    
+     public static void mostrarMensajeErrorAlGuardarInforme(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Error en el guadado");
+            mensaje.setContentText("No se ha podido guardar el archivo");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static boolean mostrarMensajeDescargaDeArchivo() {
+        Alert mensaje = new Alert(AlertType.CONFIRMATION);
+        mensaje.setTitle("Elaboración de archivo exitoso");
+        mensaje.setContentText("El archivo se creó correctamente.\n ¿Desea descargarlo?");
+        Optional<ButtonType> resultado = mensaje.showAndWait();
 
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
   
     @Override
     public void start(Stage stage){

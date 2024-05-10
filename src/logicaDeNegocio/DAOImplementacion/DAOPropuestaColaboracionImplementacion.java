@@ -25,9 +25,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         int idPropuestaColaboracion=0;        
         try {
             conexion=BASE_DE_DATOS.getConexion();
-
             declaracion=(CallableStatement) conexion.prepareCall("call registrarPropuestaColaboracion(?,?,?,?,?,?,?,?,?)");
-
             declaracion.setString(1, propuestaColaboracion.getFechaInicio());
             declaracion.setString(2, propuestaColaboracion.getFechaCierre());
             declaracion.setString(3, propuestaColaboracion.getIdioma());
@@ -40,9 +38,10 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.execute();            
             idPropuestaColaboracion=declaracion.getInt(9);           
             conexion.close();
-        } catch (SQLException excepcion) {
-            LOG.fatal(excepcion.getCause());            
-            idPropuestaColaboracion = -1;
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.fatal(excepcion.getCause());
+            System.out.println(excepcion.getMessage());
+            numeroFilasAfectadas = -1;
         }
         return idPropuestaColaboracion;        
     }
@@ -70,7 +69,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return propuestasColaboracion;
@@ -100,7 +99,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return propuestasColaboracion;        
@@ -117,7 +116,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(2, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return numeroFilasAfectadas;            
@@ -134,7 +133,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(2, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return numeroFilasAfectadas;                    
@@ -150,7 +149,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return numeroFilasAfectadas;        
@@ -166,7 +165,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return numeroFilasAfectadas;         
@@ -206,7 +205,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return propuestasColaboracion;        
@@ -240,7 +239,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return propuestaColaboracion;
@@ -305,5 +304,5 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         }
         return idPropuestaColaboracion;                                        
     }
-    
+
 }

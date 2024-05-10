@@ -23,14 +23,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.Objects;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
-import logicaDeNegocio.ClasesAuxiliares.EmisionPropuestaAuxiliar;
 import logicaDeNegocio.ClasesAuxiliares.PropuestaColaboracionAuxiliar;
-import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
-import logicaDeNegocio.clases.EmisionPropuesta;
-import logicaDeNegocio.clases.PeticionColaboracion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
@@ -172,7 +168,7 @@ public class Ventana_ColaboracionActivaController implements Initializable {
     public PropuestaColaboracion obtenerDatosPropuestaColaboracion(Colaboracion colaboracion){
         PropuestaColaboracion propuestaObtenida = new PropuestaColaboracion();
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion = new DAOPropuestaColaboracionImplementacion();
-        propuestaObtenida = daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(colaboracion.getIdPropuestaColaboracion());
+        propuestaObtenida = daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion());
         return propuestaObtenida;
     }
     
@@ -208,7 +204,7 @@ public class Ventana_ColaboracionActivaController implements Initializable {
         try{
             Profesor profesorActivo = obtenerDatosDeProfesorSingleton();
             colaboracionActiva = obtenerDatosColaboracion(profesorActivo);
-            if(Objects.nonNull(colaboracionActiva)){
+            if(Objects.nonNull(colaboracionActiva.getPropuestaColaboracion())&&Objects.nonNull(colaboracionActiva)){
                 profesoresObtenidos = obtenerProfesoresColaboracion(colaboracionActiva);
                 propuestaActiva = obtenerDatosPropuestaColaboracion(colaboracionActiva);
                 cargarDatosColaboracion(propuestaActiva,profesoresObtenidos,colaboracionActiva);
@@ -230,7 +226,7 @@ public class Ventana_ColaboracionActivaController implements Initializable {
     }
     
     public void inicializarVentanaActividades(){
-        String rutaVentanaFXML="/interfazDeUsuario/Ventana_Actividades.fxml";
+        String rutaVentanaFXML="/interfazDeUsuario/Ventana_ActividadesColaboracionActiva.fxml";
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
@@ -245,10 +241,10 @@ public class Ventana_ColaboracionActivaController implements Initializable {
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.show(); 
+            stage.show();
+            cerrarVentana();
         }catch(IOException excepcion){
             LOG.error(excepcion);
         }
-        cerrarVentana();
     }
 }

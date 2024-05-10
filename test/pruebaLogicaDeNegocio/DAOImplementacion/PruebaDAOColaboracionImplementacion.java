@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
@@ -12,9 +13,11 @@ public class PruebaDAOColaboracionImplementacion {
     
     @Test
     public void pruebaRegistrarColaboracionExitosa(){
+        PropuestaColaboracion propuestaDeCOlaboracion = new PropuestaColaboracion();
+        propuestaDeCOlaboracion.setIdPropuestaColaboracion(1);
         Colaboracion colaboracion=new Colaboracion();
         colaboracion.setEstadoColaboracion("Activa");
-        colaboracion.setIdPropuestaColaboracion(3);
+        colaboracion.setPropuestaColaboracion(propuestaDeCOlaboracion);
         colaboracion.setCantidadEstudiantes(24);
 
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
@@ -34,15 +37,19 @@ public class PruebaDAOColaboracionImplementacion {
     
     @Test
     public void pruebaConsultarColaboracionesExitosa(){
+        PropuestaColaboracion propuestaDeColaboracion1 = new PropuestaColaboracion();
+        PropuestaColaboracion propuestaDeColaboracion2 = new PropuestaColaboracion();
+        propuestaDeColaboracion1.setIdPropuestaColaboracion(1);
+        propuestaDeColaboracion2.setIdPropuestaColaboracion(2);
         Colaboracion colaboracion1=new Colaboracion();
         Colaboracion colaboracion2=new Colaboracion();
         colaboracion1.setIdColaboracion(1);
-        colaboracion1.setIdPropuestaColaboracion(1);
+        colaboracion1.setPropuestaColaboracion(propuestaDeColaboracion1);
         colaboracion1.setCantidadEstudiantes(32);
         colaboracion1.setEstadoColaboracion("Activa");
         colaboracion1.setRetroalimentacion(null);
         colaboracion2.setIdColaboracion(2);
-        colaboracion2.setIdPropuestaColaboracion(2);
+        colaboracion2.setPropuestaColaboracion(propuestaDeColaboracion2);
         colaboracion2.setCantidadEstudiantes(32);
         colaboracion2.setEstadoColaboracion("Activa");
         colaboracion2.setRetroalimentacion(null);
