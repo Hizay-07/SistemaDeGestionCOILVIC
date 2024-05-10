@@ -40,7 +40,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn_VisualizarColaboraciones" layoutX="390.0" layoutY="266.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="129.0" style="-fx-background-color: #0026FA; -fx-border-color: #0aff7a;" text="Visualizar Colaboraciones" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button fx:id="btn_VisualizarColaboraciones" layoutX="390.0" layoutY="266.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="129.0" style="-fx-background-color: #0026FA; -fx-border-color: #0aff7a;" text="Visualizar Colaboraciones" textAlignment="CENTER" textFill="WHITE" wrapText="true" onAction="#visualizarColaboraciones">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

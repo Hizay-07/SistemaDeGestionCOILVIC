@@ -41,7 +41,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas = declaracion.getInt(9);
 
             conexion.close();
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.fatal(excepcion.getCause());
             System.out.println(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -72,7 +72,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return propuestasColaboracion;
@@ -102,7 +102,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return propuestasColaboracion;        
@@ -119,7 +119,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(2, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return numeroFilasAfectadas;            
@@ -136,7 +136,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(2, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return numeroFilasAfectadas;                    
@@ -152,7 +152,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return numeroFilasAfectadas;        
@@ -168,7 +168,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return numeroFilasAfectadas;         
@@ -208,7 +208,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return propuestasColaboracion;        
@@ -242,10 +242,9 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
             }
             conexion.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return propuestaColaboracion;
     }
-    
 }

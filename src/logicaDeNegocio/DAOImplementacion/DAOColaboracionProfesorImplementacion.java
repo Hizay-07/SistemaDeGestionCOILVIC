@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Types;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 import org.apache.log4j.Logger;
 
 public class DAOColaboracionProfesorImplementacion implements ColaboracionProfesorInterface {
@@ -64,8 +65,11 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
                 while(resultado.next()){
                     colaboracionObtenida.setIdColaboracion(resultado.getInt("idColaboracion"));
                     colaboracionObtenida.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
-                    colaboracionObtenida.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
                     colaboracionObtenida.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
+                    int idPropuestaDeColaboracion = resultado.getInt("idPropuestaColaboracion");
+                    DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
+                    PropuestaColaboracion propuestaDeColaboracion = daoPropuesta.obtenerPropuestaDeColaboracionPorId(idPropuestaDeColaboracion);
+                    colaboracionObtenida.setPropuestaColaboracion(propuestaDeColaboracion);
                 }
             }
            BASE_DE_DATOS.cerrarConexion(conexion);

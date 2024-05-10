@@ -5,6 +5,7 @@ import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
@@ -37,10 +38,12 @@ public class PruebaDAOColaboracionProfesorImplementacion {
     @Test
     public void pruebaObtenerColaboracionPorIdProfesorExitosa(){
         DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
+        PropuestaColaboracion propuestaDeCOlaboracion = new PropuestaColaboracion();
+        propuestaDeCOlaboracion.setIdPropuestaColaboracion(1);
         Profesor profesorPrueba = new Profesor();
         Colaboracion colaboracionEsperada = new Colaboracion();
         colaboracionEsperada.setEstadoColaboracion("Activa");
-        colaboracionEsperada.setIdPropuestaColaboracion(1);
+        colaboracionEsperada.setPropuestaColaboracion(propuestaDeCOlaboracion);
         colaboracionEsperada.setIdColaboracion(1);
         profesorPrueba.setIdProfesor(1);
         Colaboracion colaboracionObtenida = new Colaboracion();
@@ -51,10 +54,12 @@ public class PruebaDAOColaboracionProfesorImplementacion {
     @Test
     public void pruebaFlujoFallidoObtenerColaboracionPorIdProfesorExitosa(){
         DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
+        PropuestaColaboracion propuestaDeCOlaboracion = new PropuestaColaboracion();
+        propuestaDeCOlaboracion.setIdPropuestaColaboracion(1);
         Profesor profesorPrueba = new Profesor();
         Colaboracion colaboracionEsperada = new Colaboracion();
         colaboracionEsperada.setEstadoColaboracion("Activa");
-        colaboracionEsperada.setIdPropuestaColaboracion(1);
+        colaboracionEsperada.setPropuestaColaboracion(propuestaDeCOlaboracion);
         colaboracionEsperada.setIdColaboracion(1);
         profesorPrueba.setIdProfesor(4);
         Colaboracion colaboracionObtenida = new Colaboracion();

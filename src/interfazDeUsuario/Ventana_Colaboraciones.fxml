@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchor_Ventana" prefHeight="487.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ColaboracionesController">
+   <children>
+      <Pane fx:id="pane_ColorSuperior" layoutX="-11.0" layoutY="-11.0" prefHeight="63.0" prefWidth="778.0" style="-fx-background-color: #168394;" />
+      <Pane fx:id="pane_ColorInferior" layoutY="435.0" prefHeight="52.0" prefWidth="767.0" style="-fx-background-color: #168394;" />
+      <ImageView fx:id="img_LogoCoil" fitHeight="95.0" fitWidth="104.0" layoutX="658.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Imagenes/Coil-Interfaz.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="img_MapaMundo" fitHeight="82.0" fitWidth="181.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Imagenes/MAPAMUNDO.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="tableView_Colaboraciones" layoutX="101.0" layoutY="165.0" prefHeight="200.0" prefWidth="565.0">
+        <columns>
+          <TableColumn fx:id="column_IdColaboracion" prefWidth="45.599998474121094" text="ID" />
+          <TableColumn fx:id="column_ProgramaEducativo" minWidth="0.0" prefWidth="182.39996337890625" text="Programa educativo" />
+            <TableColumn fx:id="column_FechaDeInicio" prefWidth="92.0" text="Fecha de inicio" />
+            <TableColumn fx:id="column_FechaDeCierre" prefWidth="91.99996948242188" text="Fecha de cierre" />
+            <TableColumn fx:id="column_Estado" prefWidth="71.199951171875" text="Estado" />
+            <TableColumn fx:id="column_Visualizar" prefWidth="82.4000244140625" text="Visualizar" />
+        </columns>
+      </TableView>
+      <Label fx:id="lbl_Titulo" layoutX="180.0" layoutY="81.0" text="COLABORACIONES COIL-VIC">
+         <font>
+            <Font name="MS Reference Sans Serif" size="32.0" />
+         </font>
+      </Label>
+      <Button fx:id="btn_Regresar" layoutX="600.0" layoutY="386.0" mnemonicParsing="false" onAction="#regresarAMenuPrincipal" prefHeight="27.0" prefWidth="67.0" style="-fx-background-color: red;" text="Regresar" textFill="WHITE" />
+      <ComboBox fx:id="cmb_TipoDeColaboracion" layoutX="477.0" layoutY="130.0" prefHeight="26.0" prefWidth="172.0" promptText="Tipo de colaboraciones" onAction="#mostrarConsultaSeleccionada"/>
+   </children>
+</AnchorPane>

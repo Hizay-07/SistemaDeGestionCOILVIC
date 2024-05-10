@@ -82,6 +82,11 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
         }
     }
     
+    public void visualizarColaboraciones(){
+        String rutafxml = "/interfazDeUsuario/Ventana_Colaboraciones.fxml";
+        desplegarVentana(rutafxml);
+    }
+    
     public void realizarPropuestaDeColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         if(profesor.getEstado().equals(EnumProfesor.Disponible.toString())){
