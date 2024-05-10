@@ -1,9 +1,11 @@
 package interfazDeUsuario.Alertas;
 
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class Alertas extends Application {
@@ -157,18 +159,6 @@ public class Alertas extends Application {
         });
     }
     
-
-    public static void mostrarRegistroPropuesta(){
-        Platform.runLater(() -> {
-            Alert mensaje = new Alert(AlertType.INFORMATION);
-            mensaje.setTitle("Propuesta de colaboracion");
-            mensaje.setContentText("La propuesta de colaboración fue registrada para su evaluación.");
-            mensaje.showAndWait();
-        });
-    }
-    
-    
-
     public static void mostrarFechasInvalidas(){
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.INFORMATION);
@@ -188,8 +178,56 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+    
+    public static void mostrarMensajeActividadInactiva(){
+         Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Actividad inactiva");
+            mensaje.setContentText("La actividad se encuentra inactiva, no se pueden subir evidencias; solo visualizarlas");
 
-  
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeErrorAlAccederAlaCarpeta(){
+         Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Error en el guardador");
+            mensaje.setContentText("No se pudo acceder a los elementos deseados");
+
+            mensaje.showAndWait();
+        });
+    }
+    
+     public static void mostrarMensajeArchivoSinSeleccionar(){
+         Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Seleccione un archiv");
+            mensaje.setContentText("No se ha seleccionado ningun archivo");
+
+            mensaje.showAndWait();
+        });
+    }
+     
+    public static void mostrarRegistroPropuesta(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Propuesta de colaboracion");
+            mensaje.setContentText("La propuesta de colaboración fue registrada para su evaluación.");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static boolean confirmarEvaluacionPeticion() {
+        Alert mensaje = new Alert(AlertType.CONFIRMATION);
+        mensaje.setTitle("Petición de colaboración");
+        mensaje.setContentText("¿Está seguro de su elección?");
+
+        Optional<ButtonType> resultado = mensaje.showAndWait();
+
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
+    
     @Override
     public void start(Stage stage){
         try{

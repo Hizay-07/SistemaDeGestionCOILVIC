@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_RepresentanteInstitucional" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_RegistroDeRepresentanteInstitucionalController">
+<AnchorPane fx:id="anchor_RepresentanteInstitucional" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_RegistroDeRepresentanteInstitucionalControlador">
    <children>
       <Label layoutX="72.0" layoutY="98.0" text="Nombre de institución:" />
       <Label layoutX="72.0" layoutY="128.0" text="Clave institucional:" />

@@ -15,7 +15,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOEvaluacionPropuestaImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.clases.EvaluacionPropuesta;
 import logicaDeNegocio.clases.UsuarioSingleton;
@@ -49,6 +51,9 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         int idUsuario=usuario.getIdUsuario();
         DAOEvaluacionPropuestaImplementacion daoEvaluacionPropuesta=new DAOEvaluacionPropuestaImplementacion();
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+        
         try{
             evaluacionPropuesta.setIdUsuario(idUsuario);
             evaluacionPropuesta.setJustificacion(txa_Justificacion.getText());
@@ -61,6 +66,8 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
                 daoPropuestaColaboracion.aprobarPropuestaColaboracionPorId(idPropuestaColaboracion);                
             }else{
                 daoPropuestaColaboracion.rechazarPropuestaColaboracionPorId(idPropuestaColaboracion);                
+                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
+                daoProfesor.cambiarEstadoProfesor(idProfesor, "Activo");
             }            
             salirDeLaVentana();
         }catch(IllegalArgumentException excepcion){     

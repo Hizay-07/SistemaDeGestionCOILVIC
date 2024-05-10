@@ -148,8 +148,14 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     }
      
     public void visualizarPeticionesColaboracion(){
-        String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
-        desplegarVentana(rutafxml);        
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
+            String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
+            desplegarVentana(rutafxml);
+        }else{
+            String mensaje = "No se pueden evaluar peticones de colaboración sin una propuesta de colaboración";
+            Alertas.mostrarMensajeColaboracionActiva(mensaje);
+        }                            
     }
     
 }
