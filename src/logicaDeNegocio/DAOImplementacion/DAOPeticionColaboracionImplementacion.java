@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.clases.PeticionColaboracion;
-import logicaDeNegocio.clases.Profesor;
+
 import logicaDeNegocio.interfaces.PeticionColaboracionInterface;
 import org.apache.log4j.Logger;
 
@@ -100,14 +100,14 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
     }
     
     @Override
-    public int consultarIdPropuestaDeColaboracionPorIdProfesor(Profesor profesor){
+    public int consultarIdPropuestaDeColaboracionPorIdProfesor(int idProfesor){
         PreparedStatement declaracion;
         ResultSet resultado;
         int idPropuestaColaboracion=0;
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from PeticionColaboracion where idProfesor=?;");
-            declaracion.setInt(1, profesor.getIdProfesor());
+            declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from PeticionColaboracion where idProfesor=? and estadoPeticion='Registrada';");
+            declaracion.setInt(1, idProfesor);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
@@ -128,7 +128,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         List<Integer> idProfesores=new ArrayList<>();
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("Select idProfesor from peticionColaboracion where idPropuestaColaboracion=?;");
+            declaracion=conexion.prepareStatement("Select idProfesor from peticionColaboracion where idPropuestaColaboracion=? and estadoPeticion='Registrada';");
             declaracion.setInt(1, idPropuestaColaboracion);
             resultado=declaracion.executeQuery();
             while(resultado.next()){
@@ -136,9 +136,45 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                 idProfesores.add(idProfesor);                
             }
             conexion.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOPeticionColaboracionImplementacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
         }
         return idProfesores;                        
     }
+    
+    @Override
+    public int aceptarPeticionColaboracion(int idPropuestaColaboracion,int idProfesor) {
+        int numeroFilasAfectadas = 0;
+        PreparedStatement declaracion;
+        try {
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion='Aceptada' WHERE idPropuestaColaboracion=? and idProfesor=?;");
+            declaracion.setInt(1, idPropuestaColaboracion);
+            declaracion.setInt(2, idProfesor);
+            numeroFilasAfectadas = declaracion.executeUpdate();
+            conexion.close();
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+        }
+        return numeroFilasAfectadas;
+    }
+    
+    @Override
+    public int rechazarPeticionColaboracion(int idPropuestaColaboracion,int idProfesor) {
+        int numeroFilasAfectadas = 0;
+        PreparedStatement declaracion;
+        try {
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion='Rechazada' WHERE idPropuestaColaboracion=? and idProfesor=?;");
+            declaracion.setInt(1, idPropuestaColaboracion);
+            declaracion.setInt(2, idProfesor);
+            numeroFilasAfectadas = declaracion.executeUpdate();
+            conexion.close();
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+        }
+        return numeroFilasAfectadas;
+    }
+    
+    
 }

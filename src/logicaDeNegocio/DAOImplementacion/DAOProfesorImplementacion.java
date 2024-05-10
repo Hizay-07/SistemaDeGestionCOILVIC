@@ -51,7 +51,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion);
         }
         return numeroFilasAfectadas;
     }

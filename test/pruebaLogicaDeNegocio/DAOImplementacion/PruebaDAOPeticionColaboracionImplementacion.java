@@ -95,8 +95,25 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         assertEquals(resultadoEsperado, resultadoObtenido);        
     }
     
+    @Test
+    public void pruebaAceptarPeticionColaboracionExitosa(){
+        int idPropuestaColaboracion=1;
+        int idProfesor=1;
+        int resultadoEsperado=1;
+        DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido=daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
+        assertEquals(resultadoEsperado, resultadoObtenido);        
+    }
     
-    
+    @Test
+    public void pruebaRechazarPeticionColaboracionExitosa(){
+        int idPropuestaColaboracion=1;
+        int idProfesor=1;
+        int resultadoEsperado=1;
+        DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido=daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
+        assertEquals(resultadoEsperado, resultadoObtenido);         
+    }
     
     
     

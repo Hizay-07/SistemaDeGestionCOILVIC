@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -131,14 +132,21 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
     } 
     
     private void agregarBotonAceptar() {        
-        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> cellFactory = (final TableColumn<PropuestaColaboracion, Void> param) -> {
-            final TableCell<PropuestaColaboracion, Void> cell = new TableCell<PropuestaColaboracion, Void>() {                
+        Callback<TableColumn<Profesor, Void>, TableCell<Profesor, Void>> cellFactory = (final TableColumn<Profesor, Void> param) -> {
+            final TableCell<Profesor, Void> cell = new TableCell<Profesor, Void>() {                
                 private final Button btn_Aceptar = new Button();                                
                 {
-                    btn_Aceptar.setText("Aceptar");
+                    btn_Aceptar.setText("Aceptar");                    
                     btn_Aceptar.setOnAction((ActionEvent event) -> {
-                                                                                            
-                        
+                        if(Alertas.confirmarEvaluacionPeticion()){
+                            Profesor profesor= getTableView().getItems().get(getIndex());
+                            int idProfesor=profesor.getIdProfesor();
+                            DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
+                            int idPropuesta=daoPeticionColaboracion.consultarIdPropuestaDeColaboracionPorIdProfesor(idProfesor);
+                            daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuesta, idProfesor);                                                                                                                                                                    
+                            tableView_PeticionesDeColaboracion.getItems().clear();
+                            tableView_PeticionesDeColaboracion.getItems().addAll(consultarProfesores());                        
+                        }                        
                     });
                 }                
                 @Override
@@ -157,14 +165,23 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
     }
     
     private void agregarBotonRechazar() {        
-        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> cellFactory = (final TableColumn<PropuestaColaboracion, Void> param) -> {
-            final TableCell<PropuestaColaboracion, Void> cell = new TableCell<PropuestaColaboracion, Void>() {                
+        Callback<TableColumn<Profesor, Void>, TableCell<Profesor, Void>> cellFactory = (final TableColumn<Profesor, Void> param) -> {
+            final TableCell<Profesor, Void> cell = new TableCell<Profesor, Void>() {                
                 private final Button btn_Rechazar = new Button();                                
                 {
                     btn_Rechazar.setText("Rechazar");
                     btn_Rechazar.setOnAction((ActionEvent event) -> {
-                                                                                            
-                        
+                        if(Alertas.confirmarEvaluacionPeticion()){
+                            Profesor profesor= getTableView().getItems().get(getIndex());
+                            int idProfesor=profesor.getIdProfesor();
+                            DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
+                            int idPropuesta=daoPeticionColaboracion.consultarIdPropuestaDeColaboracionPorIdProfesor(idProfesor);
+                            daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuesta, idProfesor);
+                            DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+                            daoProfesor.cambiarEstadoProfesor(idProfesor, "Activo");                                                                                                                    
+                            tableView_PeticionesDeColaboracion.getItems().clear();
+                            tableView_PeticionesDeColaboracion.getItems().addAll(consultarProfesores());                         
+                        }                                                                                               
                     });
                 }                
                 @Override
