@@ -45,11 +45,16 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         List<ProfesorUV> profesoresUV=new ArrayList<>();
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("SELECT * FROM ProfesorUV;");
+            declaracion=conexion.prepareStatement("select * from profesoruv,profesor where profesoruv.idProfesor = profesor.idProfesor;");
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
                     ProfesorUV profesorUV=new ProfesorUV();
+                    profesorUV.setNombre(resultado.getString("nombre"));
+                    profesorUV.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesorUV.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesorUV.setCorreo(resultado.getString("Correo"));
+                    profesorUV.setEstado(resultado.getString("estadoProfesor"));
                     profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
                     profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
                     profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
@@ -74,12 +79,17 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         List<ProfesorUV> profesoresUV=new ArrayList<>();
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("SELECT * FROM ProfesorUV where idAreaAcademica=?;");
+            declaracion=conexion.prepareStatement("select * from profesoruv,profesor where idAreaAcademica = ?");
             declaracion.setInt(1, idAreaAcademica);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
                     ProfesorUV profesorUV=new ProfesorUV();
+                    profesorUV.setNombre(resultado.getString("nombre"));
+                    profesorUV.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesorUV.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesorUV.setCorreo(resultado.getString("Correo"));
+                    profesorUV.setEstado(resultado.getString("estadoProfesor"));
                     profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
                     profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
                     profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
@@ -104,12 +114,17 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         List<ProfesorUV> profesoresUV=new ArrayList<>();
         try {
             conexion=BASE_DE_DATOS.getConexion();
-            declaracion=conexion.prepareStatement("SELECT * FROM ProfesorUV where idRegionAcademica=?;");
+            declaracion=conexion.prepareStatement("select * from profesoruv,profesor where idRegionAcademica = ?;");
             declaracion.setInt(1, idRegion);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
                     ProfesorUV profesorUV=new ProfesorUV();
+                    profesorUV.setNombre(resultado.getString("nombre"));
+                    profesorUV.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesorUV.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesorUV.setCorreo(resultado.getString("Correo"));
+                    profesorUV.setEstado(resultado.getString("estadoProfesor"));
                     profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
                     profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
                     profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));

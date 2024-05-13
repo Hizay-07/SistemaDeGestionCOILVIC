@@ -11,6 +11,7 @@ public interface RepresentanteInstitucionalInterface{
     public int modificarNombreRepresentanteInstitucional(String nombreActualizado, RepresentanteInstitucional representanteAActualizar);
     public int modificarClaveRepresentanteInstitucional(String claveActualizada, RepresentanteInstitucional representanteAActualizar);
     public int modificarContactoRepresentanteInstitucional(String contactoActualizado, RepresentanteInstitucional representanteAActualizar);
+    public int modificarPaisRepresentanteInstitucional(RepresentanteInstitucional representanteAActualizar);
     public int verificarExistenciaRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public boolean obtenerEstadoRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales();

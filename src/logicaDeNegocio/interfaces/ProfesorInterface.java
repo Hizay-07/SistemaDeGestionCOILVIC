@@ -13,4 +13,5 @@ public interface ProfesorInterface {
     public int obtenerIdProfesorPorCorreo(String correo);
     public int asignarUsuarioDeProfesorPorCorreo(String correo);
     public Profesor obtenerProfesorPorIdUsuario(int idUsuario);
+    public int validarDuplicidadDeCorreo(String correo);
 }

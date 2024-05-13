@@ -126,4 +126,19 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoDeConfirmacionDeConexion;
     }
     
+    @Override 
+    public boolean confirmarConexionDeUsuario(){
+         boolean resultadoDeConfirmacionDeConexion=false;
+        try{
+           conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+           if(Objects.nonNull(conexion)){
+               resultadoDeConfirmacionDeConexion=true;
+           }
+           conexion.close();
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
+        }
+        return resultadoDeConfirmacionDeConexion;
+    }
+    
 }

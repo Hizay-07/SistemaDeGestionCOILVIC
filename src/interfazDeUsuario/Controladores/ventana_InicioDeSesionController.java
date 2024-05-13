@@ -18,6 +18,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
+import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.enums.EnumEstadosProfesor;
 import org.apache.log4j.Logger;
 
 
@@ -52,7 +56,11 @@ public class ventana_InicioDeSesionController implements Initializable {
             if(validacionCredencial){
                 usuarioAIngresar.setTipoDeUsuario(DAOUsuario.obtenerTipoDeUsuario(usuarioAIngresar,logger));
                 usuarioAIngresar.setIdUsuario(DAOUsuario.obtenerIdUsuario(usuarioAIngresar,logger));
-                desplegarVentanaCorrespondiente(usuarioAIngresar);
+                if(usuarioAIngresar.getTipoDeUsuario().equals(EnumTipoDeUsuario.Profesor.toString())){
+                    validarEstadoProfesor(usuarioAIngresar);
+                }else{
+                    desplegarVentanaCorrespondiente(usuarioAIngresar);
+                }
             }else{
                 Alertas.mostrarMensajeUsuarioNoEncontrado();
             }            
@@ -71,6 +79,16 @@ public class ventana_InicioDeSesionController implements Initializable {
             iniciarSesion(logger);
         }else{
             Alertas.mostrarMensajeErrorEnLaConexion();
+        }
+    }
+    
+    public void validarEstadoProfesor(Usuario usuario){
+        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+        Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario());
+        if(profesorSesion.getEstado().equals(EnumEstadosProfesor.Archivado.toString())){
+            Alertas.mostrarMensajeAccesoDenegado();
+        }else{
+            desplegarVentanaCorrespondiente(usuario);
         }
     }
     

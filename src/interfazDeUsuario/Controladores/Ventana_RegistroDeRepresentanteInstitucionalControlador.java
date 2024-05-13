@@ -1,13 +1,17 @@
 package interfazDeUsuario.Controladores;
 
 import interfazDeUsuario.Alertas.Alertas;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -77,10 +81,14 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
             return;
         }
         DAORepresentanteInstitucionalImplementacion daoRepresentanteInstitucional=new DAORepresentanteInstitucionalImplementacion();
-        daoRepresentanteInstitucional.registrarRepresentanteInstitucional(representanteInstitucional);   
-        Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
+        int resultadoRegistro = daoRepresentanteInstitucional.registrarRepresentanteInstitucional(representanteInstitucional);
+        if(resultadoRegistro==1){
+            Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
+        }else{
+            Alertas.mostrarMensajeErrorEnLaConexion();
+        }
         limpiarInformacionRepresentanteInstitucional();
-        cerrarVentana();
+        regresarMenuPrincipal();
     }
     
     public void limpiarInformacionRepresentanteInstitucional(){
@@ -88,5 +96,24 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         txfd_ClaveInstitucional.setText("");
         txfd_Contacto.setText("");
         cmb_Pais.getSelectionModel().clearSelection();                        
-    }            
+    }
+    
+    public void regresarMenuPrincipal(){
+        String ruta = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
+        desplegarVentana(ruta);
+    }
+    
+    public void desplegarVentana(String ruta){
+        String rutaVentanaFXML = ruta;
+        try{
+            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException excepcion){
+            LOG.error(excepcion);
+        }
+        cerrarVentana();
+    }
 }

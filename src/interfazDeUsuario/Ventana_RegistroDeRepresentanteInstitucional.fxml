@@ -25,6 +25,6 @@
          </font>
       </Label>
       <Button layoutX="193.0" layoutY="343.0" mnemonicParsing="false" onAction="#registrarRepresentanteInstitucional" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #00913f;" text="Aceptar" textFill="WHITE" />
-      <Button layoutX="336.0" layoutY="343.0" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #FF0000;" text="Cancelar" textFill="WHITE" />
+      <Button layoutX="336.0" layoutY="343.0" mnemonicParsing="false" onAction="#regresarMenuPrincipal" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #FF0000;" text="Cancelar" textFill="WHITE" />
    </children>
 </AnchorPane>

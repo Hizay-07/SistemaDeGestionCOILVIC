@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 public class DAOProfesorImplementacion implements ProfesorInterface {
@@ -223,6 +224,27 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         }
         return profesor; 
    }
-
+   
+   @Override
+   public int validarDuplicidadDeCorreo(String correo){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int coincidenciasEncontradas = 0;
+        try{
+            conexion = BASE_DE_DATOS.getConexion();
+            declaracion=conexion.prepareStatement("SELECT count(*) as 'coincidencias encontradas' from Profesor where correo=?;");
+            declaracion.setString(1, correo);
+            resultado=declaracion.executeQuery();
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    coincidenciasEncontradas = resultado.getInt("coincidencias encontradas");
+                }
+            }
+        }catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+            coincidenciasEncontradas = -1;
+        }
+        return coincidenciasEncontradas;
+   }
 
 }

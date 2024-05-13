@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,7 +25,7 @@
                                 </Text>
                             </children>
                         </Pane>
-                        <BorderPane fx:id="btn_cancelar" layoutX="20.0" layoutY="72.0" prefHeight="288.0" prefWidth="563.0" style="-fx-border-color: black;" />
+                        <BorderPane fx:id="btn_cancelar" layoutX="20.0" layoutY="72.0" prefHeight="298.0" prefWidth="563.0" style="-fx-border-color: black;" />
                         <TextField fx:id="txfd_ApellidoPaterno" layoutX="194.0" layoutY="119.0" prefHeight="27.0" prefWidth="366.0" style="-fx-border-color: black;" />
                         <TextField fx:id="txfd_Correo" layoutX="194.0" layoutY="182.0" prefHeight="27.0" prefWidth="366.0" style="-fx-border-color: black;" />
                         <TextField fx:id="txfd_Nombre" layoutX="194.0" layoutY="82.0" prefHeight="27.0" prefWidth="366.0" style="-fx-border-color: black;" />
@@ -35,6 +36,7 @@
                         <Label fx:id="lbl_ApellidoMaterno" layoutX="63.0" layoutY="124.0" text="Apellido Paterno" />
                         <Label fx:id="lbl_ApellidoMaterno_" layoutX="62.0" layoutY="154.0" text="Apellido Materno" />
                         <Label fx:id="lbl_Correo" layoutX="62.0" layoutY="191.0" text="Correo" />
+                        <ComboBox fx:id="cmb_EstadosProfesor" layoutX="235.0" layoutY="239.0" prefWidth="150.0" promptText="Estado Profesor" />
                     </children>
                 </AnchorPane>
             </children>

@@ -44,11 +44,16 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         List<ProfesorExterno> profesoresExternos = new ArrayList<>();
         try {
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno;");
+            declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno,profesor where profesorexterno.idProfesor = profesor.idProfesor;");
             resultado = declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while (resultado.next()) {
                     ProfesorExterno profesorExterno = new ProfesorExterno();
+                    profesorExterno.setNombre(resultado.getString("nombre"));
+                    profesorExterno.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesorExterno.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesorExterno.setCorreo(resultado.getString("correo"));
+                    profesorExterno.setEstado(resultado.getString("estadoProfesor"));
                     profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
                     profesorExterno.setIdProfesor(resultado.getInt("idProfesor"));
                     profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
@@ -69,12 +74,17 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         List<ProfesorExterno> profesoresExternos = new ArrayList<>();
         try {
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno WHERE idRepresentanteInstitucional=?;");
+            declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno,profesor WHERE idRepresentanteInstitucional=?;");
             declaracion.setInt(1, idRepresentanteInstitucional);
             resultado = declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while (resultado.next()) {
                     ProfesorExterno profesorExterno = new ProfesorExterno();
+                    profesorExterno.setNombre(resultado.getString("nombre"));
+                    profesorExterno.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+                    profesorExterno.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+                    profesorExterno.setEstado(resultado.getString("estadoProfesor"));
+                    profesorExterno.setCorreo(resultado.getString("correo"));
                     profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
                     profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
                     profesoresExternos.add(profesorExterno);
