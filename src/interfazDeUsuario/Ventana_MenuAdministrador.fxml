@@ -26,27 +26,22 @@
                   <Image url="@Imagenes/icono.jpg" />
                </image>
             </ImageView>
-            <Button fx:id="btn_RegistrarProfesor" layoutX="468.0" layoutY="251.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Registrar Profesor" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_RegistrarProfesor" layoutX="468.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Registrar Profesor" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_ConaultarColaboracionesEnCurso" layoutX="533.0" layoutY="349.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #A24BFA; -fx-border-color: #0aff7a;" text="Consultar Colaboraciones En Curso" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_ConaultarColaboracionesEnCurso" layoutX="758.0" layoutY="251.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #A24BFA; -fx-border-color: #0aff7a;" text="Consultar Colaboraciones" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_ConsultarProfesores" layoutX="468.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #694BFA; -fx-border-color: #0aff7a;" text="Consultar Profesores" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_ConsultarProfesores" layoutX="468.0" layoutY="251.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #694BFA; -fx-border-color: #0aff7a;" text="Consultar Profesores" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_ConsultarColaboracionesPendientes" layoutX="758.0" layoutY="251.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #694BFA; -fx-border-color: #0aff7a;" text="Consultar Colaboraciones Pendientes" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="btn_VisualizarColaboraciones" layoutX="614.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #0026FA; -fx-border-color: #0aff7a;" text="Registrar Representante Intituional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_RegistrarRepresentante" layoutX="614.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #0026FA; -fx-border-color: #0aff7a;" text="Registrar Representante Intituional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -66,7 +61,7 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Button fx:id="btn_VisualizarPropuestasDeColaboracion" layoutX="758.0" layoutY="154.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Visualizar Propuestas De Colaboraión" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_VisualizarPropuestasDeColaboracion" layoutX="758.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Propuestas de colaboración" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -86,7 +81,7 @@
                   <Font name="MS Reference Sans Serif" size="25.0" />
                </font>
             </Label>
-            <Button fx:id="btn_CreacionDeUsuario" layoutX="692.0" layoutY="349.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="131.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Crear Usuario" textFill="WHITE">
+            <Button fx:id="btn_CreacionDeUsuario" layoutX="613.0" layoutY="349.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="131.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Crear Usuario" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

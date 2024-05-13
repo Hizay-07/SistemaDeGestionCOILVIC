@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 
 
 public class Ventana_CreacionDeUsuarioController implements Initializable {
+    
     private static final Logger LOG=Logger.getLogger(Ventana_CreacionDeUsuarioController.class);
     private Stage escenario;
     @FXML
@@ -127,13 +128,17 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
     }
     
     
-    public void registrarUsuario(ActionEvent event) {
+    public void registrarUsuario() {
         Usuario usuarioNuevo = crearUsuario();
-
-        if (usuarioNuevo.getTipoDeUsuario().equals("Administrativo")) {
+        try{
+             if (usuarioNuevo.getTipoDeUsuario().equals("Administrativo")) {
             registrarUsuarioAdministrativo(usuarioNuevo);
-        } else if (usuarioNuevo.getTipoDeUsuario().equals("Profesor")) {
-            registrarUsuarioProfesor(usuarioNuevo);
+            } else if (usuarioNuevo.getTipoDeUsuario().equals("Profesor")) {
+                registrarUsuarioProfesor(usuarioNuevo);
+            }
+        }catch(NullPointerException excepcion){
+            LOG.error(excepcion.getMessage());
+            Alertas.mostrarMensajeDatosInvalidos();
         }
 
         limpiarInformacion();

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -103,7 +102,7 @@ public class Ventana_ColaboracionesController implements Initializable {
         tableView_Colaboraciones.getItems().clear();
         try{
             List<Colaboracion> colaboracionesActivasObtenidas = obtenerColaboracionesActivas();
-            if(Objects.nonNull(colaboracionesActivasObtenidas)){
+            if(!colaboracionesActivasObtenidas.isEmpty()){
                 tableView_Colaboraciones.getItems().addAll(colaboracionesActivasObtenidas);
                 column_IdColaboracion.setCellValueFactory(new PropertyValueFactory<>("idColaboracion"));
                 column_Estado.setCellValueFactory(new PropertyValueFactory<>("estadoColaboracion"));
@@ -133,7 +132,7 @@ public class Ventana_ColaboracionesController implements Initializable {
         tableView_Colaboraciones.getItems().clear();
         try{
             List<Colaboracion> colaboracionesFinalizadasObtenidas = obtenerColaboracionesFinalizadas();
-            if(Objects.nonNull(colaboracionesFinalizadasObtenidas)){
+            if(!colaboracionesFinalizadasObtenidas.isEmpty()){
                 tableView_Colaboraciones.getItems().addAll(colaboracionesFinalizadasObtenidas);
                 column_IdColaboracion.setCellValueFactory(new PropertyValueFactory<>("idColaboracion"));
                 column_Estado.setCellValueFactory(new PropertyValueFactory<>("estadoColaboracion"));

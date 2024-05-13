@@ -221,29 +221,6 @@ public class Alertas extends Application {
 
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
-    
-
-            mensaje.showAndWait();
-        });
-    }
-    
-    public static void mostrarMensajeErrorAlAccederAlaCarpeta(){
-         Platform.runLater(() -> {
-            Alert mensaje = new Alert(AlertType.INFORMATION);
-            mensaje.setTitle("Error en el guardador");
-            mensaje.setContentText("No se pudo acceder a los elementos deseados");
-            mensaje.showAndWait();
-        });
-    }
-    
-     public static void mostrarMensajeArchivoSinSeleccionar(){
-         Platform.runLater(() -> {
-            Alert mensaje = new Alert(AlertType.INFORMATION);
-            mensaje.setTitle("Seleccione un archiv");
-            mensaje.setContentText("No se ha seleccionado ningun archivo");
-            mensaje.showAndWait();
-        });
-    }
      
     public static void mostrarMensajeSinResultadosEncontrados(String mensajeAlerta){
         Platform.runLater(() -> {
@@ -288,6 +265,15 @@ public class Alertas extends Application {
         Optional<ButtonType> resultado = mensaje.showAndWait();
 
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
+    
+    public static void mostrarMensajeAccesoDenegado(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("ACCESO DENEGADO");
+            mensaje.setContentText("Su cuenta se encuentra archivada, si desea ingresar contacte a los administrativos.");
+            mensaje.showAndWait();
+        });
     }
   
 

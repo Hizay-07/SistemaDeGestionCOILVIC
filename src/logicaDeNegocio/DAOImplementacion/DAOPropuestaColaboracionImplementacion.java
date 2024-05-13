@@ -41,7 +41,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         } catch (SQLException | NullPointerException excepcion) {
             LOG.fatal(excepcion.getCause());
             System.out.println(excepcion.getMessage());
-            numeroFilasAfectadas = -1;
+            idPropuestaColaboracion = -1;
         }
         return idPropuestaColaboracion;        
     }

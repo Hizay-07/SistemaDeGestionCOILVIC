@@ -31,7 +31,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;                

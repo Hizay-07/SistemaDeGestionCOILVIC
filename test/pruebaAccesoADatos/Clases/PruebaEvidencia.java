@@ -38,7 +38,7 @@ public class PruebaEvidencia {
     @Test
     public void pruebaSetRutaEvidenciaExitosa(){
         Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setRutaEvidencia("ruta a la evidencia");
+        evidenciaPrueba.setRutaEvidencia("Colaboraciones/Colaboracion1/Actividad1/ModeloDeEstandarizacion.docx");
         assertNotNull(evidenciaPrueba.getRutaEvidencia());
     }
     

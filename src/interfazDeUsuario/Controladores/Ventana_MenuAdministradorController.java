@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 public class Ventana_MenuAdministradorController implements Initializable{
     
-    private static final Logger LOG=Logger.getLogger(ventana_InicioDeSesionController.class);
+    private static final Logger LOG=Logger.getLogger(Ventana_MenuAdministradorController.class);
     private Stage escenario;
     @FXML
     private AnchorPane anchor_PanelPrincipal;
@@ -36,9 +36,7 @@ public class Ventana_MenuAdministradorController implements Initializable{
     @FXML
     private Button btn_ConsultarProfesores;
     @FXML
-    private Button btn_ConsultarColaboracionesPendientes;
-    @FXML
-    private Button btn_VisualizarColaboraciones;
+    private Button btn_RegistrarRepresentante;;
     @FXML
     private Button btn_Salir;
     @FXML
@@ -66,11 +64,22 @@ public class Ventana_MenuAdministradorController implements Initializable{
             mostrarVentanaColaboraciones();
         });
         
-
         btn_VisualizarPropuestasDeColaboracion.setOnAction(Event ->{
             visualizarPropuestasColaboracion();            
-        });                
-
+        });    
+        
+        btn_ConsultarProfesores.setOnAction(Event ->{
+            consultarProfesores();
+        });
+        
+        btn_RegistrarRepresentante.setOnAction(Event->{
+            registrarRepresentanteInstitucional();
+        });
+        
+        btn_ConsultarRepresentanteInstitucional.setOnAction(Event ->{ 
+            consultarRepresentanteInstitucional();
+        });
+       
         mostrarDetallesUsuario();
     }
     
@@ -91,6 +100,21 @@ public class Ventana_MenuAdministradorController implements Initializable{
     
     public void registrarUsuario(){
         String ruta = "/interfazDeUsuario/Ventana_CreacionDeUsuario.fxml";
+        desplegarVentana(ruta);
+    }
+    
+    public void consultarProfesores(){
+        String ruta = "/interfazDeUsuario/Ventana_Profesores.fxml";
+        desplegarVentana(ruta);
+    }
+    
+    public void registrarRepresentanteInstitucional(){
+        String ruta = "/interfazDeUsuario/Ventana_RegistroDeRepresentanteInstitucional.fxml";
+        desplegarVentana(ruta);
+    }
+    
+    public void consultarRepresentanteInstitucional(){
+        String ruta = "/interfazDeUsuario/Ventana_RepresentantesInstitucionales.fxml";
         desplegarVentana(ruta);
     }
     

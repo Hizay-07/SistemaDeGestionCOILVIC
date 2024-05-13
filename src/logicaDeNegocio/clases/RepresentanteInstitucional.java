@@ -3,6 +3,8 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class RepresentanteInstitucional{
+    
+    private int idRepresentanteInstitucional;
     private String nombreInstitucion;
     private String claveInstitucional;
     private String contacto;
@@ -10,12 +12,20 @@ public class RepresentanteInstitucional{
     private Pais pais;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    private static final String SOLO_NUMEROS_PATTERN = "\\d+";
+    private static final String SOLO_LETRAS_Y_NUMEROS_PATTERN ="^[\\p{L}0-9]+$";
     
     public RepresentanteInstitucional(){
         
     }
-        
+
+    public int getIdRepresentanteInstitucional() {
+        return idRepresentanteInstitucional;
+    }
+
+    public void setIdRepresentanteInstitucional(int idRepresentanteInstitucional) {
+        this.idRepresentanteInstitucional = idRepresentanteInstitucional;
+    }
+    
     public String getNombreInstitucion(){
         return nombreInstitucion;
     }
@@ -33,7 +43,7 @@ public class RepresentanteInstitucional{
     }
 
     public void setClaveInstitucional(String claveInstitucional)throws IllegalArgumentException {
-        if(claveInstitucional!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, claveInstitucional)){
+        if(claveInstitucional!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN, claveInstitucional)){
             this.claveInstitucional = claveInstitucional;
         }else{
             throw new IllegalArgumentException();

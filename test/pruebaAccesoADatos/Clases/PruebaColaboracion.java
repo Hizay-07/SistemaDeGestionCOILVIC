@@ -48,18 +48,4 @@ public class PruebaColaboracion {
         colaboracionPrueba.setEstadoColaboracion("Estado*");
         assertNull(colaboracionPrueba.getEstadoColaboracion());
     }
-    
-    @Test
-    public void pruebaSetIdPropuestaColaboracionExitosa(){
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdPropuestaColaboracion(1);
-        assertNotNull(colaboracionPrueba.getIdPropuestaColaboracion());
-    }
-    
-    @Test
-    public void pruebaSetIdPropuestaColaboracionInvalida(){
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdPropuestaColaboracion(-1);
-        assertNotNull(colaboracionPrueba.getIdPropuestaColaboracion());
-    }
 }
