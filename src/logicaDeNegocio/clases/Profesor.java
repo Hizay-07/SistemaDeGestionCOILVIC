@@ -9,7 +9,7 @@ public class Profesor{
     private String correo; 
     private String estado;
     private int idProfesor;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";;
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
@@ -22,13 +22,13 @@ public class Profesor{
     }
 
     public void setNombre(String nombre)throws IllegalArgumentException{
-        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre)){
-            this.nombre = nombre;
+        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre.trim())&&nombre.trim().length()<=45){
+            this.nombre = nombre.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
     }
-
+  
     public String getApellidoPaterno(){
         return apellidoPaterno;
     }

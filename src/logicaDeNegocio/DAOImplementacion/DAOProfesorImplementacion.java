@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import logicaDeNegocio.clases.Usuario;
 import org.apache.log4j.Logger;
 
 public class DAOProfesorImplementacion implements ProfesorInterface {
@@ -198,12 +199,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
    }
 
    @Override
-   public Profesor obtenerProfesorPorIdUsuario(int idUsuario){
+   public Profesor obtenerProfesorPorIdUsuario(int idUsuario,Usuario logger){
        PreparedStatement declaracion;
         ResultSet resultado;
         Profesor profesor=new Profesor();
         try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
             declaracion=conexion.prepareStatement("SELECT * from Profesor where Usuario_idUsuario=?;");
             declaracion.setInt(1, idUsuario);
             resultado=declaracion.executeQuery();

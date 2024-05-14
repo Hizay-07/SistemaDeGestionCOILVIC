@@ -131,7 +131,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             profesor.setCorreo(txfd_Correo.getText());
         }catch(IllegalArgumentException excepcion){ 
             Alertas.mostrarMensajeDatosInvalidos();   
-            LOG.info(excepcion);
+            LOG.info(excepcion); 
         }
         return profesor;
     }
