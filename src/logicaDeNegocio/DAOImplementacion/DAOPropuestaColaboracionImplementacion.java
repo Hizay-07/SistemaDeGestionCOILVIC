@@ -304,5 +304,46 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         }
         return idPropuestaColaboracion;                                        
     }
+    
+    @Override
+    public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadasSinPeticiones(int identificadorProfesor){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
+        DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+        try {
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=conexion.prepareStatement("SELECT * FROM propuestaColaboracion pc WHERE pc.estadoPropuesta = 'Aprobada' AND pc.idPropuestaColaboracion NOT IN (SELECT idPropuestaColaboracion FROM peticionColaboracion WHERE idProfesor = ?);");      
+            declaracion.setInt(1, identificadorProfesor);
+            resultado=declaracion.executeQuery();            
+            while(resultado.next()){
+                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                
+                propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
+                propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
+                propuestaColaboracion.setIdioma(resultado.getString("idioma"));
+                propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
+                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));                
+                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));                
+                propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));                
+                TipoColaboracion tipoColaboracion=new TipoColaboracion();
+                int idTipoColaboracion=resultado.getInt("idTipoColaboracion");
+                tipoColaboracion.setIdTipoColaboracion(idTipoColaboracion);
+                String tipo=daoTipoColaboracion.consultarTipoColaboracionPorId(idTipoColaboracion);
+                tipoColaboracion.setTipo(tipo);
+                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);                
+                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                Profesor profesor=daoProfesor.consultarProfesorPorId(idProfesor);            
+                propuestaColaboracion.setProfesor(profesor);                
+                propuestasColaboracion.add(propuestaColaboracion);                
+            }
+            conexion.close();
+        } catch (SQLException | NullPointerException ex) {
+            LOG.warn(ex);
+        }
+        return propuestasColaboracion; 
+    }
 
 }

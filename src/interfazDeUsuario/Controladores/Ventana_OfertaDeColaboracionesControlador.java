@@ -96,9 +96,11 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
     }                  
        
     public List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
+        ProfesorSingleton profesor=ProfesorSingleton.getInstancia();
+        int idProfesor=profesor.getIdProfesor();
         List<PropuestaColaboracion> propuestas=new ArrayList<>(); 
         DAOPropuestaColaboracionImplementacion daoPropuestas=new DAOPropuestaColaboracionImplementacion();
-        propuestas=daoPropuestas.consultarPropuestasDeColaboracionAprobadas();
+        propuestas=daoPropuestas.consultarPropuestasDeColaboracionAprobadasSinPeticiones(idProfesor);
         List<PropuestaColaboracion> propuestasFinales=new ArrayList<>();                
         for(PropuestaColaboracion propuesta : propuestas){                                                
             propuestasFinales.add(propuesta);
