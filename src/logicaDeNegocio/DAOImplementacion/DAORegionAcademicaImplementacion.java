@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import logicaDeNegocio.clases.RegionAcademica;
 import logicaDeNegocio.interfaces.RegionAcademicaInterface;
 import org.apache.log4j.Logger;
@@ -22,7 +21,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("INSERT INTO regionAcademica (region) VALUES (?);");
             declaracion.setString(1, regionAcademica.getRegion());numeroFilasAfectadas=declaracion.executeUpdate();
             numeroFilasAfectadas=declaracion.executeUpdate();
@@ -39,7 +38,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
         ResultSet resultado;
         List<RegionAcademica> regionesAcademicas=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * FROM RegionAcademica;");
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -63,7 +62,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
         ResultSet resultado;
         int idRegion=0;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT idRegionAcademica from RegionAcademica where region=?");
             declaracion.setString(1, region);
             resultado=declaracion.executeQuery();

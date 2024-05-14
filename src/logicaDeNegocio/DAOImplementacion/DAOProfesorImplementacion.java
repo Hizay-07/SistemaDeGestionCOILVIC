@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.List;
 import org.apache.log4j.Logger;
 
 public class DAOProfesorImplementacion implements ProfesorInterface {
@@ -158,7 +157,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         ResultSet resultado;
         Profesor profesor=new Profesor();
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from Profesor where idProfesor=?;");
             declaracion.setInt(1, idProfesor);
             resultado=declaracion.executeQuery();
@@ -204,7 +203,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         ResultSet resultado;
         Profesor profesor=new Profesor();
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from Profesor where Usuario_idUsuario=?;");
             declaracion.setInt(1, idUsuario);
             resultado=declaracion.executeQuery();
@@ -231,7 +230,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         ResultSet resultado;
         int coincidenciasEncontradas = 0;
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT count(*) as 'coincidencias encontradas' from Profesor where correo=?;");
             declaracion.setString(1, correo);
             resultado=declaracion.executeQuery();
