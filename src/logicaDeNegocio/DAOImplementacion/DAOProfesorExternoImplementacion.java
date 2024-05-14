@@ -102,7 +102,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         CallableStatement declaracion;        
         int idProfesorExterno=0;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareCall("CALL existeIdRepresentanteInstitucional(?,?);");            
             declaracion.setInt(1, idProfesor);
             declaracion.registerOutParameter(2,Types.INTEGER);

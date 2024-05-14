@@ -90,7 +90,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         ResultSet resultado;
         int idPropuestaColaboracion=0;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from EmisionPropuesta where idProfesor=?;");
             declaracion.setInt(1, profesor.getIdProfesor());
             resultado=declaracion.executeQuery();

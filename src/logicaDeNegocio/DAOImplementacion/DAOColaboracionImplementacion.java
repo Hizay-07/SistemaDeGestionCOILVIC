@@ -23,7 +23,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         int numeroFilasAfectadas=0;
         CallableStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=(CallableStatement) conexion.prepareCall("call registrarColaboracion(?,?,?,?)");
             declaracion.setString(1, colaboracion.getEstadoColaboracion());
             declaracion.setInt(2, colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion());
@@ -45,7 +45,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         ResultSet resultado;
         List<Colaboracion> colaboraciones=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * FROM Colaboracion");
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -75,7 +75,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         ResultSet resultado;
         List<Colaboracion> colaboraciones=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * FROM Colaboracion where estadoColaboracion = ?");
             declaracion.setString(1,estado);
             resultado=declaracion.executeQuery();
@@ -105,7 +105,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try{
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("UPDATE Colaboracion set retroalimentacion=? where idColaboracion=?;");
             declaracion.setString(1, retroalimentacion);
             declaracion.setInt(2, idColaboracion);
@@ -122,7 +122,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
         try{
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("update colaboracion set estadoColaboracion = ? where idColaboracion = ?");
             declaracion.setString(1, estado);
             declaracion.setInt(2,colaboracion.getIdColaboracion());
