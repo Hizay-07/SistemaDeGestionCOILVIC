@@ -1,6 +1,7 @@
 package logicaDeNegocio.interfaces;
 
 import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.Usuario;
 
 public interface ProfesorInterface {
 
@@ -12,6 +13,6 @@ public interface ProfesorInterface {
     int modificarCorreoProfesor(String correoActualizado, String correoProfesor);
     public int obtenerIdProfesorPorCorreo(String correo);
     public int asignarUsuarioDeProfesorPorCorreo(String correo);
-    public Profesor obtenerProfesorPorIdUsuario(int idUsuario);
+    public Profesor obtenerProfesorPorIdUsuario(int idUsuario,Usuario logger);
     public int validarDuplicidadDeCorreo(String correo);
 }

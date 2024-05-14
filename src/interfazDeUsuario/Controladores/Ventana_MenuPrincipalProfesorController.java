@@ -17,7 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumProfesor;
+import logicaDeNegocio.enums.EnumUsuario;
 import org.apache.log4j.Logger;
 
 
@@ -70,9 +72,11 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     }    
        
     public void mostrarMensajeProfesor(){
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario(EnumUsuario.Logger.toString());
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
-        Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario());
+        Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario(),logger);
         ProfesorSingleton.setInstancia(profesorSesion);
         String nombreCompleto = profesorSesion.getNombre() + " " + profesorSesion.getApellidoPaterno() + " " + profesorSesion.getApellidoMaterno();
         lbl_NombreProfesor.setText(nombreCompleto);

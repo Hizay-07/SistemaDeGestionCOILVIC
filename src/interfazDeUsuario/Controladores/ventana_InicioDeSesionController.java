@@ -83,8 +83,10 @@ public class ventana_InicioDeSesionController implements Initializable {
     }
     
     public void validarEstadoProfesor(Usuario usuario){
+        Usuario logger = new Usuario();
+        logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario());
+        Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario(),logger);
         if(profesorSesion.getEstado().equals(EnumEstadosProfesor.Archivado.toString())){
             Alertas.mostrarMensajeAccesoDenegado();
         }else{
