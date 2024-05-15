@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class Pais{
     private String nombrePais;
     private int numeroDePais;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
 
     public Pais(){
     }
@@ -16,8 +16,8 @@ public class Pais{
     }
 
     public void setNombrePais(String nombrePais)throws IllegalArgumentException{
-        if(nombrePais!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombrePais)){
-            this.nombrePais = nombrePais;
+        if(nombrePais!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombrePais.trim())&&nombrePais.trim().length()<=45){
+            this.nombrePais = nombrePais.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
