@@ -21,7 +21,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("INSERT INTO TipoColaboracion(tipo) VALUES (?)");
             declaracion.setString(1, tipoColaboracion.getTipo());
             numeroFilasAfectadas=declaracion.executeUpdate();
@@ -38,7 +38,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         ResultSet resultado;
         List<TipoColaboracion> tiposColaboracion=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from TipoColaboracion");
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -62,7 +62,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         ResultSet resultado;
         String tipo=new String();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT tipo from TipoColaboracion where idTipoColaboracion=?;");
             declaracion.setInt(1, idTipoColaboracion);
             resultado=declaracion.executeQuery();
@@ -84,7 +84,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         ResultSet resultado;
         int idTipoColaboracion=0;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT idTipoColaboracion from TipoColaboracion where tipo=?;");
             declaracion.setString(1, tipo);
             resultado=declaracion.executeQuery();

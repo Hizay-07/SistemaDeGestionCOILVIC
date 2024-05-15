@@ -9,7 +9,9 @@ public class Profesor{
     private String correo; 
     private String estado;
     private int idProfesor;
+
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
@@ -28,7 +30,7 @@ public class Profesor{
             throw new IllegalArgumentException();
         }
     }
-
+  
     public String getApellidoPaterno(){
         return apellidoPaterno;
     }

@@ -275,7 +275,43 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
-  
+    
+    public static void mostrarMensajeSinModificarDatos(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Datos similares");
+            mensaje.setContentText("Realice una modificación en los campos de texto");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static boolean mostrarConfirmacionDeAccion(String mensajeAlerta) {
+        Alert mensaje = new Alert(AlertType.CONFIRMATION);
+        mensaje.setTitle("Confirmación de accion");
+        mensaje.setContentText(mensajeAlerta);
+        Optional<ButtonType> resultado = mensaje.showAndWait();
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
+    
+    public static void mostrarColaboracionCerrada(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("¡Colaboracion Cerrada!");
+            mensaje.setContentText("Felicidades, la colaboración ha sido cerrada con éxito, será redirigido al menú principal");
+            mensaje.showAndWait();
+        });
+    }
+    
+     public static void mostrarColaboracionFinalizada(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("¡Colaboracion finalizada!");
+            mensaje.setContentText("Se ha dado de baja la colaboración, puede encontrarla como colaboración finalizada.");
+            mensaje.showAndWait();
+        });
+    }
+    
+    
 
     @Override
     public void start(Stage stage){

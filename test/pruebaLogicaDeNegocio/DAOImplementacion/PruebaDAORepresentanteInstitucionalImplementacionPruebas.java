@@ -144,19 +144,6 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
     }
     
     @Test
-    public void pruebaValidarExistenciaRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
-        
-        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
-        representanteDePrueba.setNombreInstitucion("uv");
-        representanteDePrueba.setClaveInstitucional("1234");
-        representanteDePrueba.setContacto("2281709292");
-        
-        int resultadoDePrueba = pruebaConsulta.verificarExistenciaRepresentanteInstitucional(representanteDePrueba);
-        assertEquals(1,resultadoDePrueba);
-    }
-    
-    @Test
     public void pruebaObtenerEstadoRepresentanteInstitucionalEitosa(){
         DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
         

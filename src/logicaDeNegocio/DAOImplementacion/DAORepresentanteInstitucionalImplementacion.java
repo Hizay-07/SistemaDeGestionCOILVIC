@@ -25,7 +25,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         DAOPaisImplementacion paisRepresentante = new DAOPaisImplementacion();
         int numeroDePais = paisRepresentante.obtenerNumeroDePais(representanteIngresado.getPais());
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO representanteInstitucional (nombreInstitucion,claveInstitucional,contacto,estadoRepresentante ,Pais_numerodepais) values (?,?,?,?,?)") ;
             sentencia.setString(1, representanteIngresado.getNombreInstitucion());
             sentencia.setString(2, representanteIngresado.getClaveInstitucional());
@@ -45,7 +45,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public int desactivarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
         int resultadoDesactivacion=0;
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoRepresentante = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
             sentencia.setString(1, EnumEstados.Desactivado.toString());
             sentencia.setString(2, representanteIngresado.getNombreInstitucion());
@@ -64,7 +64,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public int activarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado){
          int resultadoDesactivacion=0;
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET estadoRepresentante = ? WHERE nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
             sentencia.setString(1, EnumEstados.Activo.toString());
             sentencia.setString(2, representanteIngresado.getNombreInstitucion());
@@ -84,7 +84,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public int modificarNombreRepresentanteInstitucional(String nombreActualizado, RepresentanteInstitucional representanteAActualizar) {
         int resultadoModificacion=0;
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET nombreInstitucion = ? WHERE idRepresentanteInstitucional = ?");
             sentencia.setString(1, nombreActualizado);
             sentencia.setInt(2,representanteAActualizar.getIdRepresentanteInstitucional());
@@ -101,7 +101,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public int modificarClaveRepresentanteInstitucional(String claveActualizada, RepresentanteInstitucional representanteAActualizar) {
         int resultadoModificacion=0;
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET claveInstitucional = ? WHERE idRepresentanteInstitucional = ?");
             sentencia.setString(1, claveActualizada);
             sentencia.setInt(2,representanteAActualizar.getIdRepresentanteInstitucional());
@@ -118,7 +118,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public int modificarContactoRepresentanteInstitucional(String contactoActualizado, RepresentanteInstitucional representanteAActualizar) {
        int resultadoModificacion=0;
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET contacto = ? WHERE idRepresentanteInstitucional = ?");
             sentencia.setString(1, contactoActualizado);
             sentencia.setInt(2,representanteAActualizar.getIdRepresentanteInstitucional());
@@ -137,7 +137,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         DAOPaisImplementacion paisRepresentante = new DAOPaisImplementacion();
         int numeroDePais = paisRepresentante.obtenerNumeroDePais(representanteAActualizar.getPais());
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE representanteinstitucional SET Pais_numeroDePais = ? WHERE idRepresentanteInstitucional = ?");
             sentencia.setInt(1, numeroDePais);
             sentencia.setInt(2,representanteAActualizar.getIdRepresentanteInstitucional());
@@ -151,17 +151,53 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     }
     
     @Override
-    public int verificarExistenciaRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
+    public int verificarExistenciaClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
         int validacionDeExistencia=0;
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT COUNT(*) FROM representanteinstitucional WHERE  claveInstitucional = ?");
             sentenciaConsulta.setString(1, representanteAConsultar.getClaveInstitucional());
             ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
-            if(resultadoDeConsulta.isBeforeFirst()){
-                while(resultadoDeConsulta.next()){
-                    validacionDeExistencia++;
-                }
+            while(resultadoDeConsulta.next()){
+                validacionDeExistencia = resultadoDeConsulta.getInt(1);
+            }
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
+            validacionDeExistencia = -1;
+        }
+        return validacionDeExistencia;
+    }
+    
+    @Override
+    public int verificarExistenciaNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
+        int validacionDeExistencia=0;
+        try{
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT COUNT(*) FROM representanteinstitucional WHERE  nombreInstitucion = ?");
+            sentenciaConsulta.setString(1, representanteAConsultar.getNombreInstitucion());
+            ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
+            while(resultadoDeConsulta.next()){
+                validacionDeExistencia = resultadoDeConsulta.getInt(1);
+            }
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
+            validacionDeExistencia = -1;
+        }
+        return validacionDeExistencia;
+    }
+    
+     @Override
+    public int verificarExistenciaContactoInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
+        int validacionDeExistencia=0;
+        try{
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT COUNT(*) FROM representanteinstitucional WHERE  contacto = ?");
+            sentenciaConsulta.setString(1, representanteAConsultar.getContacto());
+            ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
+            while(resultadoDeConsulta.next()){
+                validacionDeExistencia = resultadoDeConsulta.getInt(1);
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
@@ -176,7 +212,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         boolean estadoRepresentanteInstitucional = false;
         String resultadoDeEstado="";
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT estadoRepresentante from representanteinstitucional where nombreInstitucion = ? AND claveInstitucional = ? AND contacto = ?");
             sentenciaConsulta.setString(1, representanteAConsultar.getNombreInstitucion());
             sentenciaConsulta.setString(2, representanteAConsultar.getClaveInstitucional());
@@ -199,7 +235,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales(){
        List<RepresentanteInstitucional> representantes = new ArrayList();
        try{
-           Connection conexion = BASE_DE_DATOS.getConexion();
+           Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
            PreparedStatement sentencia = conexion.prepareStatement("SELECT idRepresentanteInstitucional,nombreInstitucion,claveInstitucional,contacto,nombrePais FROM representanteinstitucional,pais WHERE pais.numeroDePais = Pais_numeroDePais");
            ResultSet resultado = sentencia.executeQuery();
            if(resultado.isBeforeFirst()){
@@ -226,7 +262,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionalesPorPais(Pais paisIngresado){
         List<RepresentanteInstitucional> representantes = new ArrayList();
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("SELECT idRepresentanteInstitucional,nombreInstitucion,claveInstitucional,contacto,nombrePais FROM representanteinstitucional,pais where nombrepais = ? AND numeroDePais = Pais_numeroDePais");
             sentencia.setString(1, paisIngresado.getNombrePais());
             ResultSet resultado = sentencia.executeQuery();
@@ -256,7 +292,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         ResultSet resultado;
         int idRepresentanteInstitucional=0;
         try {
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT idRepresentanteInstitucional from RepresentanteInstitucional where nombreInstitucion=?");
             declaracion.setString(1, universidad);
             resultado=declaracion.executeQuery();
@@ -278,7 +314,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         ResultSet resultado;
         String nombreInstitucion=new String();
         try {
-            Connection conexion=BASE_DE_DATOS.getConexion();
+            Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT nombreInstitucion from RepresentanteInstitucional where idRepresentanteInstitucional=?;");
             declaracion.setInt(1, idRepresentanteInstitucional);
             resultado=declaracion.executeQuery();

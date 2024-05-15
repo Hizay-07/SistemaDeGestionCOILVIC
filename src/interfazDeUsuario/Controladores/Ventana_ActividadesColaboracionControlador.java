@@ -9,11 +9,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -76,7 +74,7 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
     }
     
     public void regresarVentanaColaboraciones(){
-        String rutaVentanaFXML = "/interfazDeUsuario/Ventana_Colaboraciones.fxml";
+        String rutaVentanaFXML = "/interfazDeUsuario/Ventana_DetallesDeColaboracion.fxml";
         desplegarVentanaCorrespondiente(rutaVentanaFXML); 
     }
     

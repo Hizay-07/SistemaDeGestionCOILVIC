@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="400.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_CreacionDeUsuarioController">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="400.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_CreacionDeUsuarioController">
    <children>
       <BorderPane fx:id="bpn_Titulo" prefHeight="55.0" prefWidth="602.0" style="-fx-background-color: #168394;">
          <center>
@@ -27,40 +27,28 @@
             <Image url="@Imagenes/Coil-Interfaz.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="anchor_Datos" layoutX="74.0" layoutY="74.0" prefHeight="308.0" prefWidth="427.0" style="-fx-border-color: #168394;">
+      <AnchorPane fx:id="anchor_Datos" layoutX="74.0" layoutY="74.0" prefHeight="285.0" prefWidth="427.0" style="-fx-border-color: #168394;">
          <children>
-            <Label fx:id="lbl_NombreDeUsuario" layoutX="14.0" layoutY="91.0" text="Nombre de usuario:">
+            <Label fx:id="lbl_NombreDeUsuario" layoutX="14.0" layoutY="124.0" text="Nombre de usuario:">
                <font>
                   <Font name="MS Reference Sans Serif" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_Contrasenia" layoutX="68.0" layoutY="131.0" text="Contraseña:">
-               <font>
-                  <Font name="MS Reference Sans Serif" size="14.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="imgv_Aviso" fitHeight="43.0" fitWidth="40.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgv_Aviso" fitHeight="43.0" fitWidth="40.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/aviso.png" />
                </image>
             </ImageView>
-            <VBox fx:id="vb_Instrucciones" layoutX="60.0" layoutY="21.0" prefHeight="40.0" prefWidth="360.0" style="-fx-border-color: #168394;">
+            <VBox fx:id="vb_Instrucciones" layoutX="61.0" layoutY="34.0" prefHeight="40.0" prefWidth="360.0" style="-fx-border-color: #168394;">
                <children>
-                  <Label fx:id="lbl_Instrucciones" prefHeight="18.0" prefWidth="362.0" text="La contraseña debe contener como mínimo 1 mayúscula, 1 número," />
-                  <Label fx:id="lbl_Instrucciones1" prefHeight="18.0" prefWidth="354.0" text="1 caracter especial y 1 minúscula." />
+                  <Label fx:id="lbl_Instrucciones" prefHeight="18.0" prefWidth="362.0" text="Para la creación de usuario debe insertar un correo como nombre" />
+                  <Label fx:id="lbl_Instrucciones1" prefHeight="18.0" prefWidth="354.0" text="de usuario para el acceso al sistema." />
                </children>
             </VBox>
-            <TextField fx:id="txfd_NombreDeUsuario" layoutX="165.0" layoutY="87.0" prefHeight="26.0" prefWidth="241.0" promptText="Profesor1" />
-            <TextField fx:id="txfd_Contrasenia" layoutX="165.0" layoutY="127.0" prefHeight="26.0" prefWidth="241.0" promptText="Contrasena12*" />
-            <TextField fx:id="txfd_Correo" layoutX="166.0" layoutY="169.0" prefHeight="26.0" prefWidth="242.0" promptText="ejemplo@gmail.com" />
-            <Label fx:id="lbl_Correo" layoutX="100.0" layoutY="173.0" text="Correo:">
-               <font>
-                  <Font name="MS Reference Sans Serif" size="14.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="cmb_TipoDeUsuario" layoutX="210.0" layoutY="212.0" prefWidth="150.0" promptText="Tipo de usuario" />
-            <Button fx:id="btn_Registrar" layoutX="262.0" layoutY="269.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Registrar" textFill="WHITE" onAction="#registrarUsuario" />
-            <Button fx:id="btn_Cancelar" layoutX="335.0" layoutY="269.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" onAction="#regresarVentanaPrincipal"/>
+            <TextField fx:id="txfd_NombreDeUsuario" layoutX="164.0" layoutY="120.0" prefHeight="26.0" prefWidth="241.0" promptText="cuenta123@gmail.com" />
+            <ComboBox fx:id="cmb_TipoDeUsuario" layoutX="218.0" layoutY="181.0" prefWidth="150.0" promptText="Tipo de usuario" />
+            <Button fx:id="btn_Registrar" layoutX="253.0" layoutY="235.0" mnemonicParsing="false" onAction="#registrarUsuario" style="-fx-background-color: green;" text="Registrar" textFill="WHITE" />
+            <Button fx:id="btn_Cancelar" layoutX="325.0" layoutY="235.0" mnemonicParsing="false" onAction="#regresarVentanaPrincipal" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
          </children>
       </AnchorPane>
    </children>

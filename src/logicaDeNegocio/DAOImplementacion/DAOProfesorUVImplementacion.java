@@ -21,7 +21,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("INSERT INTO ProfesorUV (numeroPersonal,tipoContratacion,categoriaContratacion,idProfesor,idRegionAcademica,idAreaAcademica)"
                     + "VALUES (?,?,?,?,?,?);");
             declaracion.setString(1,profesorUV.getNumeroDePersonal());
@@ -44,7 +44,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         ResultSet resultado;
         List<ProfesorUV> profesoresUV=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("select * from profesoruv,profesor where profesoruv.idProfesor = profesor.idProfesor;");
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -78,7 +78,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         ResultSet resultado;
         List<ProfesorUV> profesoresUV=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("select * from profesoruv,profesor where idAreaAcademica = ?");
             declaracion.setInt(1, idAreaAcademica);
             resultado=declaracion.executeQuery();
@@ -113,7 +113,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         ResultSet resultado;
         List<ProfesorUV> profesoresUV=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("select * from profesoruv,profesor where idRegionAcademica = ?;");
             declaracion.setInt(1, idRegion);
             resultado=declaracion.executeQuery();
@@ -147,7 +147,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("UPDATE ProfesorUV set tipoContratacion=? where numeroPersonal=?;");
             declaracion.setString(1, tipoDeContratacion);
             declaracion.setString(2, numeroDePersonal);
@@ -164,7 +164,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("UPDATE ProfesorUV set categoriaContratacion=? where numeroPersonal=?;");
             declaracion.setString(1, categoriaDeContratacion);
             declaracion.setString(2, numeroDePersonal);
@@ -181,7 +181,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("UPDATE ProfesorUV set idAreaAcademica=? where numeroPersonal=?;");
             declaracion.setInt(1, areaAcademica);
             declaracion.setString(2, numeroDePersonal);
@@ -198,7 +198,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("UPDATE ProfesorUV set idRegionAcademica=? where numeroPersonal=?;");
             declaracion.setInt(1, region);
             declaracion.setString(2, numeroDePersonal);
@@ -215,7 +215,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("INSERT INTO AreaAcademica (area) VALUES (?);");
             declaracion.setString(1, areaAcademica);
             numeroFilasAfectadas=declaracion.executeUpdate();

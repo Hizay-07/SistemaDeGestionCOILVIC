@@ -24,7 +24,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("INSERT INTO peticioncolaboracion (idProfesor, idPropuestaColaboracion, estadoPeticion, fechaEnvio)"
                     + "VALUES (?, ?, ?, ?);");
             declaracion.setInt(1, peticion.getIdProfesor());
@@ -45,7 +45,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         ResultSet resultado;
         List<PeticionColaboracion> peticiones = new ArrayList<>();
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("SELECT * FROM peticioncolaboracion");
             resultado = declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -70,7 +70,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion=? WHERE idColaboracion=?;");
             declaracion.setString(1, nuevoEstado);
             declaracion.setInt(2, idColaboracion);
@@ -87,7 +87,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion=? WHERE idColaboracion=?;");
             declaracion.setString(1, nuevoEstado);
             declaracion.setInt(2, idColaboracion);
@@ -105,7 +105,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         ResultSet resultado;
         int idPropuestaColaboracion=0;
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from PeticionColaboracion where idProfesor=? and estadoPeticion='Registrada';");
             declaracion.setInt(1, idProfesor);
             resultado=declaracion.executeQuery();
@@ -127,7 +127,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         ResultSet resultado;
         List<Integer> idProfesores=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("Select idProfesor from peticionColaboracion where idPropuestaColaboracion=? and estadoPeticion='Registrada';");
             declaracion.setInt(1, idPropuestaColaboracion);
             resultado=declaracion.executeQuery();
@@ -147,7 +147,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion='Aceptada' WHERE idPropuestaColaboracion=? and idProfesor=?;");
             declaracion.setInt(1, idPropuestaColaboracion);
             declaracion.setInt(2, idProfesor);
@@ -164,7 +164,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         int numeroFilasAfectadas = 0;
         PreparedStatement declaracion;
         try {
-            conexion = BASE_DE_DATOS.getConexion();
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion='Rechazada' WHERE idPropuestaColaboracion=? and idProfesor=?;");
             declaracion.setInt(1, idPropuestaColaboracion);
             declaracion.setInt(2, idProfesor);

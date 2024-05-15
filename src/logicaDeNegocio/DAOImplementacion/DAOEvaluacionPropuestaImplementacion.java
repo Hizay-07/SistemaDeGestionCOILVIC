@@ -21,7 +21,7 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try{
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("Insert into EvaluacionPropuesta(idPropuestaColaboracion,idUsuario,evaluacion,fechaEvaluacion,justificacion) values (?,?,?,?,?);");
             declaracion.setInt(1, evaluacionPropuesta.getIdPropuestaColaboracion());
             declaracion.setInt(2,evaluacionPropuesta.getIdUsuario());
@@ -43,7 +43,7 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
         ResultSet resultado;
         List<EvaluacionPropuesta> evaluacionesPropuestas=new ArrayList<>();
         try {
-            conexion=BASE_DE_DATOS.getConexion();
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from EvaluacionPropuesta");
             resultado=declaracion.executeQuery();
             while(resultado.next()){

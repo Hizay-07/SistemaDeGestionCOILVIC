@@ -23,7 +23,7 @@ public class DAOPaisImplementacion implements PaisInterface {
     public int registrarPais(Pais paisAIngresar){
         int resultadoRegistro;        
         try{
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO pais(nombrePais) values (?)");
             sentencia.setString(1, paisAIngresar.getNombrePais());
             resultadoRegistro = sentencia.executeUpdate();
@@ -39,7 +39,7 @@ public class DAOPaisImplementacion implements PaisInterface {
     public int obtenerNumeroDePais(Pais paisAConsultar){
         int paisObtenido=0;   
         try{
-           Connection conexion = BASE_DE_DATOS.getConexion();
+           Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
            PreparedStatement sentencia = conexion.prepareStatement("SELECT numeroDePais FROM pais WHERE nombrePais = ?");
            sentencia.setString(1, paisAConsultar.getNombrePais());
            ResultSet numeroPaisObtenido = sentencia.executeQuery();
@@ -62,7 +62,7 @@ public class DAOPaisImplementacion implements PaisInterface {
         ResultSet resultado;
         List<Pais> paises=new ArrayList<>();
         try {
-            Connection conexion = BASE_DE_DATOS.getConexion();
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * from Pais;");
             resultado=declaracion.executeQuery();
             while(resultado.next()){

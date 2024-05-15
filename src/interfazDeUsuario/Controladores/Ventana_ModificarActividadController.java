@@ -55,7 +55,7 @@ public class Ventana_ModificarActividadController implements Initializable {
     }    
     
     public void cancelarModificacionDeActividad(){
-        String ruta = "/interfazDeUsuario/Ventana_Actividades.fxml";
+        String ruta = "/interfazDeUsuario/Ventana_ActividadesColaboracionActiva.fxml";
         abrirVentanaCorrespondiente(ruta);     
     }
     
