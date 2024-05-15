@@ -134,21 +134,23 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     }
      
     public void salirDelMenuPrincipal(){
-         String rutaVentanaFXML = null;
-        try{
-            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion.getCause());
+        boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea regresar al inicio de sesión?");
+        if(resultadoEleccion){
+            String rutaVentanaFXML = null;
+            try{
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+                Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                UsuarioSingleton.resetSingleton();
+                ProfesorSingleton.resetSingleton();
+                cerrarVentana();
+            }catch(IOException excepcion){
+                LOG.error(excepcion.getCause());
+            }
         }
-        
-        UsuarioSingleton.resetSingleton();
-        ProfesorSingleton.resetSingleton();
-        cerrarVentana();
     }
     
      public void cerrarVentana(){

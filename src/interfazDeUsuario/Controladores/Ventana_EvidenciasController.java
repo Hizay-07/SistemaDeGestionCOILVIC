@@ -162,7 +162,7 @@ public class Ventana_EvidenciasController implements Initializable {
     }
     
     public void regresarVentanaActividades(){
-        String rutaVentanaFXML="/interfazDeUsuario/Ventana_Actividades.fxml";
+        String rutaVentanaFXML="/interfazDeUsuario/Ventana_ActividadesColaboracionActiva.fxml";
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     

@@ -22,7 +22,7 @@
       </Pane>
       <Pane fx:id="pane_ColorInferior" layoutX="-1.0" layoutY="309.0" prefHeight="54.0" prefWidth="606.0" style="-fx-background-color: #168394;" />
       <Button fx:id="btn_Cancelar" layoutX="452.0" layoutY="262.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" onAction="#regresarRepresentantesInstitucionales"/>
-      <Button fx:id="btn_Confirmar" layoutX="369.0" layoutY="262.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: green;" text="Confirmar" textFill="WHITE" onAction="#validarDatosRepresentanteInstitucional"/>
+      <Button fx:id="btn_Confirmar" layoutX="369.0" layoutY="262.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: green;" text="Confirmar" textFill="WHITE" onAction="#modificarDatosRepresentanteInstituciona"/>
       <TextField fx:id="txfd_NombreInstitucion" layoutX="250.0" layoutY="90.0" prefHeight="26.0" prefWidth="276.0" />
       <Label fx:id="lbl_NombreInstitucion" layoutX="100.0" layoutY="90.0" text="Nombre institución:">
          <font>

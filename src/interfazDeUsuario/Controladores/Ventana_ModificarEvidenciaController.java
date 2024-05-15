@@ -25,6 +25,7 @@ import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.Evidencia;
+import logicaDeNegocio.manejadorDeArchivos.ManejadorDeArchivos;
 import org.apache.log4j.Logger;
 
 public class Ventana_ModificarEvidenciaController implements Initializable {
@@ -84,12 +85,13 @@ public class Ventana_ModificarEvidenciaController implements Initializable {
         Colaboracion colaboracion = new Colaboracion();
         actividad.setIdActividad(actividadAuxiliar.getIdActividad());
         colaboracion.setIdColaboracion(colaboracionAuxiliar.getIdColaboracion());
+        ManejadorDeArchivos manejadorArchivos = new ManejadorDeArchivos();
         DAOEvidenciaImplementacion daoEvidencia = new DAOEvidenciaImplementacion();
-        boolean resultadoAccesoACarpeta = daoEvidencia.crearCarpetaDeActividad(actividad, colaboracion);
+        boolean resultadoAccesoACarpeta = manejadorArchivos.crearCarpetaDeActividad(actividad, colaboracion);
         if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
             EvidenciaAuxiliar evidenciaPasada = EvidenciaAuxiliar.getEvidencia();
-            daoEvidencia.borrarArchivoDeEvidencia(evidenciaPasada.getRutaEvidencia());
-            String rutaArchivo = daoEvidencia.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir);
+            manejadorArchivos.borrarArchivoDeEvidencia(evidenciaPasada.getRutaEvidencia());
+            String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir);
             try{
                 nuevaEvidencia.setNombre(txfd_NombreEvidenciaModificador.getText());
                 nuevaEvidencia.setRutaEvidencia(rutaArchivo);
@@ -99,12 +101,12 @@ public class Ventana_ModificarEvidenciaController implements Initializable {
                     case 1 -> Alertas.mostrarMensajeDatosModificados();
                     default -> {
                         Alertas.mostrarMensajeErrorEnLaConexion();
-                        daoEvidencia.borrarArchivoDeEvidencia(rutaArchivo);
+                        manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
                     }
                 }
             }catch(IllegalArgumentException excepcion){
                 LOG.error(excepcion.getCause());
-                daoEvidencia.borrarArchivoDeEvidencia(rutaArchivo);
+                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
                 Alertas.mostrarMensajeDatosInvalidos();
             }
         }else{
@@ -113,6 +115,8 @@ public class Ventana_ModificarEvidenciaController implements Initializable {
     }
     
     public void obtenerArchivoASubir(){
+        lbl_NombreArchivo.setText("Seleccione un archivo");
+        setArchivoASubir(null);
         filechooser_Evidencia.setTitle("Seleccionar Evidencia de actividad");
         restringirTiposDeArchivo();
         try{

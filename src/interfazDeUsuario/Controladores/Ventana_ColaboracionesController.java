@@ -29,6 +29,7 @@ import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumColaboracion;
+import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
 
@@ -53,11 +54,13 @@ public class Ventana_ColaboracionesController implements Initializable {
     @FXML
     private TableColumn<Colaboracion,Void> column_Visualizar;
     @FXML
+    private TableColumn<Colaboracion,Void> column_DarDeBajaColaboracion;
+    @FXML
     private ComboBox cmb_TipoDeColaboracion;
     
     @Override
     public void initialize(URL url, ResourceBundle rb){
-        mostrarColaboracionesActivas();
+        mostrarColaboraciones("Activa");
         llenarComboBoxTipoDeColaboracion();
     }
     
@@ -67,21 +70,39 @@ public class Ventana_ColaboracionesController implements Initializable {
             tiposDeColaboracion.add(colaboracion.toString());
         }
         cmb_TipoDeColaboracion.setItems(tiposDeColaboracion);
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
+        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+            column_DarDeBajaColaboracion.setVisible(true);
+            asignarBotonesDarDeBajaColaboracion();
+        }else{
+            column_DarDeBajaColaboracion.setVisible(false);
+        }
     }
     
     public void mostrarConsultaSeleccionada(){
         String seleccion = (String) cmb_TipoDeColaboracion.getSelectionModel().getSelectedItem();
         switch(seleccion){
             case "Activa":
-                mostrarColaboracionesActivas();
+                mostrarColaboraciones("Activa");
                 break;
             case "Finalizada":
-                mostrarColaboracionesFinalizadas();
+                mostrarColaboraciones("Finalizada");
+                column_DarDeBajaColaboracion.setVisible(false);
+                break;
+            case "Cerrada":
+                mostrarColaboraciones("Cerrada");
                 break;
             default:
                 Alertas.mostrarMensajeDatosInvalidos();
                 break;
         }
+    }
+    
+    public List<Colaboracion> obtenerColaboracionesCerradas(){
+        List<Colaboracion> colaboracionesObtenidas = new ArrayList();
+        DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+        colaboracionesObtenidas = daoColaboracion.consultarColaboracionesPorEstado(EnumColaboracion.Cerrada.toString());
+        return colaboracionesObtenidas;
     }
     
     public List<Colaboracion> obtenerColaboracionesActivas(){
@@ -98,12 +119,18 @@ public class Ventana_ColaboracionesController implements Initializable {
         return colaboracionesObtenidas;
     }
     
-    public void mostrarColaboracionesActivas(){
+    public void mostrarColaboraciones(String tipoDeColaboracion){
         tableView_Colaboraciones.getItems().clear();
+        List<Colaboracion> colaboracionesObtenidas = new ArrayList();
         try{
-            List<Colaboracion> colaboracionesActivasObtenidas = obtenerColaboracionesActivas();
-            if(!colaboracionesActivasObtenidas.isEmpty()){
-                tableView_Colaboraciones.getItems().addAll(colaboracionesActivasObtenidas);
+            switch(tipoDeColaboracion){
+                case "Activa" -> colaboracionesObtenidas = obtenerColaboracionesActivas();
+                case "Cerrada" -> colaboracionesObtenidas = obtenerColaboracionesCerradas();
+                case "Finalizada" -> colaboracionesObtenidas = obtenerColaboracionesFinalizadas();
+            }
+            
+            if(!colaboracionesObtenidas.isEmpty()){
+                tableView_Colaboraciones.getItems().addAll(colaboracionesObtenidas);
                 column_IdColaboracion.setCellValueFactory(new PropertyValueFactory<>("idColaboracion"));
                 column_Estado.setCellValueFactory(new PropertyValueFactory<>("estadoColaboracion"));
                 column_ProgramaEducativo.setCellValueFactory(cellData->{
@@ -120,7 +147,7 @@ public class Ventana_ColaboracionesController implements Initializable {
                 });
                 asignarBotonesDeVisualizarDetalles();
             }else{
-                Alertas.mostrarMensajeColaboracionActiva("No se han encontrado colaboraciones activas");
+                Alertas.mostrarMensajeColaboracionActiva("No se han encontrado colaboraciones "+tipoDeColaboracion);
             }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
@@ -128,33 +155,46 @@ public class Ventana_ColaboracionesController implements Initializable {
         }
     }
     
-    public void mostrarColaboracionesFinalizadas(){
-        tableView_Colaboraciones.getItems().clear();
-        try{
-            List<Colaboracion> colaboracionesFinalizadasObtenidas = obtenerColaboracionesFinalizadas();
-            if(!colaboracionesFinalizadasObtenidas.isEmpty()){
-                tableView_Colaboraciones.getItems().addAll(colaboracionesFinalizadasObtenidas);
-                column_IdColaboracion.setCellValueFactory(new PropertyValueFactory<>("idColaboracion"));
-                column_Estado.setCellValueFactory(new PropertyValueFactory<>("estadoColaboracion"));
-                column_ProgramaEducativo.setCellValueFactory(cellData->{
-                    Colaboracion colaboracion = cellData.getValue();
-                    return new SimpleStringProperty(colaboracion.getPropuestaColaboracion().getProgramaEducativoEstudiantil());
-                });
-                column_FechaDeInicio.setCellValueFactory(cellData->{
-                    Colaboracion colaboracion = cellData.getValue();
-                    return new SimpleStringProperty(colaboracion.getPropuestaColaboracion().getFechaInicio());
-                });
-                column_FechaDeCierre.setCellValueFactory(cellData->{
-                    Colaboracion colaboracion = cellData.getValue();
-                    return new SimpleStringProperty(colaboracion.getPropuestaColaboracion().getFechaCierre());
-                });
-                asignarBotonesDeVisualizarDetalles();
+    public void asignarBotonesDarDeBajaColaboracion(){
+        Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
+                final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
+                    private final Button btn_DarDeBajaColaboracion = new Button();{
+                        btn_DarDeBajaColaboracion.setText("Dar de baja");
+                        btn_DarDeBajaColaboracion.setOnAction((ActionEvent event) -> {
+                            Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
+                            darDeBajaColaboracion(colaboracionSeleccionada);
+                        });
+                    }                
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        }else{ 
+                            setGraphic(btn_DarDeBajaColaboracion);
+                        }
+                    }
+                };
+            return cell;
+            };
+        column_DarDeBajaColaboracion.setCellFactory(frabricaDeCelda);
+    }
+    
+    public void darDeBajaColaboracion(Colaboracion colaboracion){
+        boolean resultadoAccion = Alertas.mostrarConfirmacionDeAccion("¿Desea dar fin a la Colaboracion seleccionada?");
+        if(resultadoAccion){
+            if(!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())){
+                    DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+                    int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion(EnumColaboracion.Finalizada.toString(), colaboracion);
+                    if(resultadoModificacion==1){
+                        Alertas.mostrarColaboracionFinalizada();
+                        tableView_Colaboraciones.getItems().clear();
+                    }else if(resultadoModificacion==-1){
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                    }
             }else{
-                Alertas.mostrarMensajeColaboracionActiva("No se han encontrado colaboraciones finalizadas");
-            }  
-        }catch(IllegalArgumentException excepcion){
-            LOG.error(excepcion.getCause());
-            Alertas.mostrarMensajeErrorAlObtenerDatos();
+                Alertas.mostrarMensajeColaboracionActiva("No se pueden finalizar colaboraciones activas");
+            }
         }
     }
     
@@ -182,7 +222,7 @@ public class Ventana_ColaboracionesController implements Initializable {
                 };
             return cell;
             };
-            column_Visualizar.setCellFactory(frabricaDeCelda);
+        column_Visualizar.setCellFactory(frabricaDeCelda);
     }
     
     public void regresarAMenuPrincipal(){
