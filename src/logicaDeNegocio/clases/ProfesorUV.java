@@ -8,7 +8,7 @@ public class ProfesorUV extends Profesor {
     private int idAreaAcademica;
     private int idRegion;
     private int idProfesorUV;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public ProfesorUV() {
@@ -19,8 +19,8 @@ public class ProfesorUV extends Profesor {
     }
 
     public void setNumeroDePersonal(String numeroDePersonal)throws IllegalArgumentException{
-        if(numeroDePersonal!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN,numeroDePersonal)){
-            this.numeroDePersonal = numeroDePersonal;
+        if(numeroDePersonal!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN,numeroDePersonal.trim())&&numeroDePersonal.trim().length() <=45){
+            this.numeroDePersonal = numeroDePersonal.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -31,7 +31,7 @@ public class ProfesorUV extends Profesor {
     }
 
     public void setTipoDeContratacion(String tipoDeContratacion)throws IllegalArgumentException {
-        if(tipoDeContratacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,tipoDeContratacion)){
+        if(tipoDeContratacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,tipoDeContratacion.trim())&&tipoDeContratacion.trim().length()<=150){
             this.tipoDeContratacion = tipoDeContratacion;
         }else{
             throw new IllegalArgumentException();
@@ -43,7 +43,7 @@ public class ProfesorUV extends Profesor {
     }
 
     public void setCategoriaDeContratacion(String categoriaDeContratacion)throws IllegalArgumentException {
-        if(categoriaDeContratacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,categoriaDeContratacion)){
+        if(categoriaDeContratacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,categoriaDeContratacion.trim())&&categoriaDeContratacion.trim().length()<=150){
             this.categoriaDeContratacion = categoriaDeContratacion;
         }else{
             throw new IllegalArgumentException();

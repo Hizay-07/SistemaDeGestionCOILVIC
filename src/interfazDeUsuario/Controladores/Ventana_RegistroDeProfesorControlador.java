@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import envioDeCorreos.EnvioDeCorreo;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
@@ -172,6 +173,11 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         limpiarInformacionProfesor();
         limpiarInformacionProfesorUV();
         Alertas.mostrarMensajeDatosIngresados();
+        String correoDestinatario = profesorUV.getCorreo();
+        String asunto = "Registro exitoso en el Sistema COIL-VIC";
+        String contenido = "Estimado/a profesor/a,\n\nLe informamos que ha sido registrado satisfactoriamente en el Sistema COIL-VIC.";
+        EnvioDeCorreo envioCorreos = new EnvioDeCorreo(correoDestinatario, asunto, contenido);
+        envioCorreos.enviarCorreo();
         salirDeLaVentana();
     }
     

@@ -9,7 +9,7 @@ public class Profesor{
     private String correo; 
     private String estado;
     private int idProfesor;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
@@ -22,8 +22,8 @@ public class Profesor{
     }
 
     public void setNombre(String nombre)throws IllegalArgumentException{
-        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre)){
-            this.nombre = nombre;
+        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre.trim())&&nombre.trim().length()<=45){
+            this.nombre = nombre.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -34,8 +34,8 @@ public class Profesor{
     }
 
     public void setApellidoPaterno(String apellidoPaterno)throws IllegalArgumentException{
-        if(apellidoPaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoPaterno)){
-            this.apellidoPaterno = apellidoPaterno;
+        if(apellidoPaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoPaterno.trim())&&apellidoPaterno.trim().length()<=45){
+            this.apellidoPaterno = apellidoPaterno.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -46,8 +46,8 @@ public class Profesor{
     }
 
     public void setApellidoMaterno(String apellidoMaterno)throws IllegalArgumentException {
-        if(apellidoMaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoMaterno)){
-            this.apellidoMaterno = apellidoMaterno;
+        if(apellidoMaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoMaterno.trim())&&apellidoMaterno.trim().length()<=45){
+            this.apellidoMaterno = apellidoMaterno.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -58,8 +58,8 @@ public class Profesor{
     }
 
     public void setCorreo(String correo)throws IllegalArgumentException{
-        if(correo!=null&&Pattern.matches(EMAIL_PATTERN, correo)){
-            this.correo = correo;
+        if(correo!=null&&Pattern.matches(EMAIL_PATTERN, correo.trim())&&correo.trim().length()<=70){
+            this.correo = correo.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -82,8 +82,8 @@ public class Profesor{
     }
     
     public void setEstado(String estado)throws IllegalArgumentException{
-       if(estado!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estado)){
-            this.estado = estado;
+       if(estado!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estado.trim())&&estado.trim().length()<=45){
+            this.estado = estado.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
