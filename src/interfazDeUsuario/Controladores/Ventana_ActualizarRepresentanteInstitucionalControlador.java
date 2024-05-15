@@ -4,6 +4,7 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,54 +66,106 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         cmb_Pais.setItems(paisesComboBox);
     }
     
-    public void modificarRepresentanteInstitucional(RepresentanteInstitucional representante){
-        DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
-        String nombrePais = (String) cmb_Pais.getSelectionModel().getSelectedItem();
-        Pais pais = new Pais();
-        pais.setNombrePais(nombrePais);
-        representante.setPais(pais);
-        int numeroFilasAfectadas = daoRepresentante.modificarClaveRepresentanteInstitucional(representante.getClaveInstitucional(), representante);
-        numeroFilasAfectadas += daoRepresentante.modificarContactoRepresentanteInstitucional(representante.getContacto(), representante);
-        numeroFilasAfectadas += daoRepresentante.modificarNombreRepresentanteInstitucional(representante.getNombreInstitucion(), representante);
-        numeroFilasAfectadas += daoRepresentante.modificarPaisRepresentanteInstitucional(representante);
-        if(numeroFilasAfectadas==4){
-            Alertas.mostrarMensajeDatosModificados();
-        }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();
+    public RepresentanteInstitucional obtenerDatosRepresentanteInstitucional(){
+        RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
+        RepresentanteInstitucional representanteAModificar = new RepresentanteInstitucional();
+        Pais paisSeleccionado = new Pais();
+        try{
+            representanteAModificar.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
+            representanteAModificar.setClaveInstitucional(txfd_ClaveInstitucional.getText());
+            representanteAModificar.setNombreInstitucion(txfd_NombreInstitucion.getText());
+            representanteAModificar.setContacto(txfd_Contacto.getText());
+            paisSeleccionado.setNombrePais((String) cmb_Pais.getSelectionModel().getSelectedItem());
+            representanteAModificar.setPais(paisSeleccionado);
+        }catch(IllegalArgumentException excepcion){
+            LOG.error(excepcion.getCause());
+            paisSeleccionado = null;
         }
+        return representanteAModificar;
     }
     
-    public void validarDatosRepresentanteInstitucional(){
-        String nombreInstitucionNuevo = txfd_NombreInstitucion.getText();
-        String claveInstitucionalNuevo = txfd_ClaveInstitucional.getText();
-        String contactoNuevo = txfd_Contacto.getText();
+    public boolean validarDatosSimilaresRepresentante(RepresentanteInstitucional representanteActualizado){
         RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
+        RepresentanteInstitucional representanteDesactualizado = new RepresentanteInstitucional();
+        representanteDesactualizado.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
+        representanteDesactualizado.setClaveInstitucional(representante.getClaveInstitucional());
+        representanteDesactualizado.setNombreInstitucion(representante.getNombreInstitucion());
+        representanteDesactualizado.setContacto(representante.getContacto());
+        representanteDesactualizado.setPais(representante.getPais());
+        boolean resultado = true;
+        if(representanteActualizado.equals(representanteDesactualizado)){
+            resultado = true;
+        }else{
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    public int realizarModificacionNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+        int resultadoModificacion = 0;
         DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
-        try{
-            if(!claveInstitucionalNuevo.equals(representante.getClaveInstitucional())){
-                RepresentanteInstitucional representanteNuevo = new RepresentanteInstitucional();
-                representanteNuevo.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
-                representanteNuevo.setNombreInstitucion(nombreInstitucionNuevo);
-                representanteNuevo.setClaveInstitucional(claveInstitucionalNuevo);
-                representanteNuevo.setContacto(contactoNuevo);
-                int resultadoVerificacion = daoRepresentante.verificarExistenciaRepresentanteInstitucional(representanteNuevo);
-                if(resultadoVerificacion>=1){
+        int resultadoVerificacion = daoRepresentante.verificarExistenciaNombreInstitucionRepresentanteInstitucional(representanteActualizado);
+        if(resultadoVerificacion==0){
+            resultadoModificacion = daoRepresentante.modificarNombreRepresentanteInstitucional(representanteActualizado.getNombreInstitucion(), representanteActualizado);
+        }else if(resultadoVerificacion==-1){
+            resultadoModificacion = -1;
+        }
+        return resultadoModificacion;
+    }
+    
+    public int realizarModificacionContactoRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+        int resultadoModificacion = 0;
+        DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
+        int resultadoVerificacion = daoRepresentante.verificarExistenciaContactoInstitucionRepresentanteInstitucional(representanteActualizado);
+        if(resultadoVerificacion==0){
+            resultadoModificacion = daoRepresentante.modificarContactoRepresentanteInstitucional(representanteActualizado.getContacto(), representanteActualizado);
+        }else if(resultadoVerificacion==-1){
+            resultadoModificacion = -1;
+        }
+        return resultadoModificacion;
+    }
+    
+    public int realizarModificacionClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+        int resultadoModificacion = 0;
+        DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
+        int resultadoVerificacion = daoRepresentante.verificarExistenciaClaveInstitucionalRepresentanteInstitucional(representanteActualizado);
+        if(resultadoVerificacion==0){
+            resultadoModificacion = daoRepresentante.modificarClaveRepresentanteInstitucional(representanteActualizado.getClaveInstitucional(), representanteActualizado);
+        }else if(resultadoVerificacion==-1){
+            resultadoModificacion = -1;
+        }
+        return resultadoModificacion;
+    }
+    
+     public int realizarModificacionPaisRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+        RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
+        int resultadoModificacion = 0;
+        if(!representanteActualizado.getPais().equals(representante.getPais())){
+            DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
+            resultadoModificacion = daoRepresentante.modificarPaisRepresentanteInstitucional(representanteActualizado);
+        }
+        return resultadoModificacion;
+    }
+    
+    public void modificarDatosRepresentanteInstituciona(){
+        RepresentanteInstitucional representante =  obtenerDatosRepresentanteInstitucional();
+        if(!Objects.isNull(representante)){
+            if(!validarDatosSimilaresRepresentante(representante)){
+                int resultadoAtributosModificados = realizarModificacionPaisRepresentanteInstitucional(representante);
+                resultadoAtributosModificados =  realizarModificacionClaveInstitucionalRepresentanteInstitucional(representante);
+                resultadoAtributosModificados += realizarModificacionContactoRepresentanteInstitucional(representante);
+                resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
+                if(resultadoAtributosModificados>=1&&resultadoAtributosModificados<=4){
+                    Alertas.mostrarMensajeDatosModificados();
+                }else if(resultadoAtributosModificados==0){
                     Alertas.mostrarMensajeDatosDuplicados();
-                }else if(resultadoVerificacion==0){
-                    modificarRepresentanteInstitucional(representanteNuevo);
                 }else{
                     Alertas.mostrarMensajeErrorEnLaConexion();
                 }
             }else{
-                RepresentanteInstitucional representanteNuevo = new RepresentanteInstitucional();
-                representanteNuevo.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
-                representanteNuevo.setNombreInstitucion(nombreInstitucionNuevo);
-                representanteNuevo.setClaveInstitucional(claveInstitucionalNuevo);
-                representanteNuevo.setContacto(contactoNuevo);
-                modificarRepresentanteInstitucional(representanteNuevo);
+                Alertas.mostrarMensajeSinModificarDatos();
             }
-        }catch(IllegalArgumentException excepcion){
-            LOG.info(excepcion.getCause());
+        }else{
             Alertas.mostrarMensajeDatosInvalidos();
         }
     }

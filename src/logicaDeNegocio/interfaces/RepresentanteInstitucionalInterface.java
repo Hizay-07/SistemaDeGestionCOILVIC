@@ -12,7 +12,9 @@ public interface RepresentanteInstitucionalInterface{
     public int modificarClaveRepresentanteInstitucional(String claveActualizada, RepresentanteInstitucional representanteAActualizar);
     public int modificarContactoRepresentanteInstitucional(String contactoActualizado, RepresentanteInstitucional representanteAActualizar);
     public int modificarPaisRepresentanteInstitucional(RepresentanteInstitucional representanteAActualizar);
-    public int verificarExistenciaRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
+    public int verificarExistenciaClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
+    public int verificarExistenciaNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
+    public int verificarExistenciaContactoInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public boolean obtenerEstadoRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales();
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionalesPorPais(Pais paisIngresado);

@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import interfazDeUsuario.Alertas.Alertas;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
@@ -138,21 +139,23 @@ public class Ventana_MenuAdministradorController implements Initializable{
     }
     
     public void salirDelMenuPrincipal(){
-         String rutaVentanaFXML = null;
-        try{
-            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion.getCause());
-            System.out.println(excepcion.getMessage());
+        boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea regresar al inicio de sesion?");
+        if(resultadoEleccion){
+            String rutaVentanaFXML = null;
+            try{
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+                Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                UsuarioSingleton.resetSingleton();
+                cerrarVentana();
+            }catch(IOException excepcion){
+                LOG.error(excepcion.getCause());
+                System.out.println(excepcion.getMessage());
+            }
         }
-        
-        UsuarioSingleton.resetSingleton();
-        cerrarVentana();
     }
     
     public void visualizarPropuestasColaboracion(){

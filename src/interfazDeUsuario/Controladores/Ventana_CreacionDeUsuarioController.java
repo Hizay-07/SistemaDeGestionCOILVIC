@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.ClasesAuxiliares.GeneradorDeContrasenias;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
@@ -27,10 +28,6 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
     private Stage escenario;
     @FXML
     private TextField txfd_NombreDeUsuario;
-    @FXML
-    private TextField txfd_Contrasenia;
-    @FXML
-    private TextField txfd_Correo;
     @FXML
     private ComboBox cmb_TipoDeUsuario;
     @FXML
@@ -72,11 +69,12 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
     public Usuario crearUsuario(){
         Usuario usuario = new Usuario();
         String tipoDeUsuario = (String)cmb_TipoDeUsuario.getSelectionModel().getSelectedItem();
+        String contrasenia = GeneradorDeContrasenias.generarContraseña();
         try{
             usuario.setNombreUsuario(txfd_NombreDeUsuario.getText());
-            usuario.setContrasenia(txfd_Contrasenia.getText());
+            usuario.setContrasenia(contrasenia);
             usuario.setTipoDeUsuario(tipoDeUsuario);
-            usuario.setCorreo(txfd_Correo.getText());
+            usuario.setCorreo(txfd_NombreDeUsuario.getText());
         }catch(IllegalArgumentException excepcion){
             Alertas.mostrarMensajeDatosInvalidos();
         }
@@ -85,8 +83,6 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
     }
     
     public void limpiarInformacion(){
-        this.txfd_Contrasenia.setText("");
-        this.txfd_Correo.setText("");
         this.txfd_NombreDeUsuario.setText("");
         cmb_TipoDeUsuario.getSelectionModel().clearSelection();        
         cmb_TipoDeUsuario.setPromptText("Tipo de usuario");

@@ -105,22 +105,10 @@ public class Ventana_ColaboracionActivaController implements Initializable {
     
     public void cerrarColaboracion(){
         PropuestaColaboracionAuxiliar propuesta = PropuestaColaboracionAuxiliar.getInstnacia();
-        ColaboracionAuxiliar colaboracionAuxiliar = ColaboracionAuxiliar.getInstancia();
-        Colaboracion colaboracionActiva = new Colaboracion();
         LocalDate fechaActual = LocalDate.now();
         LocalDate fechaCierrePropuesta = LocalDate.parse(propuesta.getFechaCierre());
-        colaboracionActiva.setIdColaboracion(colaboracionAuxiliar.getIdColaboracion());
         if(fechaActual.isEqual(fechaCierrePropuesta)||fechaActual.isAfter(fechaCierrePropuesta)){
-            DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
-            int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion("Cerrada", colaboracionActiva);
-            if(resultadoModificacion==1){
-                Alertas.mostrarMensajeDatosModificados();
-                List<Profesor> profesoresColaboracion = obtenerProfesoresColaboracion(colaboracionActiva);
-                cambiarEstadoProfesor(profesoresColaboracion);
-                regresarAMenuPrincipal();
-            }else{
-                Alertas.mostrarMensajeErrorEnLaConexion();
-            }
+            inicializarVentanaCerrarColaboracion();
         }else{
             Alertas.mostrarMensajeSinCerrarColaboracion();
         }
@@ -232,6 +220,11 @@ public class Ventana_ColaboracionActivaController implements Initializable {
     
     public void inicializarVentanaIniciarActividad(){    
         String rutaVentanaFXML="/interfazDeUsuario/Ventana_IniciarActividad.fxml";
+        desplegarVentanaCorrespondiente(rutaVentanaFXML);   
+    }
+    
+    public void inicializarVentanaCerrarColaboracion(){    
+        String rutaVentanaFXML="/interfazDeUsuario/Ventana_CerrarColaboracion.fxml";
         desplegarVentanaCorrespondiente(rutaVentanaFXML);   
     }
     

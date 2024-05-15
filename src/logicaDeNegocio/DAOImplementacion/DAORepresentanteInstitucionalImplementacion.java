@@ -151,17 +151,53 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     }
     
     @Override
-    public int verificarExistenciaRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
+    public int verificarExistenciaClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
         int validacionDeExistencia=0;
         try{
             Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT COUNT(*) FROM representanteinstitucional WHERE  claveInstitucional = ?");
             sentenciaConsulta.setString(1, representanteAConsultar.getClaveInstitucional());
             ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
-            if(resultadoDeConsulta.isBeforeFirst()){
-                while(resultadoDeConsulta.next()){
-                    validacionDeExistencia++;
-                }
+            while(resultadoDeConsulta.next()){
+                validacionDeExistencia = resultadoDeConsulta.getInt(1);
+            }
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
+            validacionDeExistencia = -1;
+        }
+        return validacionDeExistencia;
+    }
+    
+    @Override
+    public int verificarExistenciaNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
+        int validacionDeExistencia=0;
+        try{
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT COUNT(*) FROM representanteinstitucional WHERE  nombreInstitucion = ?");
+            sentenciaConsulta.setString(1, representanteAConsultar.getNombreInstitucion());
+            ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
+            while(resultadoDeConsulta.next()){
+                validacionDeExistencia = resultadoDeConsulta.getInt(1);
+            }
+            BASE_DE_DATOS.cerrarConexion(conexion);
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
+            validacionDeExistencia = -1;
+        }
+        return validacionDeExistencia;
+    }
+    
+     @Override
+    public int verificarExistenciaContactoInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
+        int validacionDeExistencia=0;
+        try{
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentenciaConsulta = conexion.prepareStatement("SELECT COUNT(*) FROM representanteinstitucional WHERE  contacto = ?");
+            sentenciaConsulta.setString(1, representanteAConsultar.getContacto());
+            ResultSet resultadoDeConsulta = sentenciaConsulta.executeQuery();
+            while(resultadoDeConsulta.next()){
+                validacionDeExistencia = resultadoDeConsulta.getInt(1);
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){

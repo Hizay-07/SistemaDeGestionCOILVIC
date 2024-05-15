@@ -24,6 +24,7 @@ import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.Evidencia;
+import logicaDeNegocio.manejadorDeArchivos.ManejadorDeArchivos;
 import org.apache.log4j.Logger;
 
 
@@ -35,25 +36,7 @@ public class Ventana_RegistrarEvidenciaController implements Initializable {
     @FXML
     private AnchorPane anchor_Ventana;
     @FXML
-    private Pane pane_ColorSuperior;
-    @FXML
-    private Label lbl_TituloVentana;
-    @FXML
-    private Pane pane_ColorInferior;
-    @FXML
-    private Button btn_EscogerArchivo;
-    @FXML
-    private Label lbl_NombreEvidencia;
-    @FXML
-    private Label lbl_ArchivoSeleccionado;
-    @FXML
-    private TextField textField_NombreEvidencia;
-    @FXML
     private Label lbl_NombreArchivo;
-    @FXML
-    private Button btn_SubirEvidencia;
-    @FXML
-    private Button btn_Cancelar;
     @FXML
     private TextField txfd_NombreEvidencia;
     @FXML
@@ -72,6 +55,8 @@ public class Ventana_RegistrarEvidenciaController implements Initializable {
         filechooser_Evidencia.getExtensionFilters().addAll(archivosWord2007,archivosWordActual,archivosPDF,archivosExcel);
     }
     public void obtenerArchivoASubir(){
+        setArchivoASubir(null);
+        lbl_NombreArchivo.setText("Seleccione un archivo");
         filechooser_Evidencia.setTitle("Seleccionar Evidencia de actividad");
         restringirTiposDeArchivo();
         try{
@@ -94,9 +79,10 @@ public class Ventana_RegistrarEvidenciaController implements Initializable {
         actividad.setIdActividad(actividadAuxiliar.getIdActividad());
         colaboracion.setIdColaboracion(colaboracionAuxiliar.getIdColaboracion());
         DAOEvidenciaImplementacion daoEvidencia = new DAOEvidenciaImplementacion();
-        boolean resultadoAccesoACarpeta = daoEvidencia.crearCarpetaDeActividad(actividad, colaboracion);
+        ManejadorDeArchivos manejadorArchivos = new ManejadorDeArchivos();
+        boolean resultadoAccesoACarpeta = manejadorArchivos.crearCarpetaDeActividad(actividad, colaboracion);
         if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
-            String rutaArchivo = daoEvidencia.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir);
+            String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir);
             try{
                 nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
                 nuevaEvidencia.setRutaEvidencia(rutaArchivo);
@@ -107,12 +93,12 @@ public class Ventana_RegistrarEvidenciaController implements Initializable {
                     case 0 -> Alertas.mostrarMensajeDatosDuplicados();
                     default -> {
                         Alertas.mostrarMensajeErrorEnLaConexion();
-                        daoEvidencia.borrarArchivoDeEvidencia(rutaArchivo);
+                        manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
                     }
                 }
             }catch(IllegalArgumentException excepcion){
                 LOG.error(excepcion.getCause());
-                daoEvidencia.borrarArchivoDeEvidencia(rutaArchivo);
+                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
                 Alertas.mostrarMensajeDatosInvalidos();
             }
         }else{
