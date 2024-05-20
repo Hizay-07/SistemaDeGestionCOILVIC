@@ -8,4 +8,5 @@ public interface ProfesorExternoInterface {
     public List<ProfesorExterno> consultarProfesoresExternos();    
     public List<ProfesorExterno> consultarProfesoresExternosPorRepresentanteInstitucional(int idRepresentanteInstitucional);
     public int consultarIdRepresentanteInstitucionalPorIdProfesor(int idProfesor);
+    public int eliminarProfesorExterno(String correo);
 }

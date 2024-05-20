@@ -8,35 +8,53 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white; -fx-border-color: blue; -fx-border-width: 4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.ventana_InicioDeSesionController">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="486.0" prefWidth="713.0" style="-fx-background-color: white; -fx-border-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.ventana_InicioDeSesionController">
    <children>
-      <Button fx:id="btn_Ingresar" layoutX="270.0" layoutY="340.0" mnemonicParsing="false" text="Ingresar" onAction = "#confirmarConexionALaBaseDeDatos"/>
-      <TextField fx:id="txtf_Usuario" layoutX="225.0" layoutY="187.0" promptText="Ej: usuario123" style="-fx-border-color: grey;" />
-      <Label fx:id="lbl_Contrasenia" layoutX="246.0" layoutY="224.0" prefHeight="31.0" prefWidth="107.0" text="Contraseña">
+      <Button fx:id="btn_Ingresar" layoutX="514.0" layoutY="365.0" mnemonicParsing="false" onAction="#confirmarConexionALaBaseDeDatos" style="-fx-background-color: #168394;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Ingresar" textFill="WHITE">
          <font>
-            <Font size="21.0" />
+            <Font size="13.0" />
+         </font></Button>
+      <TextField fx:id="txtf_Usuario" layoutX="438.0" layoutY="225.0" prefHeight="27.0" prefWidth="214.0" promptText="Ej: usuario123" style="-fx-border-radius: 1; -fx-border-color: black; -fx-border-style: solid inside;" />
+      <Label fx:id="lbl_Contrasenia" layoutX="475.0" layoutY="264.0" prefHeight="31.0" prefWidth="141.0" text="Contraseña">
+         <font>
+            <Font name="MS Reference Sans Serif" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_Usuario" layoutX="261.0" layoutY="155.0" prefHeight="31.0" prefWidth="77.0" text="Usuario">
+      <Label fx:id="lbl_Usuario" layoutX="498.0" layoutY="183.0" prefHeight="31.0" prefWidth="96.0" text="Usuario">
          <font>
-            <Font size="21.0" />
+            <Font name="MS Reference Sans Serif" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_Titulo" layoutX="88.0" layoutY="55.0" prefHeight="66.0" prefWidth="424.0" text="Sistema de gestión COIL-VIC">
-         <font>
-            <Font name="MS Reference Sans Serif" size="27.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="img_Logo" fitHeight="97.0" fitWidth="85.0" layoutX="501.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Imagenes/Coil-Interfaz.png" />
-         </image>
-         <effect>
-            <Glow />
-         </effect>
-      </ImageView>
-      <PasswordField fx:id="pwdf_Contrasenia" layoutX="226.0" layoutY="255.0" promptText="*******" style="-fx-border-color: grey;"/>
+      <PasswordField fx:id="pwdf_Contrasenia" layoutX="438.0" layoutY="305.0" prefHeight="27.0" prefWidth="214.0" promptText="*******" style="-fx-border-color: black; -fx-border-radius: 1; -fx-border-style: solid inside;" />
+      <Pane id="pane_Color" prefHeight="490.0" prefWidth="362.0" style="-fx-background-color: #168394;">
+         <children>
+            <ImageView fx:id="img_Logo" fitHeight="374.0" fitWidth="329.0" layoutX="19.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/Coil-Interfaz.png" />
+               </image>
+               <effect>
+                  <Glow />
+               </effect>
+            </ImageView>
+         </children>
+      </Pane>
+      <VBox id="vbox_Titulo" layoutX="400.0" layoutY="51.0" prefHeight="98.0" prefWidth="290.0" style="-fx-border-color: #168394; -fx-border-width: 5;">
+         <children>
+            <Label id="lbl_Titulo1" alignment="CENTER" prefHeight="54.0" prefWidth="281.0" text="Sistema de" textAlignment="CENTER">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="25.0" />
+               </font>
+            </Label>
+            <Label id="lbl_Titulo2" alignment="TOP_CENTER" prefHeight="46.0" prefWidth="281.0" text="Gestión COIL-VIC" wrapText="true">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

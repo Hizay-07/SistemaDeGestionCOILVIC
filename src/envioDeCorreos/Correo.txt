@@ -1,0 +1,2 @@
+Remitente = sistemadegestioncoilvic@gmail.com
+ContraseniaRemitente = qjtymlntlwvmhkju

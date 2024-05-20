@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import envioDeCorreos.EnvioDeCorreo;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
@@ -94,7 +95,15 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
         int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
         
         switch (resultadoRegistro) {
-            case 1 -> Alertas.mostrarMensajeDatosIngresados();
+            case 1 -> {
+                int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(),usuario.getContrasenia(),usuario.getTipoDeUsuario());
+                if(resultadoCorreo == 1) {
+                   Alertas.mostrarMensajeDatosIngresados();
+                }else{
+                   Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet antes de registrar un usuario administrativo");
+                   daoUsuario.eliminarUsuario(usuario.getNombreUsuario());
+                }
+            }
             case 0 -> Alertas.mostrarMensajeDatosDuplicados();
             case -1 -> Alertas.mostrarMensajeErrorEnLaConexion();
         }
@@ -112,7 +121,14 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
                     if(resultadoModificacion==0){
                         Alertas.mostrarMensajeProfesorConUsuario();
                     }else{
-                        Alertas.mostrarMensajeDatosIngresados();
+                        int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(),usuario.getContrasenia(),usuario.getTipoDeUsuario());
+                        if(resultadoCorreo==1){
+                            Alertas.mostrarMensajeDatosIngresados();
+                        }else if(resultadoCorreo==-1){
+                            daoProfesor.eliminarCuentaAsignadaAProfesor(usuario.getNombreUsuario());
+                            daoUsuario.eliminarUsuario(usuario.getNombreUsuario());
+                            Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet o el correo proporcionado antes de registrar un usuario de profesor");
+                        }
                     }
                 }
                 case -1 -> Alertas.mostrarMensajeErrorEnLaConexion();
@@ -121,6 +137,21 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
         }else if(idProfesor==0){
             Alertas.mostrarCorreoDeProfesorInexistente();
         }
+    }
+    
+    public int mandarCorreo(String usuario, String contrasenia, String tipoDeUsuario){
+        int resultadoEnvioDeCorreo;
+        EnvioDeCorreo mandarCorreoCreacionDeUsuario = new EnvioDeCorreo();
+        String asuntoCorreo = "Clave de acceso sistema coil vic";
+        String cuerpoCorreo = "Se le ha registrado como "+tipoDeUsuario+" dentro del sistema COIL-VIC. \n\n"+
+                "A continuación se le presentan sus claves de acceso para acceder al sistema: \n\n"+
+                "Usuario: "+usuario+"\n\nContraseña: "+contrasenia+"\nBuen día\nAtte: Sistema de gestión COIL-VIC";
+        String destinatario = usuario;
+        mandarCorreoCreacionDeUsuario.setAsunto(asuntoCorreo);
+        mandarCorreoCreacionDeUsuario.setContenido(cuerpoCorreo);
+        mandarCorreoCreacionDeUsuario.setDestinatario(destinatario);
+        resultadoEnvioDeCorreo = mandarCorreoCreacionDeUsuario.enviarCorreo();
+        return resultadoEnvioDeCorreo;
     }
     
     

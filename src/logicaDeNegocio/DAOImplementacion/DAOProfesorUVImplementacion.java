@@ -226,4 +226,22 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return numeroFilasAfectadas;        
     }
     
+    @Override
+    public int eliminarProfesorUV(String correo){
+        int numeroFilasAfectadas = 0;
+        PreparedStatement declaracion;
+        try {
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion = conexion.prepareStatement("DELETE FROM profesorUV " +
+            "WHERE idProfesor IN (SELECT idProfesor FROM profesor WHERE correo = ?);");
+            declaracion.setString(1, correo);
+            numeroFilasAfectadas = declaracion.executeUpdate();
+            conexion.close();
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+            numeroFilasAfectadas = -1;
+        }
+        return numeroFilasAfectadas;
+    }
+    
 }

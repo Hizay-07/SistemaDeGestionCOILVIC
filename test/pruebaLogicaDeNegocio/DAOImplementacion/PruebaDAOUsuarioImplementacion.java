@@ -2,6 +2,7 @@ package pruebaLogicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -97,5 +98,31 @@ public class PruebaDAOUsuarioImplementacion {
         
         int resultado = implementacion.obtenerIdUsuario(usuarioPrueba,logger);
         assertEquals(2,resultado);
+    }
+    
+    @Test
+    public void pruebaEliminarUsuarioExitosa(){
+        Usuario usuarioPrueba = new Usuario();
+        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setIdUsuario(1);
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+        int resultado = implementacion.eliminarUsuario("chrisvz@gmail.com");
+        assertEquals(1,resultado);
+    }
+    
+    @Test
+    public void pruebaFlujoFallidoEliminarUsuarioExitosa(){
+        Usuario usuarioPrueba = new Usuario();
+        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setIdUsuario(1);
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+        int resultado = implementacion.eliminarUsuario("chrisvz@gmail.com");
+        assertEquals(0,resultado);
     }
 }

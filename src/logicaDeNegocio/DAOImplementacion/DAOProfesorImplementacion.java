@@ -192,7 +192,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
            resultadoModificacion = declaracion.getInt(2);
            BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException | NullPointerException excepcion){
-           LOG.error(excepcion.getCause());
+           LOG.error(excepcion.getMessage());
            resultadoModificacion = -1;
        }
        return resultadoModificacion;
@@ -245,6 +245,39 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             coincidenciasEncontradas = -1;
         }
         return coincidenciasEncontradas;
+   }
+   
+   @Override
+   public int eliminarCuentaAsignadaAProfesor(String correoProfesor){
+        int resultadoModificacion;
+       try{
+           conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+           PreparedStatement declaracion = conexion.prepareStatement(" update profesor set Usuario_idUsuario = null where correo = ?");
+           declaracion.setString(1, correoProfesor);
+           resultadoModificacion = declaracion.executeUpdate();
+           BASE_DE_DATOS.cerrarConexion(conexion);
+       }catch(SQLException | NullPointerException excepcion){
+           LOG.error(excepcion.getMessage());
+           resultadoModificacion = -1;
+       }
+       return resultadoModificacion;
+   }
+   
+   @Override 
+   public int eliminarProfesor(String correo){
+       int numeroFilasAfectadas = 0;
+        PreparedStatement declaracion;
+        try {
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion = conexion.prepareStatement("DELETE FROM profesor where correo = ?");
+            declaracion.setString(1, correo);
+            numeroFilasAfectadas = declaracion.executeUpdate();
+            conexion.close();
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+            numeroFilasAfectadas = -1;
+        }
+        return numeroFilasAfectadas;
    }
 
 }
