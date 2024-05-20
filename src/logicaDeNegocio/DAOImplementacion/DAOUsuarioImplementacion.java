@@ -116,9 +116,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         boolean resultadoDeConfirmacionDeConexion=false;
         try{
            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
-           if(Objects.nonNull(conexion)){
-               resultadoDeConfirmacionDeConexion=true;
-           }
+           resultadoDeConfirmacionDeConexion=true;
            conexion.close();
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
@@ -131,9 +129,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
          boolean resultadoDeConfirmacionDeConexion=false;
         try{
            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           if(Objects.nonNull(conexion)){
-               resultadoDeConfirmacionDeConexion=true;
-           }
+           resultadoDeConfirmacionDeConexion=true;
            conexion.close();
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
@@ -141,4 +137,41 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoDeConfirmacionDeConexion;
     }
     
+    @Override 
+    public int eliminarUsuario(String nombreDeUsuario){
+        int resultadoEliminacion;
+        try{
+           conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+           PreparedStatement sentencia = conexion.prepareStatement("delete from usuario where nombreDeUsuario=?");
+           sentencia.setString(1, nombreDeUsuario);
+           resultadoEliminacion = sentencia.executeUpdate();
+           conexion.close();
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getCause());
+            resultadoEliminacion = -1;
+        }
+        return resultadoEliminacion;
+    }
+    
+    @Override
+    public int verificarDuplicidadNombreDeUsuario(String nombre){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int coincidenciasEncontradas = 0;
+        try{
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=conexion.prepareStatement("SELECT count(*) as 'coincidencias encontradas' from usuario where nombreDeUsuario=?;");
+            declaracion.setString(1, nombre);
+            resultado=declaracion.executeQuery();
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    coincidenciasEncontradas = resultado.getInt("coincidencias encontradas");
+                }
+            }
+        }catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getCause());
+            coincidenciasEncontradas = -1;
+        }
+        return coincidenciasEncontradas;
+    }
 }

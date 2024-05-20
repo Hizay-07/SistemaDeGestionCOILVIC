@@ -1,54 +1,81 @@
 package envioDeCorreos;
 
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
+import org.apache.log4j.Logger;
 
 public class EnvioDeCorreo {
-    private static String REMITENTE = "sistemadegestioncoilvic@gmail.com";
-    private static String CONTRASENIAREMITENTE = "qjtymlntlwvmhkju";
+    
+    private static final Logger LOG=Logger.getLogger(EnvioDeCorreo.class);
     private String destinatario;
     private String asunto;
     private String contenido;
     
-    public EnvioDeCorreo(String destinatario, String asunto, String contenido) {
+    public EnvioDeCorreo(){
+    }
+
+    public void setDestinatario(String destinatario) {
         this.destinatario = destinatario;
+    }
+
+    public void setAsunto(String asunto) {
         this.asunto = asunto;
+    }
+
+    public void setContenido(String contenido) {
         this.contenido = contenido;
     }
     
+    public Properties obtenerCorreoRemitente(){
+        Properties propiedadesAdministrativo = new Properties();
+        try{
+           DataInputStream archivoUsuario = new DataInputStream(new FileInputStream("src\\envioDeCorreos\\Correo.txt"));
+           propiedadesAdministrativo.load(archivoUsuario);
+        }catch(FileNotFoundException archivoNoEncontrado){
+            LOG.fatal(archivoNoEncontrado.getMessage());
+        }catch(IOException excepcion){
+            LOG.fatal(excepcion.getCause());
+        }
+        return propiedadesAdministrativo;
+    }
     
-    public void enviarCorreo() {
-        // Configurar las propiedades del servidor de correo
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        // Crear una sesión de correo con autenticación
-        Session session = Session.getInstance(props,
+    
+    public int enviarCorreo() {
+        int resultadoEnvioDeCorreo;
+        Properties propiedadess = new Properties();
+        Properties datosCorreo = obtenerCorreoRemitente();
+        String remitente = datosCorreo.getProperty("Remitente");
+        String contraseniaRemitente = datosCorreo.getProperty("ContraseniaRemitente");
+        propiedadess.put("mail.smtp.auth", "true");
+        propiedadess.put("mail.smtp.starttls.enable", "true");
+        propiedadess.put("mail.smtp.host", "smtp.gmail.com");
+        propiedadess.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(propiedadess,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(REMITENTE, CONTRASENIAREMITENTE);
+                        return new PasswordAuthentication(remitente, contraseniaRemitente);
                     }
                 });
-
         try {
-            // Crear un mensaje de correo
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(REMITENTE));
+            message.setFrom(new InternetAddress(remitente));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject(asunto);
             message.setText(contenido);
-
-            // Enviar el mensaje de correo
             Transport.send(message);
-
-            System.out.println("Correo enviado satisfactoriamente.");
-
-        } catch (MessagingException e) {
-            System.out.println("Error al enviar el correo: " + e.getMessage());
+            resultadoEnvioDeCorreo=1;
+        }catch(SendFailedException excepcion){
+            LOG.error(excepcion.getMessage());
+            resultadoEnvioDeCorreo = -1;
+        }catch(MessagingException excepcion){
+            LOG.error(excepcion.getMessage());
+            resultadoEnvioDeCorreo = -1;
         }
+        return resultadoEnvioDeCorreo;
     }
 }

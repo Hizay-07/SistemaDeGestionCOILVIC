@@ -19,6 +19,15 @@ public class Alertas extends Application {
         });
     }
     
+    public static void mostrarMensajeUsuarioDuplicado(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Usuario duplicado");
+            mensaje.setContentText("El correo ingresado ya se ha registrado previamente en un Profesor u Administrador");
+            mensaje.showAndWait();
+        });
+    }
+    
     public static void mostrarMensajeDatosInvalidos(){
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.WARNING);
@@ -302,7 +311,7 @@ public class Alertas extends Application {
         });
     }
     
-     public static void mostrarColaboracionFinalizada(){
+    public static void mostrarColaboracionFinalizada(){
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("¡Colaboracion finalizada!");
@@ -311,6 +320,14 @@ public class Alertas extends Application {
         });
     }
     
+    public static void mostrarSinConexionAInternet(String mensajeAlerta){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Sin conexion a internet");
+            mensaje.setContentText(mensajeAlerta);
+            mensaje.showAndWait();
+        });
+    }
     
 
     @Override

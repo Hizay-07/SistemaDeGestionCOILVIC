@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorExternoImplementacion;
 import logicaDeNegocio.clases.ProfesorExterno;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -73,5 +75,18 @@ public class PruebaDAOProfesorExternoImplementacion {
         DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
         int resultadoObtenido=daoProfesorExterno.consultarIdRepresentanteInstitucionalPorIdProfesor(idProfesor);
         assertEquals(resultadoEsperado, resultadoObtenido); 
+    }
+    
+    @Test
+    public void pruebaEliminarProfesorExterno(){
+        Usuario usuarioPrueba = new Usuario();
+        DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setIdUsuario(1);
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+        int resultadoObtenido = daoProfesorExterno.eliminarProfesorExterno("chrisvasquez985@gmail.com");
+        assertEquals(1,resultadoObtenido);
     }
 }

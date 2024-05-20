@@ -119,7 +119,6 @@ public class Ventana_ModificarActividadController implements Initializable {
         if(Objects.nonNull(actividadAModificar)){
             int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
             int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
-
             if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
                 Alertas.mostrarMensajeErrorEnLaConexion();
             } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {

@@ -21,5 +21,7 @@ public interface ProfesorUVInterface {
     public int editarAreaAcademicaDeProfesorUVPorNumeroDePersonal(int areaAcademica,String numeroDePersonal);
     
     public int editarRegionDeProfesorUVPorNumeroDePersonal(int region,String numeroDePersonal);
+    
+     public int eliminarProfesorUV(String correo);
               
 }
