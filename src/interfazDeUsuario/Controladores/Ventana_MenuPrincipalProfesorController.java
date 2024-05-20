@@ -43,6 +43,8 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
     private Button btn_Salir;
     @FXML
     private Label lbl_NombreProfesor;
+    @FXML
+    private Button btn_IniciarColaboracion;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,8 +68,11 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
             visualizarPeticionesColaboracion();
         });
         
+        btn_IniciarColaboracion.setOnAction(Event ->{
+            visualizarInicioColaboracion();
+        });
         
-        
+       
         mostrarMensajeProfesor();
     }    
        
@@ -163,10 +168,24 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
         if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
             String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
             desplegarVentana(rutafxml);
-        }else{
-            String mensaje = "No se pueden evaluar peticones de colaboración sin una propuesta de colaboración";
+        }else if (profesor.getEstado().equals(EnumProfesor.Colaborando.toString())){
+            String mensaje = "La colaboracion ya ha iniciado";
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
+        }else{
+            String mensaje = "No tiene ninguna colaboracion por iniciar";
+            Alertas.mostrarMensajeColaboracionActiva(mensaje);            
         }                            
     }
     
+    public void visualizarInicioColaboracion(){
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
+            String rutafxml = "/interfazDeUsuario/Ventana_IniciarColaboracion.fxml";
+            desplegarVentana(rutafxml);
+        }else{
+            String mensaje = "No se pueden evaluar peticones de colaboración sin una propuesta de colaboración";
+            Alertas.mostrarMensajeColaboracionActiva(mensaje);
+        }  
+        
+    }
 }

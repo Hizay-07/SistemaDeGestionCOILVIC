@@ -152,7 +152,7 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
     }
     
     public void salirDeLaVentana(){
-         String rutaVentanaFXML = null;
+        String rutaVentanaFXML = null;
         try{
             rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -175,10 +175,8 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/interfazDeUsuario/Ventana_EvaluacionDePropuesta.fxml"));
             Parent root = loader.load();
-
             Ventana_EvaluacionDePropuestaControlador controlador = loader.getController();
             controlador.inicializar(idPropuestaColaboracion); 
-
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);

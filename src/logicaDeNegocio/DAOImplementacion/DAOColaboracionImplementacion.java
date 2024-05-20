@@ -33,7 +33,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             numeroFilasAfectadas = declaracion.getInt(4);
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion);
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;        
@@ -133,5 +133,24 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;
+    }
+    
+    public int obtenerIdColaboracionPorIdPropuesta(int idPropuestaColaboracion){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        int idColaboracion=0;
+        try{
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=conexion.prepareStatement("select idColaboracion from colaboracion where idPropuestaColaboracion=?");
+            declaracion.setInt(1, idPropuestaColaboracion);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                idColaboracion=resultado.getInt("idColaboracion");                                                
+            }
+            conexion.close();
+        }catch(SQLException excepcion){
+            LOG.error(excepcion);        
+        }
+        return idColaboracion;                
     }
 }

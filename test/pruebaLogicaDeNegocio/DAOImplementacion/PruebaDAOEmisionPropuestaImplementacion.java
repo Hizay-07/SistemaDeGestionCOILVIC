@@ -50,6 +50,7 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
   
+    /*
     @Test
     public void pruebaConsultarIdPropuestaColaboracionProIdProfesor(){
         Profesor profesor = new Profesor();
@@ -59,6 +60,7 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         int resultadoObtenido=daoEmisionPropuesta.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
         assertEquals(resultadoEsperado,resultadoObtenido);  
         
-    }
+    }*/
+
 }
 

@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="anchor_PanelPrincipal" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_MenuPrincipalProfesorController">
    <children>
       <ImageView fitHeight="508.0" fitWidth="722.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
@@ -20,29 +19,29 @@
             <Image url="@Imagenes/MAPAMUNDO.png" />
          </image>
       </ImageView>
-      <Button fx:id="btn_ColaboracionActiva" layoutX="128.0" layoutY="160.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #0aff7a;" text="Colaboración Activa" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button fx:id="btn_ColaboracionActiva" layoutX="128.0" layoutY="160.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #4B9CFA; -fx-border-color: #2979FF;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Colaboración Activa" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btn_ColaborarConProfesor" layoutX="203.0" layoutY="266.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #A24BFA; -fx-border-color: #0aff7a;" text="Colaborar con Profesor" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button fx:id="btn_ColaborarConProfesor" layoutX="128.0" layoutY="266.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: linear-gradient(to bottom, #FFA500, #FF8C00); -fx-border-color: #FF8C00;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Colaborar con Profesor" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btn_ProponerColaboracion" layoutX="317.0" layoutY="160.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #694BFA; -fx-border-color: #0aff7a;" text="Proponer Colaboración" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button fx:id="btn_ProponerColaboracion" layoutX="309.0" layoutY="160.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #694BFA; -fx-border-color: #B39DDB; -fx-background-radius: 4px; -fx-border-width: 1px;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Proponer Colaboración" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btn_VerPeticionesDeColaboracion" layoutX="484.0" layoutY="160.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #4BD4FA; -fx-border-color: #0aff7a;" text="Ver Peticiones de Colaboración  " textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button fx:id="btn_VerPeticionesDeColaboracion" layoutX="484.0" layoutY="160.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #4BD4FA; -fx-border-color: #00BFFF;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Ver Peticiones de Colaboración  " textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn_VisualizarColaboraciones" layoutX="390.0" layoutY="266.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="129.0" style="-fx-background-color: #0026FA; -fx-border-color: #0aff7a;" text="Visualizar Colaboraciones" textAlignment="CENTER" textFill="WHITE" wrapText="true" onAction="#visualizarColaboraciones">
+      <Button fx:id="btn_VisualizarColaboraciones" layoutX="302.0" layoutY="266.0" mnemonicParsing="false" onAction="#visualizarColaboraciones" prefHeight="79.0" prefWidth="141.0" style="-fx-background-color: #0026FA; -fx-border-color: #6FA1FF;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Visualizar Colaboraciones" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Button>
       <Button fx:id="btn_Salir" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: FF0000;" text="Salir" textFill="WHITE">
@@ -65,5 +64,10 @@
             <Font name="System Bold" size="23.0" />
          </font>
       </Label>
+      <Button fx:id="btn_IniciarColaboracion" contentDisplay="TOP" layoutX="484.0" layoutY="266.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="128.0" style="-fx-background-color: #4CAF50; -fx-border-color: #388E3C;" styleClass="Button" stylesheets="@EstiloBoton.css" text="      Iniciar&#10;Colaboración&#10;" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
