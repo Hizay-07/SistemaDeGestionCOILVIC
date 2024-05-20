@@ -310,6 +310,15 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+     
+    public static void mostrarColaboracionIniciada(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Colaboración iniciada");
+            mensaje.setContentText("La colaboración ha iniciado correctamente");
+            mensaje.showAndWait();
+        });
+    }
     
     
 

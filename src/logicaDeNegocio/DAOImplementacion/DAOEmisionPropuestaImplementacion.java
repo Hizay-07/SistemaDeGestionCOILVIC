@@ -85,26 +85,27 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         return idProfesor;        
     }
     
-    public int consultarIdPropuestaDeColaboracionPorIdProfesor(Profesor profesor){
+    @Override
+    public List<Integer> consultarIdPropuestaDeColaboracionPorIdProfesor(Profesor profesor){
         PreparedStatement declaracion;
-        ResultSet resultado;
-        int idPropuestaColaboracion=0;
+        ResultSet resultado;        
+        List<Integer> idPropuestas=new ArrayList<>();
         try {
             conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from EmisionPropuesta where idProfesor=?;");
             declaracion.setInt(1, profesor.getIdProfesor());
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
-                while(resultado.next()){
-                    idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+                while(resultado.next()){                    
+                    int idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
+                    idPropuestas.add(idPropuestaColaboracion);
                 }
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
-            idPropuestaColaboracion=-1;
+            LOG.error(excepcion.getCause());            
         }
-        return idPropuestaColaboracion;
+        return idPropuestas;
     }
-    
+
 }

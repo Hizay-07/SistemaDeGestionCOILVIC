@@ -176,5 +176,27 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return numeroFilasAfectadas;
     }
     
+    public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(int idPropuestaColaboracion){
+        PreparedStatement declaracion;
+        ResultSet resultado;
+        List<Integer> idProfesores=new ArrayList<>();
+        try {
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=conexion.prepareStatement("Select idProfesor from peticionColaboracion where idPropuestaColaboracion=? and estadoPeticion='Aceptada';");
+            declaracion.setInt(1, idPropuestaColaboracion);
+            resultado=declaracion.executeQuery();
+            while(resultado.next()){
+                int idProfesor=resultado.getInt("idProfesor");
+                idProfesores.add(idProfesor);                
+            }
+            conexion.close();
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion.getCause());
+        }
+        return idProfesores;                        
+    }
+    
+    
+    
     
 }

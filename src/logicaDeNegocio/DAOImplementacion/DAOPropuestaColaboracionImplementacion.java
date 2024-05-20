@@ -345,5 +345,21 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         }
         return propuestasColaboracion; 
     }
+    
+    @Override
+    public int cambiarEstadoIniciadaPropuestaColaboracionPorId(int idPropuestaColaboracion) {
+        int numeroFilasAfectadas=0;
+        PreparedStatement declaracion;   
+        try {
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Iniciada' where idPropuestaColaboracion=?;");
+            declaracion.setInt(1, idPropuestaColaboracion);
+            numeroFilasAfectadas=declaracion.executeUpdate();
+            conexion.close();
+        } catch (SQLException | NullPointerException ex) {
+            LOG.error(ex);
+        }
+        return numeroFilasAfectadas;        
+    }
 
 }

@@ -24,7 +24,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button layoutX="28.0" layoutY="37.0" mnemonicParsing="false" onAction="#salirDeLaVentana" prefHeight="35.0" prefWidth="126.0" text="Regresar" />
+            <Button layoutX="28.0" layoutY="37.0" mnemonicParsing="false" onAction="#salirDeLaVentana" prefHeight="35.0" prefWidth="126.0" style="-fx-background-color: FFA233;" text="Regresar" />
          </children>
       </Pane>
       <TableView fx:id="tableView_PeticionesDeColaboracion" prefHeight="294.0" prefWidth="600.0">

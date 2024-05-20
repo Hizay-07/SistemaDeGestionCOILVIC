@@ -28,4 +28,6 @@ public interface PropuestaColaboracionInterface {
     public int obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(int idProfesor);
     
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadasSinPeticiones(int identificadorProfesor);
+    
+    public int cambiarEstadoIniciadaPropuestaColaboracionPorId(int idPropuestaColaboracion);
 }
