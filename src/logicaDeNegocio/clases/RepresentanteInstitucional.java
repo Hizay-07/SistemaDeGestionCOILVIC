@@ -10,7 +10,7 @@ public class RepresentanteInstitucional{
     private String contacto;
     private String estadoRepresentante;
     private Pais pais;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_LETRAS_Y_NUMEROS_PATTERN ="^[\\p{L}0-9]+$";
     
@@ -31,8 +31,8 @@ public class RepresentanteInstitucional{
     }
 
     public void setNombreInstitucion(String nombreInstitucion)throws IllegalArgumentException {
-        if(nombreInstitucion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombreInstitucion)){
-            this.nombreInstitucion = nombreInstitucion;
+        if(nombreInstitucion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombreInstitucion.trim())&&nombreInstitucion.trim().length()<=45){
+            this.nombreInstitucion = nombreInstitucion.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -43,8 +43,8 @@ public class RepresentanteInstitucional{
     }
 
     public void setClaveInstitucional(String claveInstitucional)throws IllegalArgumentException {
-        if(claveInstitucional!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN, claveInstitucional)){
-            this.claveInstitucional = claveInstitucional;
+        if(claveInstitucional!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN, claveInstitucional.trim())&&claveInstitucional.trim().length()<=20){
+            this.claveInstitucional = claveInstitucional.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -55,8 +55,8 @@ public class RepresentanteInstitucional{
     }
 
     public void setContacto(String contacto)throws IllegalArgumentException{
-        if(contacto!=null&&Pattern.matches(EMAIL_PATTERN, contacto)){
-            this.contacto = contacto;
+        if(contacto!=null&&Pattern.matches(EMAIL_PATTERN, contacto.trim())&&contacto.trim().length()<=60){
+            this.contacto = contacto.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -67,8 +67,8 @@ public class RepresentanteInstitucional{
     }
 
     public void setEstadoRepresentante(String estadoRepresentante)throws IllegalArgumentException {
-        if(estadoRepresentante!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estadoRepresentante)){
-            this.estadoRepresentante = estadoRepresentante;
+        if(estadoRepresentante!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estadoRepresentante.trim())&&estadoRepresentante.trim().length()<=45){
+            this.estadoRepresentante = estadoRepresentante.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }

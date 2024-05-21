@@ -15,8 +15,8 @@ public class Retroalimentacion {
     }
 
     public void setRetroalimentacion(String retroalimentacion)throws IllegalArgumentException {
-        if(retroalimentacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, retroalimentacion)){
-            this.retroalimentacion = retroalimentacion;
+        if(retroalimentacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, retroalimentacion.trim())&&retroalimentacion.trim().length()<=255){
+            this.retroalimentacion = retroalimentacion.trim().replaceAll("[ \t]+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -27,8 +27,8 @@ public class Retroalimentacion {
     }
 
     public void setEmisor(String emisor)throws IllegalArgumentException {
-        if(emisor!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, emisor)){
-            this.emisor = emisor;
+        if(emisor!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, emisor.trim())&&emisor.trim().length()<=100){
+            this.emisor = emisor.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }

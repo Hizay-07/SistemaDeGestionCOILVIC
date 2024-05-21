@@ -32,7 +32,7 @@ public class ProfesorUV extends Profesor {
 
     public void setTipoDeContratacion(String tipoDeContratacion)throws IllegalArgumentException {
         if(tipoDeContratacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,tipoDeContratacion.trim())&&tipoDeContratacion.trim().length()<=150){
-            this.tipoDeContratacion = tipoDeContratacion;
+            this.tipoDeContratacion = tipoDeContratacion.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -44,7 +44,7 @@ public class ProfesorUV extends Profesor {
 
     public void setCategoriaDeContratacion(String categoriaDeContratacion)throws IllegalArgumentException {
         if(categoriaDeContratacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,categoriaDeContratacion.trim())&&categoriaDeContratacion.trim().length()<=150){
-            this.categoriaDeContratacion = categoriaDeContratacion;
+            this.categoriaDeContratacion = categoriaDeContratacion.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
