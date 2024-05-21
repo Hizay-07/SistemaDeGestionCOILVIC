@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
@@ -61,7 +62,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
         });
         
         btn_Salir.setOnAction(Event ->{
-            salirDelMenuPrincipal();
+            regresarAlInicioDeSesion();
         });
         
         btn_VerPeticionesDeColaboracion.setOnAction(Event ->{
@@ -124,46 +125,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
         }
     }
-
-    public void desplegarVentana(String rutaFxml){
-        try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-            cerrarVentana();
-        }catch(IOException excepcion){
-            LOG.error(excepcion.getCause());            
-        }
-    }
-     
-    public void salirDelMenuPrincipal(){
-        boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea regresar al inicio de sesión?");
-        if(resultadoEleccion){
-            String rutaVentanaFXML = null;
-            try{
-                rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
-                Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.show();
-                UsuarioSingleton.resetSingleton();
-                ProfesorSingleton.resetSingleton();
-                cerrarVentana();
-            }catch(IOException excepcion){
-                LOG.error(excepcion.getCause());
-            }
-        }
-    }
-    
-     public void cerrarVentana(){
-        escenario = (Stage) anchor_PanelPrincipal.getScene().getWindow();
-        escenario.close();
-    }
-     
-    public void visualizarPeticionesColaboracion(){
+     public void visualizarPeticionesColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
             String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
@@ -187,5 +149,61 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
         }  
         
+    }
+
+    public void desplegarVentana(String rutaFxml){
+        if(validarConexionEstable()==true){
+            try{
+            Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion.getCause());            
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlMenuPrincipal();
+        }
+    }
+    
+    public void regresarAlInicioDeSesion(){
+         boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea regresar al inicio de sesión?");
+         if(resultadoEleccion){
+             salirAlMenuPrincipal();
+         }
+    }
+    
+    public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlMenuPrincipal(){
+            String rutaVentanaFXML = null;
+            try{
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+                Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                UsuarioSingleton.resetSingleton();
+                ProfesorSingleton.resetSingleton();
+                cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion.getCause());
+            }
+    }
+    
+     public void cerrarVentana(){
+        escenario = (Stage) anchor_PanelPrincipal.getScene().getWindow();
+        escenario.close();
     }
 }

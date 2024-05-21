@@ -5,12 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
 import javafx.fxml.Initializable;
-import javafx.event.ActionEvent;
 import logicaDeNegocio.clases.Usuario;
-import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
-import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
-import logicaDeNegocio.clases.Profesor;
-import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
+import logicaDeNegocio.clases.ProfesorSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_MenuAdministradorController implements Initializable{
@@ -50,7 +47,7 @@ public class Ventana_MenuAdministradorController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_Salir.setOnAction(Event ->{ 
-            salirDelMenuPrincipal();
+            regresarAlInicioDeSesion();
         });   
         
         btn_RegistrarProfesor.setOnAction(Event ->{
@@ -119,28 +116,40 @@ public class Ventana_MenuAdministradorController implements Initializable{
         desplegarVentana(ruta);
     }
     
-    public void desplegarVentana(String ruta){
-        String rutaVentanaFXML = ruta;
-        try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+    public void desplegarVentana(String rutaFxml){
+        if(validarConexionEstable()==true){
+            try{
+            Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion);
+            cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion.getCause());            
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlMenuPrincipal();
         }
-        cerrarVentana();
     }
     
-    public void cerrarVentana(){
-        escenario = (Stage) anchor_PanelPrincipal.getScene().getWindow();
-        escenario.close();
+    public void regresarAlInicioDeSesion(){
+         boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea regresar al inicio de sesión?");
+         if(resultadoEleccion){
+             salirAlMenuPrincipal();
+         }
     }
     
-    public void salirDelMenuPrincipal(){
-        boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea regresar al inicio de sesion?");
-        if(resultadoEleccion){
+    public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlMenuPrincipal(){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
@@ -150,12 +159,17 @@ public class Ventana_MenuAdministradorController implements Initializable{
                 stage.setScene(scene);
                 stage.show();
                 UsuarioSingleton.resetSingleton();
+                ProfesorSingleton.resetSingleton();
                 cerrarVentana();
             }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());
-                System.out.println(excepcion.getMessage());
             }
-        }
+    } 
+    
+    public void cerrarVentana(){
+        escenario = (Stage) anchor_PanelPrincipal.getScene().getWindow();
+        escenario.close();
     }
     
     public void visualizarPropuestasColaboracion(){

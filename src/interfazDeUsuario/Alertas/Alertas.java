@@ -338,6 +338,23 @@ public class Alertas extends Application {
         });
     }
     
+    public static void mostrarMensajeSinConexion(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Error en la conexion");
+            mensaje.setContentText("Se ha perdido la conexión en la base de datos, se le redirigirá al inicio de sesión.");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeErrorAlDesplegarVentana(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Error al cambiar de ventana");
+            mensaje.setContentText("No se ha podido abrir la ventana correspondiente, inténtelo de nuevo.");
+            mensaje.showAndWait();
+        });
+    }
 
     @Override
     public void start(Stage stage){

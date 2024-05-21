@@ -18,7 +18,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.ProfesorAuxiliar;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.UsuarioSingleton;
+import logicaDeNegocio.enums.EnumEstadosProfesor;
 import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
@@ -54,20 +57,6 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
         });
         cargarDatosComboBoxEstadoProfesor();
         cargarDatosProfesor();
-    }
-    
-    public void regresarDeVentana(){
-        String rutaVentanaFXML="/interfazDeUsuario/Ventana_Profesores.fxml";
-        try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion);
-        }
-        cerrarVentana();
     }
     
     public void cerrarVentana(){
@@ -118,22 +107,23 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
         }
         if(correosEncontradosSimilares==0){
             try {
-            profesorAActualizar.setNombre(txfd_Nombre.getText());
-            profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
-            profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
-            profesorAActualizar.setCorreo(txfd_Correo.getText());
-            profesorAActualizar.setEstado((String) cmb_EstadosProfesor.getSelectionModel().getSelectedItem());
-            int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
-            filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
-            filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
-            filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
-            filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(),profesorAActualizar.getEstado());
-            if(filasAfectadas >= 4){
-                Alertas.mostrarMensajeDatosModificados();
-                regresarDeVentana();
-            }else{
-                Alertas.mostrarMensajeErrorEnLaConexion();
-            }
+                profesorAActualizar.setNombre(txfd_Nombre.getText());
+                profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
+                profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
+                profesorAActualizar.setCorreo(txfd_Correo.getText());
+                profesorAActualizar.setEstado((String) cmb_EstadosProfesor.getSelectionModel().getSelectedItem());
+                int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
+                filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
+                filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
+                filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
+                filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(),profesorAActualizar.getEstado());
+                if(filasAfectadas >= 4){
+                    Alertas.mostrarMensajeDatosModificados();
+                    regresarDeVentana();
+                }else{
+                    Alertas.mostrarMensajeErrorEnLaConexion();
+                    salirAlInicioDeSesion();
+                }
             } catch (IllegalArgumentException | NullPointerException excepcion) {
                 LOG.error(excepcion);
                 Alertas.mostrarMensajeDatosInvalidos();
@@ -154,26 +144,71 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
         }
         if(correosEncontradosSimilares==0){
             try {
-            profesorAActualizar.setNombre(txfd_Nombre.getText());
-            profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
-            profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
-            profesorAActualizar.setCorreo(txfd_Correo.getText());
-            int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
-            filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
-            filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
-            filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
-            if(filasAfectadas >= 4){
-                Alertas.mostrarMensajeDatosModificados();
-                regresarDeVentana();
-            }else{
-                Alertas.mostrarMensajeErrorEnLaConexion();
-            }
+                profesorAActualizar.setNombre(txfd_Nombre.getText());
+                profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
+                profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
+                profesorAActualizar.setCorreo(txfd_Correo.getText());
+                int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
+                filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
+                filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
+                filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
+                if(filasAfectadas >= 4){
+                    Alertas.mostrarMensajeDatosModificados();
+                    regresarDeVentana();
+                }else{
+                    Alertas.mostrarMensajeErrorEnLaConexion();
+                    salirAlInicioDeSesion();
+                }
             } catch (IllegalArgumentException excepcion) {
                 LOG.error(excepcion);
                 Alertas.mostrarMensajeDatosInvalidos();
             }
         }else{
             Alertas.mostrarMensajeDatosDuplicados();
+        }
+    }
+    
+    public void regresarDeVentana(){
+        if(validarConexionEstable()){
+            String rutaVentanaFXML="/interfazDeUsuario/Ventana_Profesores.fxml";
+            try{
+                Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion);
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();
+        }
+    }
+    
+    public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
+        String rutaVentanaFXML = null;
+        try {
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+            Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            UsuarioSingleton.resetSingleton();
+            cerrarVentana();
+        } catch (IOException excepcion) {
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
+            LOG.error(excepcion.getCause());
         }
     }
 }
