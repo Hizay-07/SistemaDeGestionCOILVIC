@@ -127,7 +127,7 @@ public class Ventana_MenuAdministradorController implements Initializable{
             cerrarVentana();
             }catch(IOException excepcion){
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
-                LOG.error(excepcion.getCause());            
+                LOG.error(excepcion.getMessage());            
             }
         }else{
             Alertas.mostrarMensajeSinConexion();

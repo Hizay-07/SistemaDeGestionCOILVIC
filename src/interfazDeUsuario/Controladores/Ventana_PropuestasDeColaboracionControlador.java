@@ -95,7 +95,7 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         
         List<PropuestaColaboracion> propuestas=obtenerPropuestasDeColaboracion();
         tableView_PropuestasDeColaboracion.getItems().addAll(propuestas);                                        
-        agregarBoton();        
+        agregarBoton();
     }   
     
     public List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
