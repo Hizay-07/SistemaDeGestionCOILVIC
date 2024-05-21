@@ -135,7 +135,6 @@ public class Ventana_DetallesDeColaboracionController implements Initializable {
         colaboracionActual.setPropuestaColaboracion(colaboracion.getPropuestaColaboracion());
         colaboracionActual.setEstadoColaboracion(colaboracion.getEstadoColaboracion());
         colaboracionActual.setIdColaboracion(colaboracion.getIdColaboracion());
-        colaboracionActual.setRetroalimentacion(colaboracion.getRetroalimentacion());
         colaboracionActual.setCantidadEstudiantes(colaboracion.getCantidadEstudiantes());
         List<Actividad> actividades = obtenerActividadesColaboracion(colaboracionActual);
         List<Profesor> profesores = obtenerProfesoresColaboracion(colaboracionActual);
