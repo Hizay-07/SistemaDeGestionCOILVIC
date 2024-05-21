@@ -46,51 +46,11 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         assertEquals(-1,resultadoDePrueba);
     }
     
-    @Test
-    public void pruebaDesactivarRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaDesactivacion = new DAORepresentanteInstitucionalImplementacion();
-        
-        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
-        representanteDePrueba.setNombreInstitucion("UV");
-        representanteDePrueba.setClaveInstitucional("1234");
-        representanteDePrueba.setContacto("2281709292");
-        
-        int resultadoDePrueba = pruebaDesactivacion.desactivarRepresentanteInstitucional(representanteDePrueba);
-        assertEquals(1,resultadoDePrueba);
-    }
+ 
     
-    @Test
-    public void pruebaFlujoFallidoDesactivarRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaDesactivacion = new DAORepresentanteInstitucionalImplementacion();
-        
-        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
-        
-        int resultadoDePrueba = pruebaDesactivacion.desactivarRepresentanteInstitucional(representanteDePrueba);
-        assertEquals(0,resultadoDePrueba);
-    }
+   
     
-    @Test 
-    public void pruebaActivarRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaDesactivacion = new DAORepresentanteInstitucionalImplementacion();
-        
-        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
-        representanteDePrueba.setNombreInstitucion("UV");
-        representanteDePrueba.setClaveInstitucional("1234");
-        representanteDePrueba.setContacto("2281709292");
-        
-        int resultadoDePrueba = pruebaDesactivacion.activarRepresentanteInstitucional(representanteDePrueba);
-        assertEquals(1,resultadoDePrueba);
-    }
-    
-     @Test 
-    public void pruebaFlujoFallidoActivarRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaDesactivacion = new DAORepresentanteInstitucionalImplementacion();
-        
-        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
-        
-        int resultadoDePrueba = pruebaDesactivacion.activarRepresentanteInstitucional(representanteDePrueba);
-        assertEquals(0,resultadoDePrueba);
-    }
+ 
     
     @Test
     public void pruebaModificarNombreRepresentanteInstitucionalExitosa(){

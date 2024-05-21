@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumProfesor;
-import logicaDeNegocio.enums.EnumUsuario;
+import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
 
@@ -79,7 +79,7 @@ public class Ventana_MenuPrincipalProfesorController implements Initializable{
        
     public void mostrarMensajeProfesor(){
         Usuario logger = new Usuario();
-        logger.setTipoDeUsuario(EnumUsuario.Logger.toString());
+        logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
         Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario(),logger);

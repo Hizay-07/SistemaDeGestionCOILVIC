@@ -4,7 +4,6 @@ import logicaDeNegocio.interfaces.ProfesorInterface;
 import logicaDeNegocio.clases.Profesor;
 import accesoADatos.ManejadorBaseDeDatos;
 import com.mysql.cj.jdbc.CallableStatement;
-import logicaDeNegocio.enums.EnumEstados;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

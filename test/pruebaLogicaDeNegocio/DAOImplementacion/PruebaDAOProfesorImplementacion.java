@@ -1,7 +1,7 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
-import logicaDeNegocio.enums.EnumEstados;
+import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
@@ -19,7 +19,7 @@ public class PruebaDAOProfesorImplementacion {
         profesor.setApellidoPaterno("Garza");
         profesor.setApellidoMaterno("Garcia");
         profesor.setCorreo("Martin@example.com");
-        profesor.setEstado(EnumEstados.Activo.toString()); 
+        profesor.setEstado(EnumProfesor.Activo.toString()); 
         int resultadoEsperado = 1;
         int resultadoObtenido = daoProfesor.registrarProfesor(profesor);
         assertEquals(resultadoEsperado, resultadoObtenido);
@@ -38,7 +38,7 @@ public class PruebaDAOProfesorImplementacion {
     public void pruebaCambiarEstadoProfesorExitosa() {
         DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
         int idProfesor = 1; 
-        String nuevoEstado = EnumEstados.Desactivado.toString(); 
+        String nuevoEstado = EnumProfesor.Archivado.toString(); 
         int resultado = instancia.cambiarEstadoProfesor(idProfesor, nuevoEstado);
         assertEquals(1, resultado); 
     }
@@ -47,7 +47,7 @@ public class PruebaDAOProfesorImplementacion {
     public void pruebaCambiarEstadoProfesorFracaso() {
         DAOProfesorImplementacion instancia = new DAOProfesorImplementacion();
         int idProfesor = 2; 
-        String nuevoEstado = EnumEstados.Desactivado.toString(); 
+        String nuevoEstado = EnumProfesor.Archivado.toString(); 
         int resultadoEsperado = 0; 
         int resultado = instancia.cambiarEstadoProfesor(idProfesor, nuevoEstado);
         assertEquals(resultadoEsperado, resultado); 

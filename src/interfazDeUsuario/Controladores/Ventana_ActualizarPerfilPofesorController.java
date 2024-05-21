@@ -22,6 +22,7 @@ import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumEstadosProfesor;
+import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 public class Ventana_ActualizarPerfilPofesorController implements Initializable {
@@ -73,10 +74,10 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
     
     private void cargarDatosComboBoxEstadoProfesor(){
         String estadoProfesor = ProfesorAuxiliar.getInstancia().getEstado();
-        if(estadoProfesor.equals(EnumEstadosProfesor.Activo.toString())||estadoProfesor.equals(EnumEstadosProfesor.Archivado.toString())){
+        if(estadoProfesor.equals(EnumProfesor.Activo.toString())||estadoProfesor.equals(EnumProfesor.Archivado.toString())){
             ObservableList<String> EstadoDeProfesor = FXCollections.observableArrayList();
-            for(EnumEstadosProfesor estadosProfesor : EnumEstadosProfesor.values()){
-                if(estadosProfesor == EnumEstadosProfesor.Activo || estadosProfesor == EnumEstadosProfesor.Archivado){
+            for(EnumProfesor estadosProfesor : EnumProfesor.values()){
+                if(estadosProfesor == EnumProfesor.Activo || estadosProfesor == EnumProfesor.Archivado){
                 EstadoDeProfesor.add(estadosProfesor.toString());
                 }
             }
@@ -88,7 +89,7 @@ public class Ventana_ActualizarPerfilPofesorController implements Initializable 
     
     private void actualizarPerfilProfesor(){
         String estadoProfesor = ProfesorAuxiliar.getInstancia().getEstado();
-        if(estadoProfesor.equals(EnumEstadosProfesor.Activo.toString())||estadoProfesor.equals(EnumEstadosProfesor.Archivado.toString())){
+        if(estadoProfesor.equals(EnumProfesor.Activo.toString())||estadoProfesor.equals(EnumProfesor.Archivado.toString())){
             actualizarPerfilProfesorActivoOArchivado();
         }else{
             actualizarPerfilProfesorEsperandoUOcupado();

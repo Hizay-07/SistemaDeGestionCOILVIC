@@ -8,7 +8,7 @@ public class Colaboracion {
     private String estadoColaboracion;
     private int cantidadEstudiantes;
     private PropuestaColaboracion propuestaColaboracion;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public Colaboracion() {
@@ -31,8 +31,8 @@ public class Colaboracion {
     }
 
     public void setRetroalimentacion(String retroalimentacion)throws IllegalArgumentException {
-        if(retroalimentacion==null||Pattern.matches(SOLO_LETRAS_PATTERN, retroalimentacion)){
-            this.retroalimentacion = retroalimentacion;
+        if(retroalimentacion==null||Pattern.matches(SOLO_LETRAS_PATTERN, retroalimentacion.trim())&&retroalimentacion.trim().length()<=255){
+            this.retroalimentacion = retroalimentacion.trim().replaceAll("[ \t]+", " " );
         }else{
             throw new IllegalArgumentException();
         }
@@ -43,8 +43,8 @@ public class Colaboracion {
     }
 
     public void setEstadoColaboracion(String estadoColaboracion)throws IllegalArgumentException {
-        if(estadoColaboracion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estadoColaboracion)){
-            this.estadoColaboracion = estadoColaboracion;
+        if(estadoColaboracion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estadoColaboracion.trim())&&estadoColaboracion.trim().length()<=45){
+            this.estadoColaboracion = estadoColaboracion.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -64,15 +64,12 @@ public class Colaboracion {
 
 
     public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
-
-        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes))){
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes)) && cantidadEstudiantes >= 0 && cantidadEstudiantes <= 50){
             this.cantidadEstudiantes = cantidadEstudiantes;
         }else{
             throw new IllegalArgumentException();
         }
-
     }
-    
     
     @Override
     public boolean equals(Object obj) {
