@@ -40,8 +40,8 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     }
     
     @Override
-    public boolean validarCredenciales(Usuario usuarioAIngresar, Usuario logger) {
-        boolean resultadoValidacion;
+    public int validarCredenciales(Usuario usuarioAIngresar, Usuario logger) {
+        int resultadoValidacion=0;
         try{
             conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
             PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
@@ -54,14 +54,14 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                 resultadoCoincidencias++;
             }
             if(resultadoCoincidencias==1){
-                resultadoValidacion = true;
+                resultadoValidacion = 1;
             }else{
-                resultadoValidacion = false;
+                resultadoValidacion = 0;
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
-            resultadoValidacion = false;
+            resultadoValidacion = -1;
         }
         return resultadoValidacion;
     }
@@ -129,7 +129,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
          boolean resultadoDeConfirmacionDeConexion=false;
         try{
            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           resultadoDeConfirmacionDeConexion=true;
+           if(Objects.isNull(conexion)){
+               resultadoDeConfirmacionDeConexion=false;
+           }else{
+              resultadoDeConfirmacionDeConexion=true; 
+           }
            conexion.close();
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getCause());
