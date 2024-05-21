@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="400.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_CreacionDeUsuarioController">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="400.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_CreacionDeUsuarioControlador">
    <children>
       <BorderPane fx:id="bpn_Titulo" prefHeight="55.0" prefWidth="602.0" style="-fx-background-color: #168394;">
          <center>
