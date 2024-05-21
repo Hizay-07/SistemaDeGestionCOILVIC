@@ -21,7 +21,6 @@ import logicaDeNegocio.ClasesAuxiliares.ProfesorAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.UsuarioSingleton;
-import logicaDeNegocio.enums.EnumEstadosProfesor;
 import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 

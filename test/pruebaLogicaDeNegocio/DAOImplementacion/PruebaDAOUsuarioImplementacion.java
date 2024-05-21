@@ -43,7 +43,7 @@ public class PruebaDAOUsuarioImplementacion {
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena123");
         
-        boolean resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
+        int resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
         assertTrue(resultado);
     }
     
@@ -56,7 +56,7 @@ public class PruebaDAOUsuarioImplementacion {
         usuarioPrueba.setNombreUsuario("Equipo2");
         usuarioPrueba.setContrasenia("contrasena1234");
         
-        boolean resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
+        int resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
         assertFalse(resultado);
     }
     
@@ -124,5 +124,13 @@ public class PruebaDAOUsuarioImplementacion {
         UsuarioSingleton.getInstancia(usuarioPrueba);
         int resultado = implementacion.eliminarUsuario("chrisvz@gmail.com");
         assertEquals(0,resultado);
+    }
+
+    private void assertTrue(int resultado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void assertFalse(int resultado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
