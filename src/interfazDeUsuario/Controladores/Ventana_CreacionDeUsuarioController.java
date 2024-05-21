@@ -19,6 +19,7 @@ import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.ClasesAuxiliares.GeneradorDeContrasenias;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
@@ -45,18 +46,47 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
     }
     
     public void regresarVentanaPrincipal(){
-        String ruta = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
-        try{
-            Parent root=FXMLLoader.load(getClass().getResource(ruta));
+        if(validarConexionEstable()){
+           String ruta = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
+           try{
+               Parent root=FXMLLoader.load(getClass().getResource(ruta));
+               Scene scene = new Scene(root);
+               Stage stage = new Stage();
+               stage.setScene(scene);
+               stage.show();
+               cerrarVentana();
+           }catch(IOException excepcion){
+               Alertas.mostrarMensajeErrorAlDesplegarVentana();
+               LOG.error(excepcion);
+           }   
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();   
+        }
+    }
+    
+     public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
+        String rutaVentanaFXML = null;
+        try {
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+            Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion);
+            UsuarioSingleton.resetSingleton();
+            cerrarVentana();
+        } catch (IOException excepcion) {
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
+            LOG.error(excepcion.getCause());
         }
-        
-        cerrarVentana();
     }
     
     public void llenarComboboxTipoDeUsuario(){
@@ -105,7 +135,10 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
                 }
             }
             case 0 -> Alertas.mostrarMensajeDatosDuplicados();
-            case -1 -> Alertas.mostrarMensajeErrorEnLaConexion();
+            case -1 ->{ 
+                salirAlInicioDeSesion();
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
         }
     }
     
@@ -131,7 +164,10 @@ public class Ventana_CreacionDeUsuarioController implements Initializable {
                         }
                     }
                 }
-                case -1 -> Alertas.mostrarMensajeErrorEnLaConexion();
+                case -1 ->{ 
+                    Alertas.mostrarMensajeErrorEnLaConexion();
+                    salirAlInicioDeSesion();
+                }
                 default -> Alertas.mostrarMensajeDatosDuplicados();
             }
         }else if(idProfesor==0){
