@@ -40,7 +40,12 @@ public class Evidencia {
 
     public void setRutaEvidencia(String rutaEvidencia)throws IllegalArgumentException{
         if(rutaEvidencia!=null){
-            this.rutaEvidencia = rutaEvidencia;
+            String rutaEvidenciaAjustado = rutaEvidencia.trim().replaceAll("\\s+", " ");
+            if(rutaEvidenciaAjustado.length()<=255){
+                this.rutaEvidencia = rutaEvidencia = rutaEvidenciaAjustado;
+            }else{
+                throw new IllegalArgumentException();
+            }
         }else{
             throw new IllegalArgumentException();
         }

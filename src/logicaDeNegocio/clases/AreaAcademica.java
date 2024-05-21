@@ -29,7 +29,7 @@ public class AreaAcademica {
     }
 
     public void setArea(String area)throws IllegalArgumentException {
-        if(area!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, area)){
+        if(area!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, area.trim())&&area.trim().length()<=50   ){
             this.area = area;
         }else{
             throw new IllegalArgumentException();
