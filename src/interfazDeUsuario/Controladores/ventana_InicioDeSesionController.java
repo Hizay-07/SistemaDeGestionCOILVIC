@@ -6,7 +6,6 @@ import java.io.IOException;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
-import javafx.event.ActionEvent;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
@@ -21,7 +20,7 @@ import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
-import logicaDeNegocio.enums.EnumEstadosProfesor;
+import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 
@@ -87,7 +86,7 @@ public class ventana_InicioDeSesionController implements Initializable {
         logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario(),logger);
-        if(profesorSesion.getEstado().equals(EnumEstadosProfesor.Archivado.toString())){
+        if(profesorSesion.getEstado().equals(EnumProfesor.Archivado.toString())){
             Alertas.mostrarMensajeAccesoDenegado();
         }else{
             desplegarVentanaCorrespondiente(usuario);

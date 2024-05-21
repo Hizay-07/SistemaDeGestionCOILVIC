@@ -25,6 +25,7 @@ import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.enums.EnumColaboracion;
+import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 public class Ventana_IniciarColaboracionControlador implements Initializable {
@@ -92,7 +93,8 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
             colaboracion.setCantidadEstudiantes(obtenerCantidadEstudiantes());
             colaboracion.setEstadoColaboracion(EnumColaboracion.Activa.toString());
         }catch(IllegalArgumentException excepcion){
-            LOG.info(excepcion);                        
+            LOG.info(excepcion); 
+            colaboracion=null;
             Alertas.mostrarMensajeDatosInvalidos(); 
         }
         return colaboracion;        
@@ -102,17 +104,20 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         Colaboracion colaboracion=obtenerColaboracion();        
         if(colaboracion!=null){
             DAOColaboracionImplementacion daoColaboracion=new DAOColaboracionImplementacion();
-            daoColaboracion.registrarColaboracion(colaboracion);  
-            int idPropuestaColaboracion=colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion();
-            DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-            daoPropuestaColaboracion.cambiarEstadoIniciadaPropuestaColaboracionPorId(idPropuestaColaboracion);                
-            DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-            ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
-            int idProfesor=profesorSingleton.getIdProfesor();
-            daoProfesor.cambiarEstadoProfesor(idProfesor, "Colaborando");
-            agregarProfesoresAColaboracion(idPropuestaColaboracion);
-            Alertas.mostrarColaboracionIniciada();
-            salirDeLaVentana();
+            if(daoColaboracion.registrarColaboracion(colaboracion)==1){
+                int idPropuestaColaboracion=colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion();
+                DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+                daoPropuestaColaboracion.cambiarEstadoIniciadaPropuestaColaboracionPorId(idPropuestaColaboracion);                
+                DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+                ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
+                int idProfesor=profesorSingleton.getIdProfesor();
+                daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Colaborando.toString());
+                agregarProfesoresAColaboracion(idPropuestaColaboracion);
+                Alertas.mostrarColaboracionIniciada();
+                salirDeLaVentana();
+            }else{
+                Alertas.mostrarMensajeErrorEnLaConexion();                
+            }                         
         }                                
     }
     
@@ -130,7 +135,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         for(Integer idProfesor : idProfesores){
             profesor.setIdProfesor(idProfesor);
             daoColaboracionProfesor.registrarColaboracionProfesor(profesor,colaboracion);            
-            daoProfesor.cambiarEstadoProfesor(idProfesor,"Colaborando");
+            daoProfesor.cambiarEstadoProfesor(idProfesor,EnumProfesor.Colaborando.toString());
         }                            
     }
     
@@ -138,8 +143,9 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         int cantidadEstudiantes=0;
         try{
             cantidadEstudiantes=spin_NumeroEstudiantes.getValue();              
-        }catch(NumberFormatException excepcion){
+        }catch(NumberFormatException excepcion){            
             LOG.info(excepcion);
+            Alertas.mostrarMensajeDatosInvalidos();             
         }                        
         return cantidadEstudiantes;
     }        

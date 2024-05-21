@@ -46,11 +46,17 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     public void llenarComboBoxPais(){
         DAOPaisImplementacion daoPais=new DAOPaisImplementacion();
         List<Pais> paises=daoPais.consultarPaises();
-        ObservableList<String> paisesComboBox = FXCollections.observableArrayList();
-        for(Pais pais : paises){
-            paisesComboBox.add(pais.getNombrePais());
-        }    
-        cmb_Pais.setItems(paisesComboBox);
+        if(!paises.isEmpty()){
+            ObservableList<String> paisesComboBox = FXCollections.observableArrayList();
+            for(Pais pais : paises){
+                paisesComboBox.add(pais.getNombrePais());
+            }    
+            cmb_Pais.setItems(paisesComboBox);            
+        }else{
+            Alertas.mostrarMensajeErrorEnLaConexion();
+            regresarMenuPrincipal();
+        }
+        
     }
     
     public void cerrarVentana(){
