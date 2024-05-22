@@ -8,8 +8,8 @@ public class EmisionPropuesta {
     private String fechaEmision;
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
 
-
     public EmisionPropuesta() {
+        
     }
 
     public int getIdProfesor() {

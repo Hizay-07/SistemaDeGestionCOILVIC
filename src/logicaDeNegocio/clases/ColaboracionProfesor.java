@@ -1,4 +1,3 @@
-
 package logicaDeNegocio.clases;
 
 import java.util.regex.Pattern;
@@ -9,6 +8,7 @@ public class ColaboracionProfesor {
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public ColaboracionProfesor() {
+        
     }
 
     public int getIdProfesor() {

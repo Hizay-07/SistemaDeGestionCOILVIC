@@ -13,6 +13,7 @@ public class ProfesorUV extends Profesor {
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public ProfesorUV() {
+        
     }
 
     public String getNumeroDePersonal() {

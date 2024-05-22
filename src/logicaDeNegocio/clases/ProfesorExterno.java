@@ -8,6 +8,7 @@ public class ProfesorExterno extends Profesor {
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public ProfesorExterno() {
+        
     }
        
     public int getIdProfesorExterno() {

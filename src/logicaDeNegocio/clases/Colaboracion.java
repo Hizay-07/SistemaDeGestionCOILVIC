@@ -12,6 +12,7 @@ public class Colaboracion {
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public Colaboracion() {
+        
     }
 
     public int getIdColaboracion() {
@@ -79,7 +80,5 @@ public class Colaboracion {
         Colaboracion colaboracionTemporal=(Colaboracion)obj;
         return idColaboracion==colaboracionTemporal.getIdColaboracion();                      
     }
-    
-    
-    
+      
 }

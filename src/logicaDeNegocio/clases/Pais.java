@@ -8,6 +8,7 @@ public class Pais{
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
 
     public Pais(){
+        
     }
 
     

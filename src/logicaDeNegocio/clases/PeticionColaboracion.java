@@ -12,6 +12,7 @@ public class PeticionColaboracion {
     private static final String FECHA_PATTERN = "^\\d{2}/\\d{2}/\\d{4}$";    
     
     public PeticionColaboracion() {
+        
     }
     
     public int getIdProfesor() {

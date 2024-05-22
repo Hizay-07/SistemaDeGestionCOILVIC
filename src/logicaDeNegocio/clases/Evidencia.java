@@ -69,4 +69,5 @@ public class Evidencia {
         return this.idEvidencia == evidenciaTemp.getIdEvidencia() && this.nombre.equals(evidenciaTemp.getNombre()) && this.rutaEvidencia.equals(evidenciaTemp.getRutaEvidencia())
                 &&this.idActividad == evidenciaTemp.getIdActividad();
     }
+    
 }
