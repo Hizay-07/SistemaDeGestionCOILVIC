@@ -14,6 +14,7 @@ public class EvaluacionPropuesta {
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
 
     public EvaluacionPropuesta() {
+        
     }
 
     public int getIdEvaluacionPropuesta() {
