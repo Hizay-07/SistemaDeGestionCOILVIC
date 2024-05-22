@@ -1,13 +1,15 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
 public class RegionAcademica {
     private int idRegionAcademica;
     private String region;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public RegionAcademica() {
+        
     }        
 
     public int getIdRegionAcademica() {

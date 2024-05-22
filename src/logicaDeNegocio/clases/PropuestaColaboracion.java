@@ -1,4 +1,5 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
 public class PropuestaColaboracion {
@@ -8,12 +9,11 @@ public class PropuestaColaboracion {
     private String idioma;
     private String experienciaEducativa;    
     private String objetivo;    
-
     private String programaEducativoEstudiantil;
     private String estadoPropuesta;    
     private TipoColaboracion tipoColaboracion;
     private Profesor profesor;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
     
@@ -142,6 +142,5 @@ public class PropuestaColaboracion {
                 tipoColaboracion.equals(propuestaColaboracionTemporal.getTipoColaboracion())&&
                 objetivo.equals(propuestaColaboracionTemporal.getObjetivo());                
     }
-    
-    
+        
 }
