@@ -1,15 +1,13 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
-public class PeticionColaboracion {
-    
-
-
+public class PeticionColaboracion {   
     private int idProfesor;    
     private String estado;
     private String fechaEnvio;
     private int idPropuestaColaboracion;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     private static final String FECHA_PATTERN = "^\\d{2}/\\d{2}/\\d{4}$";    
     
@@ -55,7 +53,6 @@ public class PeticionColaboracion {
     public int getIdPropuestaColaboracion() {
         return idPropuestaColaboracion;
     }
-
 
     public void setIdPropuestaColaboracion(int idPropuestaColaboracion)throws IllegalArgumentException{
        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idPropuestaColaboracion))){

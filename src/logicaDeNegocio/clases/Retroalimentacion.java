@@ -7,7 +7,7 @@ public class Retroalimentacion {
     private String emisor;
     private int idColaboracion;
     private int idRetroalimentacion;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public String getRetroalimentacion() {
@@ -57,7 +57,5 @@ public class Retroalimentacion {
             throw new IllegalArgumentException();
         }
     }
-    
-    
-    
+            
 }
