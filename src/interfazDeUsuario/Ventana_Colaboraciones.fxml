@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="487.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ColaboracionesController">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="487.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ColaboracionesControlador">
    <children>
       <Pane fx:id="pane_ColorSuperior" layoutX="-11.0" layoutY="-11.0" prefHeight="63.0" prefWidth="778.0" style="-fx-background-color: #168394;" />
       <Pane fx:id="pane_ColorInferior" layoutY="435.0" prefHeight="52.0" prefWidth="767.0" style="-fx-background-color: #168394;" />
