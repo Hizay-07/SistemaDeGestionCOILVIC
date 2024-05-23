@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class TipoColaboracion {
     private String tipo;
     private int idTipoColaboracion;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ-]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public String getTipo() {
@@ -13,8 +13,8 @@ public class TipoColaboracion {
     }
 
     public void setTipo(String tipo)throws IllegalArgumentException {
-        if(tipo!=null&&!tipo.isEmpty()&&Pattern.matches(SOLO_LETRAS_PATTERN, tipo)){
-            this.tipo = tipo;
+        if(tipo!=null&&!tipo.isEmpty()&&Pattern.matches(SOLO_LETRAS_PATTERN, tipo.trim())&&tipo.trim().length()<=150){
+            this.tipo = tipo.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }

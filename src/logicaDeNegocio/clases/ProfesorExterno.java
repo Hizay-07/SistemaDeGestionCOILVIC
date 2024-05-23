@@ -1,13 +1,14 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
-public class ProfesorExterno extends Profesor {
-    
+public class ProfesorExterno extends Profesor {    
     private int idProfesorExterno;
     private int idRepresentanteInstitucional;
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public ProfesorExterno() {
+        
     }
        
     public int getIdProfesorExterno() {

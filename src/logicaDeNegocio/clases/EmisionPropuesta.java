@@ -1,11 +1,15 @@
 package logicaDeNegocio.clases;
 
+import java.util.regex.Pattern;
+
 public class EmisionPropuesta {
     private int idProfesor;
     private int idPropuestaColaboracion;
     private String fechaEmision;
+    private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
 
     public EmisionPropuesta() {
+        
     }
 
     public int getIdProfesor() {
@@ -29,7 +33,11 @@ public class EmisionPropuesta {
     }
 
     public void setFechaEmision(String fechaEmision) {
-        this.fechaEmision = fechaEmision;
+        if(fechaEmision!=null&&Pattern.matches(FECHA_PATTERN, fechaEmision.trim())&&fechaEmision.trim().length()<=45){
+            this.fechaEmision = fechaEmision.trim().replaceAll("\\s+", " ");
+        }else{
+            throw new IllegalArgumentException();
+        }
     }        
     
     @Override

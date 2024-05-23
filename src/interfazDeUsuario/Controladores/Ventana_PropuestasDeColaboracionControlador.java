@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -25,9 +26,12 @@ import javafx.util.Callback;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorExternoImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.TipoColaboracion;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_PropuestasDeColaboracionControlador implements Initializable {
@@ -89,7 +93,7 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         
         List<PropuestaColaboracion> propuestas=obtenerPropuestasDeColaboracion();
         tableView_PropuestasDeColaboracion.getItems().addAll(propuestas);                                        
-        agregarBoton();        
+        agregarBoton();
     }   
     
     public List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
@@ -150,18 +154,48 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
     }
     
     public void salirDeLaVentana(){
+        if(validarConexionEstable()){
+            String rutaVentanaFXML = null;
+            try{
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
+                Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion);
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();
+        }                        
+    }
+    
+    public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
         String rutaVentanaFXML = null;
-        try{
-            rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+        try {
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+            Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion);
+            UsuarioSingleton.resetSingleton();
+            cerrarVentana();
+        } catch (IOException excepcion) {
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
+            LOG.error(excepcion.getCause());
         }
-        cerrarVentana();                
     }
     
     public void cerrarVentana(){
@@ -169,8 +203,9 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         stage_ventana.close();
     }
     
-    public void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){        
-        try{
+    public void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){       
+        if(validarConexionEstable()){
+            try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/interfazDeUsuario/Ventana_EvaluacionDePropuesta.fxml"));
             Parent root = loader.load();
             Ventana_EvaluacionDePropuestaControlador controlador = loader.getController();
@@ -179,10 +214,15 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion);
-        }       
-        cerrarVentana();
+            cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion);
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();
+        }      
     }
     
 }

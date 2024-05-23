@@ -2,14 +2,14 @@ package logicaDeNegocio.clases;
 
 import java.util.regex.Pattern;
 
-public class AreaAcademica {
-    
+public class AreaAcademica {    
     private int idAreaAcademica;
     private String area;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ-]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public AreaAcademica() {
+        
     }        
 
     public int getIdAreaAcademica() {
@@ -29,7 +29,7 @@ public class AreaAcademica {
     }
 
     public void setArea(String area)throws IllegalArgumentException {
-        if(area!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, area)){
+        if(area!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, area.trim())&&area.trim().length()<=50   ){
             this.area = area;
         }else{
             throw new IllegalArgumentException();

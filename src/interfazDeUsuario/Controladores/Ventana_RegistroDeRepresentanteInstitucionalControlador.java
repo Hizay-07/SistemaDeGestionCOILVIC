@@ -18,8 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOPaisImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Pais;
 import logicaDeNegocio.clases.RepresentanteInstitucional;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements Initializable {
@@ -92,9 +94,12 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
             Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
         }else if(resultadoRegistro==0){
             Alertas.mostrarMensajeDatosDuplicados();    
-            regresarMenuPrincipal();                        
+            regresarMenuPrincipal();      
+        }else if(resultadoRegistro==-1){
+            Alertas.mostrarMensajeErrorEnLaConexion();
+            salirAlInicioDeSesion();
         }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();      
+            Alertas.mostrarMensajeErrorEnLaConexion();              
         }
         limpiarInformacionRepresentanteInstitucional();
         regresarMenuPrincipal();
@@ -113,16 +118,45 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     }
     
     public void desplegarVentana(String ruta){
-        String rutaVentanaFXML = ruta;
-        try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+        if(validarConexionEstable()){
+            String rutaVentanaFXML = ruta;
+            try{
+                Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+            }catch(IOException excepcion){
+                LOG.error(excepcion);
+            }
+            cerrarVentana();
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();
+        }
+    }
+    
+    public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
+        String rutaVentanaFXML = null;
+        try {
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+            Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
-        }catch(IOException excepcion){
-            LOG.error(excepcion);
+            UsuarioSingleton.resetSingleton();
+            cerrarVentana();
+        } catch (IOException excepcion) {
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
+            LOG.error(excepcion.getCause());
         }
-        cerrarVentana();
     }
 }

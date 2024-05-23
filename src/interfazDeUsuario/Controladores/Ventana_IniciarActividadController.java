@@ -22,6 +22,9 @@ import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import org.apache.log4j.Logger;
 import java.time.LocalDate;
 import java.util.Objects;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
+import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.clases.UsuarioSingleton;
 
 public class Ventana_IniciarActividadController implements Initializable {
 
@@ -55,17 +58,48 @@ public class Ventana_IniciarActividadController implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+   public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+        if(validarConexionEstable()){
+            try{
+            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show(); 
+            cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion);
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();
+        }
+    }
+    
+     public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
+        String rutaVentanaFXML = null;
         try {
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
             Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            UsuarioSingleton.resetSingleton();
+            ProfesorSingleton.resetSingleton();
+            cerrarVentana();
         } catch (IOException excepcion) {
-            LOG.error(excepcion);
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
+            LOG.error(excepcion.getCause());
         }
-        cerrarVentana();
     }
     
     public Actividad obtenerDatosActividad(){

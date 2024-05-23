@@ -33,6 +33,7 @@ import logicaDeNegocio.clases.ProfesorExterno;
 import logicaDeNegocio.clases.ProfesorUV;
 import logicaDeNegocio.clases.RegionAcademica;
 import logicaDeNegocio.clases.RepresentanteInstitucional;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.clases.Usuario;
 import org.apache.log4j.Logger;
 
@@ -171,14 +172,19 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         }
         if(validarInexistenciaDeProfesor(profesor)){
             DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-            daoProfesor.registrarProfesor(profesor);
-            int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
-            profesorUV.setIdProfesor(idProfesor);
-            DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
-            daoProfesorUV.registrarProfesorUV(profesorUV);
-            obtenerDatosCuentaProfesor(profesor,"UV");
-            limpiarInformacionProfesor();
-            limpiarInformacionProfesorUV();
+            int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
+            if(resultadoRegistro==1){
+                int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
+                profesorUV.setIdProfesor(idProfesor);
+                DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
+                daoProfesorUV.registrarProfesorUV(profesorUV);
+                obtenerDatosCuentaProfesor(profesor,"UV");
+                limpiarInformacionProfesor();
+                limpiarInformacionProfesorUV();
+            }else{
+                salirAlInicioDeSesion();
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
         }else{
             Alertas.mostrarMensajeUsuarioDuplicado();
         }
@@ -206,14 +212,19 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         }
         if(validarInexistenciaDeProfesor(profesor)){
             DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-            daoProfesor.registrarProfesor(profesor);
-            int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
-            profesorExterno.setIdProfesor(idProfesor);
-            DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
-            daoProfesorExterno.registrarProfesorExterno(profesorExterno);
-            obtenerDatosCuentaProfesor(profesor,"Externo");
-            limpiarInformacionProfesor();
-            limpiarInformacionProfesorExterno();
+            int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
+            if(resultadoRegistro==1){
+                int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
+                profesorExterno.setIdProfesor(idProfesor);
+                DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
+                daoProfesorExterno.registrarProfesorExterno(profesorExterno);
+                obtenerDatosCuentaProfesor(profesor,"Externo");
+                limpiarInformacionProfesor();
+                limpiarInformacionProfesorExterno();
+            }else{
+                salirAlInicioDeSesion();
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
         }else{
             Alertas.mostrarMensajeUsuarioDuplicado();
         }
@@ -312,9 +323,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             registrarUsuarioProfesor(usuario,tipo);
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getMessage());
-        }
-        
-                
+        }          
     }
 
     public int mandarCorreo(String usuario, String contrasenia) {
@@ -333,18 +342,48 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     }
 
     public void salirDeLaVentana() {
+        if(validarConexionEstable()){
+            String rutaVentanaFXML = null;
+            try {
+                rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
+                Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException excepcion) {
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion);
+            }
+            cerrarVentana();
+        }else{
+            salirAlInicioDeSesion();
+        }
+        
+    }
+    
+    public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
         String rutaVentanaFXML = null;
         try {
-            rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
             Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            UsuarioSingleton.resetSingleton();
+            cerrarVentana();
         } catch (IOException excepcion) {
-            LOG.error(excepcion);
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
+            LOG.error(excepcion.getCause());
         }
-        cerrarVentana();
     }
 
 }

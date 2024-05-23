@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="486.0" prefWidth="713.0" style="-fx-background-color: white; -fx-border-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.ventana_InicioDeSesionController">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="486.0" prefWidth="713.0" style="-fx-background-color: white; -fx-border-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.ventana_InicioDeSesionControlador">
    <children>
       <Button fx:id="btn_Ingresar" layoutX="514.0" layoutY="365.0" mnemonicParsing="false" onAction="#confirmarConexionALaBaseDeDatos" style="-fx-background-color: #168394;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Ingresar" textFill="WHITE">
          <font>
