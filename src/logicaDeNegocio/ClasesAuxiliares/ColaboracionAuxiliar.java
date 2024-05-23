@@ -14,7 +14,6 @@ public final class ColaboracionAuxiliar {
 
     private ColaboracionAuxiliar(Colaboracion colaboracion) {
         setIdColaboracion(colaboracion.getIdColaboracion());
-        setRetroalimentacion(colaboracion.getRetroalimentacion());
         setEstadoColaboracion(colaboracion.getEstadoColaboracion());
         setPropuestaColaboracion(colaboracion.getPropuestaColaboracion());
         setCantidadEstudiantes(colaboracion.getCantidadEstudiantes());
@@ -46,14 +45,6 @@ public final class ColaboracionAuxiliar {
     
     public int getCantidadEstudiantes(){
         return cantidadDeEstudiantes;
-    }
-
-    public String getRetroalimentacion() {
-        return retroalimentacion;
-    }
-
-    private void setRetroalimentacion(String retroalimentacion) {
-        this.retroalimentacion = retroalimentacion;
     }
 
     public String getEstadoColaboracion() {

@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,6 +27,7 @@ import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
@@ -105,10 +107,14 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
                     private final Button btn_ModificarActividad = new Button();{
                         btn_ModificarActividad.setText("Modificar actividad");
                         btn_ModificarActividad.setOnAction((ActionEvent event) -> {
-                            Actividad actividadSeleccionada = getTableView().getItems().get(getIndex());
-                            ActividadAuxiliar.setInstancia(actividadSeleccionada);
-                            String ruta = "/interfazDeUsuario/Ventana_ModificarActividad.fxml";
-                            desplegarVentanaCorrespondiente(ruta);                     
+                            if(validarFechasDeColaboracion()){
+                                Actividad actividadSeleccionada = getTableView().getItems().get(getIndex());
+                                ActividadAuxiliar.setInstancia(actividadSeleccionada);
+                                String ruta = "/interfazDeUsuario/Ventana_ModificarActividad.fxml";
+                                desplegarVentanaCorrespondiente(ruta);   
+                            }else{
+                                Alertas.mostrarMensajeFechaDeCierreColaboracion();
+                            }              
                         });
                     }                
                     @Override
@@ -157,6 +163,19 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
             return cell;
         };
         column_Evidencia.setCellFactory(frabricaDeCelda);
+    }
+    
+    public boolean validarFechasDeColaboracion(){
+        boolean resultadoValidacion;
+        PropuestaColaboracion propuesta = ColaboracionAuxiliar.getInstancia().getPropuestaColaboracion();
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaCierreColaboracion = LocalDate.parse(propuesta.getFechaCierre());
+        if(fechaActual.isEqual(fechaCierreColaboracion)||fechaActual.isAfter(fechaCierreColaboracion)){
+            resultadoValidacion=false;
+        }else{
+            resultadoValidacion=true;
+        }
+        return resultadoValidacion;
     }
 
     public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){

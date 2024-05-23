@@ -43,19 +43,9 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
     @FXML 
     private AnchorPane anchor_Ventana;
     @FXML 
-    private Pane pane_ColaboracionActiva;
+    private Label lbl_FechaDeInicioDato;
     @FXML 
-    private Label lbl_Titulo;
-    @FXML 
-    private Pane pane_DatosColaboracion;
-    @FXML 
-    private ImageView img_ImagenDeFondo;
-    @FXML 
-    private Label lbl_Colaboracion;
-    @FXML 
-    private Label lbl_TipoDeColaboracion;
-    @FXML 
-    private Label lbl_ObjGeneral;
+    private Label lbl_FechaDeCierreDato;
     @FXML 
     private Label lbl_ObjetivoGeneralDato;
     @FXML 
@@ -172,6 +162,8 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         lbl_NombreColaboracion.setText(propuestaActiva.getExperienciaEducativa());
         lbl_TipoDeColaboracionDato.setText(propuestaActiva.getTipoColaboracion().getTipo());
         lbl_ObjetivoGeneralDato.setText(propuestaActiva.getObjetivo());
+        lbl_FechaDeInicioDato.setText(propuestaActiva.getFechaInicio());
+        lbl_FechaDeCierreDato.setText(propuestaActiva.getFechaCierre());
         lbl_Profesor1.setText(profesoresDeColaboracion[0].getNombre()+" "+profesoresDeColaboracion[0].getApellidoPaterno()+" "+profesoresDeColaboracion[0].getApellidoMaterno());
         lbl_Profesor2.setText(profesoresDeColaboracion[1].getNombre()+" "+profesoresDeColaboracion[1].getApellidoPaterno()+" "+profesoresDeColaboracion[1].getApellidoMaterno());
         if(profesoresDeColaboracion[2]!=null) {
@@ -220,9 +212,16 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
-    public void inicializarVentanaIniciarActividad(){    
-        String rutaVentanaFXML="/interfazDeUsuario/Ventana_IniciarActividad.fxml";
-        desplegarVentanaCorrespondiente(rutaVentanaFXML);   
+    public void inicializarVentanaIniciarActividad(){
+        PropuestaColaboracion propuesta = ColaboracionAuxiliar.getInstancia().getPropuestaColaboracion();
+        LocalDate fechaCierreColaboracion = LocalDate.parse(propuesta.getFechaCierre());
+        LocalDate fechaActual = LocalDate.now();
+        if(fechaActual.equals(fechaCierreColaboracion)||fechaActual.isAfter(fechaCierreColaboracion)){
+            Alertas.mostrarMensajeFechaDeCierreColaboracion();
+        }else{
+            String rutaVentanaFXML="/interfazDeUsuario/Ventana_IniciarActividad.fxml";
+            desplegarVentanaCorrespondiente(rutaVentanaFXML);  
+        } 
     }
     
     public void inicializarVentanaCerrarColaboracion(){    

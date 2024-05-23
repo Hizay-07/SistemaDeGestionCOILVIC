@@ -8,7 +8,6 @@ public class PropuestaColaboracion {
     private String idioma;
     private String experienciaEducativa;    
     private String objetivo;    
-
     private String programaEducativoEstudiantil;
     private String estadoPropuesta;    
     private TipoColaboracion tipoColaboracion;
@@ -110,7 +109,7 @@ public class PropuestaColaboracion {
 
     public void setEstadoPropuesta(String estadoPropuesta)throws IllegalArgumentException {
         if(estadoPropuesta!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estadoPropuesta.trim())&&estadoPropuesta.trim().length()<=45){
-            this.estadoPropuesta = estadoPropuesta.trim().replaceAll("\\s+", " ");;
+            this.estadoPropuesta = estadoPropuesta.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
