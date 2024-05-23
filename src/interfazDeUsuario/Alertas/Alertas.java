@@ -355,6 +355,14 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+    public static void mostrarMensajeFechaDeCierreColaboracion(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Fecha de cierre excedida");
+            mensaje.setContentText("La colaboración ha llegado a su fecha de cierre. \nNo se puede acceder al inicio o modificación de actividades.");
+            mensaje.showAndWait();
+        });
+    }
 
     @Override
     public void start(Stage stage){
