@@ -28,6 +28,8 @@ import logicaDeNegocio.DAOImplementacion.DAOTipoColaboracionImplementacion;
 import logicaDeNegocio.clases.EmisionPropuesta;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.TipoColaboracion;
+import logicaDeNegocio.enums.EnumProfesor;
+import logicaDeNegocio.enums.EnumPropuestaColaboracion;
 import org.apache.log4j.Logger;
 
 public class Ventana_ProponerColaboracionControlador implements Initializable {
@@ -74,36 +76,52 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     private void cargarTiposColaboracion() {
         DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
         List<TipoColaboracion> tiposColaboracion=daoTipoColaboracion.consultarTiposDeColaboracion();
-        ObservableList<String> tipos = FXCollections.observableArrayList();
-        for(TipoColaboracion tipoColaboracion : tiposColaboracion){
-            tipos.add(tipoColaboracion.getTipo());
+        if(!tiposColaboracion.isEmpty()){
+            ObservableList<String> tipos = FXCollections.observableArrayList();
+            for(TipoColaboracion tipoColaboracion : tiposColaboracion){
+                tipos.add(tipoColaboracion.getTipo());
+            }
+            cmb_TipoColaboracion.setItems(tipos);        
+        }else{
+            Alertas.mostrarMensajeErrorEnLaConexion();
+            salirDeLaVentana();
         }
-        cmb_TipoColaboracion.setItems(tipos);        
+                
     }
     
     public void registrarPropuestaColaboracion(){
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-        TipoColaboracion tipoColaboracion=new TipoColaboracion();        
-        DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
-        String tipo=(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem();
-        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-        try{            
-            tipoColaboracion.setTipo(tipo);
-            tipoColaboracion.setIdTipoColaboracion(daoTipoColaboracion.consultarIdTipoColaboracionPorTipo(tipo));
-            propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText());
-            propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText());
-            propuestaColaboracion.setObjetivo(txfd_ObjetivoGeneral.getText());
-            propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-            propuestaColaboracion.setIdioma(txfd_Idioma.getText());
-            propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
-            propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());                                                                        
-            propuestaColaboracion.setEstadoPropuesta("Registrada");            
-            int idPropuesta=daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
-            registrarEmisionPropuesta(idPropuesta);
-        }catch(IllegalArgumentException excepcion){ 
-            Alertas.mostrarMensajeDatosInvalidos();  
-            LOG.info(excepcion);
-        }        
+        LocalDate fechaInicio=dtp_FechaInicio.getValue();
+        LocalDate fechaCierre=dtp_FechaCierre.getValue();
+        if(validarFechas(fechaInicio,fechaCierre)){
+            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
+            TipoColaboracion tipoColaboracion=new TipoColaboracion();        
+            DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+            String tipo=(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem();
+            DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+            try{            
+                tipoColaboracion.setTipo(tipo);
+                tipoColaboracion.setIdTipoColaboracion(daoTipoColaboracion.consultarIdTipoColaboracionPorTipo(tipo));
+                propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText());
+                propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText());
+                propuestaColaboracion.setObjetivo(txfd_ObjetivoGeneral.getText());
+                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
+                propuestaColaboracion.setIdioma(txfd_Idioma.getText());
+                propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
+                propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());                                                                        
+                propuestaColaboracion.setEstadoPropuesta(EnumPropuestaColaboracion.Registrada.toString());            
+                int idPropuesta=daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
+                if(idPropuesta!=-1){
+                    registrarEmisionPropuesta(idPropuesta);            
+                }else{
+                    Alertas.mostrarMensajeErrorEnLaConexion();
+                }            
+            }catch(IllegalArgumentException excepcion){ 
+                Alertas.mostrarMensajeDatosInvalidos();  
+                LOG.info(excepcion);
+            }                                
+        }else{
+            Alertas.mostrarFechasInvalidas();
+        }                        
     }
     
     public void registrarEmisionPropuesta(int idPropuesta){
@@ -116,10 +134,31 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         daoEmisionPropuesta.registrarEmisionPropuesta(emisionPropuesta);     
         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-        daoProfesor.cambiarEstadoProfesor(idProfesor, "Esperando");
+        daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Esperando.toString());
         Alertas.mostrarRegistroPropuesta();
         salirDeLaVentana();
-    }      
+    }    
+    
+    public boolean validarFechas(LocalDate fechaInicio,LocalDate fechaCierre){
+        boolean validacion=false;
+        LocalDate fechaActual = LocalDate.now();
+        if(fechaInicio.isBefore(fechaCierre)&&fechaInicio.isAfter(fechaActual)){
+            int mesInicio=fechaInicio.getMonthValue();
+            int mesCierre=fechaCierre.getMonthValue();        
+            if(validarMes(mesInicio)&&validarMes(mesCierre)&&mesInicio+1<mesCierre){
+                int anioInicio=fechaInicio.getYear();
+                int anioCierre=fechaCierre.getYear();
+                if(anioInicio==anioCierre){
+                    validacion=true;                
+                }
+            }        
+        }            
+        return validacion;                                                        
+    }
+    
+    public boolean validarMes(int mes){
+        return mes!=1&&mes!=6&&mes!=7&&mes!=12;    
+    }
     
     public String obtenerFechaActual(){
         LocalDate fechaActual = LocalDate.now();                

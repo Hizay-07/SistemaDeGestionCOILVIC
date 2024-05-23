@@ -1,12 +1,14 @@
 package logicaDeNegocio.DAOImplementacion;
 
 import accesoADatos.ManejadorBaseDeDatos;
+import com.mysql.cj.jdbc.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Types;
 import logicaDeNegocio.clases.PeticionColaboracion;
 
 import logicaDeNegocio.interfaces.PeticionColaboracionInterface;
@@ -194,6 +196,42 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             LOG.error(excepcion.getCause());
         }
         return idProfesores;                        
+    }
+    
+    public int revisarPrecondicionEvaluarPeticionesPorIdProfesor(int idProfesor){
+        CallableStatement declaracion;
+        int resultadoPrecondicion=0;
+        try{
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=(CallableStatement) conexion.prepareCall("CALL revisarPeticionesColaboracion(?,?); ");
+            declaracion.setInt(1, idProfesor);
+            declaracion.registerOutParameter(2, Types.INTEGER);
+            declaracion.execute();
+            resultadoPrecondicion=declaracion.getInt(2);
+            conexion.close();        
+        }catch(SQLException excepcion){
+            LOG.error(excepcion.getCause());
+            resultadoPrecondicion=-1;
+        }
+        return resultadoPrecondicion;        
+    }
+    
+    public int cambiarEstadoPeticionesRegistradasPorIdPropuesta(int idPropuestaColaboracion){
+        CallableStatement declaracion;
+        int resultadoCambioEstado=0;
+        try{
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=(CallableStatement) conexion.prepareCall("CALL CambiarEstadoPeticiones(?); ");
+            declaracion.setInt(1, idPropuestaColaboracion);            
+            declaracion.execute();   
+            resultadoCambioEstado=1;        
+        }catch(SQLException excepcion){
+            LOG.error(excepcion.getCause());
+            resultadoCambioEstado=-1;
+        }
+        return resultadoCambioEstado;  
+        
+        
     }
     
     

@@ -25,6 +25,7 @@ import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.enums.EnumColaboracion;
+import logicaDeNegocio.enums.EnumPropuestaColaboracion;
 import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
@@ -76,7 +77,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         int indice=0;
         while(indice<idPropuestas.size()){
             propuestaColaboracion=daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(idPropuestas.get(indice));
-            if(propuestaColaboracion.getEstadoPropuesta().equals("Aprobada")){
+            if(propuestaColaboracion.getEstadoPropuesta().equals(EnumPropuestaColaboracion.Aprobada.toString())){
                 indice=idPropuestas.size();
             }
             indice++;

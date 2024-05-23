@@ -278,5 +278,22 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         }
         return numeroFilasAfectadas;
    }
+   
+    public int consultarPrecondicionInicioColaboracionPorIdProfesor(int idProfesor){
+        CallableStatement declaracion;
+        int resultadoConsulta=0;
+        try{
+            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            declaracion=(CallableStatement) conexion.prepareCall("CALL precondicionIniciarColaboracion(?,?);");
+            declaracion.setInt(1, idProfesor);
+            declaracion.registerOutParameter(2, Types.INTEGER);
+            declaracion.execute();
+            resultadoConsulta=declaracion.getInt(2);
+            conexion.close();        
+        }catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion);            
+        }
+        return resultadoConsulta;       
+   }
 
 }

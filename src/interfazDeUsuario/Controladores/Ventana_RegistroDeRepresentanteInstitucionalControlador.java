@@ -90,8 +90,11 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         int resultadoRegistro = daoRepresentanteInstitucional.registrarRepresentanteInstitucional(representanteInstitucional);
         if(resultadoRegistro==1){
             Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
+        }else if(resultadoRegistro==0){
+            Alertas.mostrarMensajeDatosDuplicados();    
+            regresarMenuPrincipal();                        
         }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();
+            Alertas.mostrarMensajeErrorEnLaConexion();      
         }
         limpiarInformacionRepresentanteInstitucional();
         regresarMenuPrincipal();

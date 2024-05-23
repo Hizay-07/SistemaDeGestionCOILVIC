@@ -32,9 +32,7 @@ import org.apache.log4j.Logger;
 
 public class Ventana_PropuestasDeColaboracionControlador implements Initializable {
     private static final Logger LOG=Logger.getLogger(Ventana_PropuestasDeColaboracionControlador.class);    
-    @FXML
-    private Button btn_Regresar;
-
+   
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ExperienciaEducativa;
 
