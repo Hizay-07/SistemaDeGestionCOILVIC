@@ -7,6 +7,7 @@ public class EmisionPropuesta {
     private int idPropuestaColaboracion;
     private String fechaEmision;
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
+    private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public EmisionPropuesta() {
         
@@ -16,16 +17,25 @@ public class EmisionPropuesta {
         return idProfesor;
     }
 
-    public void setIdProfesor(int idProfesor) {
-        this.idProfesor = idProfesor;
+    public void setIdProfesor(int idProfesor)throws IllegalArgumentException{
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idProfesor))){
+            this.idProfesor = idProfesor;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }
 
     public int getIdPropuestaColaboracion() {
         return idPropuestaColaboracion;
     }
 
-    public void setIdPropuestaColaboracion(int idPropuestaColaboracion) {
-        this.idPropuestaColaboracion = idPropuestaColaboracion;
+    public void setIdPropuestaColaboracion(int idPropuestaColaboracion)throws IllegalArgumentException{
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(idPropuestaColaboracion))){
+            this.idPropuestaColaboracion = idPropuestaColaboracion;
+        }else{
+            throw new IllegalArgumentException();
+        }
+        
     }
 
     public String getFechaEmision() {

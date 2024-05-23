@@ -21,7 +21,7 @@ public class ProfesorUV extends Profesor {
     }
 
     public void setNumeroDePersonal(String numeroDePersonal)throws IllegalArgumentException{
-        if(numeroDePersonal!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN,numeroDePersonal.trim())&&numeroDePersonal.trim().length() <=5){
+        if(numeroDePersonal!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN,numeroDePersonal.trim())&&numeroDePersonal.trim().length() <=4){
             this.numeroDePersonal = numeroDePersonal.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();

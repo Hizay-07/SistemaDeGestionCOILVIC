@@ -14,11 +14,11 @@ public class PruebaTipoColaboracion {
         assertNotNull(tipoColaboracionPrueba.getTipo());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetTipoInvalido(){
         TipoColaboracion tipoColaboracionPrueba = new TipoColaboracion();
-        tipoColaboracionPrueba.setTipo("");
-        assertNull(tipoColaboracionPrueba.getTipo());
+        tipoColaboracionPrueba.setTipo("Colaboracion 2");
+        assertNotNull(tipoColaboracionPrueba.getTipo());
     }
     
     @Test
@@ -28,7 +28,7 @@ public class PruebaTipoColaboracion {
         assertNotNull(tipoColaboracionPrueba.getIdTipoColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdTipoColaboracionInvalido(){
         TipoColaboracion tipoColaboracionPrueba = new TipoColaboracion();
         tipoColaboracionPrueba.setIdTipoColaboracion(-1); 

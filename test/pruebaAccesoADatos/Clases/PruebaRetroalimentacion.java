@@ -15,7 +15,7 @@ public class PruebaRetroalimentacion {
         assertNotNull(retroalimentacionPrueba.getRetroalimentacion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetRetroalimentacionInvalido(){
         Retroalimentacion retroalimentacionPrueba = new Retroalimentacion();
         retroalimentacionPrueba.setRetroalimentacion("Retro1"); 
@@ -29,7 +29,7 @@ public class PruebaRetroalimentacion {
         assertNotNull(retroalimentacionPrueba.getEmisor());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEmisorInvalido(){
         Retroalimentacion retroalimentacionPrueba = new Retroalimentacion();
         retroalimentacionPrueba.setEmisor("EmisorN1"); 
@@ -43,7 +43,7 @@ public class PruebaRetroalimentacion {
         assertNotNull(retroalimentacionPrueba.getIdColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdColaboracionInvalido(){
         Retroalimentacion retroalimentacionPrueba = new Retroalimentacion();
         retroalimentacionPrueba.setIdColaboracion(-1);
@@ -57,7 +57,7 @@ public class PruebaRetroalimentacion {
         assertNotNull(retroalimentacionPrueba.getIdRetroalimentacion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdRetroalimentacionInvalido(){
         Retroalimentacion retroalimentacionPrueba = new Retroalimentacion();
         retroalimentacionPrueba.setIdRetroalimentacion(-1);

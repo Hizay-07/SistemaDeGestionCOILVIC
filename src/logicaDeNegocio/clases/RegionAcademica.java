@@ -29,7 +29,7 @@ public class RegionAcademica {
     }
 
     public void setRegion(String region)throws IllegalArgumentException {
-        if(region!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, region.trim())&&region.trim().length()>=100){
+        if(region!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, region.trim())&&region.trim().length()<=100){
             this.region = region.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
