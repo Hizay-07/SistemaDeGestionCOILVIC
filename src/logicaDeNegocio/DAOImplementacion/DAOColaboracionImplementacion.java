@@ -52,7 +52,6 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                 while(resultado.next()){
                     Colaboracion colaboracion=new Colaboracion();
                     colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
-                    colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
                     colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
                     colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
                     int idPropuestaDeColaboracion = resultado.getInt("idPropuestaColaboracion");
@@ -83,7 +82,6 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                 while(resultado.next()){
                     Colaboracion colaboracion=new Colaboracion();
                     colaboracion.setIdColaboracion(resultado.getInt("idColaboracion"));
-                    colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
                     colaboracion.setEstadoColaboracion(resultado.getString("estadoColaboracion"));
                     colaboracion.setCantidadEstudiantes(resultado.getInt("cantidadEstudiantes"));
                     int idPropuestaDeColaboracion = resultado.getInt("idPropuestaColaboracion");
@@ -95,7 +93,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return colaboraciones;
     }

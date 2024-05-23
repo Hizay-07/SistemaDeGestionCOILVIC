@@ -256,31 +256,33 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         try {
             conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where estadoPropuesta='Registrada';");            
-            resultado=declaracion.executeQuery();            
-            while(resultado.next()){
-                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                
-                propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
-                propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
-                propuestaColaboracion.setIdioma(resultado.getString("idioma"));
-                propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
-                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));                
-                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));                
-                propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));                
-                TipoColaboracion tipoColaboracion=new TipoColaboracion();
-                int idTipoColaboracion=resultado.getInt("idTipoColaboracion");
-                tipoColaboracion.setIdTipoColaboracion(idTipoColaboracion);
-                String tipo=daoTipoColaboracion.consultarTipoColaboracionPorId(idTipoColaboracion);
-                tipoColaboracion.setTipo(tipo);
-                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);                
-                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                Profesor profesor=daoProfesor.consultarProfesorPorId(idProfesor);            
-                propuestaColaboracion.setProfesor(profesor);                
-                propuestasColaboracion.add(propuestaColaboracion);                
+            resultado=declaracion.executeQuery();
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                
+                    propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
+                    propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
+                    propuestaColaboracion.setIdioma(resultado.getString("idioma"));
+                    propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
+                    propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));                
+                    propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));                
+                    propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));                
+                    TipoColaboracion tipoColaboracion=new TipoColaboracion();
+                    int idTipoColaboracion=resultado.getInt("idTipoColaboracion");
+                    tipoColaboracion.setIdTipoColaboracion(idTipoColaboracion);
+                    String tipo=daoTipoColaboracion.consultarTipoColaboracionPorId(idTipoColaboracion);
+                    tipoColaboracion.setTipo(tipo);
+                    propuestaColaboracion.setTipoColaboracion(tipoColaboracion);                
+                    int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
+                    Profesor profesor=daoProfesor.consultarProfesorPorId(idProfesor);            
+                    propuestaColaboracion.setProfesor(profesor);                
+                    propuestasColaboracion.add(propuestaColaboracion);                
+                }
             }
             conexion.close();
-        } catch (SQLException ex) {
-            LOG.warn(ex);
+        } catch (SQLException excepcion) {
+            LOG.error(excepcion);
         }
         return propuestasColaboracion;                
     }

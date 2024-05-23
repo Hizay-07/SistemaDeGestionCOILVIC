@@ -27,18 +27,6 @@ public class Colaboracion {
         }
     }
 
-    public String getRetroalimentacion() {
-        return retroalimentacion;
-    }
-
-    public void setRetroalimentacion(String retroalimentacion)throws IllegalArgumentException {
-        if(retroalimentacion==null||Pattern.matches(SOLO_LETRAS_PATTERN, retroalimentacion.trim())&&retroalimentacion.trim().length()<=255){
-            this.retroalimentacion = retroalimentacion.trim().replaceAll("[ \t]+", " " );
-        }else{
-            throw new IllegalArgumentException();
-        }
-    }
-
     public String getEstadoColaboracion() {
         return estadoColaboracion;
     }

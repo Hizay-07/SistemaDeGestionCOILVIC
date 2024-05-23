@@ -22,8 +22,11 @@ import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import org.apache.log4j.Logger;
 import java.time.LocalDate;
 import java.util.Objects;
+import javafx.scene.control.DateCell;
+import javafx.util.Callback;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 
 public class Ventana_IniciarActividadControlador implements Initializable {
@@ -46,6 +49,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        limitarFechasDePeriodoActividad();
     }    
     
     public void cerrarVentana(){
@@ -58,7 +62,37 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);
     }
     
-   public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    public void limitarFechasDePeriodoActividad(){
+        ColaboracionAuxiliar colaboracionActual = ColaboracionAuxiliar.getInstancia();
+        PropuestaColaboracion propuesta = colaboracionActual.getPropuestaColaboracion();
+        LocalDate fechaMaxima = LocalDate.parse(propuesta.getFechaCierre());
+        LocalDate fechaMinima = LocalDate.parse(propuesta.getFechaInicio());
+        LocalDate fechaActual = LocalDate.now();
+        dtp_FechaDeInicio.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
+        dtp_FechaDeInicio.setValue(fechaActual);
+        dtp_FechaDeCierre.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
+        dtp_FechaDeCierre.setValue(fechaActual);
+    }
+    
+    private Callback<DatePicker, DateCell> createDayCellFactory(LocalDate minDate, LocalDate maxDate) {
+        return new Callback<>(){
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item.isBefore(minDate) || item.isAfter(maxDate)) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
+        };
+    }
+    
+    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));

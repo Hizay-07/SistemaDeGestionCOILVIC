@@ -12,18 +12,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import logicaDeNegocio.ClasesAuxiliares.ActividadAuxiliar;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
@@ -49,6 +52,7 @@ public class Ventana_ModificarActividadControlador implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarDatosActividadAModificar();
+        limitarFechasDePeriodoActividad();
     }
     
     public void cerrarVentana(){
@@ -60,6 +64,36 @@ public class Ventana_ModificarActividadControlador implements Initializable {
     public void cancelarModificacionDeActividad(){
         String ruta = "/interfazDeUsuario/Ventana_ActividadesColaboracionActiva.fxml";
         desplegarVentanaCorrespondiente(ruta);     
+    }
+    
+    public void limitarFechasDePeriodoActividad(){
+        ColaboracionAuxiliar colaboracionActual = ColaboracionAuxiliar.getInstancia();
+        PropuestaColaboracion propuesta = colaboracionActual.getPropuestaColaboracion();
+        LocalDate fechaMaxima = LocalDate.parse(propuesta.getFechaCierre());
+        LocalDate fechaMinima = LocalDate.parse(propuesta.getFechaInicio());
+        LocalDate fechaActual = LocalDate.now();
+        dtp_FechaDeInicio.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
+        dtp_FechaDeInicio.setValue(fechaActual);
+        dtp_FechaDeCierre.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
+        dtp_FechaDeCierre.setValue(fechaActual);
+    }
+    
+    private Callback<DatePicker, DateCell> createDayCellFactory(LocalDate minDate, LocalDate maxDate) {
+        return new Callback<>(){
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item.isBefore(minDate) || item.isAfter(maxDate)) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
+        };
     }
     
     public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
