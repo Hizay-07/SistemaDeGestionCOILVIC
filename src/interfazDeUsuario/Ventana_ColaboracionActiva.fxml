@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="478.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ColaboracionActivaControlador">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="530.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ColaboracionActivaControlador">
    <children>
       <Pane fx:id="pane_ColaboracionActiva" layoutX="-1.0" prefHeight="55.0" prefWidth="606.0" style="-fx-border-color: grey; -fx-background-color: #168394;">
          <children>
@@ -20,7 +20,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="pane_DatosColaboracion" layoutX="41.0" layoutY="63.0" prefHeight="363.0" prefWidth="522.0" style="-fx-border-color: #168394; -fx-border-width: 4;">
+      <Pane fx:id="pane_DatosColaboracion" layoutX="41.0" layoutY="63.0" prefHeight="406.0" prefWidth="522.0" style="-fx-border-color: #168394; -fx-border-width: 4;">
          <children>
             <ImageView fitHeight="80.0" fitWidth="98.0" layoutX="428.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -32,9 +32,9 @@
                   <Font name="MS Reference Sans Serif" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_TipoDeColaboracionDato" layoutX="150.0" layoutY="249.0" prefHeight="30.0" prefWidth="270.0" style="-fx-border-color: grey;">
+            <Label fx:id="lbl_TipoDeColaboracionDato" layoutX="150.0" layoutY="249.0" prefHeight="30.0" prefWidth="270.0" style="-fx-border-color: grey;" textAlignment="CENTER">
                <font>
-                  <Font name="MS Reference Sans Serif" size="10.0" />
+                  <Font name="MS Reference Sans Serif" size="12.0" />
                </font>
             </Label>
             <Label fx:id="lbl_NombreProfesores" layoutX="61.0" layoutY="92.0" prefHeight="30.0" prefWidth="89.0" text="Profesores:">
@@ -47,7 +47,7 @@
                   <Font name="MS Reference Sans Serif" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_ObjetivoGeneralDato" layoutX="150.0" layoutY="163.0" prefHeight="68.0" prefWidth="270.0" style="-fx-border-color: grey;">
+            <Label fx:id="lbl_ObjetivoGeneralDato" layoutX="150.0" layoutY="163.0" prefHeight="68.0" prefWidth="270.0" style="-fx-border-color: grey;" textAlignment="JUSTIFY">
                <font>
                   <Font name="MS Reference Sans Serif" size="10.0" />
                </font>
@@ -57,28 +57,54 @@
                   <Font name="MS Reference Sans Serif" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_NombreColaboracion" layoutX="150.0" layoutY="33.0" prefHeight="30.0" prefWidth="270.0" style="-fx-border-color: grey;">
+            <Label fx:id="lbl_NombreColaboracion" layoutX="150.0" layoutY="33.0" prefHeight="30.0" prefWidth="270.0" style="-fx-border-color: grey;" textAlignment="CENTER">
                <font>
-                  <Font name="MS Reference Sans Serif" size="10.0" />
+                  <Font name="MS Reference Sans Serif" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="btn_IniciarActividad" layoutX="384.0" layoutY="289.0" mnemonicParsing="false" onAction="#inicializarVentanaIniciarActividad" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: green;" text="Iniciar Actividad" textFill="WHITE">
+            <Button fx:id="btn_IniciarActividad" layoutX="382.0" layoutY="356.0" mnemonicParsing="false" onAction="#inicializarVentanaIniciarActividad" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: green;" text="Iniciar Actividad" textFill="WHITE">
                <font>
                   <Font name="MS Reference Sans Serif" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btn_Actividades" layoutX="285.0" layoutY="289.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="80.0" style="-fx-background-color: #05DCFE;" text="Actividades" textFill="WHITE" />
-            <Button fx:id="btn_CerrarColaboracion" layoutX="25.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #FF4F57;" text="Cerrar Colaboración" textFill="WHITE" onAction="#cerrarColaboracion"/>
+            <Button fx:id="btn_Actividades" layoutX="292.0" layoutY="356.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="80.0" style="-fx-background-color: #05DCFE;" text="Actividades" textFill="WHITE" />
+            <Button fx:id="btn_CerrarColaboracion" layoutX="35.0" layoutY="362.0" mnemonicParsing="false" onAction="#cerrarColaboracion" style="-fx-background-color: #FF4F57;" text="Cerrar Colaboración" textFill="WHITE" />
             <VBox fx:id="vb_Profesores" layoutX="150.0" layoutY="73.0" prefHeight="68.0" prefWidth="270.0" style="-fx-border-color: grey;">
                <children>
-                  <Label fx:id = "lbl_Profesor1" prefHeight="18.0" prefWidth="270.0" style="-fx-border-color: grey;" />
-                  <Label fx:id = "lbl_Profesor2" prefHeight="18.0" prefWidth="268.0" style="-fx-border-color: grey;" />
-                  <Label fx:id = "lbl_Profesor3" prefHeight="18.0" prefWidth="272.0" style="-fx-border-color: grey;" />
-                  <Label fx:id = "lbl_Profesor4" prefHeight="18.0" prefWidth="270.0" style="-fx-border-color: grey;" />
+                  <Label fx:id="lbl_Profesor1" prefHeight="18.0" prefWidth="270.0" style="-fx-border-color: grey;" />
+                  <Label fx:id="lbl_Profesor2" prefHeight="18.0" prefWidth="268.0" style="-fx-border-color: grey;">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="lbl_Profesor3" prefHeight="18.0" prefWidth="272.0" style="-fx-border-color: grey;">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="lbl_Profesor4" prefHeight="18.0" prefWidth="270.0" style="-fx-border-color: grey;" />
                </children>
             </VBox>
+            <Label fx:id="lbl_FechaDeInicio" layoutX="29.0" layoutY="294.0" prefHeight="30.0" prefWidth="116.0" text="Fecha de inicio:">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_FechaDeCierre" layoutX="227.0" layoutY="294.0" prefHeight="30.0" prefWidth="116.0" text="Fecha de cierre:">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_FechaDeInicioDato" layoutX="137.0" layoutY="294.0" prefHeight="30.0" prefWidth="80.0" style="-fx-border-color: grey;" textAlignment="CENTER">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_FechaDeCierreDato" layoutX="342.0" layoutY="294.0" prefHeight="30.0" prefWidth="80.0" style="-fx-border-color: grey;" textAlignment="CENTER">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
-      <Button fx:id="btn_Regresar" layoutX="500.0" layoutY="433.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" style="-fx-background-color: #F03E46;" text="Regresar" textFill="WHITE" />
+      <Button fx:id="btn_Regresar" layoutX="500.0" layoutY="482.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" style="-fx-background-color: #F03E46;" text="Regresar" textFill="WHITE" />
    </children>
 </AnchorPane>

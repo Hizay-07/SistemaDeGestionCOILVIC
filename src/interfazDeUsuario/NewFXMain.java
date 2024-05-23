@@ -6,18 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 
 public class NewFXMain extends Application {
-    
+    private static final Logger LOG = Logger.getLogger(NewFXMain.class);
     @Override
     public void start(Stage stage) throws IOException {
         Parent root=FXMLLoader.load(getClass().getResource("/interfazDeUsuario/Ventana_InicioDeSesion.fxml"));
         
         Scene scene = new Scene(root);
         stage.setScene(scene);  
-        stage.show();    
-                           
+        stage.show();                          
     }
 
     public static void main(String[] args) {

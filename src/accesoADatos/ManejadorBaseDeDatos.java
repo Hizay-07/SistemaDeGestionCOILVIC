@@ -3,6 +3,7 @@ package accesoADatos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Properties;
@@ -12,9 +13,10 @@ import java.io.FileInputStream;
 import java.io.DataInputStream;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
-import logicaDeNegocio.enums.EnumUsuario;
+import logicaDeNegocio.enums.EnumTipoDeUsuario;
 
 public class ManejadorBaseDeDatos {
+    private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(ManejadorBaseDeDatos.class);
     private static ManejadorBaseDeDatos instancia;
     private Connection conexion;
     private static final String NOMBRE_BASE_DE_DATOS="jdbc:mysql://localhost/bdsistemacoilvic";;
@@ -34,85 +36,82 @@ public class ManejadorBaseDeDatos {
     public Connection conectarBaseDeDatos(){
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
         Properties datosUsuario = new Properties();
-        
-        if(usuario.getTipoDeUsuario().equals(EnumUsuario.Administrativo.toString())){
+        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionAdministrativo();
-        }else if(usuario.getTipoDeUsuario().equals(EnumUsuario.Profesor.toString())){
+        }else if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Profesor.toString())){
             datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionProfesor();
         }
-        
         try{
             String nombreBaseDeDatos = datosUsuario.getProperty("Direccion");
             String nombreUsuario = datosUsuario.getProperty("Usuario");
             String contrasenia = datosUsuario.getProperty("Contrasenia");
             conexion = DriverManager.getConnection(nombreBaseDeDatos,nombreUsuario,contrasenia);
+        }catch(SQLSyntaxErrorException excepcion){
+            LOG.fatal(excepcion.getCause());
+            conexion = null;
         }catch(SQLException excepcion){
-            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
+            LOG.fatal(excepcion.getCause());
+            conexion = null;
         }
-        
         return conexion;
     }
     
     public Connection conectarBaseDeDatosLogger(Usuario usuario){
         Properties datosLogger = new Properties();
-        if(usuario.getTipoDeUsuario().equals(EnumUsuario.Logger.toString())){
+        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Logger.toString())){
             datosLogger = new ManejadorBaseDeDatos().obtenerArchivoConexionLogger();
         }
-        
         try{
             String nombreBaseDeDatos = datosLogger.getProperty("Direccion");
             String nombreUsuario = datosLogger.getProperty("Usuario");
             String contrasenia = datosLogger.getProperty("Contrasenia");
             conexion = DriverManager.getConnection(nombreBaseDeDatos,nombreUsuario,contrasenia);
+        }catch(SQLSyntaxErrorException excepcion){
+            LOG.fatal(excepcion.getCause());
+            conexion = null;
         }catch(SQLException excepcion){
-            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
+            LOG.fatal(excepcion.getCause());
+            conexion = null;
         }
-       
         return conexion;
     }
     
     public Properties obtenerArchivoConexionAdministrativo(){
         Properties propiedadesAdministrativo = new Properties();
-        
         try{
            DataInputStream archivoUsuario = new DataInputStream(new FileInputStream("src\\accesoADatos\\Administrativo.txt"));
            propiedadesAdministrativo.load(archivoUsuario);
         }catch(FileNotFoundException archivoNoEncontrado){
-            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, archivoNoEncontrado);
+            LOG.fatal(archivoNoEncontrado.getMessage());
         }catch(IOException excepcion){
-            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
+            LOG.fatal(excepcion.getCause());
         }
-        
         return propiedadesAdministrativo;
     }
     
     public Properties obtenerArchivoConexionLogger(){
         Properties propiedadesLogger = new Properties();
-        
           try{
            DataInputStream archivoUsuario = new DataInputStream(new FileInputStream("src\\accesoADatos\\Logger.txt"));
            propiedadesLogger.load(archivoUsuario);
         }catch(FileNotFoundException archivoNoEncontrado){
             Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, archivoNoEncontrado);
         }catch(IOException excepcion){
-            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
+            LOG.fatal(excepcion.getCause());
         }
-        
         return propiedadesLogger;
     }
     
     public Properties obtenerArchivoConexionProfesor(){
         Properties propiedadesProfesor = new Properties();
-        
         try{
            DataInputStream archivoUsuario = new DataInputStream(new FileInputStream("src\\accesoADatos\\Profesor.txt"));
            propiedadesProfesor.load(archivoUsuario);
         }catch(FileNotFoundException archivoNoEncontrado){
-            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, archivoNoEncontrado);
+            LOG.fatal(archivoNoEncontrado.getCause());
         }catch(IOException excepcion){
-            Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.WARNING, null, excepcion);
+            LOG.fatal(excepcion.getCause());
         }
-        
         return propiedadesProfesor;
     }
     
@@ -123,14 +122,8 @@ public class ManejadorBaseDeDatos {
                     conexion.close();
                 }
             }catch(SQLException excepcion){
-                Logger.getLogger(ManejadorBaseDeDatos.class.getName()).log(Level.SEVERE, null, excepcion);
+                LOG.fatal(excepcion.getCause());
             }
         }
-    }
-    public static synchronized ManejadorBaseDeDatos getInstancia() {
-        if (instancia == null) {
-            instancia = new ManejadorBaseDeDatos();
-        }
-        return instancia;
     }
 }
