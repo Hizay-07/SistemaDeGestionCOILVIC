@@ -14,21 +14,21 @@ public class PruebaPais {
         assertNotNull(paisPrueba.getNombrePais());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNombrePaisInvalido(){
         Pais paisPrueba = new Pais();
         paisPrueba.setNombrePais("12345");
         assertNull(paisPrueba.getNombrePais());
     }
     
-    @Test
+    @Test 
     public void pruebaSetNumeroDePaisExitoso(){
         Pais paisPrueba = new Pais();
         paisPrueba.setNumeroDePais(1);
         assertNotNull(paisPrueba.getNumeroDePais());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNumeroDePaisInvalido(){
         Pais paisPrueba = new Pais();
         paisPrueba.setNumeroDePais(-1);

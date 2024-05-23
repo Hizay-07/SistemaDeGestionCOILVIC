@@ -28,6 +28,7 @@ import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementa
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
@@ -54,7 +55,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
 
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {        
         column_Profesor.setCellValueFactory(cellData -> {
             Profesor profesor = cellData.getValue();        
             String resultado = profesor.toString();        
@@ -64,14 +65,12 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
             Profesor profesor = cellData.getValue();
             String valorInstitucion = obtenerValorInstitucion(profesor);
             return new SimpleStringProperty(valorInstitucion);
-        });
-        
-
+        });      
         List<Profesor> profesores=new ArrayList<>();
         profesores=consultarProfesores();
         tableView_PeticionesDeColaboracion.getItems().addAll(profesores);
         agregarBotonAceptar();
-        agregarBotonRechazar();
+        agregarBotonRechazar();                                       
     }    
     
     public void cerrarVentana(){
@@ -176,9 +175,23 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
                             int idProfesor=profesor.getIdProfesor();
                             DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
                             int idPropuesta=daoPeticionColaboracion.consultarIdPropuestaDeColaboracionPorIdProfesor(idProfesor);
-                            daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuesta, idProfesor);                                                                                                                                                                    
-                            tableView_PeticionesDeColaboracion.getItems().clear();
-                            tableView_PeticionesDeColaboracion.getItems().addAll(consultarProfesores());                        
+                            daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuesta, idProfesor); 
+                            int numeroPeticiones=validarNumeroPeticiones();
+                            if(numeroPeticiones==1){                                
+                                ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
+                                int idProfesorSingleton=profesorSingleton.getIdProfesor();  
+                                DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+                                int idPropuestaACambiar=daoPropuestaColaboracion.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(idProfesorSingleton);
+                                if(idPropuestaACambiar>0){
+                                    daoPeticionColaboracion.cambiarEstadoPeticionesRegistradasPorIdPropuesta(idPropuestaACambiar);                
+                                }                                
+                                Alertas.mostrarLimitePeticionesColaboracion();
+                                salirDeLaVentana();                                                            
+                            }else{
+                                tableView_PeticionesDeColaboracion.getItems().clear();
+                                tableView_PeticionesDeColaboracion.getItems().addAll(consultarProfesores());                             
+                            }
+                                                   
                         }                        
                     });
                 }                
@@ -211,7 +224,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
                             int idPropuesta=daoPeticionColaboracion.consultarIdPropuestaDeColaboracionPorIdProfesor(idProfesor);
                             daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuesta, idProfesor);
                             DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-                            daoProfesor.cambiarEstadoProfesor(idProfesor, "Activo");                                                                                                                    
+                            daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString());                                                                                                                                                                            
                             tableView_PeticionesDeColaboracion.getItems().clear();
                             tableView_PeticionesDeColaboracion.getItems().addAll(consultarProfesores());                         
                         }                                                                                               
@@ -232,6 +245,13 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         column_Rechazar.setCellFactory(cellFactory);       
     }
     
+    public int validarNumeroPeticiones(){
+        DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
+        ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
+        int idProfesor=profesorSingleton.getIdProfesor();  
+        int resultadoPrecondicion=daoPeticionColaboracion.revisarPrecondicionEvaluarPeticionesPorIdProfesor(idProfesor);
+        return resultadoPrecondicion;
+    }
     
     
 }

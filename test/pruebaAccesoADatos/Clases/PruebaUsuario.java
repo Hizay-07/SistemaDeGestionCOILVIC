@@ -14,7 +14,7 @@ public class PruebaUsuario {
         assertNotNull(usuarioPrueba.getIdUsuario());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdUsuarioInvalido(){
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setIdUsuario(-1); 
@@ -24,25 +24,25 @@ public class PruebaUsuario {
     @Test
     public void pruebaSetNombreUsuarioExitoso(){
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("Usuario");
+        usuarioPrueba.setNombreUsuario("Usuario@gmail.com");
         assertNotNull(usuarioPrueba.getNombreUsuario());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNombreUsuarioInvalido(){
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("usuaeio22"); 
+        usuarioPrueba.setNombreUsuario("usuaeio22.mx"); 
         assertNull(usuarioPrueba.getNombreUsuario()); 
     }
     
-    @Test
+    @Test 
     public void pruebaSetContraseniaExitoso(){
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setContrasenia("P@ssw0rd");
         assertNotNull(usuarioPrueba.getContrasenia());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetContraseniaInvalido(){
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setContrasenia("password"); 
@@ -56,7 +56,7 @@ public class PruebaUsuario {
         assertNotNull(usuarioPrueba.getTipoDeUsuario());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetTipoDeUsuarioInvalido(){
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setTipoDeUsuario("Admin*"); 
@@ -70,13 +70,11 @@ public class PruebaUsuario {
         assertNotNull(usuarioPrueba.getCorreo());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetCorreoInvalido(){
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setCorreo("usuario@example"); 
         assertNull(usuarioPrueba.getCorreo()); 
     }
-    
-
-    
+        
 }

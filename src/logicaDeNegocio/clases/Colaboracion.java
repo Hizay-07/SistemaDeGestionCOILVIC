@@ -8,10 +8,11 @@ public class Colaboracion {
     private String estadoColaboracion;
     private int cantidadEstudiantes;
     private PropuestaColaboracion propuestaColaboracion;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public Colaboracion() {
+        
     }
 
     public int getIdColaboracion() {
@@ -67,7 +68,5 @@ public class Colaboracion {
         Colaboracion colaboracionTemporal=(Colaboracion)obj;
         return idColaboracion==colaboracionTemporal.getIdColaboracion();                      
     }
-    
-    
-    
+      
 }

@@ -1,4 +1,5 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
 public class PropuestaColaboracion {
@@ -12,11 +13,12 @@ public class PropuestaColaboracion {
     private String estadoPropuesta;    
     private TipoColaboracion tipoColaboracion;
     private Profesor profesor;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
     
     public PropuestaColaboracion() {
+        
     }
 
     public int getIdPropuestaColaboracion() {
@@ -119,16 +121,24 @@ public class PropuestaColaboracion {
         return tipoColaboracion;
     }
 
-    public void setTipoColaboracion(TipoColaboracion tipoColaboracion) {
-        this.tipoColaboracion = tipoColaboracion;
+    public void setTipoColaboracion(TipoColaboracion tipoColaboracion)throws IllegalArgumentException{
+        if(tipoColaboracion!=null){
+            this.tipoColaboracion = tipoColaboracion;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }     
 
     public Profesor getProfesor() {
         return profesor;
     }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setProfesor(Profesor profesor)throws IllegalArgumentException {
+        if(profesor!=null){
+            this.profesor = profesor;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }        
         
     @Override
@@ -141,6 +151,5 @@ public class PropuestaColaboracion {
                 tipoColaboracion.equals(propuestaColaboracionTemporal.getTipoColaboracion())&&
                 objetivo.equals(propuestaColaboracionTemporal.getObjetivo());                
     }
-    
-    
+        
 }

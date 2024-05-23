@@ -23,6 +23,7 @@ import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.EvaluacionPropuesta;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.UsuarioSingleton;
+import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
@@ -69,7 +70,7 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
             }else{
                 daoPropuestaColaboracion.rechazarPropuestaColaboracionPorId(idPropuestaColaboracion);                
                 int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
-                daoProfesor.cambiarEstadoProfesor(idProfesor, "Activo");
+                daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString());
             }            
             salirDeLaVentana();
         }catch(IllegalArgumentException excepcion){     

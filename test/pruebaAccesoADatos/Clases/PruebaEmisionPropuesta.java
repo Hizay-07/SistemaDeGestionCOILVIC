@@ -14,11 +14,11 @@ public class PruebaEmisionPropuesta {
         assertNotNull(emisionPropuestaPrueba.getIdProfesor());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdProfesorInvalida(){
         EmisionPropuesta emisionPropuestaPrueba = new EmisionPropuesta();
         emisionPropuestaPrueba.setIdProfesor(-1);
-        assertNull(emisionPropuestaPrueba.getIdProfesor());
+        assertNotNull(emisionPropuestaPrueba.getIdProfesor());
     }
     
     @Test
@@ -28,11 +28,11 @@ public class PruebaEmisionPropuesta {
         assertNotNull(emisionPropuestaPrueba.getIdPropuestaColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdPropuestaColaboracionInvalida(){
         EmisionPropuesta emisionPropuestaPrueba = new EmisionPropuesta();
         emisionPropuestaPrueba.setIdPropuestaColaboracion(-1);
-        assertNull(emisionPropuestaPrueba.getIdPropuestaColaboracion());
+        assertNotNull(emisionPropuestaPrueba.getIdPropuestaColaboracion());
     }
     
     @Test
@@ -42,7 +42,7 @@ public class PruebaEmisionPropuesta {
         assertNotNull(emisionPropuestaPrueba.getFechaEmision());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetFechaEmisionInvalida(){
         EmisionPropuesta emisionPropuestaPrueba = new EmisionPropuesta();
         emisionPropuestaPrueba.setFechaEmision("01-05-2024");

@@ -13,13 +13,12 @@ public class PruebaProfesor {
         profesorPrueba.setNombre("José José");
         assertNotNull(profesorPrueba.getNombre());
     }
-    
-    
-    @Test
+        
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNombreInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
-        profesorPrueba.setNombre("Juan");
-        assertNull(profesorPrueba.getNombre());
+        profesorPrueba.setNombre("Juan°1");
+        assertNotNull(profesorPrueba.getNombre());
     }
     
     @Test
@@ -29,7 +28,7 @@ public class PruebaProfesor {
         assertNotNull(profesorPrueba.getApellidoPaterno());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetApellidoPaternoInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
         profesorPrueba.setApellidoPaterno("iII°*");
@@ -43,23 +42,21 @@ public class PruebaProfesor {
         assertNotNull(profesorPrueba.getApellidoMaterno());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetApellidoMaternoInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
         profesorPrueba.setApellidoMaterno("Magno*");
         assertNotNull(profesorPrueba.getApellidoMaterno());
     }
-    
-    
+        
     @Test
     public void pruebaSetCorreoProfesorExitosa(){
         Profesor profesorPrueba = new Profesor();
         profesorPrueba.setCorreo("Oscar@example.com");
         assertNotNull(profesorPrueba.getCorreo());
     }
-    
-    
-    @Test
+        
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetCorreoInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
         profesorPrueba.setCorreo("Juan@ejemplo.com.mx1");
@@ -71,13 +68,12 @@ public class PruebaProfesor {
         Profesor profesorPrueba = new Profesor();
         profesorPrueba.setEstado("Aceptado");
         assertNotNull(profesorPrueba.getEstado());
-    }
+    }    
     
-    
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
-        profesorPrueba.setEstado("coil");
+        profesorPrueba.setEstado("Esperando...");
         assertNotNull(profesorPrueba.getEstado());
     }
     
@@ -87,9 +83,8 @@ public class PruebaProfesor {
         profesorPrueba.setIdProfesor(22);
         assertNotNull(profesorPrueba.getIdProfesor());
     }
-    
-    
-    @Test
+        
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
         profesorPrueba.setIdProfesor(-1);

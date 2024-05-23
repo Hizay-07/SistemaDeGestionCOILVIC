@@ -14,7 +14,7 @@ public class PruebaColaboracion {
         assertNotNull(colaboracionPrueba.getIdColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdColaboracionInvalido(){
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setIdColaboracion(-1);
@@ -28,7 +28,7 @@ public class PruebaColaboracion {
         assertNotNull(colaboracionPrueba.getRetroalimentacion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetRetroalimentacionInvalida(){
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setRetroalimentacion("Retroalimentación123");
@@ -42,7 +42,7 @@ public class PruebaColaboracion {
         assertNotNull(colaboracionPrueba.getEstadoColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoColaboracionInvalida(){
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setEstadoColaboracion("Estado*");

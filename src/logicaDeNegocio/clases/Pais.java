@@ -5,11 +5,12 @@ import java.util.regex.Pattern;
 public class Pais{
     private String nombrePais;
     private int numeroDePais;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
+    private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public Pais(){
+        
     }
-
     
     public String getNombrePais(){
         return nombrePais;
@@ -27,8 +28,13 @@ public class Pais{
         return numeroDePais;
     }
 
-    public void setNumeroDePais(int numeroDePais) {
-        this.numeroDePais = numeroDePais;
+    public void setNumeroDePais(int numeroDePais) throws IllegalArgumentException {
+        String numeroDePaisStr = String.valueOf(numeroDePais);
+        if (Pattern.matches(SOLO_NUMEROS_PATTERN, numeroDePaisStr)) {
+            this.numeroDePais = numeroDePais;
+        } else {
+            throw new IllegalArgumentException("Número de país inválido");
+        }
     }        
     
     @Override

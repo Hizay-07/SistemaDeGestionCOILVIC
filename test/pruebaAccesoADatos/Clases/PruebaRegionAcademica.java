@@ -14,7 +14,7 @@ public class PruebaRegionAcademica {
         assertNotNull(regionPrueba.getIdRegionAcademica());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdRegionAcademicaInvalido(){
         RegionAcademica regionPrueba = new RegionAcademica();
         regionPrueba.setIdRegionAcademica(-1); 
@@ -24,14 +24,14 @@ public class PruebaRegionAcademica {
     @Test
     public void pruebaSetRegionExitoso(){
         RegionAcademica regionPrueba = new RegionAcademica();
-        regionPrueba.setRegion("Región Académica"); 
+        regionPrueba.setRegion("Veracruz"); 
         assertNotNull(regionPrueba.getRegion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetRegionInvalido(){
         RegionAcademica regionPrueba = new RegionAcademica();
-        regionPrueba.setRegion("12345");
+        regionPrueba.setRegion("Xalapa 2000");
         assertNull(regionPrueba.getRegion());
     }
     
