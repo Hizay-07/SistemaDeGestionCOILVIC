@@ -14,7 +14,7 @@ public class PruebaPeticionColaboracion {
         assertNotNull(peticionPrueba.getIdProfesor());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdProfesorInvalido(){
         PeticionColaboracion peticionPrueba = new PeticionColaboracion();
         peticionPrueba.setIdProfesor(-1);
@@ -28,7 +28,7 @@ public class PruebaPeticionColaboracion {
         assertNotNull(peticionPrueba.getEstado());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoInvalido(){
         PeticionColaboracion peticionPrueba = new PeticionColaboracion();
         peticionPrueba.setEstado("Inactiva*");
@@ -38,14 +38,29 @@ public class PruebaPeticionColaboracion {
     @Test
     public void pruebaSetFechaEnvioExitoso(){
         PeticionColaboracion peticionPrueba = new PeticionColaboracion();
-        peticionPrueba.setFechaEnvio("2024-05-01");
-        assertNotNull(peticionPrueba.getFechaEnvio());
+        String fechaValida = "12/12/2020";
+        peticionPrueba.setFechaEnvio(fechaValida);
+        assertNotNull(fechaValida, peticionPrueba.getFechaEnvio());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaSetFechaEnvioInvalido() {
+        PeticionColaboracion peticionPrueba = new PeticionColaboracion();
+        String fechaInvalida = "2020/12/12";
+        peticionPrueba.setFechaEnvio(fechaInvalida);
     }
     
     @Test
-    public void pruebaSetFechaEnvioInvalido(){
-        PeticionColaboracion peticionPrueba = new PeticionColaboracion();
-        peticionPrueba.setFechaEnvio("01/05/2024");
-        assertNull(peticionPrueba.getFechaEnvio());
+    public void pruebaSetIdPropuestaColaboracionValido() {
+        PeticionColaboracion peticion = new PeticionColaboracion();
+        int idValido = 123456;
+        peticion.setIdPropuestaColaboracion(idValido);        
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaSetIdPropuestaColaboracionInvalido() {
+        PeticionColaboracion peticion = new PeticionColaboracion();
+        int idInvalido = -123456; 
+        peticion.setIdPropuestaColaboracion(idInvalido);
     }
 }

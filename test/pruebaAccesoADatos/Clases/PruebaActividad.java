@@ -14,7 +14,7 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getIdActividad());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setIdActividad(-1);
@@ -28,7 +28,7 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getNumeroActividad());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNumeroActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setNumeroActividad(-1);
@@ -42,7 +42,7 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getNombre());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNombreActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setNombre("PSP*");
@@ -56,7 +56,7 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getDescripcion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetDescripcionActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setDescripcion("Elaborar un PSP sobre el proyecto de principios de construccion*");
@@ -71,7 +71,7 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getFechaDeInicio());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetFechaInicioActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setFechaDeInicio("01-05-2024");
@@ -85,14 +85,13 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getFechaDeCierre());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetFechaCierreActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setFechaDeCierre("01-05-2024");
         assertNotNull(actividadPrueba.getFechaDeCierre());
     }
-    
-    
+        
     @Test
     public void pruebaSetEstadoActividadExitosa(){
         Actividad actividadPrueba = new Actividad();
@@ -100,7 +99,7 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getEstado());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setEstado("No activa*");
@@ -114,7 +113,7 @@ public class PruebaActividad {
         assertNotNull(actividadPrueba.getIdColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdColaboracionInvalido(){
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setIdColaboracion(-1);

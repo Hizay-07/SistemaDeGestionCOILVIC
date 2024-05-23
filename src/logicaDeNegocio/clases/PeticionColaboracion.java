@@ -32,7 +32,7 @@ public class PeticionColaboracion {
     }
 
     public void setEstado(String estado)throws IllegalArgumentException{
-        if(estado!=null||Pattern.matches(SOLO_LETRAS_PATTERN, estado.trim())&&estado.trim().length()<=45){
+        if(estado!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estado.trim())&&estado.trim().length()<=45){
             this.estado = estado.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
@@ -44,7 +44,7 @@ public class PeticionColaboracion {
     }
 
     public void setFechaEnvio(String fechaEnvio)throws IllegalArgumentException {
-        if(fechaEnvio!=null||Pattern.matches(FECHA_PATTERN, fechaEnvio.trim())&&fechaEnvio.trim().length()<=45){
+        if(fechaEnvio!=null&&Pattern.matches(FECHA_PATTERN, fechaEnvio.trim())&&fechaEnvio.trim().length()<=45){
             this.fechaEnvio = fechaEnvio.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();

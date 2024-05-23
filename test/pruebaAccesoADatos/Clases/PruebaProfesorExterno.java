@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pruebaAccesoADatos.Clases;
 
 import logicaDeNegocio.clases.ProfesorExterno;
@@ -9,10 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
-/**
- *
- * @author hizza
- */
 public class PruebaProfesorExterno {
     @Test
     public void pruebaSetIdProfesorExternoExitosa() {
@@ -21,7 +13,7 @@ public class PruebaProfesorExterno {
         assertNotNull(profesorPrueba.getIdProfesorExterno());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdPrfesorExternoInvalido() {
         ProfesorExterno profesorPrueba = new ProfesorExterno();
         profesorPrueba.setIdProfesorExterno(-1);
@@ -35,7 +27,7 @@ public class PruebaProfesorExterno {
         assertNotNull(profesorPrueba.getIdRepresentanteInstitucional());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdRepresentanteInstitucionalInvalida() {
         ProfesorExterno profesorPrueba = new ProfesorExterno();
         profesorPrueba.setIdRepresentanteInstitucional(-1);

@@ -9,15 +9,15 @@ public class PruebaProfesorUV {
     @Test
     public void pruebaSetNumeroDePersonalProfesorExitosa() {
         ProfesorUV profesorPrueba = new ProfesorUV();
-        profesorPrueba.setNumeroDePersonal("123456");
+        profesorPrueba.setNumeroDePersonal("9999");
         assertNotNull(profesorPrueba.getNumeroDePersonal());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNumeroDePersonalInvalidoProfesor() {
         ProfesorUV profesorPrueba = new ProfesorUV();
-        profesorPrueba.setNumeroDePersonal("abc");
-        assertNull(profesorPrueba.getNumeroDePersonal());
+        profesorPrueba.setNumeroDePersonal("10000000");
+        assertNotNull(profesorPrueba.getNumeroDePersonal());
     }
     
     @Test
@@ -27,25 +27,25 @@ public class PruebaProfesorUV {
         assertNotNull(profesorPrueba.getTipoDeContratacion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetTipoDeContratacionInvalidoProfesor() {
         ProfesorUV profesorPrueba = new ProfesorUV();
-        profesorPrueba.setTipoDeContratacion("123");
+        profesorPrueba.setTipoDeContratacion("1/2 tiempo");
         assertNull(profesorPrueba.getTipoDeContratacion());
     }
     
     @Test
     public void pruebaSetCategoriaDeContratacionProfesorExitosa() {
         ProfesorUV profesorPrueba = new ProfesorUV();
-        profesorPrueba.setCategoriaDeContratacion("C");
+        profesorPrueba.setCategoriaDeContratacion("Profesor");
         assertNotNull(profesorPrueba.getCategoriaDeContratacion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetCategoriaDeContratacionInvalidoProfesor() {
         ProfesorUV profesorPrueba = new ProfesorUV();
-        profesorPrueba.setCategoriaDeContratacion("123");
-        assertNull(profesorPrueba.getCategoriaDeContratacion());
+        profesorPrueba.setCategoriaDeContratacion("Profesor & Coordinador");
+        assertNotNull(profesorPrueba.getCategoriaDeContratacion());
     }
     
     @Test
@@ -55,7 +55,7 @@ public class PruebaProfesorUV {
         assertNotNull(profesorPrueba.getIdAreaAcademica());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdAreaAcademicaInvalidoProfesor() {
         ProfesorUV profesorPrueba = new ProfesorUV();
         profesorPrueba.setIdAreaAcademica(-1);
@@ -69,7 +69,7 @@ public class PruebaProfesorUV {
         assertNotNull(profesorPrueba.getIdRegion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdRegionInvalidoProfesor() {
         ProfesorUV profesorPrueba = new ProfesorUV();
         profesorPrueba.setIdRegion(-1);
@@ -83,7 +83,7 @@ public class PruebaProfesorUV {
         assertNotNull(profesorPrueba.getIdProfesorUV());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdProfesorUVInvalido() {
         ProfesorUV profesorPrueba = new ProfesorUV();
         profesorPrueba.setIdProfesorUV(-1);

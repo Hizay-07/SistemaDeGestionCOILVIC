@@ -121,16 +121,24 @@ public class PropuestaColaboracion {
         return tipoColaboracion;
     }
 
-    public void setTipoColaboracion(TipoColaboracion tipoColaboracion) {
-        this.tipoColaboracion = tipoColaboracion;
+    public void setTipoColaboracion(TipoColaboracion tipoColaboracion)throws IllegalArgumentException{
+        if(tipoColaboracion!=null){
+            this.tipoColaboracion = tipoColaboracion;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }     
 
     public Profesor getProfesor() {
         return profesor;
     }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setProfesor(Profesor profesor)throws IllegalArgumentException {
+        if(profesor!=null){
+            this.profesor = profesor;
+        }else{
+            throw new IllegalArgumentException();
+        }
     }        
         
     @Override

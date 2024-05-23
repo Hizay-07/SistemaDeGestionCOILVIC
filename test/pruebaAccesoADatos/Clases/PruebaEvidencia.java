@@ -14,7 +14,7 @@ public class PruebaEvidencia {
         assertNotNull(evidenciaPrueba.getIdEvidencia());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdEvidenciaInvalida(){
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setIdEvidencia(-1);
@@ -28,7 +28,7 @@ public class PruebaEvidencia {
         assertNotNull(evidenciaPrueba.getNombre());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNombreInvalida(){
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("12345");
@@ -42,11 +42,11 @@ public class PruebaEvidencia {
         assertNotNull(evidenciaPrueba.getRutaEvidencia());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetRutaEvidenciaInvalida(){
         Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setRutaEvidencia("ruta_invalida");
-        assertNull(evidenciaPrueba.getRutaEvidencia());
+        evidenciaPrueba.setRutaEvidencia(null);
+        assertNotNull(evidenciaPrueba.getRutaEvidencia());
     }
     
     @Test
@@ -56,7 +56,7 @@ public class PruebaEvidencia {
         assertNotNull(evidenciaPrueba.getIdActividad());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdActividadInvalida(){
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setIdActividad(-1);
