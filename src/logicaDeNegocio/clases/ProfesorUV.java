@@ -1,4 +1,5 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
 public class ProfesorUV extends Profesor {
@@ -12,6 +13,7 @@ public class ProfesorUV extends Profesor {
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public ProfesorUV() {
+        
     }
 
     public String getNumeroDePersonal() {
@@ -19,7 +21,7 @@ public class ProfesorUV extends Profesor {
     }
 
     public void setNumeroDePersonal(String numeroDePersonal)throws IllegalArgumentException{
-        if(numeroDePersonal!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN,numeroDePersonal.trim())&&numeroDePersonal.trim().length() <=45){
+        if(numeroDePersonal!=null&&Pattern.matches(SOLO_NUMEROS_PATTERN,numeroDePersonal.trim())&&numeroDePersonal.trim().length() <=4){
             this.numeroDePersonal = numeroDePersonal.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();

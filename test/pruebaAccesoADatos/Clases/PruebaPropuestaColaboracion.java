@@ -16,7 +16,7 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getIdPropuestaColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdPropuestaColaboracionInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setIdPropuestaColaboracion(-1);
@@ -30,11 +30,11 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getObjetivo());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetObjetivoInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setObjetivo("Colaboración forzosa");
-        assertNull(propuestaPrueba.getObjetivo());
+        propuestaPrueba.setObjetivo("Colaboración forzosa!");
+        assertNotNull(propuestaPrueba.getObjetivo());
     }
     
     @Test
@@ -44,7 +44,7 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getFechaInicio());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetFechaInicioInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setFechaInicio("01/05/2024");
@@ -58,7 +58,7 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getFechaCierre());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetFechaCierreInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setFechaCierre("15/05/2024");
@@ -72,10 +72,10 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getIdioma());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdiomaInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setIdioma("12345");
+        propuestaPrueba.setIdioma("Alemán*");
         assertNull(propuestaPrueba.getIdioma());
     }
     
@@ -86,11 +86,11 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getExperienciaEducativa());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetExperienciaEducativaInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setExperienciaEducativa("12345");
-        assertNull(propuestaPrueba.getExperienciaEducativa());
+        propuestaPrueba.setExperienciaEducativa("Programación °do");
+        assertNotNull(propuestaPrueba.getExperienciaEducativa());
     }
     
     @Test
@@ -100,11 +100,11 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getProgramaEducativoEstudiantil());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetProgramaEducativoEstudiantilInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setProgramaEducativoEstudiantil("12345");
-        assertNull(propuestaPrueba.getProgramaEducativoEstudiantil());
+        assertNotNull(propuestaPrueba.getProgramaEducativoEstudiantil());
     }
     
     @Test
@@ -114,7 +114,7 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getEstadoPropuesta());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoPropuestaInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setEstadoPropuesta("12345");
@@ -129,11 +129,11 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getTipoColaboracion());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetTipoColaboracionInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setTipoColaboracion(null); 
-        assertNull(propuestaPrueba.getTipoColaboracion());
+        assertNotNull(propuestaPrueba.getTipoColaboracion());
     }
     
     @Test
@@ -144,11 +144,11 @@ public class PruebaPropuestaColaboracion {
         assertNotNull(propuestaPrueba.getProfesor());
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetProfesorInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
         propuestaPrueba.setProfesor(null); 
-        assertNull(propuestaPrueba.getProfesor());
+        assertNotNull(propuestaPrueba.getProfesor());
     }
     
 }

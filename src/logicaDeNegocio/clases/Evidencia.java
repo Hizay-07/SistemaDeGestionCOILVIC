@@ -7,7 +7,7 @@ public class Evidencia {
     private String nombre;
     private String rutaEvidencia;
     private int idActividad;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public int getIdEvidencia() {
@@ -69,4 +69,5 @@ public class Evidencia {
         return this.idEvidencia == evidenciaTemp.getIdEvidencia() && this.nombre.equals(evidenciaTemp.getNombre()) && this.rutaEvidencia.equals(evidenciaTemp.getRutaEvidencia())
                 &&this.idActividad == evidenciaTemp.getIdActividad();
     }
+    
 }

@@ -1,16 +1,15 @@
 package logicaDeNegocio.clases;
+
 import java.util.regex.Pattern;
 
-public class Profesor{
-    
+public class Profesor{    
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo; 
     private String estado;
     private int idProfesor;
-
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
@@ -94,8 +93,7 @@ public class Profesor{
         return nombre!=null&&!nombre.isEmpty()&&
                 apellidoPaterno!=null&&!apellidoPaterno.isEmpty()&&
                 apellidoMaterno!=null&&!apellidoMaterno.isEmpty()&&
-                correo!=null&&!correo.isEmpty();
-                
+                correo!=null&&!correo.isEmpty();                
     }    
     
     @Override
@@ -114,4 +112,5 @@ public class Profesor{
     public String toString(){
         return nombre+" "+apellidoPaterno+" "+apellidoMaterno;
     }
+    
 }

@@ -338,6 +338,20 @@ public class Alertas extends Application {
         });
     }
     
+
+    public static void mostrarLimitePeticionesColaboracion(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.INFORMATION);
+            mensaje.setTitle("Limite de peticiones");
+            mensaje.setContentText("Ha aceptado el limite de peticiones para una colaboracion");
+            mensaje.showAndWait();
+        });
+    
+    
+    }
+            
+    
+
     public static void mostrarMensajeSinConexion(){
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.ERROR);
@@ -355,6 +369,7 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+
 
     @Override
     public void start(Stage stage){

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class TipoColaboracion {
     private String tipo;
     private int idTipoColaboracion;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ-]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public String getTipo() {

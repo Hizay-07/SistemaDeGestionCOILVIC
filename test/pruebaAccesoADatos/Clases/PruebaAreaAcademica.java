@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pruebaAccesoADatos.Clases;
 
 import logicaDeNegocio.clases.AreaAcademica;
@@ -16,9 +12,8 @@ public class PruebaAreaAcademica {
         AreaAcademicaPrueba.setIdAreaAcademica(22);
         assertNotNull(AreaAcademicaPrueba.getIdAreaAcademica());
     }
-    
-    
-    @Test
+        
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetIdAreaAcademicaInvalida(){
         AreaAcademica AreaAcademicaPrueba = new AreaAcademica();
         AreaAcademicaPrueba.setIdAreaAcademica(-1);
@@ -34,12 +29,11 @@ public class PruebaAreaAcademica {
     }
     
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaSetAreaAcademicaInvalida(){
         AreaAcademica AreaAcademicaPrueba = new AreaAcademica();
         AreaAcademicaPrueba.setArea("Humam¿nidades22");
         assertNull(AreaAcademicaPrueba.getArea());
     }
-    
-    
+        
 }
