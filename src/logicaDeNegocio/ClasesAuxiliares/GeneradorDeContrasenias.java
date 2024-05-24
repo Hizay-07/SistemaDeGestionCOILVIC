@@ -7,7 +7,7 @@ public class GeneradorDeContrasenias {
     private static final String CARACTERES_PERMITIDOS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()[]{}<>?/\\|:;,.\\-_+=";
 
     public static String generarContraseña() {
-        String patronContrasenia = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=\\S+$)(?=(?:[^@$!%*?&]*[@$!%*?&]){0,2}[^@$!%*?&]*$)[a-zA-Z0-9@$!%*?&]{8,15}$";
+        String patronContrasenia = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=\\S+$)(?=(?:[^@$!%*?&]*[@$!%*?&]){1,2}[^@$!%*?&]*$)[a-zA-Z0-9@$!%*?&]{8,15}$";
 
         SecureRandom random = new SecureRandom();
         StringBuilder contraseñaGenerada = new StringBuilder();

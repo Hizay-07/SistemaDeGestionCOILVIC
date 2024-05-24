@@ -377,6 +377,15 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+    
+    public static void mostrarMensajeAccesoAVentanaInvalida(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Sin permiso");
+            mensaje.setContentText("Por el momento no puede acceder a la ventana deseada");
+            mensaje.showAndWait();
+        });
+    }
 
 
     @Override
@@ -384,7 +393,7 @@ public class Alertas extends Application {
         try{
             stage.show();
         }catch(Exception excepcion){
-            System.out.println("Hola");
+            
         }
      
     }

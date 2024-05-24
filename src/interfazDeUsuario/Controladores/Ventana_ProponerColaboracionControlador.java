@@ -32,6 +32,7 @@ import logicaDeNegocio.clases.TipoColaboracion;
 import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.enums.EnumPropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
+import logicaDeNegocio.enums.EnumIdiomas;
 import org.apache.log4j.Logger;
 
 public class Ventana_ProponerColaboracionControlador implements Initializable {
@@ -41,11 +42,11 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     @FXML
     private TextField txfd_ProgramaEducativo;
     @FXML
-    private TextField txfd_ObjetivoGeneral;
+    private TextField txfd_ObjetivoGeneral; 
     @FXML
-    private TextField txfd_Idioma;    
+    private ComboBox<String> cmb_TipoColaboracion; 
     @FXML
-    private ComboBox<String> cmb_TipoColaboracion;  
+    private ComboBox<String> cmb_Idiomas;
     @FXML
     private DatePicker dtp_FechaCierre;
     @FXML
@@ -64,10 +65,10 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         btn_Aceptar.setOnAction(event -> {
             registrarPropuestaColaboracion();
         });
-
         btn_Cancelar.setOnAction(event -> {
             salirDeLaVentana();
         });
+        cargarIdiomas();
     }
     
     public void cerrarVentana(){
@@ -87,43 +88,51 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         }else{
             Alertas.mostrarMensajeErrorEnLaConexion();
             salirDeLaVentana();
+        }           
+    }
+    
+    private void cargarIdiomas(){
+        ObservableList<String> idiomas = FXCollections.observableArrayList();
+        for(EnumIdiomas idiomasEnum : EnumIdiomas.values()){
+            idiomas.add(idiomasEnum.toString());
         }
-                
+        cmb_Idiomas.setItems(idiomas);
     }
     
     public void registrarPropuestaColaboracion(){
-        LocalDate fechaInicio=dtp_FechaInicio.getValue();
-        LocalDate fechaCierre=dtp_FechaCierre.getValue();
-        if(validarFechas(fechaInicio,fechaCierre)){
-            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-            TipoColaboracion tipoColaboracion=new TipoColaboracion();        
-            DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
-            String tipo=(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem();
-            DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-            try{            
+        try{
+            LocalDate fechaInicio=dtp_FechaInicio.getValue();
+            LocalDate fechaCierre=dtp_FechaCierre.getValue();
+            if(validarFechas(fechaInicio,fechaCierre)){
+                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
+                TipoColaboracion tipoColaboracion=new TipoColaboracion();        
+                DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+                String tipo=(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem();
+                String idioma = (String) cmb_Idiomas.getSelectionModel().getSelectedItem();
+                DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();         
                 tipoColaboracion.setTipo(tipo);
                 tipoColaboracion.setIdTipoColaboracion(daoTipoColaboracion.consultarIdTipoColaboracionPorTipo(tipo));
                 propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText());
                 propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText());
                 propuestaColaboracion.setObjetivo(txfd_ObjetivoGeneral.getText());
                 propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-                propuestaColaboracion.setIdioma(txfd_Idioma.getText());
+                propuestaColaboracion.setIdioma(idioma);
                 propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
-                propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());                                                                        
-                propuestaColaboracion.setEstadoPropuesta(EnumPropuestaColaboracion.Registrada.toString());            
-                int idPropuesta=daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
-                if(idPropuesta!=-1){
-                    registrarEmisionPropuesta(idPropuesta);            
-                }else{
+                propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());
+                propuestaColaboracion.setEstadoPropuesta(EnumPropuestaColaboracion.Registrada.toString());
+                int idPropuesta = daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
+                if (idPropuesta != -1) {
+                    registrarEmisionPropuesta(idPropuesta);
+                } else {
                     Alertas.mostrarMensajeErrorEnLaConexion();
-                }            
-            }catch(IllegalArgumentException excepcion){ 
-                Alertas.mostrarMensajeDatosInvalidos();  
-                LOG.info(excepcion);
-            }                                
-        }else{
-            Alertas.mostrarFechasInvalidas();
-        }                        
+                }                                    
+            }else{
+                Alertas.mostrarFechasInvalidas();
+            }       
+        }catch(NullPointerException | IllegalArgumentException excepcion){
+            Alertas.mostrarMensajeDatosInvalidos();  
+            LOG.info(excepcion);
+        }                 
     }
     
     public void registrarEmisionPropuesta(int idPropuesta){

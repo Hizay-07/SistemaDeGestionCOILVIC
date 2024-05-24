@@ -4,6 +4,8 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import javafx.fxml.Initializable;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.clases.Profesor;
@@ -17,9 +19,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
+import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumProfesor;
+import logicaDeNegocio.enums.EnumPropuestaColaboracion;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
@@ -88,6 +94,20 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
         lbl_NombreProfesor.setText(nombreCompleto);
     }
     
+    public boolean validarAutoridadDeColaboracion(){
+        boolean resultadoValidacion=false;
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
+        int idPropuestaColaboracion = daoPropuesta.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(profesor.getIdProfesor());
+        PropuestaColaboracion propuestaObtenida = daoPropuesta.obtenerPropuestaDeColaboracionPorId(idPropuestaColaboracion);
+        if(Objects.nonNull(propuestaObtenida.getTipoColaboracion())&&propuestaObtenida.getEstadoPropuesta().equals(EnumPropuestaColaboracion.Aprobada.toString())){
+            resultadoValidacion = true;
+        }else{
+            resultadoValidacion = false;
+        }
+        return resultadoValidacion;
+    }
+    
     public void visualizarColaboracionActiva(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         if(profesor.getEstado().equals(EnumProfesor.Colaborando.toString())){
@@ -127,28 +147,35 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
     }
      public void visualizarPeticionesColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
+        if(validarAutoridadDeColaboracion()){
+            if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
             String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
             desplegarVentana(rutafxml);
-        }else if (profesor.getEstado().equals(EnumProfesor.Colaborando.toString())){
-            String mensaje = "La colaboracion ya ha iniciado";
-            Alertas.mostrarMensajeColaboracionActiva(mensaje);
+            }else if (profesor.getEstado().equals(EnumProfesor.Colaborando.toString())){
+                String mensaje = "La colaboracion ya ha iniciado";
+                Alertas.mostrarMensajeColaboracionActiva(mensaje);
+            }else{
+                String mensaje = "No tiene ninguna colaboracion por iniciar";
+                Alertas.mostrarMensajeColaboracionActiva(mensaje);            
+            }   
         }else{
-            String mensaje = "No tiene ninguna colaboracion por iniciar";
-            Alertas.mostrarMensajeColaboracionActiva(mensaje);            
-        }                            
+            Alertas.mostrarMensajeAccesoAVentanaInvalida();
+        }                         
     }
     
     public void visualizarInicioColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
+        DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
+        DAOPeticionColaboracionImplementacion daoPeticion = new DAOPeticionColaboracionImplementacion();
+        int idPropuesta = daoPropuesta.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(profesor.getIdProfesor());
+        List<Integer> peticionesAceptadas = daoPeticion.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuesta);
+        if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())&&peticionesAceptadas.size()>=1&&peticionesAceptadas.size()<=3){
             String rutafxml = "/interfazDeUsuario/Ventana_IniciarColaboracion.fxml";
             desplegarVentana(rutafxml);
         }else{
-            String mensaje = "No se pueden evaluar peticones de colaboración sin una propuesta de colaboración";
+            String mensaje = "No se pueden iniciar una colaboración sin una propuesta de colaboración o sin peticiones de colaboracion aceptadas";
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
-        }  
-        
+        }   
     }
 
     public void desplegarVentana(String rutaFxml){

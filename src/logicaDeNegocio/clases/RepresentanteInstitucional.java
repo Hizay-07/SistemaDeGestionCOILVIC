@@ -7,7 +7,6 @@ public class RepresentanteInstitucional{
     private String nombreInstitucion;
     private String claveInstitucional;
     private String contacto;
-    private String estadoRepresentante;
     private Pais pais;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -56,18 +55,6 @@ public class RepresentanteInstitucional{
     public void setContacto(String contacto)throws IllegalArgumentException{
         if(contacto!=null&&Pattern.matches(EMAIL_PATTERN, contacto.trim())&&contacto.trim().length()<=60){
             this.contacto = contacto.trim().replaceAll("\\s+", " ");
-        }else{
-            throw new IllegalArgumentException();
-        }
-    }
-
-    public String getEstadoRepresentante() {
-        return estadoRepresentante;
-    }
-
-    public void setEstadoRepresentante(String estadoRepresentante)throws IllegalArgumentException {
-        if(estadoRepresentante!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estadoRepresentante.trim())&&estadoRepresentante.trim().length()<=45){
-            this.estadoRepresentante = estadoRepresentante.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
