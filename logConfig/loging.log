@@ -1,0 +1,54 @@
+[2024-05-14 17:36:46] [ ERROR] [DAOUsuarioImplementacion:124] 
+[2024-05-14 17:40:57] [ ERROR] [DAOUsuarioImplementacion:124] 
+[2024-05-14 17:41:41] [ ERROR] [DAOUsuarioImplementacion:124] 
+[2024-05-14 17:45:56] [ ERROR] [DAOAreaAcademicaImplementacion:55] 
+[2024-05-14 17:45:59] [ ERROR] [DAORegionAcademicaImplementacion:55] 
+[2024-05-14 17:46:31] [ ERROR] [DAOAreaAcademicaImplementacion:55] 
+[2024-05-14 17:46:34] [ ERROR] [DAORegionAcademicaImplementacion:55] 
+[2024-05-14 17:46:46] [ ERROR] [DAOAreaAcademicaImplementacion:220] 
+[2024-05-14 17:46:56] [ ERROR] [DAOAreaAcademicaImplementacion:220] 
+[2024-05-14 17:47:56] [ ERROR] [DAOProfesorUVImplementacion:70] 
+[2024-05-14 17:48:20] [ WARN ] [DAOPropuestaColaboracionImplementacion:283] java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-05-14 18:17:48] [ ERROR] [DAOAreaAcademicaImplementacion:220] 
+[2024-05-14 18:18:01] [ ERROR] [DAOProfesorUVImplementacion:70] 
+[2024-05-14 18:18:43] [ ERROR] [DAOProfesorUVImplementacion:70] 
+[2024-05-14 18:19:38] [ ERROR] [DAOProfesorUVImplementacion:70] 
+[2024-05-14 18:20:28] [ ERROR] [DAOColaboracionImplementacion:98] 
+[2024-05-14 18:20:39] [ WARN ] [DAOPropuestaColaboracionImplementacion:283] java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-05-14 18:20:42] [ ERROR] [DAOPaisImplementacion:76] 
+[2024-05-14 18:20:57] [ ERROR] [DAOAreaAcademicaImplementacion:220] 
+[2024-05-15 14:17:10] [ ERROR] [DAOAreaAcademicaImplementacion:55] 
+[2024-05-15 14:17:14] [ ERROR] [DAORegionAcademicaImplementacion:55] 
+[2024-05-15 14:18:27] [ ERROR] [DAOAreaAcademicaImplementacion:77] 
+[2024-05-15 14:18:31] [ ERROR] [DAORegionAcademicaImplementacion:77] 
+[2024-05-15 14:18:35] [ INFO ] [Ventana_RegistroDeProfesorControlador:156] java.lang.IllegalArgumentException
+[2024-05-15 14:19:21] [ ERROR] [DAOAreaAcademicaImplementacion:77] 
+[2024-05-15 14:19:22] [ ERROR] [DAORegionAcademicaImplementacion:77] 
+[2024-05-15 14:19:26] [ INFO ] [Ventana_RegistroDeProfesorControlador:156] java.lang.IllegalArgumentException
+[2024-05-15 14:19:26] [ ERROR] [DAOAreaAcademicaImplementacion:77] 
+[2024-05-15 14:19:30] [ ERROR] [DAORegionAcademicaImplementacion:77] 
+[2024-05-15 14:19:32] [ INFO ] [Ventana_RegistroDeProfesorControlador:156] java.lang.IllegalArgumentException
+[2024-05-15 14:30:26] [ WARN ] [DAOPropuestaColaboracionImplementacion:283] java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-05-15 14:32:44] [ ERROR] [DAOAreaAcademicaImplementacion:220] 
+[2024-05-15 14:33:12] [ ERROR] [DAOPaisImplementacion:76] 
+[2024-05-15 14:33:24] [ WARN ] [DAOPropuestaColaboracionImplementacion:283] java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-05-15 14:33:45] [ ERROR] [DAOColaboracionImplementacion:98] 
+[2024-05-20 09:47:08] [ ERROR] [DAOColaboracionImplementacion:98] 
+[2024-05-20 09:58:32] [ ERROR] [DAOProfesorUVImplementacion:70] 
+[2024-05-20 13:43:20] [ ERROR] [ManejadorDeArchivos:60] 
+[2024-05-20 13:45:15] [ ERROR] [ManejadorDeArchivos:44] 
+[2024-05-20 13:46:08] [ ERROR] [ManejadorDeArchivos:44] 
+[2024-05-20 13:46:26] [ ERROR] [ManejadorDeArchivos:60] 
+[2024-05-20 13:46:48] [ ERROR] [ManejadorDeArchivos:60] 
+[2024-05-24 15:29:05] [ INFO ] [Ventana_RegistroDeRepresentanteInstitucionalControlador:81] java.lang.IllegalArgumentException
+[2024-05-24 15:29:32] [ INFO ] [Ventana_RegistroDeRepresentanteInstitucionalControlador:81] java.lang.IllegalArgumentException
+[2024-05-24 15:29:57] [ ERROR] [DAOAreaAcademicaImplementacion:36] 
+[2024-05-24 15:30:02] [ ERROR] [DAOUsuarioImplementacion:139] 
+[2024-05-24 15:30:41] [ ERROR] [DAOAreaAcademicaImplementacion:36] 
+[2024-05-24 15:30:43] [ ERROR] [DAOUsuarioImplementacion:139] 
+[2024-05-24 15:31:57] [ ERROR] [DAOAreaAcademicaImplementacion:36] 
+[2024-05-24 15:32:00] [ ERROR] [DAOUsuarioImplementacion:139] 
+[2024-05-24 15:33:43] [ ERROR] [Ventana_CreacionDeUsuarioControlador:203] Cannot invoke "String.equals(Object)" because the return value of "logicaDeNegocio.clases.Usuario.getTipoDeUsuario()" is null
+[2024-05-24 15:37:36] [ ERROR] [DAOAreaAcademicaImplementacion:36] 
+[2024-05-24 15:37:40] [ ERROR] [DAOUsuarioImplementacion:139] 
+[2024-05-24 15:38:37] [ FATAL] [ManejadorBaseDeDatos:73] 

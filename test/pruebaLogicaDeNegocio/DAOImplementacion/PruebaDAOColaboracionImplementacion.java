@@ -47,12 +47,10 @@ public class PruebaDAOColaboracionImplementacion {
         colaboracion1.setPropuestaColaboracion(propuestaDeColaboracion1);
         colaboracion1.setCantidadEstudiantes(32);
         colaboracion1.setEstadoColaboracion("Activa");
-        colaboracion1.setRetroalimentacion(null);
         colaboracion2.setIdColaboracion(2);
         colaboracion2.setPropuestaColaboracion(propuestaDeColaboracion2);
         colaboracion2.setCantidadEstudiantes(32);
         colaboracion2.setEstadoColaboracion("Activa");
-        colaboracion2.setRetroalimentacion(null);
         List<Colaboracion> listaEsperada=new ArrayList<>();
         listaEsperada.add(colaboracion1);
         listaEsperada.add(colaboracion2);

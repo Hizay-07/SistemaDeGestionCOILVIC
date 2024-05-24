@@ -35,6 +35,7 @@ public class RegionAcademica {
             throw new IllegalArgumentException();
         }
     }
+
     
     @Override
     public boolean equals(Object obj){
