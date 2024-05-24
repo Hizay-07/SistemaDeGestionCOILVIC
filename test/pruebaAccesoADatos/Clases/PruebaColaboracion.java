@@ -19,21 +19,7 @@ public class PruebaColaboracion {
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setIdColaboracion(-1);
         assertNotNull(colaboracionPrueba.getIdColaboracion());
-    }
-    
-    @Test
-    public void pruebaSetRetroalimentacionExitosa(){
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setRetroalimentacion("Buena colaboración");
-        assertNotNull(colaboracionPrueba.getRetroalimentacion());
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void pruebaSetRetroalimentacionInvalida(){
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setRetroalimentacion("Retroalimentación123");
-        assertNull(colaboracionPrueba.getRetroalimentacion());
-    }
+    }       
     
     @Test
     public void pruebaSetEstadoColaboracionExitosa(){

@@ -41,7 +41,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             declaracion=conexion.prepareStatement("SELECT * FROM RegionAcademica;");
             resultado=declaracion.executeQuery();
-            if(resultado.isBeforeFirst()){
+            if(resultado.isBeforeFirst()){             
                 while(resultado.next()){
                     RegionAcademica regionAcademica=new RegionAcademica();
                     regionAcademica.setIdRegionAcademica(resultado.getInt("idRegionAcademica"));

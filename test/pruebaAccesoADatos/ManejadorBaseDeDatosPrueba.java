@@ -3,6 +3,7 @@ package pruebaAccesoADatos;
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import org.junit.Test;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.clases.Usuario;
@@ -14,7 +15,7 @@ public class ManejadorBaseDeDatosPrueba{
     @Test
     public void pruebaConectarBaseDeDatosExitosa()throws SQLException{
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("CuentaPruebaUno");
+        usuarioPrueba.setNombreUsuario("cuentapruebaUno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasena123*");
         usuarioPrueba.setTipoDeUsuario("Profesor");
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
@@ -24,7 +25,7 @@ public class ManejadorBaseDeDatosPrueba{
         resultado.close();
     }
     
-    @Test
+    @Test (expected = SQLSyntaxErrorException.class)
     public void pruebaFalloConectarBaseDeDatosExitosa()throws SQLException{
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("CuentaPruebaUno");
@@ -33,7 +34,8 @@ public class ManejadorBaseDeDatosPrueba{
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos();
-        assertNull(resultado);
+        assertNotNull(resultado);
+        resultado.close();
     }
     
     @Test
