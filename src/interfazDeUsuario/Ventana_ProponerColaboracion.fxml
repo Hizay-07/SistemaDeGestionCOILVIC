@@ -32,9 +32,9 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <TextField fx:id="txfd_ExperienciaEducativa" layoutX="181.0" layoutY="119.0" prefHeight="26.0" prefWidth="366.0" style="-fx-border-color: black;" />
-                  <TextField fx:id="txfd_ObjetivoGeneral" layoutX="181.0" layoutY="183.0" prefHeight="68.0" prefWidth="290.0" style="-fx-border-color: black;" />
-                  <TextField fx:id="txfd_ProgramaEducativo" layoutX="181.0" layoutY="149.0" prefHeight="28.0" prefWidth="366.0" style="-fx-border-color: black;" />
+                  <TextField fx:id="txfd_ExperienciaEducativa" layoutX="181.0" layoutY="119.0" prefHeight="26.0" prefWidth="366.0" style="-fx-border-color: black; -fx-border-radius: 12;" />
+                  <TextField fx:id="txfd_ObjetivoGeneral" layoutX="181.0" layoutY="183.0" prefHeight="68.0" prefWidth="290.0" style="-fx-border-color: black; -fx-border-radius: 12;" />
+                  <TextField fx:id="txfd_ProgramaEducativo" layoutX="181.0" layoutY="149.0" prefHeight="28.0" prefWidth="366.0" style="-fx-border-color: black; -fx-border-radius: 12;" />
                   <Button fx:id="btn_Aceptar" layoutX="166.0" layoutY="327.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Aceptar" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -43,14 +43,13 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <ComboBox fx:id="cmb_TipoColaboracion" layoutX="48.0" layoutY="277.0" prefHeight="28.0" prefWidth="237.0" promptText="Seleccionar tipo de colaboración" />
+                  <ComboBox fx:id="cmb_TipoColaboracion" layoutX="88.0" layoutY="281.0" prefHeight="28.0" prefWidth="237.0" promptText="Seleccionar tipo de colaboración" />
                   <DatePicker fx:id="dtp_FechaInicio" editable="false" layoutX="57.0" layoutY="84.0" prefHeight="25.0" prefWidth="213.0" promptText="Seleccione la fecha de inicio" />
                   <DatePicker fx:id="dtp_FechaCierre" editable="false" layoutX="345.0" layoutY="84.0" prefHeight="25.0" prefWidth="201.0" promptText="Seleccione la fecha de cierre" />
                   <Label layoutX="60.0" layoutY="124.0" text="Experiencia educativa:" />
                   <Label layoutX="62.0" layoutY="154.0" text="Programa educativo:" />
                   <Label layoutX="62.0" layoutY="191.0" text="Objetivo general:" />
-                  <Label layoutX="312.0" layoutY="283.0" text="Idioma:" />
-                  <TextField fx:id="txfd_Idioma" layoutX="364.0" layoutY="279.0" prefHeight="25.0" prefWidth="170.0" />
+                  <ComboBox fx:id="cmb_Idiomas" layoutX="345.0" layoutY="281.0" prefWidth="150.0" promptText="Idioma" />
                </children>
             </AnchorPane>
          </children>

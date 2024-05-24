@@ -77,14 +77,9 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
         btn_ConsultarRepresentanteInstitucional.setOnAction(Event ->{ 
             consultarRepresentanteInstitucional();
         });
-       
-        mostrarDetallesUsuario();
+        
+        lbl_Administrador.setText("Administrativo COIL-VIC");
     }
-    
-    public void mostrarDetallesUsuario(){
-        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
-        lbl_Administrador.setText(usuario.getNombreUsuario());
-    }        
     
     public void mostrarVentanaColaboraciones(){
         String ruta = "/interfazDeUsuario/Ventana_Colaboraciones.fxml";

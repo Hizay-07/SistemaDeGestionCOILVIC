@@ -10,14 +10,12 @@ public final class RepresentanteAuxiliar {
     private int idRepresentanteInstitucional;
     private String claveInstitucional;
     private String contacto;
-    private String estadoRepresentante;
     private Pais pais;
     
     private RepresentanteAuxiliar(RepresentanteInstitucional representante){
         setNombreInstitucion(representante.getNombreInstitucion());
         setClaveInstitucional(representante.getClaveInstitucional());
         setContacto(representante.getContacto());
-        setEstadoRepresentante(representante.getEstadoRepresentante());
         setPais(representante.getPais());
         setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
     }
@@ -60,14 +58,6 @@ public final class RepresentanteAuxiliar {
 
     private void setContacto(String contacto) {
         this.contacto = contacto;
-    }
-
-    public String getEstadoRepresentante() {
-        return estadoRepresentante;
-    }
-
-    private void setEstadoRepresentante(String estadoRepresentante) {
-        this.estadoRepresentante = estadoRepresentante;
     }
 
     public Pais getPais() {

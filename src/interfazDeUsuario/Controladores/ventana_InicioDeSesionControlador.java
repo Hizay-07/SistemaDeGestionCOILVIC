@@ -86,12 +86,17 @@ public class ventana_InicioDeSesionControlador implements Initializable {
     public void validarEstadoProfesor(Usuario usuario){
         Usuario logger = new Usuario();
         logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario(),logger);
-        if(profesorSesion.getEstado().equals(EnumProfesor.Archivado.toString())){
-            Alertas.mostrarMensajeAccesoDenegado();
-        }else{
-            desplegarVentanaCorrespondiente(usuario);
+        try{
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            Profesor profesorSesion = daoProfesor.obtenerProfesorPorIdUsuario(usuario.getIdUsuario(),logger);
+            if(profesorSesion.getEstado().equals(EnumProfesor.Archivado.toString())){
+                Alertas.mostrarMensajeAccesoDenegado();
+            }else{
+                desplegarVentanaCorrespondiente(usuario);
+            }
+        }catch(NullPointerException excepcion){
+            LOG.error(excepcion.getMessage());
+            Alertas.mostrarMensajeErrorEnLaConexion();
         }
     }
     
