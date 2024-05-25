@@ -23,7 +23,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
         int resultadoRegistro;        
         try{
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroActividad,estadoActividad) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroDeActividad,estadoActividad) VALUES (?,?,?,?,?,?,?)");
             sentencia.setString(1,actividadNueva.getNombre());
             sentencia.setString(2,actividadNueva.getDescripcion());
             sentencia.setString(3,actividadNueva.getFechaDeInicio());
@@ -34,7 +34,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoRegistro = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoRegistro = -1;
         }
         return resultadoRegistro;
@@ -91,14 +91,14 @@ public class DAOActividadImplementacion implements ActividadInterface {
             if(actividadesObtenidas.isBeforeFirst()){
                 while(actividadesObtenidas.next()){
                     Actividad actividadConsultada = new Actividad();
-                    actividadConsultada.setIdActividad(actividadesObtenidas.getInt(1));
-                    actividadConsultada.setNombre(actividadesObtenidas.getString(2));
-                    actividadConsultada.setDescripcion(actividadesObtenidas.getString(3));
-                    actividadConsultada.setFechaDeInicio(actividadesObtenidas.getString(4));
-                    actividadConsultada.setFechaDeCierre(actividadesObtenidas.getString(5));
-                    actividadConsultada.setIdColaboracion(actividadesObtenidas.getInt(7));
-                    actividadConsultada.setNumeroActividad(actividadesObtenidas.getInt(8));
-                    actividadConsultada.setEstado(actividadesObtenidas.getString(6));
+                    actividadConsultada.setIdActividad(actividadesObtenidas.getInt("idActividad"));
+                    actividadConsultada.setNombre(actividadesObtenidas.getString("nombre"));
+                    actividadConsultada.setNumeroActividad(actividadesObtenidas.getInt("numeroDeActividad"));
+                    actividadConsultada.setDescripcion(actividadesObtenidas.getString("descripcion"));
+                    actividadConsultada.setFechaDeInicio(actividadesObtenidas.getString("fechaDeInicio"));
+                    actividadConsultada.setFechaDeCierre(actividadesObtenidas.getString("fechaDeCierre"));
+                    actividadConsultada.setIdColaboracion(actividadesObtenidas.getInt("idColaboracion"));
+                    actividadConsultada.setEstado(actividadesObtenidas.getString("estadoActividad"));
                     actividades.add(actividadConsultada);
                 }
             }
@@ -114,7 +114,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
         int numeroDeActividad=0;       
         try{
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT numeroActividad FROM actividad WHERE nombre = ? AND descripcion = ?");
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT numeroDeActividad FROM actividad WHERE nombre = ? AND descripcion = ?");
             sentencia.setString(1, actividad.getNombre());
             sentencia.setString(2, actividad.getDescripcion());
             ResultSet numeroObtenido = sentencia.executeQuery();
@@ -135,7 +135,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
         boolean resultadoValidacion;       
         try{
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroActividad = ? or nombre = ?");
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroDeActividad = ? or nombre = ?");
             sentencia.setInt(1, actividad.getNumeroActividad());
             sentencia.setString(2, actividad.getNombre());
             ResultSet resultadoConsulta = sentencia.executeQuery();          
@@ -160,7 +160,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
         int resultadoActualizacion;      
         try{
             conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET estadoActividad = ? where numeroActividad = ? AND idActividad = ?");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET estadoActividad = ? where numeroDeActividad = ? AND idActividad = ?");
             sentencia.setString(1, estado);
             sentencia.setInt(2, actividad.getNumeroActividad());
             sentencia.setInt(3, actividad.getIdActividad());

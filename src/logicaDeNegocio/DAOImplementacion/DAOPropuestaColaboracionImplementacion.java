@@ -241,6 +241,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
+            propuestaColaboracion = null;
         }
         return propuestaColaboracion;
     }

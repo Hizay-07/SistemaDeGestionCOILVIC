@@ -45,8 +45,6 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
     @FXML 
     private Button btn_VerPeticionesDeColaboracion;
     @FXML 
-    private Button btn_VisualizarColaboraciones;
-    @FXML 
     private Button btn_Salir;
     @FXML
     private Label lbl_NombreProfesor;

@@ -161,6 +161,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         int idColaboracion=daoColaboracion.obtenerIdColaboracionPorIdPropuesta(idPropuestaColaboracion);
         DAOPeticionColaboracionImplementacion daoPeticionColaboracin=new DAOPeticionColaboracionImplementacion();        
         List<Integer> idProfesores=daoPeticionColaboracin.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuestaColaboracion);
+        idProfesores.add(ProfesorSingleton.getInstancia().getIdProfesor());
         DAOColaboracionProfesorImplementacion daoColaboracionProfesor=new DAOColaboracionProfesorImplementacion();
         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();        
         Profesor profesor=new Profesor();        
