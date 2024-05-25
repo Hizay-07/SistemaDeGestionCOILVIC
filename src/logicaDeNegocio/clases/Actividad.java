@@ -36,7 +36,7 @@ public class Actividad {
     }
 
     public void setNumeroActividad(int numeroActividad)throws IllegalArgumentException {
-        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(numeroActividad))){
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(numeroActividad))&&String.valueOf(numeroActividad).length()<=2){
             this.numeroActividad = numeroActividad;
         }else{
             throw new IllegalArgumentException();

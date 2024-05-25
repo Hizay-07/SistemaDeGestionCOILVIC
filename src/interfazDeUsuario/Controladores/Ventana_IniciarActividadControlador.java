@@ -161,6 +161,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
             }catch(IllegalArgumentException excepcion){
                 LOG.error(excepcion);
                 Alertas.mostrarMensajeDatosInvalidos();
+                nuevaActividad=null;
             }
         }else{
             Alertas.mostrarMensajeFechaInvalida();

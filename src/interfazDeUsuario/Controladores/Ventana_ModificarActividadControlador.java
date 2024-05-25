@@ -71,11 +71,8 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         PropuestaColaboracion propuesta = colaboracionActual.getPropuestaColaboracion();
         LocalDate fechaMaxima = LocalDate.parse(propuesta.getFechaCierre());
         LocalDate fechaMinima = LocalDate.parse(propuesta.getFechaInicio());
-        LocalDate fechaActual = LocalDate.now();
         dtp_FechaDeInicio.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
-        dtp_FechaDeInicio.setValue(fechaActual);
         dtp_FechaDeCierre.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
-        dtp_FechaDeCierre.setValue(fechaActual);
     }
     
     private Callback<DatePicker, DateCell> createDayCellFactory(LocalDate minDate, LocalDate maxDate) {

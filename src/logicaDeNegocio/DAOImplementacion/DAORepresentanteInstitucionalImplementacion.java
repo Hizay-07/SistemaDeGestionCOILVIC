@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 public class DAORepresentanteInstitucionalImplementacion implements RepresentanteInstitucionalInterface {
     
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
-    private static final Logger LOG=Logger.getLogger(DAOAreaAcademicaImplementacion.class);
+    private static final Logger LOG=Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class);
 
     @Override
     public int registrarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
@@ -25,15 +25,15 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         int numeroDePais = paisRepresentante.obtenerNumeroDePais(representanteIngresado.getPais());
         try{
             Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO representanteInstitucional (nombreInstitucion,claveInstitucional,contacto,estadoRepresentante ,Pais_numerodepais) values (?,?,?,?,?)") ;
+            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO representanteInstitucional (nombreInstitucion,claveInstitucional,contacto,Pais_numerodepais) values (?,?,?,?)") ;
             sentencia.setString(1, representanteIngresado.getNombreInstitucion());
             sentencia.setString(2, representanteIngresado.getClaveInstitucional());
             sentencia.setString(3, representanteIngresado.getContacto());            
-            sentencia.setInt(5, numeroDePais);
+            sentencia.setInt(4, numeroDePais);
             resultadoRegistro = sentencia.executeUpdate();       
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoRegistro = -1;
         }
         return resultadoRegistro;
