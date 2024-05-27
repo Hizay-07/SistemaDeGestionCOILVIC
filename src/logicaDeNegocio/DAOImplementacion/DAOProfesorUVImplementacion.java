@@ -33,7 +33,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;        
     }
@@ -67,7 +67,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             }
             conexion.close();                        
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return profesoresUV;
     }
@@ -102,7 +102,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             }
             conexion.close();                        
         } catch (SQLException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return profesoresUV;                
     }
@@ -137,7 +137,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             }
             conexion.close();                        
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return profesoresUV;  
     }
@@ -154,7 +154,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;                
     }
@@ -171,7 +171,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;         
     }
@@ -188,7 +188,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;         
     }
@@ -205,25 +205,9 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;    
-    }
-
-    @Override
-    public int registrarAreaAcademica(String areaAcademica) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("INSERT INTO AreaAcademica (area) VALUES (?);");
-            declaracion.setString(1, areaAcademica);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
-        } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
-        }
-        return numeroFilasAfectadas;        
     }
     
     @Override
@@ -238,7 +222,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;

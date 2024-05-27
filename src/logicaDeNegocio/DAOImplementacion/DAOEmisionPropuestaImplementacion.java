@@ -57,7 +57,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return emisionesPropuesta;        
     }
@@ -79,7 +79,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             idProfesor=-1;
         }
         return idProfesor;        
@@ -103,7 +103,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());            
+            LOG.error(excepcion.getMessage());            
         }
         return idPropuestas;
     }

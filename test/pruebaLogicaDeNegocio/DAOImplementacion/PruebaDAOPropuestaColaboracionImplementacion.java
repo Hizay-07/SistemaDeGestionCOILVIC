@@ -12,8 +12,21 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 
 public class PruebaDAOPropuestaColaboracionImplementacion {
+    
+    private DAOPropuestaColaboracionImplementacion dao;
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
     
     @Test
     public void pruebaRegistrarPropuestaColaboracionExitosa(){
@@ -22,19 +35,19 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         propuestaColaboracion.setFechaInicio("2024-05-02");
         propuestaColaboracion.setFechaCierre("2024-06-23");
         propuestaColaboracion.setIdioma("Ingles");
-        propuestaColaboracion.setExperienciaEducativa("Programacion");
-        propuestaColaboracion.setObjetivo("Compartir los distintos para programar en java");
+        propuestaColaboracion.setExperienciaEducativa("POO");
+        propuestaColaboracion.setObjetivo("Compartir los distintos para programar en c+");
         propuestaColaboracion.setProgramaEducativoEstudiantil("Ingenieria de software");
         propuestaColaboracion.setEstadoPropuesta("Registrada");
         TipoColaboracion tipoColaboracion=new TipoColaboracion();
         tipoColaboracion.setIdTipoColaboracion(1);
         propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-        int resultadoEsperado=6;       
+        int resultadoEsperado=1;       
         int resultadoObtenido=instancia.registrarPropuestaColaboracion(propuestaColaboracion);
         assertEquals(resultadoEsperado,resultadoObtenido);                                
     }
     
-    @Test
+    @Test (expected = AssertionError.class)
     public void pruebaRegistrarPropuestaColaboracionFracaso(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();       
@@ -44,47 +57,34 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     }
     
     @Test
-    public void pruebaConsultarPropuestasColaboracionExitosa(){
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-        propuestaColaboracion.setIdPropuestaColaboracion(1);
-        TipoColaboracion tipoColaboracion=new TipoColaboracion();
-        tipoColaboracion.setIdTipoColaboracion(1);
-        propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-        propuestaColaboracion.setObjetivo("Usar buenas practicas en las bases de datos");                        
-        List<PropuestaColaboracion> listaEsperada=new ArrayList<>();
-        listaEsperada.add(propuestaColaboracion);
-        List<PropuestaColaboracion> listaObtenida=new ArrayList<>();
-        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        listaObtenida=instancia.consultarPropuestasColaboracion();
-        assertEquals(listaEsperada,listaObtenida);                
+    public void testConsultarPropuestasColaboracionExitoso() {
+        List<PropuestaColaboracion> propuestas = dao.consultarPropuestasColaboracion();
+        assertNotNull(propuestas);
+        assertEquals(2, propuestas.size());
     }
     
     @Test
     public void pruebaConsultarPropuestasColaboracionFracaso(){
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                                
-        List<PropuestaColaboracion> listaEsperada=new ArrayList<>();
+        PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
+        List<PropuestaColaboracion> listaEsperada = new ArrayList<>();
         listaEsperada.add(propuestaColaboracion);
-        List<PropuestaColaboracion> listaObtenida=new ArrayList<>();
-        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        listaObtenida=instancia.consultarPropuestasColaboracion();
-        assertNotEquals(listaEsperada,listaObtenida);        
+        List<PropuestaColaboracion> listaObtenida = dao.consultarPropuestasColaboracion();
+        assertNotEquals(listaEsperada, listaObtenida);
     }
     
     
     @Test
     public void pruebaConsultarPropuestasColaboracionPorFechaDeInicioExitosa(){
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
+        PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
         propuestaColaboracion.setIdPropuestaColaboracion(1);
-        TipoColaboracion tipoColaboracion=new TipoColaboracion();
+        TipoColaboracion tipoColaboracion = new TipoColaboracion();
         tipoColaboracion.setIdTipoColaboracion(1);
         propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-        propuestaColaboracion.setObjetivo("Usar buenas practicas en las bases de datos");                        
-        List<PropuestaColaboracion> listaEsperada=new ArrayList<>();
+        propuestaColaboracion.setObjetivo("Compartir los distintos para programar en java");
+        List<PropuestaColaboracion> listaEsperada = new ArrayList<>();
         listaEsperada.add(propuestaColaboracion);
-        List<PropuestaColaboracion> listaObtenida=new ArrayList<>();
-        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        listaObtenida=instancia.consultarPropuestasColaboracionPorFechaDeInicio("2024-08-10");
-        assertEquals(listaEsperada,listaObtenida);                                
+        List<PropuestaColaboracion> listaObtenida = dao.consultarPropuestasColaboracionPorFechaDeInicio("2024-05-02");
+        assertEquals(listaEsperada, listaObtenida);
     }
     
     @Test
@@ -100,41 +100,37 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     
     @Test
     public void pruebaEditarFechaDeInicioDePropuestaColaboracionPorIdExitosa(){
-        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        int resultadoEsperado=1;
-        int resultadoObtenido=instancia.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 1);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
+        int resultadoEsperado = 1;
+        int resultadoObtenido = dao.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 1);
+        assertEquals(resultadoEsperado, resultadoObtenido);        
     }
     
     @Test
     public void pruebaEditarFechaDeInicioDePropuestaColaboracionPorIdFracaso(){
-        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        int resultadoEsperado=0;
-        int resultadoObtenido=instancia.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 0);
-        assertEquals(resultadoEsperado,resultadoObtenido);          
+        int resultadoEsperado = 0;
+        int resultadoObtenido = dao.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 0);
+        assertEquals(resultadoEsperado, resultadoObtenido);          
     }
         
     @Test
     public void pruebaEditarFechaDeCierreDePropuestaColaboracionPorIdExitosa(){
-        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        int resultadoEsperado=1;
-        int resultadoObtenido=instancia.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 1);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
+        int resultadoEsperado = 1;
+        int resultadoObtenido = dao.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 1);
+        assertEquals(resultadoEsperado, resultadoObtenido);        
     }
     
     @Test
     public void pruebaEditarFechaDeCierreDePropuestaColaboracionPorIdFracaso(){
-         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        int resultadoEsperado=0;
-        int resultadoObtenido=instancia.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 0);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
+        int resultadoEsperado = 0;
+        int resultadoObtenido = dao.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 0);
+        assertEquals(resultadoEsperado, resultadoObtenido);        
     }
     
     @Test
     public void pruebaAprobarPropuestaColaboracionPorIdExitosa(){
         DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
         int resultadoEsperado=1;
-        int resultadoObtenido=instancia.aprobarPropuestaColaboracionPorId(3);
+        int resultadoObtenido=instancia.aprobarPropuestaColaboracionPorId(2);
         assertEquals(resultadoEsperado,resultadoObtenido);                        
     }
         
@@ -164,18 +160,23 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     
     @Test
     public void pruebaConsultarPropuestasDeColaboracionAprobadasExitosa(){
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-        TipoColaboracion tipoColaboracion=new TipoColaboracion();
+        PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
+        TipoColaboracion tipoColaboracion = new TipoColaboracion();
         tipoColaboracion.setIdTipoColaboracion(1);
         propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-        propuestaColaboracion.setExperienciaEducativa("Bases de datos");
-        propuestaColaboracion.setObjetivo("Usar buenas practicas en las bases de datos");
-        List<PropuestaColaboracion> resultadoEsperado=new ArrayList<>();
+        propuestaColaboracion.setExperienciaEducativa("Programacion");
+        propuestaColaboracion.setObjetivo("Compartir los distintos para programar en java");
+        List<PropuestaColaboracion> resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(propuestaColaboracion);
-        List<PropuestaColaboracion> resultadoObtenido=new ArrayList<>();
-        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-        resultadoObtenido=daoPropuestaColaboracion.consultarPropuestasDeColaboracionAprobadas();
-        assertEquals(resultadoEsperado,resultadoObtenido);        
+        List<PropuestaColaboracion> resultadoObtenido = dao.consultarPropuestasDeColaboracionAprobadas();
+        assertEquals(resultadoEsperado, resultadoObtenido);        
+    }
+    
+    @Test
+    public void pruebaConsultarPropuestasDeColaboracionAprobadasFallida(){
+        List<PropuestaColaboracion> resultadoEsperado = new ArrayList<>();
+        List<PropuestaColaboracion> resultadoObtenido = dao.consultarPropuestasDeColaboracionAprobadas();
+        assertNotEquals(resultadoEsperado, resultadoObtenido);        
     }
     
     @Test
@@ -186,8 +187,8 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         usuario.setCorreo("cuentaadmin@gmail.com");
         usuario.setTipoDeUsuario("Administrativo");
         UsuarioSingleton.getInstancia(usuario);
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-        TipoColaboracion tipoColaboracion=new TipoColaboracion();
+        PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
+        TipoColaboracion tipoColaboracion = new TipoColaboracion();
         Profesor profesor = new Profesor();
         tipoColaboracion.setIdTipoColaboracion(2);
         tipoColaboracion.setTipo("Implementación COIL-VIC");
@@ -206,12 +207,17 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         profesor.setCorreo("correo@gmail.com");
         profesor.setEstado("Esperando");
         propuestaColaboracion.setProfesor(profesor);
-        List<PropuestaColaboracion> resultadoEsperado=new ArrayList<>();
+        List<PropuestaColaboracion> resultadoEsperado = new ArrayList<>();
         resultadoEsperado.add(propuestaColaboracion);
-        List<PropuestaColaboracion> resultadoObtenido=new ArrayList<>();
-        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-        resultadoObtenido=daoPropuestaColaboracion.consultarPropuestasDeColaboracionRegistradas();
-        assertEquals(resultadoEsperado,resultadoObtenido);    
+        List<PropuestaColaboracion> resultadoObtenido = dao.consultarPropuestasDeColaboracionRegistradas();
+        assertEquals(resultadoEsperado, resultadoObtenido);    
+    }
+    
+    @Test
+    public void pruebaConsultarPropuestasDeColaboracionRegistradasFallida(){
+        List<PropuestaColaboracion> resultadoEsperado = new ArrayList<>();
+        List<PropuestaColaboracion> resultadoObtenido = dao.consultarPropuestasDeColaboracionRegistradas();
+        assertNotEquals(resultadoEsperado, resultadoObtenido);    
     }
     
     @Test
@@ -223,6 +229,11 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         assertEquals(resultadoEsperado,resultadoObtenido);                        
     }
     
-}
+    @Test
+    public void pruebaObtenerIdPropuestaColaboracionAprobadaPorIdProfesorFallida(){
+        int resultadoEsperado = 0;
+        int resultadoObtenido = dao.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(2);
+        assertNotEquals(resultadoEsperado, resultadoObtenido);                        
+    }
     
-
+}

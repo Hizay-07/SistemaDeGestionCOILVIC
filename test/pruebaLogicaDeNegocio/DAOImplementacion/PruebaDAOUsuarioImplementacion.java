@@ -7,61 +7,63 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import org.junit.Before;
 
 public class PruebaDAOUsuarioImplementacion {
-    
-    @Test
-    public void pruebaRegistrarUsuarioExitosa(){
+        
+    @Before
+    public void setUp() {
         Usuario usuarioPrueba = new Usuario();
-        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("CuentaPruebaUno");
-        usuarioPrueba.setContrasenia("Contrasena123*");
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
         usuarioPrueba.setTipoDeUsuario("Administrativo");
-        
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
+     
+    @Test
+    public void pruebaRegistrarUsuarioExitosa() {
+        Usuario usuarioPrueba = new Usuario();
+        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
+        usuarioPrueba.setNombreUsuario("profesoruvtres@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Profesor");
         int resultado = implementacion.registrarUsuario(usuarioPrueba);
-        assertEquals(1,resultado);
+        assertEquals(1, resultado);
     }
     
     @Test
-    public void pruebaFlujoFallidoRegistrarUsuarioExitosa(){
+    public void pruebaRegistrarUsuarioFallida() {
         Usuario usuarioPrueba = new Usuario();
-        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("Equipo2");
-        usuarioPrueba.setContrasenia("contrasena123");
-        usuarioPrueba.setTipoDeUsuario("Administrativo");
-        
-        int resultado = implementacion.registrarUsuario(usuarioPrueba);
-        assertEquals(resultado, resultado);
+        usuarioPrueba.setNombreUsuario(null);
+        usuarioPrueba.setContrasenia(null);
+        usuarioPrueba.setTipoDeUsuario(null);
+        DAOUsuarioImplementacion dao = new DAOUsuarioImplementacion();
+        int resultadoInsercion = dao.registrarUsuario(usuarioPrueba);
+        assertEquals(-1, resultadoInsercion);
     }
     
     @Test
-    public void pruebaValidarCredencialesExitosa(){
-        Usuario usuarioPrueba = new Usuario();
-        Usuario logger = new Usuario();
-        logger.setTipoDeUsuario("Logger");
-        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("Equipo2");
-        usuarioPrueba.setContrasenia("contrasena123");
-        
-        int resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
-        assertTrue(resultado);
+    public void pruebaValidarCredencialesExitosa() {
+        Usuario usuarioExistente = new Usuario();
+        usuarioExistente.setNombreUsuario("cuentaadmin@gmail.com");
+        usuarioExistente.setContrasenia("contrasenia123*");
+        DAOUsuarioImplementacion dao = new DAOUsuarioImplementacion();
+        int resultadoValidacion = dao.validarCredenciales(usuarioExistente, null);
+        assertEquals(1, resultadoValidacion);
     }
     
     @Test
-    public void pruebaFlujoFallidoValidarCredencialesExitosa(){
-        Usuario usuarioPrueba = new Usuario();
-        Usuario logger = new Usuario();
-        logger.setTipoDeUsuario("Logger");
-        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("Equipo2");
-        usuarioPrueba.setContrasenia("contrasena1234");
-        
-        int resultado = implementacion.validarCredenciales(usuarioPrueba,logger);
-        assertFalse(resultado);
+    public void pruebaValidarCredencialesFallida() {
+        Usuario usuarioNoExistente = new Usuario();
+        usuarioNoExistente.setNombreUsuario("usuarioinexistente@gmail.com");
+        usuarioNoExistente.setContrasenia("contrasenia123");
+        DAOUsuarioImplementacion dao = new DAOUsuarioImplementacion();
+        int resultadoValidacion = dao.validarCredenciales(usuarioNoExistente, null);
+        assertEquals(0, resultadoValidacion);
     }
     
     @Test
-    public void pruebaObtenerTipoDeUsuario(){
+    public void pruebaObtenerTipoDeUsuarioExitosa(){
         Usuario usuarioPrueba = new Usuario();
         Usuario logger = new Usuario();
         logger.setTipoDeUsuario("Logger");
@@ -74,17 +76,14 @@ public class PruebaDAOUsuarioImplementacion {
     }
     
     @Test
-    public void pruebaFlujoFallidoObtenerTipoDeUsuario(){
-        Usuario usuarioPrueba = new Usuario();
-        Usuario logger = new Usuario();
-        logger.setTipoDeUsuario("Logger");
-        DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("Equipo2");
-        usuarioPrueba.setContrasenia("contrasena1234");
-        
-        String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba,logger);
-        assertEquals("",resultado);
-    }
+    public void pruebaObtenerTipoDeUsuarioFallida() {
+        Usuario usuarioNoExistente = new Usuario();
+        usuarioNoExistente.setNombreUsuario("usuarioinexistente@gmail.com");
+        usuarioNoExistente.setContrasenia("contrasenia123");
+        DAOUsuarioImplementacion dao = new DAOUsuarioImplementacion();
+        String resultadoTipoDeUsuario = dao.obtenerTipoDeUsuario(usuarioNoExistente, null);
+        assertEquals("", resultadoTipoDeUsuario);
+    }    
     
     @Test
     public void pruebaObtenerIdUsuario(){
@@ -101,6 +100,24 @@ public class PruebaDAOUsuarioImplementacion {
     }
     
     @Test
+    public void pruebaObtenerIdUsuarioFallida() {
+        Usuario usuarioNoExistente = new Usuario();
+        usuarioNoExistente.setNombreUsuario("usuarioinexistente@gmail.com");
+        usuarioNoExistente.setContrasenia("contrasenia123");
+        DAOUsuarioImplementacion dao = new DAOUsuarioImplementacion();
+        int resultadoId = dao.obtenerIdUsuario(usuarioNoExistente, null);
+        assertEquals(-1, resultadoId);
+    }
+    
+    @Test
+    public void pruebaConfirmarConexionDeInicioDeSesionFallida() {
+        Usuario logger = new Usuario();
+        DAOUsuarioImplementacion dao = new DAOUsuarioImplementacion();
+        boolean resultadoConfirmacion = dao.confirmarConexionDeInicioDeSesion(logger);
+        assertFalse(resultadoConfirmacion);
+    }
+    
+    @Test
     public void pruebaEliminarUsuarioExitosa(){
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
@@ -109,7 +126,7 @@ public class PruebaDAOUsuarioImplementacion {
         usuarioPrueba.setContrasenia("Contrasenia123*");
         usuarioPrueba.setIdUsuario(1);
         UsuarioSingleton.getInstancia(usuarioPrueba);
-        int resultado = implementacion.eliminarUsuario("chrisvz@gmail.com");
+        int resultado = implementacion.eliminarUsuario("cuentaadmin2@gmail.com");
         assertEquals(1,resultado);
     }
     
@@ -124,13 +141,5 @@ public class PruebaDAOUsuarioImplementacion {
         UsuarioSingleton.getInstancia(usuarioPrueba);
         int resultado = implementacion.eliminarUsuario("chrisvz@gmail.com");
         assertEquals(0,resultado);
-    }
-
-    private void assertTrue(int resultado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private void assertFalse(int resultado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

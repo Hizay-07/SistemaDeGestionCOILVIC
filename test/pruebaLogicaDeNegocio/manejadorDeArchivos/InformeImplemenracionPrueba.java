@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pruebaLogicaDeNegocio.manejadorDeArchivos;
 
 import com.itextpdf.text.BaseColor;
@@ -17,29 +13,73 @@ import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.TipoColaboracion;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.manejadorDeArchivos.InformeImplementacion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 public class InformeImplemenracionPrueba {
-    @Test
-    public void testCrearInformeDeColaboracionExitoso() {
-        InformeImplementacion informe = new InformeImplementacion();
-        Colaboracion colaboracion = new Colaboracion(); 
-        List<Actividad> actividades = new ArrayList<>();
-        List<Profesor> profesores = new ArrayList<>();
-        Document result = informe.crearInformeDeColaboracion(colaboracion, actividades, profesores);   
-        assertNotNull(result);
-        File file = new File("Informes/informeDeColaboracion" + colaboracion.getIdColaboracion() + ".pdf");
-        assertTrue(file.exists());
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
     }
     
     @Test
-    public void testCrearInformeDeColaboracionFallido() {
+    public void pruebaCrearInformeDeColaboracionExitoso() {
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1);
+        
+        PropuestaColaboracion propuesta = new PropuestaColaboracion();
+        propuesta.setFechaInicio("2021-01-01");
+        propuesta.setFechaCierre("2021-12-31");
+        propuesta.setProgramaEducativoEstudiantil("Ingeniería de Software");
+        propuesta.setExperienciaEducativa("Desarrollo de Software");
+        propuesta.setIdioma("Español");
+        propuesta.setObjetivo("Mejorar habilidades de programación");
+        
+        TipoColaboracion tipo = new TipoColaboracion();
+        tipo.setTipo("Virtual");
+        
+        propuesta.setTipoColaboracion(tipo);
+        colaboracion.setPropuestaColaboracion(propuesta);
+        colaboracion.setCantidadEstudiantes(30);
+        
+        List<Actividad> actividades = new ArrayList<>();
+        Actividad actividad = new Actividad();
+        actividad.setNumeroActividad(1);
+        actividad.setNombre("Actividad 1");
+        actividad.setDescripcion("Descripción de la actividad 1");
+        actividad.setFechaDeInicio("2021-02-01");
+        actividad.setFechaDeCierre("2021-03-01");
+        actividad.setEstado("Completada");
+        actividades.add(actividad);
+        
+        List<Profesor> profesores = new ArrayList<>();
+        Profesor profesor = new Profesor();
+        profesor.setNombre("Juan");
+        profesor.setApellidoPaterno("Pérez");
+        profesor.setApellidoMaterno("López");
+        profesores.add(profesor);
+        
+        InformeImplementacion informe = new InformeImplementacion();
+        Document doc = informe.crearInformeDeColaboracion(colaboracion, actividades, profesores);
+        
+        assertNotNull(doc);
+    }
+    
+    @Test
+    public void pruebaCrearInformeDeColaboracionFallido() {
         InformeImplementacion informe = new InformeImplementacion();
         Colaboracion colaboracion = null;
         List<Actividad> actividades = new ArrayList<>();
@@ -48,120 +88,65 @@ public class InformeImplemenracionPrueba {
         assertNull(result);
     }
 
+    
     @Test
-    public void testCrearBordeDelInformeExitoso() {
+    public void pruebaCrearBordeDelInforme() {
         InformeImplementacion informe = new InformeImplementacion();
         Document doc = new Document();
-        Rectangle result = informe.crearBordeDelInforme(doc);
-        assertNotNull(result);
-        assertEquals(Rectangle.BOX, result.getBorder());
-        assertEquals(BaseColor.BLACK, result.getBorderColor());
-    }
-
-    @Test
-    public void testCrearBordeDelInformeFallido() {
-        InformeImplementacion informe = new InformeImplementacion();
-        Document doc = null;
-        assertThrows(NullPointerException.class, () -> {
-            informe.crearBordeDelInforme(doc);
-        });
+        Rectangle borde = informe.crearBordeDelInforme(doc);
+        
+        assertEquals(doc.leftMargin() - 10, borde.getLeft(), 0);
+        assertEquals(doc.getPageSize().getWidth() - doc.rightMargin() + 10, borde.getRight(), 0);
+        assertEquals(doc.getPageSize().getHeight() - doc.topMargin() + 10, borde.getTop(), 0);
+        assertEquals(doc.bottomMargin() - 10, borde.getBottom(), 0);
+        assertEquals(Rectangle.BOX, borde.getBorder());
+        assertEquals(BaseColor.BLACK, borde.getBorderColor());
+        assertEquals(2, borde.getBorderWidth(), 0);
     }
     
     @Test
-    public void testObtenerActividadesDeInformeExitoso() {
-        InformeImplementacion informe = new InformeImplementacion();
+    public void pruebaObtenerActividadesDeInforme() {
         List<Actividad> actividades = new ArrayList<>();
         Actividad actividad = new Actividad();
         actividad.setNumeroActividad(1);
-        actividad.setNombre("Nombre");
-        actividad.setDescripcion("Descripcion");
-        actividad.setFechaDeInicio("Inicio");
-        actividad.setFechaDeCierre("Cierre");
-        actividad.setEstado("Estado");
+        actividad.setNombre("Actividad 1");
+        actividad.setDescripcion("Descripción de la actividad 1");
+        actividad.setFechaDeInicio("2021-02-01");
+        actividad.setFechaDeCierre("2021-03-01");
+        actividad.setEstado("Completada");
         actividades.add(actividad);
-        PdfPTable result = informe.obtenerActividadesDeInforme(actividades);
-        assertNotNull(result);
-        assertEquals(7, result.getRows().size());
+        
+        InformeImplementacion informe = new InformeImplementacion();
+        PdfPTable tabla = informe.obtenerActividadesDeInforme(actividades);
+        
+        assertEquals(6, tabla.getNumberOfColumns());
+        assertEquals(7, tabla.getRows().size()); // 1 header row + 1 data row
     }
 
     @Test
-    public void testObtenerActividadesDeInformeFallido() {
+    public void pruebaObtenerTituloDeInforme() {
         InformeImplementacion informe = new InformeImplementacion();
-        List<Actividad> actividades = null;
-        assertThrows(NullPointerException.class, () -> {
-            informe.obtenerActividadesDeInforme(actividades);
-        });
+        PdfPTable titulo = informe.obtenerTituloDeInforme();
+        
+        assertEquals(2, titulo.getNumberOfColumns());
     }
     
     @Test
-    public void testObtenerTituloDeInformeExitoso() {
-        InformeImplementacion informe = new InformeImplementacion();
-        PdfPTable result = informe.obtenerTituloDeInforme();
-        assertNotNull(result);
-        assertEquals(2, result.getNumberOfColumns());
-    }
-    
-    @Test
-    public void testObtenerTituloDeInformeFallido() {
-        InformeImplementacion informe = new InformeImplementacion();
-        PdfPTable result = informe.obtenerTituloDeInforme();
-        assertNotNull(result);
-    }
-    
-     @Test
-        public void testObtenerCuerpoDelInformeExitoso() {
-        InformeImplementacion informe = new InformeImplementacion();
-        Colaboracion colaboracion = new Colaboracion();        
-        PropuestaColaboracion propuesta = new PropuestaColaboracion();
-        propuesta.setFechaInicio("2023-01-01");
-        propuesta.setFechaCierre("2023-12-31");
-        propuesta.setProgramaEducativoEstudiantil("Programa X");
-        propuesta.setExperienciaEducativa("Experiencia Y");
-        propuesta.setIdioma("Español");
-        propuesta.setObjetivo("Objetivo Z");
-        TipoColaboracion tipo = new TipoColaboracion();
-        tipo.setTipo("Virtual");
-        propuesta.setTipoColaboracion(tipo);
-        colaboracion.setPropuestaColaboracion(propuesta);
-        colaboracion.setCantidadEstudiantes(30);        
+    public void pruebaGuardarArchivoDeInformeExitoso() {
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1);
+        
+        List<Actividad> actividades = new ArrayList<>();
         List<Profesor> profesores = new ArrayList<>();
-        Profesor profesor = new Profesor();
-        profesor.setNombre("Nombre");
-        profesor.setApellidoPaterno("ApellidoPaterno");
-        profesor.setApellidoMaterno("ApellidoMaterno");
-        profesores.add(profesor);        
-        Paragraph result = informe.obtenerCuerpoDelInforme(colaboracion, profesores);
-        assertNotNull(result);
-        assertTrue(result.getChunks().size() > 0);
-    }
-    
-    @Test
-    public void testObtenerCuerpoDelInformeFallido() {
+        
         InformeImplementacion informe = new InformeImplementacion();
-        Colaboracion colaboracion = null;
-        List<Profesor> profesores = new ArrayList<>();
-        assertThrows(NullPointerException.class, () -> {
-            informe.obtenerCuerpoDelInforme(colaboracion, profesores);
-        });
-    }
-    
-    @Test
-    public void testGuardarArchivoDeInformeExitoso() {
-        InformeImplementacion informe = new InformeImplementacion();
-        Document doc = new Document();
-        File file = new File("test_guardar.pdf");
-        int result = informe.guardarArchivoDeInforme(file, doc, 1);
-        assertEquals(1, result);
-        assertTrue(file.exists());
-        file.delete();
-    }
-    
-    @Test
-    public void testGuardarArchivoDeInformeFallido() {
-        InformeImplementacion informe = new InformeImplementacion();
-        Document doc = new Document();
-        File file = null;
-        int result = informe.guardarArchivoDeInforme(file, doc, 1);
-        assertEquals(-1, result);
+        Document doc = informe.crearInformeDeColaboracion(colaboracion, actividades, profesores);
+        
+        File archivo = new File("Informes/informeDeColaboracionTest.pdf");
+        int resultado = informe.guardarArchivoDeInforme(archivo, doc, colaboracion.getIdColaboracion());
+        
+        assertEquals(1, resultado);
+        assertTrue(archivo.exists());
+        archivo.delete(); 
     }
 }

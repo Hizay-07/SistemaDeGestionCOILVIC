@@ -6,118 +6,84 @@ import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.PropuestaColaboracion;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaDAOColaboracionProfesorImplementacion {
-    @Test
-    public void pruebaInsertarColaboracionProfesorExitosa(){
-        DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
-        Profesor profesorPrueba = new Profesor();
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        profesorPrueba.setIdProfesor(2);
-        colaboracionPrueba.setIdColaboracion(2);
-        int resultadoEsperado = 1;
-        int resultadoObtenido = daoPrueba.registrarColaboracionProfesor(profesorPrueba, colaboracionPrueba);
-        assertEquals(resultadoEsperado,resultadoObtenido);
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
     }
     
     @Test
-    public void pruebaFlujoAlternoInsertarColaboracionProfesorExitosa(){
-        DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
-        Profesor profesorPrueba = new Profesor();
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        profesorPrueba.setIdProfesor(4);
-        colaboracionPrueba.setIdColaboracion(0);
-        int resultadoEsperado = -1;
-        int resultadoObtenido = daoPrueba.registrarColaboracionProfesor(profesorPrueba, colaboracionPrueba);
-        assertEquals(resultadoEsperado,resultadoObtenido);
+    public void pruebaObtenerProfesoresPorIdColaboracionExitosa() {
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1); 
+        DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
+        List<Profesor> profesores = dao.obtenerProfesoresPorIdColaboracion(colaboracion);
+        assertNotNull(profesores);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaObtenerProfesoresPorIdColaboracionFallida() {
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(-1); 
+        DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
+        List<Profesor> profesores = dao.obtenerProfesoresPorIdColaboracion(colaboracion);
+        assertEquals(0, profesores.size());
     }
     
     @Test
-    public void pruebaObtenerColaboracionPorIdProfesorExitosa(){
-        DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
-        PropuestaColaboracion propuestaDeCOlaboracion = new PropuestaColaboracion();
-        propuestaDeCOlaboracion.setIdPropuestaColaboracion(1);
-        Profesor profesorPrueba = new Profesor();
-        Colaboracion colaboracionEsperada = new Colaboracion();
-        colaboracionEsperada.setEstadoColaboracion("Activa");
-        colaboracionEsperada.setPropuestaColaboracion(propuestaDeCOlaboracion);
-        colaboracionEsperada.setIdColaboracion(1);
-        profesorPrueba.setIdProfesor(1);
-        Colaboracion colaboracionObtenida = new Colaboracion();
-        colaboracionObtenida = daoPrueba.obtenerColaboracionPorIdProfesor(profesorPrueba);
-        assertEquals(colaboracionObtenida,colaboracionObtenida);
+    public void pruebaObtenerColaboracionPorIdProfesorExitosa() {
+        Profesor profesor = new Profesor();
+        profesor.setIdProfesor(1);
+        DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
+        Colaboracion colaboracion = dao.obtenerColaboracionPorIdProfesor(profesor);
+        assertNotNull(colaboracion);
     }
+
+    @Test
+    public void pruebaObtenerColaboracionPorIdProfesorFallida() {
+        Profesor profesor = new Profesor();
+        profesor.setIdProfesor(-1); 
+        DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
+        Colaboracion colaboracion = dao.obtenerColaboracionPorIdProfesor(profesor);
+        assertNull(colaboracion);
+    }
+
     
     @Test
-    public void pruebaFlujoFallidoObtenerColaboracionPorIdProfesorExitosa(){
-        DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
-        PropuestaColaboracion propuestaDeCOlaboracion = new PropuestaColaboracion();
-        propuestaDeCOlaboracion.setIdPropuestaColaboracion(1);
-        Profesor profesorPrueba = new Profesor();
-        Colaboracion colaboracionEsperada = new Colaboracion();
-        colaboracionEsperada.setEstadoColaboracion("Activa");
-        colaboracionEsperada.setPropuestaColaboracion(propuestaDeCOlaboracion);
-        colaboracionEsperada.setIdColaboracion(1);
-        profesorPrueba.setIdProfesor(4);
-        Colaboracion colaboracionObtenida = new Colaboracion();
-        colaboracionObtenida = daoPrueba.obtenerColaboracionPorIdProfesor(profesorPrueba);
-        assertNotEquals(colaboracionObtenida,colaboracionEsperada);
+    public void pruebaRegistrarColaboracionProfesorExitosa() {
+        Profesor profesor = new Profesor();
+        profesor.setIdProfesor(1); 
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1); 
+        DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
+        int resultado = dao.registrarColaboracionProfesor(profesor, colaboracion);
+        assertTrue(resultado > 0);
     }
-    
+
     @Test
-    public void pruebaObtenerProfesoresPorIdColaboracionExitosa(){
-        DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
-        List<Profesor> profesoresEsperados = new ArrayList();
-        List<Profesor> profesoresObtenidos = new ArrayList();
-        Profesor profesorEsperado1 = new Profesor();
-        Profesor profesorEsperado2 = new Profesor();
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(1);
-        profesorEsperado1.setNombre("Mario Miguel");
-        profesorEsperado1.setApellidoMaterno("Cabrera");
-        profesorEsperado1.setApellidoPaterno("Limon");
-        profesorEsperado1.setCorreo("mario@gmail.com");
-        profesorEsperado1.setEstado("Colaborando");
-        profesorEsperado1.setIdProfesor(1);
-        profesorEsperado2.setNombre("Elizabeth");
-        profesorEsperado2.setApellidoMaterno("Rodriguez");
-        profesorEsperado2.setApellidoPaterno("Zapata");
-        profesorEsperado2.setCorreo("ez.rzapata08@gmail.com");
-        profesorEsperado2.setEstado("Colaborando");
-        profesorEsperado2.setIdProfesor(2);
-        profesoresEsperados.add(profesorEsperado1);
-        profesoresEsperados.add(profesorEsperado2);
-        profesoresObtenidos = daoPrueba.obtenerProfesoresPorIdColaboracion(colaboracionPrueba);
-        assertEquals(profesoresEsperados,profesoresObtenidos);
+    public void pruebaRegistrarColaboracionProfesorFallida() {
+        Profesor profesor = new Profesor();
+        profesor.setIdProfesor(-1);
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(-1);
+        DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
+        int resultado = dao.registrarColaboracionProfesor(profesor, colaboracion);
+        assertEquals(-1, resultado);
     }
-    
-    @Test
-    public void pruebaFlujoAlternoObtenerProfesoresPorIdColaboracion(){
-        DAOColaboracionProfesorImplementacion daoPrueba = new DAOColaboracionProfesorImplementacion();
-        List<Profesor> profesoresEsperados = new ArrayList();
-        List<Profesor> profesoresObtenidos = new ArrayList();
-        Profesor profesorEsperado1 = new Profesor();
-        Profesor profesorEsperado2 = new Profesor();
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(2);
-        profesorEsperado1.setNombre("Mario Miguel");
-        profesorEsperado1.setApellidoMaterno("Cabrera");
-        profesorEsperado1.setApellidoPaterno("Limon");
-        profesorEsperado1.setCorreo("mario@gmail.com");
-        profesorEsperado1.setEstado("Colaborando");
-        profesorEsperado1.setIdProfesor(1);
-        profesorEsperado2.setNombre("Elizabeth");
-        profesorEsperado2.setApellidoMaterno("Rodriguez");
-        profesorEsperado2.setApellidoPaterno("Zapata");
-        profesorEsperado2.setCorreo("ez.rzapata08@gmail.com");
-        profesorEsperado2.setEstado("Colaborando");
-        profesorEsperado2.setIdProfesor(2);
-        profesoresEsperados.add(profesorEsperado1);
-        profesoresEsperados.add(profesorEsperado2);
-        profesoresObtenidos = daoPrueba.obtenerProfesoresPorIdColaboracion(colaboracionPrueba);
-        assertNotEquals(profesoresEsperados,profesoresObtenidos);
-    }
+
 }

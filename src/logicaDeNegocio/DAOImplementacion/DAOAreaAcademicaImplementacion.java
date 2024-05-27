@@ -18,6 +18,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
 
     @Override
     public int registrarAreaAcademica(AreaAcademica areaAcademica) {
+        
         int numeroFilasAfectadas=0;
         PreparedStatement declaracion;
         try{
@@ -27,7 +28,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         }catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause()); 
+            LOG.error(excepcion.getMessage()); 
         }
          return numeroFilasAfectadas;
     }
@@ -51,7 +52,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return areasAcademicas;
     }
@@ -73,7 +74,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             idArea = -1;
         }
         return idArea;        

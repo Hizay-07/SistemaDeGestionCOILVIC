@@ -39,7 +39,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             idPropuestaColaboracion=declaracion.getInt(9);           
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.fatal(excepcion.getCause());
+            LOG.fatal(excepcion.getMessage());
             System.out.println(excepcion.getMessage());
             idPropuestaColaboracion = -1;
         }

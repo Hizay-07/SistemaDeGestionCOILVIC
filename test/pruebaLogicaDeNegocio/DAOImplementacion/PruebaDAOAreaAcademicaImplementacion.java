@@ -4,21 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOAreaAcademicaImplementacion;
 import logicaDeNegocio.clases.AreaAcademica;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaDAOAreaAcademicaImplementacion {
     
-    @Test
-    public void pruebaRegistrarAreaAcademicaExitosa(){
-        AreaAcademica areaAcademica=new AreaAcademica();
-        areaAcademica.setArea("Ciencias de la salud");
-        int resultadoEsperado=1;
-        DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();
-        int resultadoObtenido=instancia.registrarAreaAcademica(areaAcademica);
-        assertEquals(resultadoEsperado,resultadoObtenido);
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
     }
+    
+    @Test
+    public void pruebaRegistrarAreaAcademicaExitosa() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
+        AreaAcademica areaAcademica = new AreaAcademica();
+        areaAcademica.setArea("Ingeniería");
+        int resultado = dao.registrarAreaAcademica(areaAcademica);
+        assertEquals(1, resultado);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void pruebaFallidaRegistrarAreaAcademica() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
+        AreaAcademica areaAcademica = new AreaAcademica();
+        areaAcademica.setArea("Artes_Plasticas");
+        int resultado = dao.registrarAreaAcademica(areaAcademica);
+    }
+
+
     
     @Test
     public void pruebaRegistrarAreaAcademicaFracaso(){
@@ -30,41 +51,35 @@ public class PruebaDAOAreaAcademicaImplementacion {
     }
     
     @Test
-    public void pruebaConsultarAreasAcademicasExitosa(){
-        AreaAcademica areaAcademica=new AreaAcademica();
-        areaAcademica.setArea("Humanidades");
-        AreaAcademica areaAcademica2=new AreaAcademica();
-        areaAcademica2.setArea("Tecnica");
-        AreaAcademica areaAcademica3=new AreaAcademica();
-        areaAcademica3.setArea("Ciencias de la salud");
-        List<AreaAcademica> resultadoEsperado=new ArrayList<>();
-        resultadoEsperado.add(areaAcademica);
-        resultadoEsperado.add(areaAcademica2);
-        resultadoEsperado.add(areaAcademica3);
-        List<AreaAcademica> resultadoObtenido=new ArrayList<>();
-        DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();
-        resultadoObtenido=instancia.consultarAreasAcademicas();
-        assertEquals(resultadoEsperado,resultadoObtenido);        
+    public void pruebaConsultarAreasAcademicasExitosa() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
+        List<AreaAcademica> areasAcademicas = dao.consultarAreasAcademicas();
+        assertEquals(7, areasAcademicas.size());
     }
+
     
-    @Test
-    public void pruebaConsultarAreasAcademicasFracaso(){
-        AreaAcademica areaAcademica=new AreaAcademica();
-        areaAcademica.setArea("Humanidades");       
-        List<AreaAcademica> resultadoEsperado=new ArrayList<>();
-        resultadoEsperado.add(areaAcademica);
-        List<AreaAcademica> resultadoObtenido=new ArrayList<>();
-        DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();
-        resultadoObtenido=instancia.consultarAreasAcademicas();
-        assertNotEquals(resultadoEsperado,resultadoObtenido);         
-    }    
+    @Test(expected = AssertionError.class)
+    public void pruebaFallidaConsultarAreasAcademicas() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
+        List<AreaAcademica> areasAcademicas = dao.consultarAreasAcademicas();
+        assertEquals(5, areasAcademicas.size());
+    }
+   
     
     @Test
     public void pruebaConsultarIdDeAreaAcademicaPorAreaExitosa(){
         DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();
         String area="Humanidades";
-        int resultadoEsperado=1;
+        int resultadoEsperado=3;
         int resultadoObtenido=instancia.consultarIdDeAreaAcademicaPorArea(area);
-        assertEquals(resultadoEsperado,resultadoObtenido);            
+        assertEquals(resultadoEsperado,resultadoObtenido);          
     }
+    
+    @Test
+    public void pruebaFallidaConsultarIdDeAreaAcademicaPorArea() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
+        int idArea = dao.consultarIdDeAreaAcademicaPorArea("Música");
+        assertEquals(0, idArea);
+    }
+
 }

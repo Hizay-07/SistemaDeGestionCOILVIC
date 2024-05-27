@@ -51,7 +51,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return tiposColaboracion;
     }     
@@ -73,7 +73,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return tipo;        
     }
@@ -93,7 +93,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             idTipoColaboracion = -1;
         }
         return idTipoColaboracion;                

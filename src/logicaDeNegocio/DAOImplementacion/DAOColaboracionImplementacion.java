@@ -63,7 +63,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return colaboraciones;
     }
@@ -110,7 +110,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         }catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;        
     }
@@ -127,7 +127,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;

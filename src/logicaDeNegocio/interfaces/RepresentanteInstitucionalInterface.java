@@ -13,9 +13,7 @@ public interface RepresentanteInstitucionalInterface{
     public int verificarExistenciaClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public int verificarExistenciaNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public int verificarExistenciaContactoInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
-    public boolean obtenerEstadoRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar);
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales();
-    public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionalesPorPais(Pais paisIngresado);
     public int consultarIdRepresentanteInstitucionalPorUniversidad(String universidad);
     public String consultarNombreInstitucionPorIdRepresentanteInstitucional(int idRepresentanteInstitucional);
 }

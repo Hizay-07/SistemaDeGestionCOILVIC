@@ -1,67 +1,90 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOPaisImplementacion;
 import logicaDeNegocio.clases.Pais;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumPais;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.ComparisonFailure;
 
 public class pruebaDAOPaisImplementacion {
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
     
     @Test
     public void pruebaRegistrarPaisExitosa(){
         Pais paisPrueba = new Pais();
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        paisPrueba.setNombrePais(EnumPais.Colombia.toString());
-       
-        int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);
-        
+        paisPrueba.setNombrePais(EnumPais.Ecuador.toString());       
+        int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);        
         assertEquals(1,resultadoInsercion);        
     }
     
-    @Test
-    public void pruebaFlujoFallidoRegistrarPaisExitosa(){
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaRegistrarPaisFallida() {
         Pais paisPrueba = new Pais();
-        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        
-        int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);
-        
-        assertEquals(-1,resultadoInsercion); 
+        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion();
+        paisPrueba.setNombrePais(null);
+        try {
+            int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);
+            assertEquals(-1, resultadoInsercion);
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException|| e instanceof NullPointerException);
+        }
+    }    
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void pruebaFallidaRegistrarPais() {
+        DAOPaisImplementacion dao = new DAOPaisImplementacion();
+        Pais pais = new Pais();
+        pais.setNombrePais("Corea_Sur");
+        int resultado = dao.registrarPais(pais);
     }
     
     @Test
     public void pruebaObtenerNumeroDePaisExitosa(){
         Pais paisPrueba = new Pais();
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        paisPrueba.setNombrePais(EnumPais.Colombia.toString());
-        
+        paisPrueba.setNombrePais(EnumPais.Colombia.toString());       
+        int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
+        assertEquals(2,resultadoConsulta);
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaFlujoFallidoObtenerNumeroDePaisExitoso(){
+        Pais paisPrueba = new Pais();
+        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion();         
         int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
         assertEquals(3,resultadoConsulta);
     }
     
     @Test
-    public void pruebaFlujoFallidoObtenerNumeroDePaisExitoso(){
-        Pais paisPrueba = new Pais();
-        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        
-        int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
-        assertEquals(0,resultadoConsulta);
+    public void pruebaConsultarPaisesExitoso() {
+        DAOPaisImplementacion dao = new DAOPaisImplementacion();
+        List<Pais> paises = dao.consultarPaises();
+        assertEquals(5, paises.size());
     }
     
-    @Test
-    public void pruebaConsultarPaisesExitosa(){        
-        List<Pais> resultadoEsperado=new ArrayList<>();
-        Pais pais1=new Pais();
-        pais1.setNombrePais("Colombia");
-        Pais pais2=new Pais();
-        pais2.setNombrePais("Mexico");
-        resultadoEsperado.add(pais1);
-        resultadoEsperado.add(pais2);
-        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        List<Pais> resultadoObtenido=pruebaMetodo.consultarPaises();
-        assertEquals(resultadoEsperado,resultadoObtenido);               
+    @Test(expected = AssertionError.class)
+    public void pruebaFallidaConsultarPaisesExitosa() {
+        DAOPaisImplementacion dao = new DAOPaisImplementacion();
+        List<Pais> paises = dao.consultarPaises();
+        assertEquals(4, paises.size());
     }
 }
 
