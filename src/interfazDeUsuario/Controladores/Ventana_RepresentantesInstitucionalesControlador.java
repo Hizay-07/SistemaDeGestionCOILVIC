@@ -23,7 +23,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logicaDeNegocio.ClasesAuxiliares.RepresentanteAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.RepresentanteInstitucional;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_RepresentantesInstitucionalesControlador implements Initializable {
@@ -121,15 +123,46 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
     }
     
     public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
-        try{
+        if(validarConexionEstable()){
+            try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.show(); 
-        }catch(IOException excepcion){
-            LOG.error(excepcion);
+            stage.show();
+            cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion);
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();
         }
-        cerrarVentana();
+        
+    }
+    
+     public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
+        String rutaVentanaFXML = null;
+        try {
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+            Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            UsuarioSingleton.resetSingleton();
+            cerrarVentana();
+        } catch (IOException excepcion) {
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
+            LOG.error(excepcion.getCause());
+        }
     }
 }

@@ -4,7 +4,7 @@ import logicaDeNegocio.clases.Usuario;
 
 public interface UsuarioInterface {
     
-    public boolean validarCredenciales(Usuario usuario, Usuario logger);
+    public int validarCredenciales(Usuario usuario, Usuario logger);
 
     public int registrarUsuario(Usuario usuario);
 

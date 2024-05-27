@@ -11,12 +11,12 @@ public class Actividad {
     private String fechaDeCierre;
     private String estado;
     private int idColaboracion;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
 
-
     public Actividad() {
+        
     }
 
     public int getIdActividad() {
@@ -48,8 +48,8 @@ public class Actividad {
     }
 
     public void setNombre(String nombre)throws IllegalArgumentException {
-        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre)){
-            this.nombre = nombre;
+        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre.trim())&&nombre.trim().length()<=150){
+            this.nombre = nombre.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -60,8 +60,8 @@ public class Actividad {
     }
 
     public void setDescripcion(String descripcion)throws IllegalArgumentException {
-        if(descripcion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, descripcion)){
-            this.descripcion = descripcion;
+        if(descripcion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, descripcion.trim())&&descripcion.trim().length()<=255){
+            this.descripcion = descripcion.trim().replaceAll("[ \t]+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -72,8 +72,8 @@ public class Actividad {
     }
 
     public void setFechaDeInicio(String fechaDeInicio)throws IllegalArgumentException {
-        if(fechaDeInicio!=null&&Pattern.matches(FECHA_PATTERN, fechaDeInicio)){
-            this.fechaDeInicio = fechaDeInicio;
+        if(fechaDeInicio!=null&&Pattern.matches(FECHA_PATTERN, fechaDeInicio.trim())&&fechaDeInicio.trim().length()<=45){
+            this.fechaDeInicio = fechaDeInicio.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -84,8 +84,8 @@ public class Actividad {
     }
 
     public void setFechaDeCierre(String fechaDeCierre)throws IllegalArgumentException {
-        if(fechaDeCierre!=null&&Pattern.matches(FECHA_PATTERN, fechaDeCierre)){
-            this.fechaDeCierre = fechaDeCierre;
+        if(fechaDeCierre!=null&&Pattern.matches(FECHA_PATTERN, fechaDeCierre.trim())&&fechaDeCierre.trim().length()<=45){
+            this.fechaDeCierre = fechaDeCierre.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }
@@ -96,8 +96,8 @@ public class Actividad {
     }
 
     public void setEstado(String estado)throws IllegalArgumentException {
-        if(estado!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estado)){
-            this.estado = estado;
+        if(estado!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, estado.trim())&&estado.trim().length()<=16){
+            this.estado = estado.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
         }

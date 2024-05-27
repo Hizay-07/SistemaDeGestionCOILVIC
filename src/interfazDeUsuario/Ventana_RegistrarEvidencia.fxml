@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="270.0" prefWidth="618.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="interfazDeUsuario.Controladores.Ventana_RegistrarEvidenciaController">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="270.0" prefWidth="618.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="interfazDeUsuario.Controladores.Ventana_RegistrarEvidenciaControlador">
    <children>
       <Pane fx:id="pane_ColorSuperior" prefHeight="50.0" prefWidth="618.0" style="-fx-background-color: #168394;">
          <children>

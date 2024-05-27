@@ -19,7 +19,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Actividad;
+import logicaDeNegocio.clases.ProfesorSingleton;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 
@@ -84,15 +87,45 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
     }
     
     public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
-        try{
+        if(validarConexionEstable()){
+            try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show(); 
-        }catch(IOException excepcion){
+            cerrarVentana();
+            }catch(IOException excepcion){
+                LOG.error(excepcion);
+            }
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();
+        }
+    }
+    
+     public boolean validarConexionEstable(){
+        boolean resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+     
+    public void salirAlInicioDeSesion(){
+        String rutaVentanaFXML = null;
+        try {
+            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+            Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            UsuarioSingleton.resetSingleton();
+            ProfesorSingleton.resetSingleton();
+            cerrarVentana();
+        } catch (IOException excepcion) {
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
             LOG.error(excepcion.getCause());
         }
-        cerrarVentana();
     }
 }

@@ -4,8 +4,11 @@ package pruebaLogicaDeNegocio.DAOImplementacion;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.TipoColaboracion;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -173,6 +176,42 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
         resultadoObtenido=daoPropuestaColaboracion.consultarPropuestasDeColaboracionAprobadas();
         assertEquals(resultadoEsperado,resultadoObtenido);        
+    }
+    
+    @Test
+    public void pruebaConsultarPropuestasDeColaboracionRegistradas(){
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario("cuentaadmin@gmail.com");
+        usuario.setContrasenia("Contrasenia123*");
+        usuario.setCorreo("cuentaadmin@gmail.com");
+        usuario.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuario);
+        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
+        TipoColaboracion tipoColaboracion=new TipoColaboracion();
+        Profesor profesor = new Profesor();
+        tipoColaboracion.setIdTipoColaboracion(2);
+        tipoColaboracion.setTipo("Implementación COIL-VIC");
+        propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
+        propuestaColaboracion.setIdioma("Español");
+        propuestaColaboracion.setExperienciaEducativa("Programación segura");
+        propuestaColaboracion.setObjetivo("Crear software de calidad");
+        propuestaColaboracion.setFechaInicio("2024-05-14");
+        propuestaColaboracion.setFechaCierre("2024-05-22");
+        propuestaColaboracion.setEstadoPropuesta("Registrada");
+        propuestaColaboracion.setIdPropuestaColaboracion(4);
+        profesor.setIdProfesor(1);
+        profesor.setNombre("Chris");
+        profesor.setApellidoPaterno("Vasquez");
+        profesor.setApellidoMaterno("Zapata");
+        profesor.setCorreo("correo@gmail.com");
+        profesor.setEstado("Esperando");
+        propuestaColaboracion.setProfesor(profesor);
+        List<PropuestaColaboracion> resultadoEsperado=new ArrayList<>();
+        resultadoEsperado.add(propuestaColaboracion);
+        List<PropuestaColaboracion> resultadoObtenido=new ArrayList<>();
+        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+        resultadoObtenido=daoPropuestaColaboracion.consultarPropuestasDeColaboracionRegistradas();
+        assertEquals(resultadoEsperado,resultadoObtenido);    
     }
     
     @Test

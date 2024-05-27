@@ -51,8 +51,8 @@ public class ventana_InicioDeSesionController implements Initializable {
             usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText());
             usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText());
             DAOUsuarioImplementacion DAOUsuario = new DAOUsuarioImplementacion();
-            boolean validacionCredencial = DAOUsuario.validarCredenciales(usuarioAIngresar, logger);
-            if(validacionCredencial){
+            int validacionCredencial = DAOUsuario.validarCredenciales(usuarioAIngresar, logger);
+            if(validacionCredencial==1){
                 usuarioAIngresar.setTipoDeUsuario(DAOUsuario.obtenerTipoDeUsuario(usuarioAIngresar,logger));
                 usuarioAIngresar.setIdUsuario(DAOUsuario.obtenerIdUsuario(usuarioAIngresar,logger));
                 if(usuarioAIngresar.getTipoDeUsuario().equals(EnumTipoDeUsuario.Profesor.toString())){
@@ -60,8 +60,10 @@ public class ventana_InicioDeSesionController implements Initializable {
                 }else{
                     desplegarVentanaCorrespondiente(usuarioAIngresar);
                 }
-            }else{
+            }else if(validacionCredencial==0){
                 Alertas.mostrarMensajeUsuarioNoEncontrado();
+            }else{
+                Alertas.mostrarMensajeErrorEnLaConexion();
             }            
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion);
@@ -109,6 +111,7 @@ public class ventana_InicioDeSesionController implements Initializable {
             stage.setScene(scene);
             stage.show();
         }catch(IOException excepcion){
+            Alertas.mostrarMensajeErrorAlDesplegarVentana();
             LOG.error(excepcion);
         }
         cerrarVentana();
