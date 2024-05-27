@@ -36,7 +36,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;
     }
@@ -62,7 +62,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return peticiones;
     }
@@ -79,7 +79,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;
     }
@@ -96,7 +96,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;
     }
@@ -118,7 +118,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             idPropuestaColaboracion=-1;
         }
         return idPropuestaColaboracion;
@@ -139,7 +139,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             }
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return idProfesores;                        
     }
@@ -156,7 +156,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;
     }
@@ -173,7 +173,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;
     }
@@ -193,7 +193,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             }
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return idProfesores;                        
     }
@@ -210,7 +210,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             resultadoPrecondicion=declaracion.getInt(2);
             conexion.close();        
         }catch(SQLException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoPrecondicion=-1;
         }
         return resultadoPrecondicion;        
@@ -226,7 +226,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.execute();   
             resultadoCambioEstado=1;        
         }catch(SQLException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoCambioEstado=-1;
         }
         return resultadoCambioEstado;  

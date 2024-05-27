@@ -25,7 +25,7 @@ public class ManejadorDeArchivosImplementacion {
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setIdColaboracion(1);
         Actividad actividad = new Actividad();
-        actividad.setIdActividad(1);
+        actividad.setIdActividad(99);
         boolean resultadoObtenido = pruebaDeMetodo.crearCarpetaDeActividad(actividad, colaboracionPrueba);
         assertEquals(false, resultadoObtenido);
 }

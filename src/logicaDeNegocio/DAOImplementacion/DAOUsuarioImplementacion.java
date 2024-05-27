@@ -33,7 +33,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             resultadoInsercion = sentencia.getInt(4);
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoInsercion = -1;
         }
         return resultadoInsercion;
@@ -60,7 +60,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoValidacion = -1;
         }
         return resultadoValidacion;
@@ -83,7 +83,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return resultadoTipoDeUsuario;
     }
@@ -105,7 +105,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoId = -1;
         }
         return resultadoId;
@@ -119,7 +119,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
            resultadoDeConfirmacionDeConexion=true;
            conexion.close();
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return resultadoDeConfirmacionDeConexion;
     }
@@ -136,7 +136,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
            }
            conexion.close();
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return resultadoDeConfirmacionDeConexion;
     }
@@ -151,7 +151,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
            resultadoEliminacion = sentencia.executeUpdate();
            conexion.close();
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoEliminacion = -1;
         }
         return resultadoEliminacion;
@@ -173,7 +173,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                 }
             }
         }catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             coincidenciasEncontradas = -1;
         }
         return coincidenciasEncontradas;

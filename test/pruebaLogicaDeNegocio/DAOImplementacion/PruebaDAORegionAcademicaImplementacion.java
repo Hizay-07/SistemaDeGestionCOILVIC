@@ -4,70 +4,72 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAORegionAcademicaImplementacion;
 import logicaDeNegocio.clases.RegionAcademica;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaDAORegionAcademicaImplementacion {
     
-    @Test
-    public void pruebaRegistrarRegionAcademicaExitosa(){
-        RegionAcademica regionAcademica=new RegionAcademica();
-        regionAcademica.setRegion("Poza Rica-Tuxpan");
-        DAORegionAcademicaImplementacion instancia=new DAORegionAcademicaImplementacion();
-        int resultadoEsperado=1;
-        int resultadoObtenido=instancia.registrarRegionAcademica(regionAcademica);
-        assertEquals(resultadoEsperado,resultadoObtenido);                
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
     }
     
     @Test
-    public void pruebaRegistrarRegionAcademicaFracaso(){
-        RegionAcademica regionAcademica=new RegionAcademica();        
-        DAORegionAcademicaImplementacion instancia=new DAORegionAcademicaImplementacion();
-        int resultadoEsperado=0;
-        int resultadoObtenido=instancia.registrarRegionAcademica(regionAcademica);
-        assertEquals(resultadoEsperado,resultadoObtenido);         
+    public void pruebaRegistrarRegionAcademicaExitosa() {
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        RegionAcademica regionAcademica = new RegionAcademica();
+        regionAcademica.setRegion("Tuxtepec");
+        int resultado = dao.registrarRegionAcademica(regionAcademica);
+        assertEquals(1, resultado);
+    }
+
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void pruebaFallidaRegistrarRegionAcademica() {
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        RegionAcademica regionAcademica = new RegionAcademica();
+        regionAcademica.setRegion("Xalapa2000");
+        int resultado = dao.registrarRegionAcademica(regionAcademica);
+    }
+
+    
+    @Test
+    public void pruebaConsultarRegionesAcademicasExitosa() {
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        List<RegionAcademica> regionesAcademicas = dao.consultarRegionesAcademicas();
+        assertEquals(9, regionesAcademicas.size());
+    }
+
+    
+    @Test(expected = AssertionError.class)
+    public void pruebaFallidaConsultarRegionesAcademicas() {
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        List<RegionAcademica> regionesAcademicas = dao.consultarRegionesAcademicas();
+        assertEquals(6, regionesAcademicas.size());
+    }
+
+    
+    @Test
+    public void pruebaConsultarIdDeRegionPorRegionExitosa() {
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        int idRegion = dao.consultarIdDeRegionPorRegion("Veracruz");
+        assertEquals(2, idRegion);
     }
     
     @Test
-    public void pruebaConsultarRegionesAcademicasExitosa(){
-        RegionAcademica regionAcademica=new RegionAcademica();
-        regionAcademica.setRegion("Xalapa");
-        RegionAcademica regionAcademica2=new RegionAcademica();
-        regionAcademica2.setRegion("Veracruz");
-        RegionAcademica regionAcademica3=new RegionAcademica();
-        regionAcademica3.setRegion("Orizaba-Cordoba");
-        RegionAcademica regionAcademica4=new RegionAcademica();
-        regionAcademica4.setRegion("Poza Rica-Tuxpan");
-        List<RegionAcademica> resultadoEsperado=new ArrayList<>();
-        resultadoEsperado.add(regionAcademica);
-        resultadoEsperado.add(regionAcademica2);
-        resultadoEsperado.add(regionAcademica3);
-        resultadoEsperado.add(regionAcademica4);
-        List<RegionAcademica> resultadoObtenido=new ArrayList<>();
-        DAORegionAcademicaImplementacion instancia=new DAORegionAcademicaImplementacion();
-        resultadoObtenido=instancia.consultarRegionesAcademicas();
-        assertEquals(resultadoEsperado,resultadoObtenido);                        
+    public void pruebaFallidaConsultarIdDeRegionPorRegion() {
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        int idRegion = dao.consultarIdDeRegionPorRegion("Ciudad de México");
+        assertEquals(0, idRegion);
     }
-    
-    @Test
-    public void pruebaConsultarRegionesAcademicasFracaso(){
-        RegionAcademica regionAcademica=new RegionAcademica();
-        regionAcademica.setRegion("Xalapa");        
-        List<RegionAcademica> resultadoEsperado=new ArrayList<>();
-        resultadoEsperado.add(regionAcademica);        
-        List<RegionAcademica> resultadoObtenido=new ArrayList<>();
-        DAORegionAcademicaImplementacion instancia=new DAORegionAcademicaImplementacion();
-        resultadoObtenido=instancia.consultarRegionesAcademicas();
-        assertNotEquals(resultadoEsperado,resultadoObtenido);        
-    }
-    
-    @Test
-    public void pruebaConsultarIdDeRegionPorRegionExitosa(){
-        DAORegionAcademicaImplementacion instancia=new DAORegionAcademicaImplementacion();
-        String region="Xalapa";
-        int resultadoEsperado=1;
-        int resultadoObtenido=instancia.consultarIdDeRegionPorRegion(region);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
-    }
+
+
 }

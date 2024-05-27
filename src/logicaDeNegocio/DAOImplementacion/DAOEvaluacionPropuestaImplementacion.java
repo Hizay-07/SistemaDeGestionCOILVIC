@@ -31,7 +31,7 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();
         }catch(SQLException excepcion){
-            LOG.error(excepcion);
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;                        
     }
@@ -58,7 +58,7 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
             }
             conexion.close();
         } catch (SQLException excepcion) {
-            LOG.error(excepcion);
+            LOG.error(excepcion.getMessage());
         }
         return evaluacionesPropuestas;
     }

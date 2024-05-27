@@ -29,7 +29,7 @@ public class DAOPaisImplementacion implements PaisInterface {
             resultadoRegistro = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoRegistro = -1;
         }        
         return resultadoRegistro;
@@ -50,7 +50,7 @@ public class DAOPaisImplementacion implements PaisInterface {
            }
            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             paisObtenido = -1;
         }
         return paisObtenido;
@@ -73,7 +73,7 @@ public class DAOPaisImplementacion implements PaisInterface {
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }         
         return paises;
     }

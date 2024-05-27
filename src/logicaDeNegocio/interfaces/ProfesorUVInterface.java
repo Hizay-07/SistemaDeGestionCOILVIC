@@ -5,9 +5,7 @@ import logicaDeNegocio.clases.ProfesorUV;
 
 public interface ProfesorUVInterface {
     public int registrarProfesorUV(ProfesorUV profesorUV);
-    
-    public int registrarAreaAcademica(String areaAcademica);        
-    
+        
     public List<ProfesorUV> consultarProfesoresUV();
     
     public List<ProfesorUV> consultarProfesoresUVPorAreaAcademica(int idAreaAcademica);

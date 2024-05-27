@@ -4,29 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.clases.Actividad;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumActividades;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaDAOActividadImplementacion {
     
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
+    
     @Test
-    public void pruebaRegistrarActividadExitosa(){
+    public void pruebaRegistrarActividadExitosa() {
         DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
         Actividad actividadPrueba = new Actividad();
         actividadPrueba.setNombre("Introduccion a colaboracion");
         actividadPrueba.setDescripcion("Poder entender el objetivo");
         actividadPrueba.setFechaDeInicio("2024-04-04");
-        actividadPrueba.setFechaDeCierre("2024-04-10");
+        actividadPrueba.setFechaDeCierre("2024-05-05");
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(25);
         actividadPrueba.setEstado(EnumActividades.Inactiva.toString());
-        
+
         int resultadoInsercion = implementacion.registrarActividad(actividadPrueba);
-        assertEquals(1,resultadoInsercion);
-    } 
+        assertEquals(1, resultadoInsercion);
+    }
     @Test
     public void pruebaFlujoFallidoRegistrarActividadExitosa(){
         DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
@@ -141,8 +153,6 @@ public class PruebaDAOActividadImplementacion {
         assertEquals(actividadesObtenidas,actividadesEsperadas);
     }
     
-    
-    //Preguntar como realizar sus flujos fallidos
     @Test
     public void pruebaObtenerNumeroDeActividadExitosa(){
         DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
