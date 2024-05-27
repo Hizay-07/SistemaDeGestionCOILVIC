@@ -31,6 +31,8 @@ import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementa
 import logicaDeNegocio.clases.PeticionColaboracion;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
+import logicaDeNegocio.enums.EnumPeticionColaboracion;
+import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 public class Ventana_OfertaDeColaboracionesControlador implements Initializable {
@@ -120,14 +122,14 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
                         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
                         int idProfesor=profesor.getIdProfesor();
                         PeticionColaboracion peticionColaboracion=new PeticionColaboracion();                        
-                        peticionColaboracion.setEstado("Registrada");
+                        peticionColaboracion.setEstado(EnumPeticionColaboracion.Registrada.toString());
                         peticionColaboracion.setIdPropuestaColaboracion(idPropuestaColaboracion);
                         peticionColaboracion.setIdProfesor(idProfesor);
                         peticionColaboracion.setFechaEnvio(obtenerFechaActual());
                         DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
                         daoPeticionColaboracion.registrarPeticionColaboracion(peticionColaboracion);                        
                         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-                        daoProfesor.cambiarEstadoProfesor(idProfesor, "Esperando");
+                        daoProfesor.cambiarEstadoProfesor(idProfesor,   EnumProfesor.Esperando.toString());
                         column_Opcion.setVisible(false);
                         Alertas.mostrarPeticionColaboracionRegistrada();
                     });
