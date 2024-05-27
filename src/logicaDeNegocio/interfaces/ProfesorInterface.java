@@ -17,4 +17,5 @@ public interface ProfesorInterface {
     public int validarDuplicidadDeCorreo(String correo);
     public int eliminarCuentaAsignadaAProfesor(String correoProfesor);
     public int eliminarProfesor(String correo);
+    public int consultarPrecondicionInicioColaboracionPorIdProfesor(int idProfesor);
 }

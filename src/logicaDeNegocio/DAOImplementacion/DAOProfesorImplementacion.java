@@ -24,16 +24,17 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         int numeroFilasAfectadas = 0; 
         try {
             conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, estadoProfesor) VALUES (?, ?, ?, ?, ?)");
+            declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, estadoProfesor, Usuario_idUsuario) VALUES (?, ?, ?, ?, ?, ?)");
             declaracion.setString(1, profesor.getNombre());
             declaracion.setString(2, profesor.getApellidoPaterno());
             declaracion.setString(3, profesor.getApellidoMaterno());
             declaracion.setString(4, profesor.getCorreo());
             declaracion.setString(5, "Activo");
+            declaracion.setInt(6, profesor.getUsuario().getIdUsuario());
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -68,7 +69,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -86,7 +87,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -104,7 +105,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -122,7 +123,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas; 
@@ -145,7 +146,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             idProfesor = -1;
         }
         return idProfesor;                
@@ -173,7 +174,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return profesor;        
     }    
@@ -219,7 +220,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return profesor; 
    }
@@ -240,7 +241,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                 }
             }
         }catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             coincidenciasEncontradas = -1;
         }
         return coincidenciasEncontradas;
@@ -273,12 +274,13 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             numeroFilasAfectadas = declaracion.executeUpdate();
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;
    }
    
+   @Override
     public int consultarPrecondicionInicioColaboracionPorIdProfesor(int idProfesor){
         CallableStatement declaracion;
         int resultadoConsulta=0;
@@ -291,7 +293,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             resultadoConsulta=declaracion.getInt(2);
             conexion.close();        
         }catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion);            
+            LOG.error(excepcion.getMessage());            
         }
         return resultadoConsulta;       
    }

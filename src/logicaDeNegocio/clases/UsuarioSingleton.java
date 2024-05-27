@@ -14,10 +14,10 @@ public final class UsuarioSingleton {
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     private UsuarioSingleton(Usuario usuario) {
+        setIdUsuario(usuario.getIdUsuario());
         setNombreUsuario(usuario.getNombreUsuario());
         setContrasenia(usuario.getContrasenia());
-        setTipoDeUsuario(usuario.getTipoDeUsuario());
-        setIdUsuario(usuario.getIdUsuario());
+        setTipoDeUsuario(usuario.getTipoDeUsuario());        
     } 
     
     public static UsuarioSingleton getInstancia(Usuario usuario)throws IllegalArgumentException{
@@ -64,7 +64,7 @@ public final class UsuarioSingleton {
     }
     
     private void setTipoDeUsuario(String tipoDeUsuario)throws IllegalArgumentException{
-        if(tipoDeUsuario!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, tipoDeUsuario)){
+        if(tipoDeUsuario!=null){
             this.tipoDeUsuario = tipoDeUsuario;
         }else{
             throw new IllegalArgumentException();

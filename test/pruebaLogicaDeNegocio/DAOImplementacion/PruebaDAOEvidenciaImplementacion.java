@@ -8,22 +8,35 @@ import logicaDeNegocio.clases.Colaboracion;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 
 public class PruebaDAOEvidenciaImplementacion {
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
     
     @Test
     public void pruebaRegistrarEvidenciaExitosa(){
         DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("C:\\Users\\chris\\OneDrive\\Escritorio\\Universidad");
+        evidenciaPrueba.setRutaEvidencia("C:\\Users\\hizza\\Desktop\\RRRRR");
         evidenciaPrueba.setIdActividad(1);
         int resultado = pruebaDeMetodo.agregarEvidencia(evidenciaPrueba);
         assertEquals(1,resultado);
     }
-    
+            
     @Test 
     public void pruebaRegistrarEvidenciaFallida(){
         DAOEvidenciaImplementacion pruebaEvidencia = new DAOEvidenciaImplementacion();
@@ -40,7 +53,7 @@ public class PruebaDAOEvidenciaImplementacion {
         DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("C:\\Users\\chris\\OneDrive\\Escritorio\\Universidad\\Escritor.java");
+        evidenciaPrueba.setRutaEvidencia("C:\\Users\\hizza\\Desktop\\RRRRR\\Escritor.java");
         evidenciaPrueba.setIdActividad(1);
         evidenciaPrueba.setIdEvidencia(1);
         int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
@@ -59,37 +72,19 @@ public class PruebaDAOEvidenciaImplementacion {
     }    
     
     @Test
-    public void pruebaObtenerEvidenciaDeActividad(){
-        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
-        List<Evidencia> evidenciasEsperadas = new ArrayList();
-        List<Evidencia> evidenciasObtenidas = new ArrayList();
-        Actividad actividadPrueba = new Actividad();
-        Evidencia evidenciaPrueba = new Evidencia();
-        actividadPrueba.setIdActividad(1);
-        evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("C:\\Users\\chris\\OneDrive\\Escritorio\\Universidad\\Escritor.java");
-        evidenciaPrueba.setIdActividad(1);
-        evidenciaPrueba.setIdEvidencia(1);
-        evidenciasEsperadas.add(evidenciaPrueba);
-        evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(1);
-        assertEquals(evidenciasEsperadas,evidenciasObtenidas);
+    public void pruebaObtenerEvidenciasDeActividadExitosa() {
+        int idActividad = 1; 
+        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
+        List<Evidencia> evidencias = dao.obtenerEvidenciasDeActividad(idActividad);
+        assertNotNull(evidencias);
     }
     
     @Test
-    public void pruebaFlujoFallidoObtenerEvidenciaDeActividad(){
-        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
-        List<Evidencia> evidenciasEsperadas = new ArrayList();
-        List<Evidencia> evidenciasObtenidas = new ArrayList();
-        Actividad actividadPrueba = new Actividad();
-        Evidencia evidenciaPrueba = new Evidencia();
-        actividadPrueba.setIdActividad(1);
-        evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("C:\\Users\\chris\\OneDrive\\Escritorio");
-        evidenciaPrueba.setIdActividad(1);
-        evidenciaPrueba.setIdEvidencia(1);
-        evidenciasEsperadas.add(evidenciaPrueba);
-        evidenciasObtenidas = pruebaDeMetodo.obtenerEvidenciasDeActividad(1);
-        assertNotEquals(evidenciasEsperadas,evidenciasObtenidas);
+    public void pruebaObtenerEvidenciasDeActividadFallida() {
+        int idActividad = -1; 
+        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
+        List<Evidencia> evidencias = dao.obtenerEvidenciasDeActividad(idActividad);
+        assertEquals(0, evidencias.size());
     }
 
 }

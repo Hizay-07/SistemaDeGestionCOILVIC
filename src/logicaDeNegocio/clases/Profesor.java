@@ -8,6 +8,7 @@ public class Profesor{
     private String apellidoMaterno;
     private String correo; 
     private String estado;
+    private Usuario usuario;
     private int idProfesor;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -87,6 +88,14 @@ public class Profesor{
         }else{
             throw new IllegalArgumentException();
         }
+    }
+    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
     public boolean validarAtributos(){

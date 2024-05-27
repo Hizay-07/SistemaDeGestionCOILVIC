@@ -27,7 +27,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             numeroFilasAfectadas=declaracion.executeUpdate();
             conexion.close();            
         } catch (SQLException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return numeroFilasAfectadas;                        
     }
@@ -51,7 +51,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return regionesAcademicas;        
     }
@@ -73,7 +73,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             }
             conexion.close();                      
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return idRegion;                
     }

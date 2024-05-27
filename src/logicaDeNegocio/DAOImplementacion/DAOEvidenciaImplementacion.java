@@ -42,7 +42,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             resultadoInsercion = sentencia.getInt(4);
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoInsercion = -1;
         }
         return resultadoInsercion;
@@ -60,7 +60,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
         }
         return resultadoModificacion;
@@ -86,7 +86,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }
         return evidenciasDeActividad;
     }

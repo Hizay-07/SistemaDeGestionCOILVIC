@@ -53,10 +53,10 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
         }catch(NullPointerException excepcion){
-            LOG.fatal(excepcion.getCause());
+            LOG.fatal(excepcion.getMessage());
             resultadoModificacion = -1;
         }        
         return resultadoModificacion;
@@ -74,7 +74,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoModificacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
         }      
         return resultadoModificacion;
@@ -104,7 +104,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             }
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
         }      
         return actividades;
     }
@@ -124,7 +124,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
                 }
             }
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             numeroDeActividad = -1;
         }      
         return numeroDeActividad;
@@ -149,7 +149,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
                 resultadoValidacion=false;
             }    
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoValidacion = false;
         }
         return resultadoValidacion;
@@ -167,7 +167,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             resultadoActualizacion = sentencia.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoActualizacion = -1;
         }                
         return resultadoActualizacion;

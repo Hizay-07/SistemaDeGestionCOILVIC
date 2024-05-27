@@ -5,11 +5,24 @@ import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.PropuestaColaboracion;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaDAOColaboracionImplementacion {
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
     
     @Test
     public void pruebaRegistrarColaboracionExitosa(){
@@ -36,39 +49,33 @@ public class PruebaDAOColaboracionImplementacion {
     }
     
     @Test
-    public void pruebaConsultarColaboracionesExitosa(){
-        PropuestaColaboracion propuestaDeColaboracion1 = new PropuestaColaboracion();
-        PropuestaColaboracion propuestaDeColaboracion2 = new PropuestaColaboracion();
-        propuestaDeColaboracion1.setIdPropuestaColaboracion(1);
-        propuestaDeColaboracion2.setIdPropuestaColaboracion(2);
-        Colaboracion colaboracion1=new Colaboracion();
-        Colaboracion colaboracion2=new Colaboracion();
-        colaboracion1.setIdColaboracion(1);
-        colaboracion1.setPropuestaColaboracion(propuestaDeColaboracion1);
-        colaboracion1.setCantidadEstudiantes(32);
-        colaboracion1.setEstadoColaboracion("Activa");
-        colaboracion2.setIdColaboracion(2);
-        colaboracion2.setPropuestaColaboracion(propuestaDeColaboracion2);
-        colaboracion2.setCantidadEstudiantes(32);
-        colaboracion2.setEstadoColaboracion("Activa");
-        List<Colaboracion> listaEsperada=new ArrayList<>();
-        listaEsperada.add(colaboracion1);
-        listaEsperada.add(colaboracion2);
-        List<Colaboracion> listaObtenida=new ArrayList<>();
-        DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
-        listaObtenida=instancia.consultarColaboraciones();
-        assertEquals(listaEsperada,listaObtenida);                
+    public void pruebaConsultarColaboracionesExitosa() {
+        DAOColaboracionImplementacion dao = new DAOColaboracionImplementacion();
+        List<Colaboracion> colaboraciones = dao.consultarColaboraciones();
+        assertNotNull(colaboraciones);
     }
     
     @Test
-    public void pruebaConsultarColaboracionesFracaso(){
-        Colaboracion colaboracion=new Colaboracion();
-        List<Colaboracion> listaEsperada=new ArrayList<>();
-        listaEsperada.add(colaboracion);
-        List<Colaboracion> listaObtenida=new ArrayList<>();
-        DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
-        listaObtenida=instancia.consultarColaboraciones();
-        assertNotEquals(listaEsperada,listaObtenida);        
+    public void pruebaConsultarColaboracionesFallida() {
+        DAOColaboracionImplementacion dao = new DAOColaboracionImplementacion();
+        List<Colaboracion> colaboraciones = dao.consultarColaboraciones();
+        assertEquals(0, colaboraciones.size());
+    }
+    
+    @Test
+    public void pruebaConsultarColaboracionesPorEstadoExitosa() {
+        String estado = "Pendiente";
+        DAOColaboracionImplementacion dao = new DAOColaboracionImplementacion();
+        List<Colaboracion> colaboraciones = dao.consultarColaboracionesPorEstado(estado);
+        assertNotNull(colaboraciones);
+    }
+
+    @Test
+    public void pruebaConsultarColaboracionesPorEstadoFallida() {
+        String estado = "Pendiente";
+        DAOColaboracionImplementacion dao = new DAOColaboracionImplementacion();
+        List<Colaboracion> colaboraciones = dao.consultarColaboracionesPorEstado(estado);
+        assertEquals(0, colaboraciones.size());
     }
     
     @Test

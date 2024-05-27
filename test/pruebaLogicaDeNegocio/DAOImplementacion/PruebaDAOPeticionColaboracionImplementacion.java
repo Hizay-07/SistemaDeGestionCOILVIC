@@ -4,11 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.clases.PeticionColaboracion;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumPeticionColaboracion;
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaDAOPeticionColaboracionImplementacion {
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
     
     @Test
     public void pruebaRegistrarPeticionColaboracionExitosa(){
@@ -64,7 +76,6 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         assertEquals(0, resultado); 
     }
  
-
     @Test
     public void pruebaRechazarColaboracionExitosa() {
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
@@ -115,11 +126,4 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         assertEquals(resultadoEsperado, resultadoObtenido);         
     }
     
-    
-    
-    
-
-    
-    
-
 }

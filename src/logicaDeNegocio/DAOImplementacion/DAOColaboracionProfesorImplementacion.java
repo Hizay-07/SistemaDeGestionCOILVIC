@@ -45,7 +45,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
             }
            BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException | NullPointerException excepcion){
-           LOG.error(excepcion.getCause());
+           LOG.error(excepcion.getMessage());
        }
        return profesoresObtenidos;
     }
@@ -74,7 +74,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
             }
            BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException | NullPointerException excepcion){
-           LOG.error(excepcion.getCause());
+           LOG.error(excepcion.getMessage());
        }
        return colaboracionObtenida;
     }
@@ -92,7 +92,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
             resultadoInsercion = sentencia.getInt(3);
             BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoInsercion = -1;
         }
         return resultadoInsercion;

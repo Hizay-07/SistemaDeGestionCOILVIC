@@ -7,12 +7,24 @@ import logicaDeNegocio.enums.EnumPais;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 
 
 public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
+    
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
     
     @Test
     public void pruebaRegistrarRepresentanteInstitucionalExitosa(){
@@ -21,223 +33,311 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
         pruebaPais.setNombrePais(EnumPais.Mexico.toString());
-        representanteDePrueba.setNombreInstitucion("UV");
-        representanteDePrueba.setClaveInstitucional("1234");
-        representanteDePrueba.setContacto("2281709292");
-        representanteDePrueba.setPais(pruebaPais);
-        
+        representanteDePrueba.setNombreInstitucion("UDAL");
+        representanteDePrueba.setClaveInstitucional("123AS");
+        representanteDePrueba.setContacto("udal@gmail.com");
+        representanteDePrueba.setPais(pruebaPais);        
         int resultadoDePrueba =pruebaRegistro.registrarRepresentanteInstitucional(representanteDePrueba);
         System.out.println(resultadoDePrueba);
         assertEquals(1,resultadoDePrueba);
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaFlujoFallidoRegistrarRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaRegistro = new DAORepresentanteInstitucionalImplementacion();
-        
+        DAORepresentanteInstitucionalImplementacion pruebaRegistro = new DAORepresentanteInstitucionalImplementacion();        
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
         pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setNombreInstitucion("IUV");
+        representanteDePrueba.setClaveInstitucional("17Y5FSS-A");
         representanteDePrueba.setContacto("2281709292");
-        representanteDePrueba.setPais(pruebaPais);
-        
+        representanteDePrueba.setPais(pruebaPais);        
         int resultadoDePrueba =pruebaRegistro.registrarRepresentanteInstitucional(representanteDePrueba);
         System.out.println(resultadoDePrueba);
         assertEquals(-1,resultadoDePrueba);
     }
-    
- 
-    
-   
-    
- 
-    
+
     @Test
     public void pruebaModificarNombreRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();
-        
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
+        representanteDePrueba.setIdRepresentanteInstitucional(4);    
         pruebaPais.setNombrePais(EnumPais.Mexico.toString());
-        representanteDePrueba.setNombreInstitucion("UV");
-        representanteDePrueba.setClaveInstitucional("1234");
-        representanteDePrueba.setContacto("2281709292");
+        representanteDePrueba.setNombreInstitucion("UANL");
+        representanteDePrueba.setClaveInstitucional("123A");
+        representanteDePrueba.setContacto("upav@gmail.com");
         representanteDePrueba.setPais(pruebaPais);
-        String nombreActualizado = "UNAM";
+        String nombreActualizado = "UPAV";        
+        int resultadoDePrueba = pruebaModificacion.modificarNombreRepresentanteInstitucional(nombreActualizado, representanteDePrueba);
+        assertEquals(1,resultadoDePrueba);
+    }
         
+    @Test (expected = AssertionError.class)
+    public void pruebaFlujoIdFallidaModificarNombreRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
+        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
+        Pais pruebaPais = new Pais();
+        representanteDePrueba.setIdRepresentanteInstitucional(6);    
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setNombreInstitucion("UTEC");
+        representanteDePrueba.setClaveInstitucional("123Aaa");
+        representanteDePrueba.setContacto("unite@gmail.com");
+        representanteDePrueba.setPais(pruebaPais);
+        String nombreActualizado = "UNIG";        
         int resultadoDePrueba = pruebaModificacion.modificarNombreRepresentanteInstitucional(nombreActualizado, representanteDePrueba);
         assertEquals(1,resultadoDePrueba);
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaFlujoDatosFallidaModificarNombreRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
+        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
+        Pais pruebaPais = new Pais();
+        representanteDePrueba.setIdRepresentanteInstitucional(4);    
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setNombreInstitucion("UA-NL");
+        representanteDePrueba.setClaveInstitucional("17Y5FSSA");
+        representanteDePrueba.setContacto("buap@gmail.com");
+        representanteDePrueba.setPais(pruebaPais);
+        String nombreActualizado = "UNIGDL1890";        
+        int resultadoDePrueba = pruebaModificacion.modificarNombreRepresentanteInstitucional(nombreActualizado, representanteDePrueba);
+        assertEquals(1,resultadoDePrueba);
+    }
+            
+    @Test 
     public void pruebaModificarClaveRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();
-        
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
         pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+                representanteDePrueba.setIdRepresentanteInstitucional(1);  
         representanteDePrueba.setNombreInstitucion("UNAM");
-        representanteDePrueba.setClaveInstitucional("1234");
-        representanteDePrueba.setContacto("2281709292");
+        representanteDePrueba.setClaveInstitucional("5678A");
+        representanteDePrueba.setContacto("contacto@unam.mx");
         representanteDePrueba.setPais(pruebaPais);
-        String claveActualizada = "5678";
-        
+        String claveActualizada = "20DTV645GFGS";        
+        int resultadoDePrueba = pruebaModificacion.modificarClaveRepresentanteInstitucional(claveActualizada, representanteDePrueba);
+        assertEquals(1,resultadoDePrueba);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaFallidaModificarClaveRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
+        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
+        Pais pruebaPais = new Pais();
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setIdRepresentanteInstitucional(1);  
+        representanteDePrueba.setNombreInstitucion("UNAM-MX");
+        representanteDePrueba.setClaveInstitucional("5678A");
+        representanteDePrueba.setContacto("contacto@unam.mx");
+        representanteDePrueba.setPais(pruebaPais);
+        String claveActualizada = "20DTV6-45GFGS";        
+        int resultadoDePrueba = pruebaModificacion.modificarClaveRepresentanteInstitucional(claveActualizada, representanteDePrueba);
+        assertEquals(1,resultadoDePrueba);
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaFallidaNoEscontradoModificarClaveRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
+        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
+        Pais pruebaPais = new Pais();
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+                representanteDePrueba.setIdRepresentanteInstitucional(8);  
+        representanteDePrueba.setNombreInstitucion("UNAM");
+        representanteDePrueba.setClaveInstitucional("5678A");
+        representanteDePrueba.setContacto("contacto@unam.mx");
+        representanteDePrueba.setPais(pruebaPais);
+        String claveActualizada = "20DTV645GFGS";        
         int resultadoDePrueba = pruebaModificacion.modificarClaveRepresentanteInstitucional(claveActualizada, representanteDePrueba);
         assertEquals(1,resultadoDePrueba);
     }
     
     @Test
     public void pruebaModificarContactoRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();
-        
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
         pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setIdRepresentanteInstitucional(1);  
         representanteDePrueba.setNombreInstitucion("UNAM");
-        representanteDePrueba.setClaveInstitucional("5678");
-        representanteDePrueba.setContacto("2281709292");
+        representanteDePrueba.setClaveInstitucional("20DTV645GFGS");
+        representanteDePrueba.setContacto("contacto@unam.mx");
         representanteDePrueba.setPais(pruebaPais);
-        String contactoActualizado = "2281024672";
-        
+        String contactoActualizado = "pruebacontacto@unam.mx";        
         int resultadoDePrueba = pruebaModificacion.modificarContactoRepresentanteInstitucional(contactoActualizado, representanteDePrueba);
         assertEquals(1,resultadoDePrueba);
     }
     
-    @Test
-    public void pruebaObtenerEstadoRepresentanteInstitucionalEitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
-        
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaFallidaDatosModificarContactoRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
-        representanteDePrueba.setNombreInstitucion("uv");
-        representanteDePrueba.setClaveInstitucional("1234");
-        representanteDePrueba.setContacto("2281709292");
-        
-        boolean resultadoDePrueba = pruebaConsulta.obtenerEstadoRepresentanteInstitucional(representanteDePrueba);
-        assertTrue(resultadoDePrueba);
+        Pais pruebaPais = new Pais();
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setIdRepresentanteInstitucional(1);  
+        representanteDePrueba.setNombreInstitucion("UNAM");
+        representanteDePrueba.setClaveInstitucional("20DTV-645GFGS");
+        representanteDePrueba.setContacto("pruebacontacto@unam.mx");
+        representanteDePrueba.setPais(pruebaPais);
+        String contactoActualizado = "pruebaPumas@unam.mx";        
+        int resultadoDePrueba = pruebaModificacion.modificarContactoRepresentanteInstitucional(contactoActualizado, representanteDePrueba);
+        assertEquals(1,resultadoDePrueba);
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaFallidaNoEncontradoModificarContactoRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion pruebaModificacion = new DAORepresentanteInstitucionalImplementacion();        
+        RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
+        Pais pruebaPais = new Pais();
+        pruebaPais.setNombrePais(EnumPais.Mexico.toString());
+        representanteDePrueba.setIdRepresentanteInstitucional(10);  
+        representanteDePrueba.setNombreInstitucion("UNAMM");
+        representanteDePrueba.setClaveInstitucional("20DTV645GFGS");
+        representanteDePrueba.setContacto("pruebacontacto@unam.mx");
+        representanteDePrueba.setPais(pruebaPais);
+        String contactoActualizado = "pruebaPumas@unam.mx";        
+        int resultadoDePrueba = pruebaModificacion.modificarContactoRepresentanteInstitucional(contactoActualizado, representanteDePrueba);
+        assertEquals(1,resultadoDePrueba);
+    }
+      
+    @Test
+    public void pruebaModificarPaisRepresentanteInstitucionalExitosa() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setIdRepresentanteInstitucional(1);
+        Pais nuevoPais = new Pais();
+        nuevoPais.setNombrePais("Colombia");
+        representante.setPais(nuevoPais);
+        int resultado = dao.modificarPaisRepresentanteInstitucional(representante);
+        assertEquals(1, resultado);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaFallidaDatosModificarPaisRepresentanteInstitucionalExitosa() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setIdRepresentanteInstitucional(1);
+        Pais nuevoPais = new Pais();
+        nuevoPais.setNombrePais("Canadá_");
+        representante.setPais(nuevoPais);
+        int resultado = dao.modificarPaisRepresentanteInstitucional(representante);
+        assertEquals(1, resultado);
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaFallidaNoEncontradoModificarPaisRepresentanteInstitucionalExitosa() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setIdRepresentanteInstitucional(11);
+        Pais nuevoPais = new Pais();
+        nuevoPais.setNombrePais("Canadá");
+        representante.setPais(nuevoPais);
+        int resultado = dao.modificarPaisRepresentanteInstitucional(representante);
+        assertEquals(1, resultado);
+    }
+       
+    @Test
+    public void pruebaVerificarExistenciaClaveInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setClaveInstitucional("123A");
+        int resultado = dao.verificarExistenciaClaveInstitucionalRepresentanteInstitucional(representante);
+        assertEquals(1, resultado); 
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaFallidaDatosVerificarExistenciaClaveInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setClaveInstitucional("123A-*/");
+        int resultado = dao.verificarExistenciaClaveInstitucionalRepresentanteInstitucional(representante);
+        assertEquals(1, resultado);
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaFallidaNoEncontradaVerificarExistenciaClaveInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setClaveInstitucional("123asds");
+        int resultado = dao.verificarExistenciaClaveInstitucionalRepresentanteInstitucional(representante);
+        assertEquals(1, resultado); 
+    }
+      
+    @Test
+    public void testVerificarExistenciaNombreInstitucionRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setNombreInstitucion("UNAM");
+        int resultado = dao.verificarExistenciaNombreInstitucionRepresentanteInstitucional(representante);
+        assertEquals(1, resultado);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaFallidaDatosVerificarExistenciaNombreInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setNombreInstitucion("UNAM_2024");
+        int resultado = dao.verificarExistenciaNombreInstitucionRepresentanteInstitucional(representante);
+        assertEquals(1, resultado);
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaFallidaNoEncontradaVerificarExistenciaNombreInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setClaveInstitucional("UX");
+        int resultado = dao.verificarExistenciaNombreInstitucionRepresentanteInstitucional(representante);
+        assertEquals(1, resultado); 
     }
     
     @Test
-    public void pruebaObtenerRepresentantesInstitucionalesExitosa(){
-        
-        List<RepresentanteInstitucional> representantesObtenidos = new ArrayList();
-        List<RepresentanteInstitucional> representantesEsperados = new ArrayList();
-        
-        RepresentanteInstitucional representante1 = new RepresentanteInstitucional();
-        RepresentanteInstitucional representante2 = new RepresentanteInstitucional();
-        RepresentanteInstitucional representante3 = new RepresentanteInstitucional();
-        
-        Pais pais1 = new Pais();
-        Pais pais2 = new Pais();
-        
-        pais2.setNombrePais(EnumPais.Colombia.toString());
-        pais1.setNombrePais(EnumPais.Mexico.toString());
-        
-        representante1.setNombreInstitucion("UV");
-        representante1.setClaveInstitucional("1234");
-        representante1.setContacto("2281709292");
-        representante2.setNombreInstitucion("Universidad de Bogota");
-        representante2.setClaveInstitucional("9999");
-        representante2.setContacto("5267231821");
-        representante3.setNombreInstitucion("UNAM");
-        representante3.setClaveInstitucional("5678");
-        representante3.setContacto("2281024672");
+    public void pruebaVerificarExistenciaContactoInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setContacto("buap@gmail.com");
+        int resultado = dao.verificarExistenciaContactoInstitucionRepresentanteInstitucional(representante);
+        assertEquals(1, resultado); 
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaFallidaDatosVerificarExistenciaContactoInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setContacto("|Upav@gmail.com");
+        int resultado = dao.verificarExistenciaContactoInstitucionRepresentanteInstitucional(representante);
+        assertEquals(1, resultado); 
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaFallidaNoEncontradaVerificarExistenciaContactoInstitucionalRepresentanteInstitucional_Exito() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        representante.setContacto("cuautemoc@gmail.com");
+        int resultado = dao.verificarExistenciaContactoInstitucionRepresentanteInstitucional(representante);
+        assertEquals(1, resultado); 
+    }
      
-        
-        representante1.setPais(pais1);
-        representante2.setPais(pais2);
-        representante3.setPais(pais1);
-        
-        representantesEsperados.add(representante1);
-        representantesEsperados.add(representante2);
-        representantesEsperados.add(representante3);
-        
-        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
-        representantesObtenidos = pruebaConsulta.obtenerRepresentantesInstitucionales();
-        
-        assertEquals(representantesEsperados,representantesObtenidos);
-        
-    }
-    
     @Test
-    public void pruebaFlujoFallidoObtenerRepresentantesInstitucionalesExitosa(){
-        
-        List<RepresentanteInstitucional> representantesObtenidos = new ArrayList();
-        List<RepresentanteInstitucional> representantesEsperados = new ArrayList();
-        
-        RepresentanteInstitucional representante1 = new RepresentanteInstitucional();
-        RepresentanteInstitucional representante2 = new RepresentanteInstitucional();
-        RepresentanteInstitucional representante3 = new RepresentanteInstitucional();
-        
-        Pais pais1 = new Pais();
-        Pais pais2 = new Pais();
-        
-        pais2.setNombrePais(EnumPais.Colombia.toString());
-        pais1.setNombrePais(EnumPais.Mexico.toString());
-        
-        representante1.setNombreInstitucion("ANAHUAC");
-        representante1.setClaveInstitucional("2456");
-        representante1.setContacto("2288024672");
-        representante2.setNombreInstitucion("Universidad de Bogota");
-        representante2.setClaveInstitucional("9999");
-        representante2.setContacto("5267231821");
-        representante3.setNombreInstitucion("UNAM");
-        representante3.setClaveInstitucional("5678");
-        representante3.setContacto("2281024672");
-     
-        
-        representante1.setPais(pais1);
-        representante2.setPais(pais2);
-        representante3.setPais(pais1);
-        
-        representantesEsperados.add(representante1);
-        representantesEsperados.add(representante2);
-        representantesEsperados.add(representante3);
-        
-        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
-        representantesObtenidos = pruebaConsulta.obtenerRepresentantesInstitucionales();
-        
-        assertNotEquals(representantesEsperados,representantesObtenidos);
-        
+    public void testObtenerRepresentantesInstitucionalesExitoso() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        List<RepresentanteInstitucional> representantes = dao.obtenerRepresentantesInstitucionales();
+        assertEquals(4, representantes.size()); // Comprobar que se obtuvieron 4 representantes
+        RepresentanteInstitucional representante1 = representantes.get(0);
+        assertEquals(1, representante1.getIdRepresentanteInstitucional());
+        assertEquals("UNAM", representante1.getNombreInstitucion());
+        assertEquals("20DTV645GFGS", representante1.getClaveInstitucional());
+        assertEquals("pruebacontacto@unam.mx", representante1.getContacto());
+        assertEquals("Colombia", representante1.getPais().getNombrePais());
     }
     
-    @Test
-    public void pruebaObtenerRepresentantesInstitucionalesPorPaisExitosa(){
-        List<RepresentanteInstitucional> representantesObtenidos = new ArrayList();
-        List<RepresentanteInstitucional> representantesEsperados = new ArrayList();
-        RepresentanteInstitucional representante1 = new RepresentanteInstitucional();
-        Pais pais1 = new Pais();
-        pais1.setNombrePais(EnumPais.Colombia.toString());
-        representante1.setNombreInstitucion("Universidad de Bogota");
-        representante1.setClaveInstitucional("9999");
-        representante1.setContacto("5267231821");
-        representante1.setPais(pais1);
-        representantesEsperados.add(representante1);
-        
-        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
-        representantesObtenidos = pruebaConsulta.obtenerRepresentantesInstitucionalesPorPais(pais1);
-        
-        assertEquals(representantesEsperados,representantesObtenidos);
+    @Test (expected = AssertionError.class)
+    public void pruebaFlujoFallidoObtenerRepresentantesInstitucionalesExitosa() throws AssertionError{
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        List<RepresentanteInstitucional> representantes = dao.obtenerRepresentantesInstitucionales();
+        assertEquals(0, representantes.size());
     }
-    
-    @Test
-    public void pruebaFlujoFallidoObtenerRepresentantesInstitucionalesPorPaisExitosa(){
-        List<RepresentanteInstitucional> representantesObtenidos = new ArrayList();
-        List<RepresentanteInstitucional> representantesEsperados = new ArrayList();
-        RepresentanteInstitucional representante1 = new RepresentanteInstitucional();
-        Pais pais1 = new Pais();
-        pais1.setNombrePais(EnumPais.Alemania.toString());
-        representante1.setNombreInstitucion("Universidad de munich");
-        representante1.setClaveInstitucional("9999");
-        representante1.setContacto("5533442211");
-        representante1.setPais(pais1);
-        representantesEsperados.add(representante1);
-        
-        DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
-        representantesObtenidos = pruebaConsulta.obtenerRepresentantesInstitucionalesPorPais(pais1);
-        
-        assertNotEquals(representantesEsperados,representantesObtenidos);
-    }
-    
+
     @Test
     public void pruebaConsultarIdRepresentanteInstitucionalPorUniversidadExitosa(){
         DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
@@ -247,14 +347,27 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
     
-    @Test
-    public void pruebaConsultarNombreInstitucionPorIdRepresentanteInstitucionalExitosa(){
+    @Test(expected = AssertionError.class)
+    public void pruebaConsultarIdRepresentanteInstitucionalPorUniversidadFallida() {
         DAORepresentanteInstitucionalImplementacion pruebaConsulta = new DAORepresentanteInstitucionalImplementacion();
-        int idRepresentanteInstitucional=1;
-        String resultadoEsperado="UNAM";
-        String resultadoObtenido=pruebaConsulta.consultarNombreInstitucionPorIdRepresentanteInstitucional(idRepresentanteInstitucional);
-        assertEquals(resultadoEsperado,resultadoObtenido);          
+        String universidad = "UNAM";
+        int resultadoObtenido = pruebaConsulta.consultarIdRepresentanteInstitucionalPorUniversidad(universidad);
+        assertEquals(0, resultadoObtenido);
     }
     
+    @Test
+    public void pruebaConsultarNombreInstitucionPorIdRepresentanteInstitucionalExitosa(){
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        String nombreInstitucion = dao.consultarNombreInstitucionPorIdRepresentanteInstitucional(1);   
+        assertEquals("UNAM", nombreInstitucion);          
+    }
+    
+    @Test(expected = AssertionError.class)
+    public void pruebaConsultarNombreInstitucionPorIdRepresentanteInstitucionalFallida() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();        
+        int idRepresentanteInstitucional = 1;
+        String nombreInstitucion = dao.consultarNombreInstitucionPorIdRepresentanteInstitucional(idRepresentanteInstitucional);
+        assertEquals("UANL", nombreInstitucion);
+    }    
     
 }

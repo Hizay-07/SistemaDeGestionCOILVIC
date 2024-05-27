@@ -5,24 +5,38 @@ import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
 import logicaDeNegocio.clases.EmisionPropuesta;
 import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PruebaDAOEmisionPropuestaImplementacion {
     
+    @Before
+    public void setUp() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
+    
     @Test
-    public void pruebaRegistrarEmisionPropuestaExitosa(){
-        EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
-        emisionPropuesta.setIdProfesor(21);
-        emisionPropuesta.setIdPropuestaColaboracion(4);
-        emisionPropuesta.setFechaEmision("2024-04-28");
-        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
-        int resultadoEsperado=1;
-        int resultadoObtenido=daoEmisionPropuesta.registrarEmisionPropuesta(emisionPropuesta);
-        assertEquals(resultadoEsperado,resultadoObtenido);
-    } 
+    public void testRegistrarEmisionPropuestaExitoso() {
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        EmisionPropuesta emisionPropuesta = new EmisionPropuesta();
+        emisionPropuesta.setIdProfesor(1);
+        emisionPropuesta.setIdPropuestaColaboracion(1);
+        emisionPropuesta.setFechaEmision("2024-05-26");
+        int resultado = dao.registrarEmisionPropuesta(emisionPropuesta);
+        assertEquals(1, resultado);
+        List<EmisionPropuesta> emisiones = dao.consultarEmisionesDePropuestas();
+        assertTrue(emisiones.contains(emisionPropuesta));
+    }
     
     @Test
     public void pruebaConsultarEmisionesDePropuestasExitosa(){
