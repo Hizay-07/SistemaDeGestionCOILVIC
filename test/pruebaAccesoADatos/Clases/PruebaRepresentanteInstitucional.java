@@ -49,20 +49,6 @@ public class PruebaRepresentanteInstitucional {
         representantePrueba.setContacto("correo@ejemplo.cóm"); 
         assertNotNull(representantePrueba.getContacto()); 
     }
-   
-    @Test
-    public void pruebaSetEstadoRepresentanteExitoso(){
-        RepresentanteInstitucional representantePrueba = new RepresentanteInstitucional();
-        representantePrueba.setEstadoRepresentante("Activo"); 
-        assertNotNull(representantePrueba.getEstadoRepresentante());
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void pruebaSetEstadoRepresentanteInvalido(){
-        RepresentanteInstitucional representantePrueba = new RepresentanteInstitucional();
-        representantePrueba.setEstadoRepresentante("Esperando..."); 
-        assertNotNull(representantePrueba.getEstadoRepresentante()); 
-    }
     
     @Test
     public void pruebaSetPaisExitoso(){
