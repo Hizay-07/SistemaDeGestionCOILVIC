@@ -265,7 +265,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
     }
       
     @Test
-    public void testVerificarExistenciaNombreInstitucionRepresentanteInstitucional_Exito() {
+    public void pruebaVerificarExistenciaNombreInstitucionRepresentanteInstitucional_Exito() {
         DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
         RepresentanteInstitucional representante = new RepresentanteInstitucional();
         representante.setNombreInstitucion("UNAM");
@@ -319,7 +319,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
     }
      
     @Test
-    public void testObtenerRepresentantesInstitucionalesExitoso() {
+    public void pruebaObtenerRepresentantesInstitucionalesExitoso() {
         DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
         List<RepresentanteInstitucional> representantes = dao.obtenerRepresentantesInstitucionales();
         assertEquals(4, representantes.size()); // Comprobar que se obtuvieron 4 representantes
@@ -369,5 +369,24 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
         String nombreInstitucion = dao.consultarNombreInstitucionPorIdRepresentanteInstitucional(idRepresentanteInstitucional);
         assertEquals("UANL", nombreInstitucion);
     }    
+    
+    @Test
+    public void pruebaVerificarRepresentanteInstitucionalExitosa() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
+        int resultado = dao.verificarRepresentanteInstitucional();
+        assertTrue(resultado > 1);
+    }
+
+    @Test
+    public void pruebaVerificarRepresentanteInstitucionalSinValores() {
+        DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion() {
+            @Override
+            public int verificarRepresentanteInstitucional() {
+                return 0;
+            }
+        };
+        int resultado = dao.verificarRepresentanteInstitucional();
+        assertEquals(0, resultado);
+    }
     
 }

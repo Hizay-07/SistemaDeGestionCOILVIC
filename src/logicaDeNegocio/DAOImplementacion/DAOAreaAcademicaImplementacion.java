@@ -93,7 +93,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
             }            
             conexion.close();
         }catch(SQLException excepcion){
-            LOG.error(excepcion);
+            LOG.error(excepcion.getMessage());
             resultadoVerificacion=-1;
         }
         return resultadoVerificacion;   

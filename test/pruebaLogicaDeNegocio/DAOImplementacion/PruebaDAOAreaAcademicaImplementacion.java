@@ -8,6 +8,7 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,6 +81,37 @@ public class PruebaDAOAreaAcademicaImplementacion {
         DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
         int idArea = dao.consultarIdDeAreaAcademicaPorArea("Música");
         assertEquals(0, idArea);
+    }
+    
+    @Test
+    public void pruebaVerificarAreaAcademicaExitosa() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
+        int resultado = dao.verificarAreaAcademica();
+        assertTrue(resultado > 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void pruebaVerificarAreaAcademicaFallida() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();        
+        dao = new DAOAreaAcademicaImplementacion() {
+            @Override
+            public int verificarAreaAcademica() {
+                throw new RuntimeException();
+            }
+        };
+        dao.verificarAreaAcademica();
+    }
+    
+    @Test
+    public void pruebaVerificarAreaAcademicaSinValores() {
+        DAOAreaAcademicaImplementacion daoAreaAcademica = new DAOAreaAcademicaImplementacion() {
+            @Override
+            public int verificarAreaAcademica() {
+                return 0;
+            }
+        };
+        int resultado = daoAreaAcademica.verificarAreaAcademica();
+        assertEquals(0, resultado);
     }
 
 }
