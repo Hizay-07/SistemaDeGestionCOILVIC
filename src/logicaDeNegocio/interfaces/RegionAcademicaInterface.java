@@ -9,4 +9,6 @@ public interface RegionAcademicaInterface {
     public List<RegionAcademica> consultarRegionesAcademicas();                
     
     public int consultarIdDeRegionPorRegion(String region);
+    
+    public int verificarRegion();
 }

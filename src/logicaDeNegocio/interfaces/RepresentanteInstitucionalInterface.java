@@ -1,7 +1,6 @@
 package logicaDeNegocio.interfaces;
 
 import logicaDeNegocio.clases.RepresentanteInstitucional;
-import logicaDeNegocio.clases.Pais;
 import java.util.List;
 
 public interface RepresentanteInstitucionalInterface{
@@ -16,4 +15,5 @@ public interface RepresentanteInstitucionalInterface{
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales();
     public int consultarIdRepresentanteInstitucionalPorUniversidad(String universidad);
     public String consultarNombreInstitucionPorIdRepresentanteInstitucional(int idRepresentanteInstitucional);
+    public int verificarRepresentanteInstitucional();
 }

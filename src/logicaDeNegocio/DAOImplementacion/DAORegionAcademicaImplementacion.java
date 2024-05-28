@@ -78,6 +78,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
         return idRegion;                
     }
     
+    @Override
     public int verificarRegion(){
         int resultadoVerificacion=0;
         ResultSet resultado;

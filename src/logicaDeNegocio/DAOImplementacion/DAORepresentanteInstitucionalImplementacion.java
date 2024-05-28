@@ -240,6 +240,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return nombreInstitucion;        
     }
     
+    @Override
     public int verificarRepresentanteInstitucional(){
         int resultadoVerificacion=0;
         ResultSet resultado;

@@ -78,6 +78,7 @@ public class DAOPaisImplementacion implements PaisInterface {
         return paises;
     }
     
+    @Override
     public int verificarPais(){
         int resultadoVerificacion=0;
         ResultSet resultado;
