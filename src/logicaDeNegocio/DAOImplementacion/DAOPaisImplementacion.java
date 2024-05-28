@@ -91,7 +91,7 @@ public class DAOPaisImplementacion implements PaisInterface {
             }        
             conexion.close();
         }catch(SQLException excepcion){
-            LOG.error(excepcion);
+            LOG.error(excepcion.getMessage());
             resultadoVerificacion=-1;
         }
         return resultadoVerificacion;            

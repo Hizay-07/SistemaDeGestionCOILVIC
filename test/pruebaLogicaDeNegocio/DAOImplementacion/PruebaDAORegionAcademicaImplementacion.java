@@ -8,6 +8,7 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,6 +70,36 @@ public class PruebaDAORegionAcademicaImplementacion {
         DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
         int idRegion = dao.consultarIdDeRegionPorRegion("Ciudad de México");
         assertEquals(0, idRegion);
+    }
+    
+    @Test
+    public void pruebaVerificarRegionExitosa() {
+        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion();
+        int resultado = daoRegion.verificarRegion();
+        assertTrue(resultado > 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void pruebaVerificarRegionFallida() {
+        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion() {
+            @Override
+            public int verificarRegion() {
+                throw new RuntimeException();
+            }
+        };
+        daoRegion.verificarRegion();
+    }
+    
+    @Test
+    public void pruebaVerificarRegionSinValoresFallida() {
+        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion() {
+            @Override
+            public int verificarRegion() {
+                return 0;
+            }
+        };
+        int resultado = daoRegion.verificarRegion();
+        assertEquals( 0, resultado);
     }
 
 

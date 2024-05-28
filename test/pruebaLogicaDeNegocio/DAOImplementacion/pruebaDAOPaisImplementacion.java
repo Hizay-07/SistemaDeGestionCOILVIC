@@ -86,5 +86,36 @@ public class pruebaDAOPaisImplementacion {
         List<Pais> paises = dao.consultarPaises();
         assertEquals(4, paises.size());
     }
+    
+    @Test
+    public void pruebaVerificarPaisExitosa() {
+        DAOPaisImplementacion dao = new DAOPaisImplementacion();
+        int resultado = dao.verificarPais();
+        assertTrue(resultado > 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void pruebaVerificarPaisFallida() {
+        DAOPaisImplementacion dao = new DAOPaisImplementacion();        
+        dao = new DAOPaisImplementacion() {
+            @Override
+            public int verificarPais() {
+                throw new RuntimeException();
+            }
+        };
+        dao.verificarPais();
+    }
+    
+    @Test
+    public void pruebaVerificarPaisSinValores() {
+        DAOPaisImplementacion daoPais = new DAOPaisImplementacion() {
+            @Override
+            public int verificarPais() {           
+                return 0;
+            }
+        };
+        int resultado = daoPais.verificarPais();
+        assertEquals(0, resultado);
+    }
 }
 

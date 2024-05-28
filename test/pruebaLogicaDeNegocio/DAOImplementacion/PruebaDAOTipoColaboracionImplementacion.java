@@ -8,6 +8,7 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,7 +45,7 @@ public class PruebaDAOTipoColaboracionImplementacion {
     public void pruebaConsultarTiposDeColaboracionExitosa() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         List<TipoColaboracion> tiposColaboracion = dao.consultarTiposDeColaboracion();
-        assertEquals(3, tiposColaboracion.size());  // Basado en los datos proporcionados en la base de datos
+        assertEquals(3, tiposColaboracion.size());  
     }
 
       
@@ -52,7 +53,7 @@ public class PruebaDAOTipoColaboracionImplementacion {
     public void pruebaFallidaConsultarTiposDeColaboracion() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         List<TipoColaboracion> tiposColaboracion = dao.consultarTiposDeColaboracion();
-        assertEquals(5, tiposColaboracion.size());  // Basado en los datos proporcionados en la base de datos
+        assertEquals(5, tiposColaboracion.size());
     }
 
     
@@ -83,8 +84,25 @@ public class PruebaDAOTipoColaboracionImplementacion {
     public void pruebaFallidaConsultarIdTipoColaboracionPorTipo() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         int idTipo = dao.consultarIdTipoColaboracionPorTipo("Tipo Inexistente");
-        assertEquals(0, idTipo);  // Debería ser 0 o -1 dependiendo de la implementación
+        assertEquals(0, idTipo); 
     }
 
+    @Test
+    public void pruebaVerificarTipoColaboracionExitosa() {
+        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
+        int resultado = dao.verificarTipoColaboracion();
+        assertTrue(resultado > 1);
+    }
 
+    @Test
+    public void pruebaVerificarTipoColaboracionSinValores() {
+        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion() {
+            @Override
+            public int verificarTipoColaboracion() {
+                return 0;
+            }
+        };
+        int resultado = dao.verificarTipoColaboracion();
+        assertEquals(0, resultado);
+    }
 }
