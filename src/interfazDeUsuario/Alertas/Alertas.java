@@ -386,6 +386,15 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+    
+    public static void mostrarBaseDatosSinCatalogos(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Base de datos sin catálogos");
+            mensaje.setContentText("La base de datos se encuentra sin catalogos");
+            mensaje.showAndWait();
+        });
+    }
 
 
     @Override

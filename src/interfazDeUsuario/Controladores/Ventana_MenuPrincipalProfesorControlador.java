@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOTipoColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.Usuario;
@@ -123,9 +124,13 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
     
     public void realizarPropuestaDeColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        if(profesor.getEstado().equals(EnumProfesor.Activo.toString())){
+        DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+        int verificarTipoColaboracion=daoTipoColaboracion.verificarTipoColaboracion();
+        if(profesor.getEstado().equals(EnumProfesor.Activo.toString())&&verificarTipoColaboracion>0){
             String rutafxml = "/interfazDeUsuario/Ventana_ProponerColaboracion.fxml";
             desplegarVentana(rutafxml);
+        }else if(verificarTipoColaboracion<=0){
+            Alertas.mostrarBaseDatosSinCatalogos();                
         }else{
             String mensaje = "No se pueden realizar propuestas de colaboración estando en una colaboracion activa";
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
