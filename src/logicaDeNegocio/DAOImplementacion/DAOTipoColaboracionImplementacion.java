@@ -99,6 +99,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         return idTipoColaboracion;                
     }
     
+    @Override
     public int verificarTipoColaboracion(){        
         int resultadoVerificacion=0;
         ResultSet resultado;

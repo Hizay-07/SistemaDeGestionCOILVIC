@@ -10,4 +10,6 @@ public interface AreaAcademicaInterface {
     
     public int consultarIdDeAreaAcademicaPorArea(String area);
     
+    public int verificarAreaAcademica();
+    
 }

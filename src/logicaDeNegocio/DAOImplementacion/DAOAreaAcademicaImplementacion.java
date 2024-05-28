@@ -80,6 +80,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
         return idArea;        
     }
     
+    @Override
     public int verificarAreaAcademica(){
         int resultadoVerificacion=0;
         ResultSet resultado;

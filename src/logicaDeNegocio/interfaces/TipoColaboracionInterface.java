@@ -12,4 +12,6 @@ public interface TipoColaboracionInterface {
     
     public int consultarIdTipoColaboracionPorTipo(String tipo);
     
+    public int verificarTipoColaboracion();
+    
 }
