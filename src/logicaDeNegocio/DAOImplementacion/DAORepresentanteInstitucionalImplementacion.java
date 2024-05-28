@@ -239,4 +239,22 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         }
         return nombreInstitucion;        
     }
+    
+    public int verificarRepresentanteInstitucional(){
+        int resultadoVerificacion=0;
+        ResultSet resultado;
+        try{
+            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from representanteInstitucional");
+            resultado=sentencia.executeQuery();
+            while(resultado.next()){
+                resultadoVerificacion=resultado.getInt(1);                
+            }        
+            conexion.close();
+        }catch(SQLException excepcion){
+            LOG.error(excepcion);
+            resultadoVerificacion=-1;
+        }
+        return resultadoVerificacion;            
+    }
 }

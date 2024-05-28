@@ -98,4 +98,22 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         }
         return idTipoColaboracion;                
     }
+    
+    public int verificarTipoColaboracion(){        
+        int resultadoVerificacion=0;
+        ResultSet resultado;
+        try{
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from tipoColaboracion");
+            resultado=sentencia.executeQuery();
+            while(resultado.next()){
+                resultadoVerificacion=resultado.getInt(1);                
+            }            
+            conexion.close();
+        }catch(SQLException excepcion){
+            LOG.error(excepcion);
+            resultadoVerificacion=-1;
+        }
+        return resultadoVerificacion;           
+    }
 }

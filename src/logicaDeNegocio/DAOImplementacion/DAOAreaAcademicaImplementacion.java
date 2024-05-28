@@ -80,4 +80,22 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
         return idArea;        
     }
     
+    public int verificarAreaAcademica(){
+        int resultadoVerificacion=0;
+        ResultSet resultado;
+        try{
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from areaAcademica");
+            resultado=sentencia.executeQuery();
+            while(resultado.next()){
+                resultadoVerificacion=resultado.getInt(1);                
+            }            
+            conexion.close();
+        }catch(SQLException excepcion){
+            LOG.error(excepcion);
+            resultadoVerificacion=-1;
+        }
+        return resultadoVerificacion;   
+    }
+    
 }

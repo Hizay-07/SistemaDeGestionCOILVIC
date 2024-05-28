@@ -78,4 +78,22 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
         return idRegion;                
     }
     
+    public int verificarRegion(){
+        int resultadoVerificacion=0;
+        ResultSet resultado;
+        try{
+            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from regionAcademica");
+            resultado=sentencia.executeQuery();
+            while(resultado.next()){
+                resultadoVerificacion=resultado.getInt(1);                
+            }            
+            conexion.close();
+        }catch(SQLException excepcion){
+            LOG.error(excepcion);
+            resultadoVerificacion=-1;
+        }
+        return resultadoVerificacion;          
+    }
+    
 }

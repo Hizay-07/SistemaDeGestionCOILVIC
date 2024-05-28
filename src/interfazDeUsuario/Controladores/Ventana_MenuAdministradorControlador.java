@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
 import javafx.fxml.Initializable;
-import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOPaisImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAORegionAcademicaImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOAreaAcademicaImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import org.apache.log4j.Logger;
 
@@ -87,8 +90,18 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
     }
     
     public void registrarProfesor(){
-        String ruta = "/interfazDeUsuario/Ventana_RegistroDeProfesor.fxml";
-        desplegarVentana(ruta);
+        DAORegionAcademicaImplementacion daoRegion=new DAORegionAcademicaImplementacion();
+        DAOAreaAcademicaImplementacion daoAreaAcademica=new DAOAreaAcademicaImplementacion();
+        DAORepresentanteInstitucionalImplementacion daoRepresentante=new DAORepresentanteInstitucionalImplementacion();
+        int verificadorRegion=daoRegion.verificarRegion();
+        int verificadorArea=daoAreaAcademica.verificarAreaAcademica();
+        int verificadorRepresentante=daoRepresentante.verificarRepresentanteInstitucional();
+        if(verificadorRegion>0&&verificadorArea>0&&verificadorRepresentante>0){
+            String ruta = "/interfazDeUsuario/Ventana_RegistroDeProfesor.fxml";
+            desplegarVentana(ruta);        
+        }else{
+            Alertas.mostrarBaseDatosSinCatalogos();
+        }               
     }
     
     public void registrarUsuario(){
@@ -102,8 +115,15 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
     }
     
     public void registrarRepresentanteInstitucional(){
-        String ruta = "/interfazDeUsuario/Ventana_RegistroDeRepresentanteInstitucional.fxml";
-        desplegarVentana(ruta);
+        DAOPaisImplementacion daoPais=new DAOPaisImplementacion();
+        int numeroPaises=daoPais.verificarPais();
+        if(numeroPaises>0){
+            String ruta = "/interfazDeUsuario/Ventana_RegistroDeRepresentanteInstitucional.fxml";
+            desplegarVentana(ruta);        
+        }else{
+            Alertas.mostrarBaseDatosSinCatalogos();            
+        }
+        
     }
     
     public void consultarRepresentanteInstitucional(){
