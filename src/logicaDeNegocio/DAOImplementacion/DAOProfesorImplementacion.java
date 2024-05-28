@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 public class DAOProfesorImplementacion implements ProfesorInterface {
@@ -24,13 +25,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         int numeroFilasAfectadas = 0; 
         try {
             conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, estadoProfesor, Usuario_idUsuario) VALUES (?, ?, ?, ?, ?, ?)");
+            declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, estadoProfesor) VALUES (?, ?, ?, ?, ?)");
             declaracion.setString(1, profesor.getNombre());
             declaracion.setString(2, profesor.getApellidoPaterno());
             declaracion.setString(3, profesor.getApellidoMaterno());
             declaracion.setString(4, profesor.getCorreo());
-            declaracion.setString(5, "Activo");
-            declaracion.setInt(6, profesor.getUsuario().getIdUsuario());
+            declaracion.setString(5, EnumProfesor.Activo.toString());            
             numeroFilasAfectadas = declaracion.executeUpdate();
             BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
