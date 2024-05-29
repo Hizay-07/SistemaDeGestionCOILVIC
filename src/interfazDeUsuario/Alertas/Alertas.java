@@ -395,16 +395,22 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
-
-
+    
+    public static void mostrarMensajeUniversidadVeracruzana(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Sistema de la Universidad Veracruzana");
+            mensaje.setContentText("No se puede agregar a la Universidad Veracruzana como representante institucional");
+            mensaje.showAndWait();
+        });
+    }
+    
     @Override
     public void start(Stage stage){
         try{
             stage.show();
-        }catch(Exception excepcion){
-            
+        }catch(Exception excepcion){   
         }
-     
     }
     
 }

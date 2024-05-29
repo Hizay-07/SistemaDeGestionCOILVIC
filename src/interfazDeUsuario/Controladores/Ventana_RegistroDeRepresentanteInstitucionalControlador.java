@@ -4,6 +4,7 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -71,7 +72,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         RepresentanteInstitucional representanteInstitucional=new RepresentanteInstitucional();        
         try{
             representanteInstitucional.setNombreInstitucion(txfd_NombreDeInstitucion.getText());
-            representanteInstitucional.setClaveInstitucional(txfd_ClaveInstitucional.getText());
+            representanteInstitucional.setClaveInstitucional(txfd_ClaveInstitucional.getText().toUpperCase());
             representanteInstitucional.setContacto(txfd_Contacto.getText()); 
             String nombrePais=(String) cmb_Pais.getSelectionModel().getSelectedItem();
             pais.setNombrePais(nombrePais);
@@ -79,30 +80,41 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         }catch(IllegalArgumentException excepcion){ 
             Alertas.mostrarMensajeDatosInvalidos();  
             LOG.info(excepcion);
+            representanteInstitucional = null;
         } 
         return representanteInstitucional;                
     }
     
     public void registrarRepresentanteInstitucional(){
-        RepresentanteInstitucional representanteInstitucional=obtenerRepresentanteInstitucional();        
-        if(!representanteInstitucional.validarDatos()){
-            return;
+        RepresentanteInstitucional representanteInstitucional=obtenerRepresentanteInstitucional();
+        if(Objects.nonNull(representanteInstitucional)){
+            String nombreInstitucion = representanteInstitucional.getNombreInstitucion().toLowerCase().trim().replaceAll("\\s+", "");
+            if(nombreInstitucion.equals("uv")||nombreInstitucion.equals("universidadveracruzana")){
+                Alertas.mostrarMensajeUniversidadVeracruzana();
+            }else{
+                DAORepresentanteInstitucionalImplementacion daoRepresentanteInstitucional=new DAORepresentanteInstitucionalImplementacion();
+                int resultadoRegistro = daoRepresentanteInstitucional.registrarRepresentanteInstitucional(representanteInstitucional);
+                switch (resultadoRegistro) {
+                    case 1:
+                        Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
+                        regresarMenuPrincipal();
+                        break;
+                    case 0:
+                        Alertas.mostrarMensajeDatosDuplicados();
+                        regresarMenuPrincipal();
+                        break;
+                    case -1:
+                        Alertas.mostrarMensajeErrorEnLaConexion();              
+                        salirAlInicioDeSesion();
+                        break;
+                    default:
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                        salirAlInicioDeSesion();
+                        break;
+                }
+            }
+            limpiarInformacionRepresentanteInstitucional();
         }
-        DAORepresentanteInstitucionalImplementacion daoRepresentanteInstitucional=new DAORepresentanteInstitucionalImplementacion();
-        int resultadoRegistro = daoRepresentanteInstitucional.registrarRepresentanteInstitucional(representanteInstitucional);
-        if(resultadoRegistro==1){
-            Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
-        }else if(resultadoRegistro==0){
-            Alertas.mostrarMensajeDatosDuplicados();    
-            regresarMenuPrincipal();      
-        }else if(resultadoRegistro==-1){
-            Alertas.mostrarMensajeErrorEnLaConexion();
-            salirAlInicioDeSesion();
-        }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();              
-        }
-        limpiarInformacionRepresentanteInstitucional();
-        regresarMenuPrincipal();
     }
     
     public void limpiarInformacionRepresentanteInstitucional(){

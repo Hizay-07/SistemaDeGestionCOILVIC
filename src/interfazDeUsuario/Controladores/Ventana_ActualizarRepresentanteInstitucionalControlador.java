@@ -151,22 +151,27 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     
     public void modificarDatosRepresentanteInstituciona(){
         RepresentanteInstitucional representante =  obtenerDatosRepresentanteInstitucional();
+        String nombreRepresentante = representante.getNombreInstitucion().trim().replaceAll("\\s+", "").toLowerCase();
         if(!Objects.isNull(representante)){
-            if(!validarDatosSimilaresRepresentante(representante)){
-                int resultadoAtributosModificados = realizarModificacionPaisRepresentanteInstitucional(representante);
-                resultadoAtributosModificados =  realizarModificacionClaveInstitucionalRepresentanteInstitucional(representante);
-                resultadoAtributosModificados += realizarModificacionContactoRepresentanteInstitucional(representante);
-                resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
-                if(resultadoAtributosModificados>=1&&resultadoAtributosModificados<=4){
-                    Alertas.mostrarMensajeDatosModificados();
-                }else if(resultadoAtributosModificados==0){
-                    Alertas.mostrarMensajeDatosDuplicados();
-                }else{
-                    Alertas.mostrarMensajeErrorEnLaConexion();
-                    salirAlInicioDeSesion();
-                }
+            if(nombreRepresentante.equals("uv")||nombreRepresentante.equals("universidadveracruzana")){
+                Alertas.mostrarMensajeUniversidadVeracruzana();
             }else{
-                Alertas.mostrarMensajeSinModificarDatos();
+                if(!validarDatosSimilaresRepresentante(representante)){
+                    int resultadoAtributosModificados = realizarModificacionPaisRepresentanteInstitucional(representante);
+                    resultadoAtributosModificados =  realizarModificacionClaveInstitucionalRepresentanteInstitucional(representante);
+                    resultadoAtributosModificados += realizarModificacionContactoRepresentanteInstitucional(representante);
+                    resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
+                    if(resultadoAtributosModificados>=1&&resultadoAtributosModificados<=4){
+                        Alertas.mostrarMensajeDatosModificados();
+                    }else if(resultadoAtributosModificados==0){
+                        Alertas.mostrarMensajeDatosDuplicados();
+                    }else{
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                        salirAlInicioDeSesion();
+                    }
+                }else{
+                    Alertas.mostrarMensajeSinModificarDatos();
+                }
             }
         }else{
             Alertas.mostrarMensajeDatosInvalidos();

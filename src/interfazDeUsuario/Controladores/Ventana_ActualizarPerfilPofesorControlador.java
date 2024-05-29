@@ -8,6 +8,7 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +50,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_Confirmar.setOnAction(event -> {
-            actualizarPerfilProfesor();
+            validarModificacionDeCampos();
         });
         btn_Cancelar.setOnAction(event -> {
            regresarDeVentana();
@@ -84,20 +85,11 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         }else{
             cmb_EstadosProfesor.setVisible(false);
         }
+        cmb_EstadosProfesor.setValue(estadoProfesor);
     }
     
-    private void actualizarPerfilProfesor(){
-        String estadoProfesor = ProfesorAuxiliar.getInstancia().getEstado();
-        if(estadoProfesor.equals(EnumProfesor.Activo.toString())||estadoProfesor.equals(EnumProfesor.Archivado.toString())){
-            actualizarPerfilProfesorActivoOArchivado();
-        }else{
-            actualizarPerfilProfesorEsperandoUOcupado();
-        }
-    }
-    
-    private void actualizarPerfilProfesorActivoOArchivado() {
+    private void actualizarPerfilProfesor(Profesor profesorAActualizar) {
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        Profesor profesorAActualizar = new Profesor();
         String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
         String correoProfesorNuevo = txfd_Correo.getText();
         int correosEncontradosSimilares = 0;
@@ -105,65 +97,53 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
             correosEncontradosSimilares = daoProfesor.validarDuplicidadDeCorreo(correoProfesorNuevo);
         }
         if(correosEncontradosSimilares==0){
-            try {
-                profesorAActualizar.setNombre(txfd_Nombre.getText());
-                profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
-                profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
-                profesorAActualizar.setCorreo(txfd_Correo.getText());
-                profesorAActualizar.setEstado((String) cmb_EstadosProfesor.getSelectionModel().getSelectedItem());
-                int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
-                filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
-                filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
-                filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
-                filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(),profesorAActualizar.getEstado());
-                if(filasAfectadas >= 4){
-                    Alertas.mostrarMensajeDatosModificados();
-                    regresarDeVentana();
-                }else{
-                    Alertas.mostrarMensajeErrorEnLaConexion();
-                    salirAlInicioDeSesion();
-                }
-            } catch (IllegalArgumentException | NullPointerException excepcion) {
-                LOG.error(excepcion);
-                Alertas.mostrarMensajeDatosInvalidos();
+            int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
+            filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(), profesorAActualizar.getEstado());
+            if (filasAfectadas >= 4) {
+                Alertas.mostrarMensajeDatosModificados();
+                regresarDeVentana();
+            }else{
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
             }
         }else{
             Alertas.mostrarMensajeDatosDuplicados();
         }
     }
     
-    private void actualizarPerfilProfesorEsperandoUOcupado() {
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+    public Profesor obtenerDatosProfesorAModificar(){
         Profesor profesorAActualizar = new Profesor();
-        String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
-        String correoProfesorNuevo = txfd_Correo.getText();
-        int correosEncontradosSimilares = 0;
-        if(!correoProfesorNuevo.equals(correoProfesor)){
-            correosEncontradosSimilares = daoProfesor.validarDuplicidadDeCorreo(correoProfesorNuevo);
+        try{
+            profesorAActualizar.setNombre(txfd_Nombre.getText());
+            profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
+            profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
+            profesorAActualizar.setCorreo(txfd_Correo.getText());
+            profesorAActualizar.setEstado((String) cmb_EstadosProfesor.getSelectionModel().getSelectedItem());
+        }catch(IllegalArgumentException excepcion){
+            LOG.info(excepcion.getMessage());
+            Alertas.mostrarMensajeDatosInvalidos();
+            profesorAActualizar = null;
         }
-        if(correosEncontradosSimilares==0){
-            try {
-                profesorAActualizar.setNombre(txfd_Nombre.getText());
-                profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
-                profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
-                profesorAActualizar.setCorreo(txfd_Correo.getText());
-                int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
-                filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
-                filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
-                filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
-                if(filasAfectadas >= 4){
-                    Alertas.mostrarMensajeDatosModificados();
-                    regresarDeVentana();
-                }else{
-                    Alertas.mostrarMensajeErrorEnLaConexion();
-                    salirAlInicioDeSesion();
-                }
-            } catch (IllegalArgumentException excepcion) {
-                LOG.error(excepcion);
-                Alertas.mostrarMensajeDatosInvalidos();
+        return profesorAActualizar;
+    }
+    
+    public void validarModificacionDeCampos(){
+        ProfesorAuxiliar profesor = ProfesorAuxiliar.getInstancia();
+        Profesor profesorNuevo = obtenerDatosProfesorAModificar();
+        String apellidoPaternoViejo = profesor.getApellidoPaterno();
+        String apellidoMaternoViejo = profesor.getApellidoMaterno();
+        String correoViejo = profesor.getCorreo();
+        String nombreViejo = profesor.getNombre();
+        String estadoViejo = profesor.getEstado();
+        if(Objects.nonNull(profesorNuevo)){
+            if(apellidoPaternoViejo.equals(profesor.getApellidoPaterno())&&apellidoMaternoViejo.equals(profesor.getApellidoMaterno())&&correoViejo.equals(profesor.getCorreo())&&nombreViejo.equals(profesor.getNombre())&&estadoViejo.equals(profesor.getEstado())){
+                Alertas.mostrarMensajeSinModificarDatos();
+            }else{
+                actualizarPerfilProfesor(profesorNuevo);
             }
-        }else{
-            Alertas.mostrarMensajeDatosDuplicados();
         }
     }
     
