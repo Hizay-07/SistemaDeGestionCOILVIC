@@ -174,7 +174,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
         Callback<TableColumn<Profesor, Void>, TableCell<Profesor, Void>> frabricaDeCelda = (final TableColumn<Profesor, Void> param) -> {
                 final TableCell<Profesor, Void> cell = new TableCell<Profesor, Void>() {                
                     private final Button btn_Modificar = new Button();{
-                        btn_Modificar.setText("Actualizar perfil");
+                        btn_Modificar.setText("Actualizar");
                         btn_Modificar.setOnAction((ActionEvent event) -> {
                             Profesor profesorSeleccionado = getTableView().getItems().get(getIndex());
                             ProfesorAuxiliar.setInstancia(profesorSeleccionado);

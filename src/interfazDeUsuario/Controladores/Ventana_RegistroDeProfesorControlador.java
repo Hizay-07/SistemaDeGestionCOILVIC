@@ -170,23 +170,23 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         if (!profesor.validarAtributos() || !profesorUV.validarAtributos()) {
             return;
         }
-        if(validarInexistenciaDeProfesor(profesor)){
-            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-            int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
-            if(resultadoRegistro==1){
-                int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
-                profesorUV.setIdProfesor(idProfesor);
-                DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
-                daoProfesorUV.registrarProfesorUV(profesorUV);
-                obtenerDatosCuentaProfesor(profesor,"UV");
-                limpiarInformacionProfesor();
-                limpiarInformacionProfesorUV();
-            }else{
-                salirAlInicioDeSesion();
-                Alertas.mostrarMensajeErrorEnLaConexion();
+        if(validarInexistenciaDeProfesorUV(profesorUV)){
+            if(validarInexistenciaDeProfesor(profesor)){
+                DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+                int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
+                if(resultadoRegistro==1){
+                    int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
+                    profesorUV.setIdProfesor(idProfesor);
+                    DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
+                    daoProfesorUV.registrarProfesorUV(profesorUV);
+                    obtenerDatosCuentaProfesor(profesor,"UV");
+                    limpiarInformacionProfesor();
+                    limpiarInformacionProfesorUV();
+                }else{
+                    salirAlInicioDeSesion();
+                    Alertas.mostrarMensajeErrorEnLaConexion();
+                }
             }
-        }else{
-            Alertas.mostrarMensajeUsuarioDuplicado();
         }
     }
 
@@ -225,8 +225,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
                 salirAlInicioDeSesion();
                 Alertas.mostrarMensajeErrorEnLaConexion();
             }
-        }else{
-            Alertas.mostrarMensajeUsuarioDuplicado();
         }
     }
     
@@ -238,8 +236,30 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         int resultadoDuplicidadCorreoUsuario = daoUsuario.verificarDuplicidadNombreDeUsuario(profesor.getCorreo());
         if(resultadoDuplicidadCorreoProfesor>=1||resultadoDuplicidadCorreoUsuario>=1){
             resultadoValidacion = false;
+            Alertas.mostrarMensajeUsuarioDuplicado();
+        }else if(resultadoDuplicidadCorreoProfesor==-1||resultadoDuplicidadCorreoUsuario==-1){
+            resultadoValidacion = false;
+            Alertas.mostrarMensajeErrorEnLaConexion();
         }else{
-            resultadoValidacion = true;
+            resultadoValidacion = true;   
+        }
+        return resultadoValidacion;
+    }
+    
+    public boolean validarInexistenciaDeProfesorUV(ProfesorUV profesor){
+        boolean resultadoValidacion = true;
+        DAOProfesorUVImplementacion daoProfesor = new DAOProfesorUVImplementacion();
+        int resultadoValidacionInexistencia = daoProfesor.validarInexistenciaProfesorUV(profesor.getNumeroDePersonal());
+        switch (resultadoValidacionInexistencia) {
+            case 1 -> {
+                resultadoValidacion = false;
+                Alertas.mostrarMensajeNumeroDePersonalDuplicado();
+            }
+            case -1 -> {
+                resultadoValidacion = false;
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
+            default -> resultadoValidacion=true;
         }
         return resultadoValidacion;
     }

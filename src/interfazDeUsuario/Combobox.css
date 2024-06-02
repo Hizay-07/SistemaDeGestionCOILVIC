@@ -1,0 +1,58 @@
+.combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: #333333;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: #009688;
+    -fx-background-radius: 0 5 5 0;
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+.combo-box .arrow-button:hover {
+    -fx-background-color: #00796B;
+}
+
+.combo-box .arrow-button:pressed {
+    -fx-background-color: #004D40;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent;
+    -fx-padding: 5;
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: #333333;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #E0F2F1;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: #B2DFDB;
+}
+
+.combo-box .list-view {
+    -fx-background-color: transparent;
+}
+
+.combo-box .list-cell {
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 0 0 1 0; 
+}
+
+.combo-box .list-cell:last-child {
+    -fx-border-width: 0;
+}
+

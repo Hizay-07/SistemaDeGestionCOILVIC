@@ -350,8 +350,6 @@ public class Alertas extends Application {
     
     }
             
-    
-
     public static void mostrarMensajeSinConexion(){
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.ERROR);
@@ -401,6 +399,15 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.WARNING);
             mensaje.setTitle("Sistema de la Universidad Veracruzana");
             mensaje.setContentText("No se puede agregar a la Universidad Veracruzana como representante institucional");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeNumeroDePersonalDuplicado(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Numero de personal duplicado");
+            mensaje.setContentText("El numero de personal que desea registrar ya ha sido registrado previamente.");
             mensaje.showAndWait();
         });
     }
