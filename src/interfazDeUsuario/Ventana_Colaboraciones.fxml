@@ -25,15 +25,15 @@
             <Image url="@Imagenes/MAPAMUNDO.png" />
          </image>
       </ImageView>
-      <TableView fx:id="tableView_Colaboraciones" layoutX="49.0" layoutY="176.0" prefHeight="200.0" prefWidth="658.0">
+      <TableView fx:id="tableView_Colaboraciones" layoutX="17.0" layoutY="178.0" prefHeight="200.0" prefWidth="733.0" stylesheets="@EstiloTabla.css">
         <columns>
           <TableColumn fx:id="column_IdColaboracion" prefWidth="45.599998474121094" text="ID" />
           <TableColumn fx:id="column_ProgramaEducativo" minWidth="0.0" prefWidth="182.39996337890625" text="Programa educativo" />
-            <TableColumn fx:id="column_FechaDeInicio" prefWidth="92.0" text="Fecha de inicio" />
-            <TableColumn fx:id="column_FechaDeCierre" prefWidth="91.99996948242188" text="Fecha de cierre" />
-            <TableColumn fx:id="column_Estado" prefWidth="71.199951171875" text="Estado" />
-            <TableColumn fx:id="column_Visualizar" prefWidth="82.4000244140625" text="Visualizar" />
-            <TableColumn fx:id="column_DarDeBajaColaboracion" prefWidth="91.19998779296873" text="Dar de baja" />
+            <TableColumn fx:id="column_FechaDeInicio" prefWidth="105.60003662109375" text="Fecha de inicio" />
+            <TableColumn fx:id="column_FechaDeCierre" prefWidth="109.5999755859375" text="Fecha de cierre" />
+            <TableColumn fx:id="column_Estado" prefWidth="60.800018310546875" text="Estado" />
+            <TableColumn fx:id="column_Visualizar" prefWidth="78.4000244140625" text="Visualizar" />
+            <TableColumn fx:id="column_DarDeBajaColaboracion" prefWidth="136.800048828125" text="Dar de baja" />
         </columns>
       </TableView>
       <Label fx:id="lbl_Titulo" layoutX="180.0" layoutY="81.0" text="COLABORACIONES COIL-VIC">
@@ -42,6 +42,6 @@
          </font>
       </Label>
       <Button fx:id="btn_Regresar" layoutX="600.0" layoutY="386.0" mnemonicParsing="false" onAction="#regresarAMenuPrincipal" prefHeight="27.0" prefWidth="67.0" style="-fx-background-color: red;" text="Regresar" textFill="WHITE" />
-      <ComboBox fx:id="cmb_TipoDeColaboracion" layoutX="477.0" layoutY="130.0" onAction="#mostrarConsultaSeleccionada" prefHeight="26.0" prefWidth="172.0" promptText="Tipo de colaboraciones" />
+      <ComboBox fx:id="cmb_TipoDeColaboracion" layoutX="477.0" layoutY="130.0" onAction="#mostrarConsultaSeleccionada" prefHeight="26.0" prefWidth="172.0" promptText="Tipo de colaboraciones" stylesheets="@Combobox.css" />
    </children>
 </AnchorPane>

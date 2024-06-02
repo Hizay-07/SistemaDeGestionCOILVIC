@@ -20,6 +20,8 @@ public interface ProfesorUVInterface {
     
     public int editarRegionDeProfesorUVPorNumeroDePersonal(int region,String numeroDePersonal);
     
-     public int eliminarProfesorUV(String correo);
+    public int validarInexistenciaProfesorUV(String noPersonal);
+    
+    public int eliminarProfesorUV(String correo);
               
 }
