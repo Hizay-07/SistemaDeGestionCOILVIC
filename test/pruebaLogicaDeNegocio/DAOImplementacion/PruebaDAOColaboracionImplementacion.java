@@ -27,12 +27,11 @@ public class PruebaDAOColaboracionImplementacion {
     @Test
     public void pruebaRegistrarColaboracionExitosa(){
         PropuestaColaboracion propuestaDeCOlaboracion = new PropuestaColaboracion();
-        propuestaDeCOlaboracion.setIdPropuestaColaboracion(1);
+        propuestaDeCOlaboracion.setIdPropuestaColaboracion(3);
         Colaboracion colaboracion=new Colaboracion();
         colaboracion.setEstadoColaboracion("Activa");
         colaboracion.setPropuestaColaboracion(propuestaDeCOlaboracion);
         colaboracion.setCantidadEstudiantes(24);
-
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         int resultadoEsperado=1;
         int resultadoObtenido=instancia.registrarColaboracion(colaboracion);
@@ -83,7 +82,7 @@ public class PruebaDAOColaboracionImplementacion {
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         String retroalimentacion="La colaboracion obtuvo los resultados esperados";
         int resultadoEsperado=1;
-        int resultadoObtenido=instancia.registrarRetroalimentacionColaboracionPorId(1, retroalimentacion);
+        int resultadoObtenido=instancia.registrarRetroalimentacionColaboracionPorId(2, retroalimentacion);
         assertEquals(resultadoEsperado,resultadoObtenido);                 
     }        
     
@@ -101,7 +100,7 @@ public class PruebaDAOColaboracionImplementacion {
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setIdColaboracion(2);
-        String estadoPrueba = "Cerrada";
+        String estadoPrueba = "Activa";
         int resultadoEsperado = 1;
         int resultadoObtenido = instancia.cambiarEstadoColaboracion(estadoPrueba, colaboracionPrueba);
         assertEquals(resultadoEsperado,resultadoObtenido);
@@ -111,7 +110,7 @@ public class PruebaDAOColaboracionImplementacion {
     public void pruebaFlujoAlternoModificarEstadoColaboracionExitoso(){
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(1);
+        colaboracionPrueba.setIdColaboracion(2);
         String estadoPrueba = "Cerrada";
         int resultadoEsperado = 1;
         int resultadoObtenido = instancia.cambiarEstadoColaboracion(estadoPrueba, colaboracionPrueba);

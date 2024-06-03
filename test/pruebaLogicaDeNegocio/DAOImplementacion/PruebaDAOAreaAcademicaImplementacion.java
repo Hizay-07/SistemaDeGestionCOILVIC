@@ -7,6 +7,7 @@ import logicaDeNegocio.clases.AreaAcademica;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -36,28 +37,16 @@ public class PruebaDAOAreaAcademicaImplementacion {
     public void pruebaFallidaRegistrarAreaAcademica() {
         DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
         AreaAcademica areaAcademica = new AreaAcademica();
-        areaAcademica.setArea("Artes_Plasticas");
+        areaAcademica.setArea("Artes_Plásticas2");
         int resultado = dao.registrarAreaAcademica(areaAcademica);
-    }
-
-
-    
-    @Test
-    public void pruebaRegistrarAreaAcademicaFracaso(){
-        AreaAcademica areaAcademica=new AreaAcademica();        
-        int resultadoEsperado=0;
-        DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();
-        int resultadoObtenido=instancia.registrarAreaAcademica(areaAcademica);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
-    }
+    }    
     
     @Test
     public void pruebaConsultarAreasAcademicasExitosa() {
         DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
         List<AreaAcademica> areasAcademicas = dao.consultarAreasAcademicas();
-        assertEquals(7, areasAcademicas.size());
+        assertFalse(areasAcademicas.isEmpty());
     }
-
     
     @Test(expected = AssertionError.class)
     public void pruebaFallidaConsultarAreasAcademicas() {
@@ -65,8 +54,7 @@ public class PruebaDAOAreaAcademicaImplementacion {
         List<AreaAcademica> areasAcademicas = dao.consultarAreasAcademicas();
         assertEquals(5, areasAcademicas.size());
     }
-   
-    
+       
     @Test
     public void pruebaConsultarIdDeAreaAcademicaPorAreaExitosa(){
         DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();

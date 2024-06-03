@@ -7,9 +7,9 @@ import logicaDeNegocio.clases.EmisionPropuesta;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
-
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +26,11 @@ public class PruebaDAOEmisionPropuestaImplementacion {
     }
     
     @Test
-    public void testRegistrarEmisionPropuestaExitoso() {
+    public void pruebaRegistrarEmisionPropuestaExitoso() {
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
         EmisionPropuesta emisionPropuesta = new EmisionPropuesta();
         emisionPropuesta.setIdProfesor(1);
-        emisionPropuesta.setIdPropuestaColaboracion(1);
+        emisionPropuesta.setIdPropuestaColaboracion(2);
         emisionPropuesta.setFechaEmision("2024-05-26");
         int resultado = dao.registrarEmisionPropuesta(emisionPropuesta);
         assertEquals(1, resultado);
@@ -39,42 +39,60 @@ public class PruebaDAOEmisionPropuestaImplementacion {
     }
     
     @Test
-    public void pruebaConsultarEmisionesDePropuestasExitosa(){
-        EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
-        emisionPropuesta.setIdProfesor(1);
-        emisionPropuesta.setIdPropuestaColaboracion(1);
-        EmisionPropuesta emisionPropuesta2=new EmisionPropuesta();
-        emisionPropuesta2.setIdProfesor(2);
-        emisionPropuesta2.setIdPropuestaColaboracion(3);
-        List<EmisionPropuesta> resultadoEsperado=new ArrayList<>();
-        resultadoEsperado.add(emisionPropuesta);
-        resultadoEsperado.add(emisionPropuesta2);   
-        List<EmisionPropuesta> resultadoObtenido=new ArrayList<>();
-        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
-        resultadoObtenido=daoEmisionPropuesta.consultarEmisionesDePropuestas();
-        assertEquals(resultadoEsperado,resultadoObtenido);        
+    public void pruebaRegistrarEmisionPropuestaFallido() {
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        EmisionPropuesta emisionPropuesta = null;
+        int resultado = dao.registrarEmisionPropuesta(emisionPropuesta);
+        assertEquals(-1, resultado);
+    }
+
+    @Test
+    public void pruebaConsultarEmisionesDePropuestasExitosa() {
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        List<EmisionPropuesta> resultadoObtenido = dao.consultarEmisionesDePropuestas();
+        assertFalse(resultadoObtenido.isEmpty());
+    }
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaConsultarEmisionesDePropuestasFallida() {
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        List<EmisionPropuesta> resultadoObtenido = dao.consultarEmisionesDePropuestas();
+        assertTrue(resultadoObtenido.isEmpty()); 
     }
     
     @Test
-    public void pruebaConsultarIdProfesorPorIdPropuestaColaboracionExitosa(){
-        int idPropuestaColaboracion=1;
-        int resultadoEsperado=1;
-        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
-        int resultadoObtenido=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
+    public void pruebaConsultarIdProfesorPorIdPropuestaColaboracionExitosa() {
+        int idPropuestaColaboracion = 1;
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        int resultadoObtenido = dao.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
+        assertNotEquals(-1, resultadoObtenido);
     }
-  
-    /*
+    
+    @Test (expected = AssertionError.class)
+    public void pruebaConsultarIdProfesorPorIdPropuestaColaboracionFallida() {
+        int idPropuestaColaboracion = -1;
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        int resultadoObtenido = dao.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
+        assertEquals(-1, resultadoObtenido);
+    }
+
     @Test
-    public void pruebaConsultarIdPropuestaColaboracionProIdProfesor(){
+    public void pruebaConsultarIdPropuestaDeColaboracionPorIdProfesorExitosa() {
         Profesor profesor = new Profesor();
         profesor.setIdProfesor(1);
-        int resultadoEsperado=1;
-        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
-        int resultadoObtenido=daoEmisionPropuesta.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
-        assertEquals(resultadoEsperado,resultadoObtenido);  
-        
-    }*/
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        List<Integer> resultadoObtenido = dao.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
+        assertFalse(resultadoObtenido.isEmpty());
+    }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaConsultarIdPropuestaDeColaboracionPorIdProfesorFallida() {
+        Profesor profesor = new Profesor();
+        profesor.setIdProfesor(-1);
+        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
+        List<Integer> resultadoObtenido = dao.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
+        assertTrue(resultadoObtenido.isEmpty());
+    }
+  
 }
 

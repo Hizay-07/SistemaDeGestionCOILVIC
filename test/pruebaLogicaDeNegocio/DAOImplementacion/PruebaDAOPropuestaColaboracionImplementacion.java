@@ -1,6 +1,5 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
@@ -57,7 +56,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
     }
     
     @Test
-    public void testConsultarPropuestasColaboracionExitoso() {
+    public void pruebaConsultarPropuestasColaboracionExitoso() {
         List<PropuestaColaboracion> propuestas = dao.consultarPropuestasColaboracion();
         assertNotNull(propuestas);
         assertEquals(2, propuestas.size());
@@ -71,8 +70,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         List<PropuestaColaboracion> listaObtenida = dao.consultarPropuestasColaboracion();
         assertNotEquals(listaEsperada, listaObtenida);
     }
-    
-    
+        
     @Test
     public void pruebaConsultarPropuestasColaboracionPorFechaDeInicioExitosa(){
         PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();

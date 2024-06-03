@@ -31,7 +31,6 @@ public class PruebaDAORegionAcademicaImplementacion {
         int resultado = dao.registrarRegionAcademica(regionAcademica);
         assertEquals(1, resultado);
     }
-
     
     @Test(expected = IllegalArgumentException.class)
     public void pruebaFallidaRegistrarRegionAcademica() {
@@ -40,7 +39,6 @@ public class PruebaDAORegionAcademicaImplementacion {
         regionAcademica.setRegion("Xalapa2000");
         int resultado = dao.registrarRegionAcademica(regionAcademica);
     }
-
     
     @Test
     public void pruebaConsultarRegionesAcademicasExitosa() {
@@ -48,7 +46,6 @@ public class PruebaDAORegionAcademicaImplementacion {
         List<RegionAcademica> regionesAcademicas = dao.consultarRegionesAcademicas();
         assertEquals(9, regionesAcademicas.size());
     }
-
     
     @Test(expected = AssertionError.class)
     public void pruebaFallidaConsultarRegionesAcademicas() {
@@ -56,7 +53,6 @@ public class PruebaDAORegionAcademicaImplementacion {
         List<RegionAcademica> regionesAcademicas = dao.consultarRegionesAcademicas();
         assertEquals(6, regionesAcademicas.size());
     }
-
     
     @Test
     public void pruebaConsultarIdDeRegionPorRegionExitosa() {
@@ -101,6 +97,5 @@ public class PruebaDAORegionAcademicaImplementacion {
         int resultado = daoRegion.verificarRegion();
         assertEquals( 0, resultado);
     }
-
 
 }

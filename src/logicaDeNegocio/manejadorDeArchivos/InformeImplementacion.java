@@ -38,7 +38,7 @@ public class InformeImplementacion {
     public Document crearInformeDeColaboracion(Colaboracion colaboracion,List<Actividad> actividades, List<Profesor> profesores){
         Document informeColaboracion = new Document();
         informeColaboracion.setMargins(50, 50, 50, 50);
-        String rutaInforme = "Informes\\informeDeColaboracion"+colaboracion.getIdColaboracion()+".pdf";
+        String rutaInforme = "Informes\\informeDeColaboracionPrueba"+colaboracion.getIdColaboracion()+".pdf";
         try{
             PdfWriter.getInstance(informeColaboracion,new FileOutputStream(rutaInforme));
             PdfPTable tituloInforme = obtenerTituloDeInforme();
