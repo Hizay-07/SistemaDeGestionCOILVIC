@@ -43,9 +43,9 @@ public class PruebaDAOProfesorUVImplementacion {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testRegistrarProfesorUVFallido() {
+    public void pruebaRegistrarProfesorUVFallido() {
         ProfesorUV profesor = new ProfesorUV();              
-        profesor.setNumeroDePersonal(null); // Esto debería causar un fallo por violar restricciones de la BD
+        profesor.setNumeroDePersonal(null);
         profesor.setTipoDeContratacion("Tiempo Completo");
         profesor.setCategoriaDeContratacion("A");
         profesor.setIdProfesor(999);
@@ -83,7 +83,7 @@ public class PruebaDAOProfesorUVImplementacion {
     }
 
     @Test
-    public void testEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
+    public void pruebaEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
         int resultado = dao.editarTipoDeContratacionDeProfesorUVPorNumeroDePersonal("Tiempo Completo", "9999");
         assertEquals(0, resultado);
@@ -152,7 +152,7 @@ public class PruebaDAOProfesorUVImplementacion {
     }
     
     @Test
-    public void testEliminarProfesorUVExitoso() {
+    public void pruebaEliminarProfesorUVExitoso() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
         ProfesorUV profesorUV = new ProfesorUV();
         profesorUV.setNumeroDePersonal("1234");
@@ -186,7 +186,7 @@ public class PruebaDAOProfesorUVImplementacion {
     }
 
     @Test (expected = AssertionError.class)
-    public void testEliminarProfesorUVFallido() {
+    public void pruebaEliminarProfesorUVFallido() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
         int resultado = dao.eliminarProfesorUV("correoInexistente@uv.mx");
         assertEquals(0, resultado);

@@ -35,10 +35,10 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(25);
         actividadPrueba.setEstado(EnumActividades.Inactiva.toString());
-
         int resultadoInsercion = implementacion.registrarActividad(actividadPrueba);
         assertEquals(1, resultadoInsercion);
     }
+    
     @Test
     public void pruebaFlujoFallidoRegistrarActividadExitosa(){
         DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
@@ -47,8 +47,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeCierre("2024-04-10");
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(25);
-        actividadPrueba.setEstado(EnumActividades.Inactiva.toString());
-        
+        actividadPrueba.setEstado(EnumActividades.Inactiva.toString());        
         int resultadoInsercion = implementacion.registrarActividad(actividadPrueba);
         assertEquals(-1,resultadoInsercion);
     }
@@ -62,8 +61,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeInicio("2024-04-04");
         actividadPrueba.setFechaDeCierre("2024-04-10");
         actividadPrueba.setIdColaboracion(1);
-        actividadPrueba.setIdActividad(1);
-        
+        actividadPrueba.setIdActividad(1);        
         int resultadoInsercion = implementacion.modificarActividad(actividadPrueba);
         assertEquals(1,resultadoInsercion);
     }
@@ -76,8 +74,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setDescripcion("Poder entender el patron DAO");
         actividadPrueba.setFechaDeInicio("2024-04-04");
         actividadPrueba.setFechaDeCierre("2024-04-10");
-        actividadPrueba.setIdActividad(25);
-        
+        actividadPrueba.setIdActividad(25);        
         int resultadoInsercion = implementacion.modificarActividad(actividadPrueba);
         assertEquals(0, resultadoInsercion);
     }
@@ -92,8 +89,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeCierre("2024-04-20");
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(25);
-        actividadPrueba.setIdActividad(1);
-        
+        actividadPrueba.setIdActividad(1);        
         int resultadoInsercion = implementacion.modificarFechaActividad(actividadPrueba);
         assertEquals(1,resultadoInsercion);
     }
@@ -106,8 +102,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setDescripcion("Poder entender el patron DAO");
         actividadPrueba.setFechaDeInicio("2024-04-04");
         actividadPrueba.setFechaDeCierre("2024-04-10");
-        actividadPrueba.setIdActividad(25);
-        
+        actividadPrueba.setIdActividad(25);        
         int resultadoInsercion = implementacion.modificarActividad(actividadPrueba);
         assertEquals(0, resultadoInsercion);
     }
@@ -127,8 +122,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(25);
         actividadPrueba.setEstado(EnumActividades.Finalizada.toString());
-        actividadesEsperadas.add(actividadPrueba);
-        
+        actividadesEsperadas.add(actividadPrueba);        
         actividadesObtenidas = implementacion.obtenerActividades(1);
         assertEquals(actividadesObtenidas,actividadesEsperadas);
     }
@@ -147,8 +141,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(25);
         actividadPrueba.setEstado(EnumActividades.Finalizada.toString());
-        actividadesEsperadas.add(actividadPrueba);
-        
+        actividadesEsperadas.add(actividadPrueba);        
         actividadesObtenidas = implementacion.obtenerActividades(2);
         assertEquals(actividadesObtenidas,actividadesEsperadas);
     }
@@ -161,8 +154,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setDescripcion("Poder entender el patron DAO");
         actividadPrueba.setFechaDeInicio("2024-04-12");
         actividadPrueba.setFechaDeCierre("2024-04-20");
-        actividadPrueba.setIdColaboracion(1);
-        
+        actividadPrueba.setIdColaboracion(1);        
         int numeroObtenido = implementacion.obtenerNumeroDeActividad(actividadPrueba);
         assertEquals(25,numeroObtenido);
     }
@@ -176,8 +168,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeInicio("2024-04-12");
         actividadPrueba.setFechaDeCierre("2024-04-20");
         actividadPrueba.setNumeroActividad(1);
-        actividadPrueba.setIdColaboracion(1);
-        
+        actividadPrueba.setIdColaboracion(1);        
         boolean resultado = implementacion.validarInexistenciaDeActividad(actividadPrueba);
         assertFalse(resultado);
     }
@@ -191,7 +182,6 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeInicio("2024-04-12");
         actividadPrueba.setFechaDeCierre("2024-04-20");
         actividadPrueba.setNumeroActividad(25);
-
         boolean resultado = implementacion.validarInexistenciaDeActividad(actividadPrueba);
         assertTrue(resultado);
     }
@@ -206,8 +196,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeCierre("2024-04-20");
         actividadPrueba.setNumeroActividad(25);
         actividadPrueba.setIdActividad(1);
-        actividadPrueba.setIdColaboracion(1);
-        
+        actividadPrueba.setIdColaboracion(1);        
         int resultado = implementacion.actualizarEstadoActividad(actividadPrueba, EnumActividades.Finalizada.toString());
         assertEquals(1, resultado);
     }
@@ -222,8 +211,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setFechaDeCierre("2024-05-20");
         actividadPrueba.setNumeroActividad(23);
         actividadPrueba.setIdActividad(2);
-        actividadPrueba.setIdColaboracion(2);
-        
+        actividadPrueba.setIdColaboracion(2);        
         int resultado = implementacion.actualizarEstadoActividad(actividadPrueba, EnumActividades.Finalizada.toString());
         assertEquals(0, resultado);
     }

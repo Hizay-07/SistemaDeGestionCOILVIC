@@ -1,4 +1,3 @@
-
 package logicaDeNegocio.manejadorDeArchivos;
 
 import java.io.File;
@@ -25,7 +24,7 @@ public class ManejadorDeArchivos {
                 resultadoCreacionDeCarpeta = carpetaActividad.mkdirs();
             }
         }catch(SecurityException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoCreacionDeCarpeta = false;
         }
         return resultadoCreacionDeCarpeta;
@@ -41,7 +40,7 @@ public class ManejadorDeArchivos {
             Files.copy(rutaDeArchivoOriginal, rutaArchivoDeDestino, StandardCopyOption.REPLACE_EXISTING);
             resultadoGuardoDeSyllabus = 1;
         }catch(IOException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion.getMessage());
             resultadoGuardoDeSyllabus = -1;
         }
         return resultadoGuardoDeSyllabus;

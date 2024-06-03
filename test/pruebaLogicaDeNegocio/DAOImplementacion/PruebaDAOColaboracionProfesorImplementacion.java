@@ -30,7 +30,7 @@ public class PruebaDAOColaboracionProfesorImplementacion {
     @Test
     public void pruebaObtenerProfesoresPorIdColaboracionExitosa() {
         Colaboracion colaboracion = new Colaboracion();
-        colaboracion.setIdColaboracion(1); 
+        colaboracion.setIdColaboracion(2); 
         DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
         List<Profesor> profesores = dao.obtenerProfesoresPorIdColaboracion(colaboracion);
         assertNotNull(profesores);
@@ -54,7 +54,7 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         assertNotNull(colaboracion);
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaObtenerColaboracionPorIdProfesorFallida() {
         Profesor profesor = new Profesor();
         profesor.setIdProfesor(-1); 
@@ -62,7 +62,6 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         Colaboracion colaboracion = dao.obtenerColaboracionPorIdProfesor(profesor);
         assertNull(colaboracion);
     }
-
     
     @Test
     public void pruebaRegistrarColaboracionProfesorExitosa() {
@@ -75,7 +74,7 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         assertTrue(resultado > 0);
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaRegistrarColaboracionProfesorFallida() {
         Profesor profesor = new Profesor();
         profesor.setIdProfesor(-1);

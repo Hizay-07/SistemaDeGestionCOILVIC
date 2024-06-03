@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 
-
 public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
     
     @Before
@@ -28,8 +27,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionPruebas {
     
     @Test
     public void pruebaRegistrarRepresentanteInstitucionalExitosa(){
-        DAORepresentanteInstitucionalImplementacion pruebaRegistro = new DAORepresentanteInstitucionalImplementacion();
-        
+        DAORepresentanteInstitucionalImplementacion pruebaRegistro = new DAORepresentanteInstitucionalImplementacion();        
         RepresentanteInstitucional representanteDePrueba = new RepresentanteInstitucional();
         Pais pruebaPais = new Pais();
         pruebaPais.setNombrePais(EnumPais.Mexico.toString());
