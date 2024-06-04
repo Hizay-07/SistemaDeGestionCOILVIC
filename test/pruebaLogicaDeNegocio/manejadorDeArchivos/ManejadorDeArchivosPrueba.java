@@ -86,7 +86,7 @@ public class ManejadorDeArchivosPrueba {
         int numeroDeEvidencias = 1;
         ManejadorDeArchivos manejador = new ManejadorDeArchivos();
         String resultado = manejador.guardarEvidenciaDeActividad(actividad, colaboracion, archivoEvidencia,numeroDeEvidencias);
-        assertNotNull(resultado);
+        assertEquals(rutaEsperada, resultado);
     }
 
     @Test

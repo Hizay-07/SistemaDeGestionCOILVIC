@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/interfazDeUsuario/Ventana_ColaboracionActiva.fxml</file>
-            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/interfazDeUsuario/Controladores/Ventana_ColaboracionActivaControlador.java</file>
-            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/logicaDeNegocio/DAOImplementacion/DAOColaboracionImplementacion.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/interfazDeUsuario/Controladores/Ventana_EvidenciasControlador.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/interfazDeUsuario/Controladores/Ventana_ModificarEvidenciaControlador.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/interfazDeUsuario/Controladores/Ventana_RegistrarEvidenciaControlador.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/src/logicaDeNegocio/manejadorDeArchivos/ManejadorDeArchivos.java</file>
+            <file>file:/C:/Users/chris/Escritorio/SistemaDeGestionCOILVIC/test/pruebaLogicaDeNegocio/manejadorDeArchivos/ManejadorDeArchivosPrueba.java</file>
         </group>
     </open-files>
 </project-private>
