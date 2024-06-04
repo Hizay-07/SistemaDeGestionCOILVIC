@@ -39,16 +39,14 @@ public class PruebaDAOProfesorImplementacion {
         int resultado = dao.registrarProfesor(profesor);
         assertEquals(1, resultado);
     }
- 
-    
+     
    @Test(expected = IllegalArgumentException.class)
     public void pruebaFallidaRegistrarProfesor() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         Profesor profesor = new Profesor();
-        profesor.setNombre("");  
+        profesor.setNombre("");
         int resultado = dao.registrarProfesor(profesor);
     }
-
 
     @Test
     public void pruebaCambiarEstadoProfesorExitosa() {
@@ -58,7 +56,6 @@ public class PruebaDAOProfesorImplementacion {
         int resultado = daoProfesor.cambiarEstadoProfesor(idProfesor, nuevoEstado);
         assertEquals(1, resultado);
     }
-
     
     @Test
     public void pruebaFallidaCambiarEstadoProfesor() {
@@ -69,7 +66,6 @@ public class PruebaDAOProfesorImplementacion {
         assertEquals(0, resultado);
     }
 
-
     @Test
     public void pruebaModificarNombreProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
@@ -78,17 +74,15 @@ public class PruebaDAOProfesorImplementacion {
         int resultado = dao.modificarNombreProfesor(nuevoNombre, correoProfesor);
         assertEquals(1, resultado);
     }
-
     
     @Test
     public void pruebaFallidaModificarNombreProfesor() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String nuevoNombre = "Pedro";
-        String correoProfesor = "correoInvalido@example.com"; // Correo no existente
+        String correoProfesor = "correoInvalido@example.com";
         int resultado = dao.modificarNombreProfesor(nuevoNombre, correoProfesor);
         assertEquals(0, resultado);
     }
-
 
     @Test
     public void pruebaModificarApellidoPaternoProfesorExitosa() {
@@ -127,7 +121,6 @@ public class PruebaDAOProfesorImplementacion {
         int resultado = dao.modificarApellidoMaternoProfesor(nuevoApellidoMaterno, correoProfesor);
         assertEquals(0, resultado);
     }
-
     
     @Test
     public void pruebaModificarCorreoProfesorExitosa() {
@@ -142,7 +135,7 @@ public class PruebaDAOProfesorImplementacion {
     public void pruebaFallidaModificarCorreoProfesor() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String nuevoCorreo = "pedro@example.com";
-        String correoProfesor = "correoInvalido@example.com"; // Correo no existente
+        String correoProfesor = "correoInvalido@example.com";
         int resultado = dao.modificarCorreoProfesor(nuevoCorreo, correoProfesor);
         assertEquals(0, resultado);
     }
@@ -154,7 +147,6 @@ public class PruebaDAOProfesorImplementacion {
         int idProfesor = dao.obtenerIdProfesorPorCorreo(correo);
         assertEquals(1, idProfesor);
     }
-
     
    @Test
     public void pruebaFallidaObtenerIdProfesorPorCorreo() {

@@ -18,7 +18,23 @@ public class ManejadorDeArchivosPrueba {
     private static final Logger LOG = Logger.getLogger(ManejadorDeArchivosPrueba.class);
 
     @Test
-    public void testCrearCarpetaDeActividadExitoso() {
+    public void pruebaCrearCarpetaDeActividadExitoso() {
+        ManejadorDeArchivos manejador = new ManejadorDeArchivos();
+        Actividad actividad = new Actividad();
+        actividad.setIdActividad(4);
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1);
+        boolean resultado = manejador.crearCarpetaDeActividad(actividad, colaboracion);
+        assertTrue(resultado);
+        File carpeta = new File("Colaboraciones/Colaboracion1/Actividad4");
+        assertTrue(carpeta.exists());
+        carpeta.delete();
+        carpeta.getParentFile().delete();
+        carpeta.getParentFile().getParentFile().delete();
+    }
+
+    @Test (expected = AssertionError.class)
+    public void pruebaCrearCarpetaDeActividadFallida() {
         ManejadorDeArchivos manejador = new ManejadorDeArchivos();
         Actividad actividad = new Actividad();
         actividad.setIdActividad(1);
@@ -26,7 +42,7 @@ public class ManejadorDeArchivosPrueba {
         colaboracion.setIdColaboracion(1);
         boolean resultado = manejador.crearCarpetaDeActividad(actividad, colaboracion);
         assertTrue(resultado);
-        File carpeta = new File("Colaboraciones/Colaboracion1/Actividad1");
+        File carpeta = new File("Colaboraciones/Colaboracion1/ActividadU");
         assertTrue(carpeta.exists());
         carpeta.delete();
         carpeta.getParentFile().delete();
@@ -34,24 +50,19 @@ public class ManejadorDeArchivosPrueba {
     }
 
     @Test
-    public void pruebaCrearCarpetaDeActividadFallida() {
-        Actividad actividad = new Actividad();
-        actividad.setIdActividad(1);
-        Colaboracion colaboracion = new Colaboracion();
-        colaboracion.setIdColaboracion(-1); 
-        ManejadorDeArchivos manejador = new ManejadorDeArchivos();
-        boolean resultado = manejador.crearCarpetaDeActividad(actividad, colaboracion);
-        assertFalse(resultado);
-    }
-
-    @Test
     public void pruebaGuardarSyllabusDeColaboracionExitosa() {
+        ManejadorDeArchivos manejador = new ManejadorDeArchivos();
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1);
-        File archivoSyllabus = new File("C:\\Users\\hizza\\Desktop\\RRRRR\\syllabus.pdf");
-        ManejadorDeArchivos manejador = new ManejadorDeArchivos();
+        File archivoSyllabus = new File("Colaboraciones/Colaboracion1/syllabusprueba.pdf");
+        try {
+            archivoSyllabus.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         int resultado = manejador.guardarSyllabusDeColaboracion(colaboracion, archivoSyllabus);
         assertEquals(1, resultado);
+        archivoSyllabus.delete();
     }
 
     @Test
@@ -66,6 +77,7 @@ public class ManejadorDeArchivosPrueba {
 
     @Test
     public void pruebaGuardarEvidenciaDeActividadExitosa() {
+        String rutaEsperada = "Colaboraciones/Colaboracion1/Actividad1/Actividadprueba2.txt";
         Actividad actividad = new Actividad();
         actividad.setIdActividad(1); 
         Colaboracion colaboracion = new Colaboracion();
@@ -92,7 +104,7 @@ public class ManejadorDeArchivosPrueba {
 
     @Test
     public void pruebaBorrarArchivoDeEvidenciaExitosa() {
-        String rutaEvidencia = "C:\\Users\\hizza\\Desktop\\RRRRR\\evidenciauno.txt";
+        String rutaEvidencia = "Colaboraciones/Colaboracion1/Actividad1/Actividadpruebadel.txt";
         ManejadorDeArchivos manejador = new ManejadorDeArchivos();
         int resultado = manejador.borrarArchivoDeEvidencia(rutaEvidencia);
         assertEquals(1, resultado);

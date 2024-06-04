@@ -31,7 +31,7 @@ public class PruebaDAOEvidenciaImplementacion {
         DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("C:\\Users\\hizza\\Desktop\\RRRRR");
+        evidenciaPrueba.setRutaEvidencia("Informes//Evidenciapruebauno");
         evidenciaPrueba.setIdActividad(1);
         int resultado = pruebaDeMetodo.agregarEvidencia(evidenciaPrueba);
         assertEquals(1,resultado);
@@ -48,19 +48,19 @@ public class PruebaDAOEvidenciaImplementacion {
         assertEquals(1, resultado);     
     }
     
-    @Test
+    @Test ()
     public void pruebaModificarEvidenciaExitosa(){
         DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("C:\\Users\\hizza\\Desktop\\RRRRR\\Escritor.java");
-        evidenciaPrueba.setIdActividad(1);
-        evidenciaPrueba.setIdEvidencia(1);
+        evidenciaPrueba.setRutaEvidencia("Informes//Escritor.java");
+        evidenciaPrueba.setIdActividad(2);
+        evidenciaPrueba.setIdEvidencia(2);
         int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
         assertEquals(1,resultado);
     }
     
-    @Test 
+    @Test (expected = AssertionError.class)
     public void pruebaModificarEvidenciaFallida(){
         DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();

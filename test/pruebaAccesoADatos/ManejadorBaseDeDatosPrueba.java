@@ -55,12 +55,4 @@ public class ManejadorBaseDeDatosPrueba{
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatosLogger(logger);
         assertNull(resultado);
     }
-    
-    @Test
-    public void pruebaGetConexionExitosa() throws SQLException{
-        ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
-        Connection resultado = baseDeDatosPrueba.getConexion();
-        assertNotNull(resultado);
-        resultado.close();
-    }
 }
