@@ -47,13 +47,14 @@ public class ManejadorDeArchivos {
         return resultadoGuardoDeSyllabus;
     }
 
-    public String guardarEvidenciaDeActividad(Actividad actividad, Colaboracion colaboracion, File archivoNuevo) {
+    public String guardarEvidenciaDeActividad(Actividad actividad, Colaboracion colaboracion, File archivoNuevo, int idEvidencia) {
         String rutaDeRegistro="";
         String rutaOriginal = archivoNuevo.getAbsolutePath();
-        String rutaDeDestino = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/Actividad"+actividad.getIdActividad()+"/"+archivoNuevo.getName();
+        String rutaDeDestino = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/Actividad"+actividad.getIdActividad()+"/Evidencia"+idEvidencia+"/"+archivoNuevo.getName();
         Path rutaDeArchivoOriginal = Paths.get(rutaOriginal);
         Path rutaArchivoDeDestino = Paths.get(rutaDeDestino);
         try{
+            Files.createDirectories(rutaArchivoDeDestino.getParent());
             Files.copy(rutaDeArchivoOriginal, rutaArchivoDeDestino, StandardCopyOption.REPLACE_EXISTING);
             rutaDeRegistro = rutaDeDestino;
         }catch(IOException excepcion){

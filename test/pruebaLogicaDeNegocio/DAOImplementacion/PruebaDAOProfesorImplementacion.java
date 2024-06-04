@@ -45,8 +45,7 @@ public class PruebaDAOProfesorImplementacion {
     public void pruebaFallidaRegistrarProfesor() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         Profesor profesor = new Profesor();
-        // Intentar registrar un profesor con datos no válidos
-        profesor.setNombre("");  // Nombre vacío no válido
+        profesor.setNombre("");  
         int resultado = dao.registrarProfesor(profesor);
     }
 

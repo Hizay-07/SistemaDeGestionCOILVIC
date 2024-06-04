@@ -76,4 +76,21 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
         return evidenciasDeActividad;
     }
     
+    @Override
+    public int obtenerNumeroDeEvidencia(int idActividad){
+        int numeroDeActividades=0;
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select COUNT(*) from evidencia where Actividad_idActividad = ?")){
+            sentencia.setInt(1, idActividad);
+            ResultSet resultado = sentencia.executeQuery();
+            while(resultado.next()){
+                numeroDeActividades = resultado.getInt(1);
+            }
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getMessage());
+            numeroDeActividades = -1;
+        }
+        return numeroDeActividades;
+    }
+    
 }
