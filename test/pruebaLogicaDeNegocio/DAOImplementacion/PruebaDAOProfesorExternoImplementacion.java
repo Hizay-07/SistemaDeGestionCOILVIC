@@ -38,12 +38,11 @@ public class PruebaDAOProfesorExternoImplementacion {
     public void pruebaRegistrarProfesorExternoFallida() {
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         ProfesorExterno profesorExterno = new ProfesorExterno();
-        profesorExterno.setIdProfesor(999); // ID de profesor inexistente
-        profesorExterno.setIdRepresentanteInstitucional(999); // ID de representante institucional inexistente
+        profesorExterno.setIdProfesor(999);
+        profesorExterno.setIdRepresentanteInstitucional(999);
         int resultado = dao.registrarProfesorExterno(profesorExterno);
-        assertEquals(0, resultado); // Esperamos que no haya filas afectadas
+        assertEquals(0, resultado);
     }
-
     
     @Test
     public void pruebaConsultarProfesoresExternosExitosa() {
@@ -52,7 +51,6 @@ public class PruebaDAOProfesorExternoImplementacion {
         assertNotNull(profesoresExternos);
         assertFalse(profesoresExternos.isEmpty());
     }
-
     
     @Test(expected = AssertionError.class)
     public void pruebaConsultarProfesoresExternosFallida() {
@@ -81,7 +79,7 @@ public class PruebaDAOProfesorExternoImplementacion {
     @Test
     public void pruebaConsultarIdRepresentanteInstitucionalPorIdProfesorExitosa() {
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        int idProfesor = 1; // Reemplaza con un ID de profesor existente
+        int idProfesor = 1;
         int idRepresentanteInstitucional = dao.consultarIdRepresentanteInstitucionalPorIdProfesor(idProfesor);
         assertTrue(idRepresentanteInstitucional > 0);
     }

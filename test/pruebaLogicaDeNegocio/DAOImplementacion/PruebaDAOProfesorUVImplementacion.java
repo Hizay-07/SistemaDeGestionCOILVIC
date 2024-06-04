@@ -44,7 +44,7 @@ public class PruebaDAOProfesorUVImplementacion {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testRegistrarProfesorUVFallido() {
+    public void pruebaRegistrarProfesorUVFallido() {
         ProfesorUV profesor = new ProfesorUV();              
         profesor.setNumeroDePersonal(null);
         profesor.setTipoDeContratacion("Tiempo Completo");
@@ -84,7 +84,7 @@ public class PruebaDAOProfesorUVImplementacion {
     }
 
     @Test
-    public void testEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
+    public void pruebaEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
         int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Tiempo Completo", 1);
         assertEquals(0, resultado);
@@ -174,7 +174,7 @@ public class PruebaDAOProfesorUVImplementacion {
     }
     
     @Test
-    public void testEliminarProfesorUVExitoso() {
+    public void pruebaEliminarProfesorUVExitoso() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
         ProfesorUV profesorUV = new ProfesorUV();
         profesorUV.setNumeroDePersonal("1234");
@@ -208,7 +208,7 @@ public class PruebaDAOProfesorUVImplementacion {
     }
 
     @Test (expected = AssertionError.class)
-    public void testEliminarProfesorUVFallido() {
+    public void pruebaEliminarProfesorUVFallido() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
         int resultado = dao.eliminarProfesorUV("correoInexistente@uv.mx");
         assertEquals(0, resultado);
