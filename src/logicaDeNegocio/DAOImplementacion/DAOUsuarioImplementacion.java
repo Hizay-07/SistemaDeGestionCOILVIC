@@ -16,22 +16,19 @@ import org.apache.log4j.Logger;
 public class DAOUsuarioImplementacion implements UsuarioInterface{
    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
-    private Connection conexion;
     private static final Logger LOG=Logger.getLogger(DAOUsuarioImplementacion.class);
     
     @Override
     public int registrarUsuario(Usuario usuario) {
         int resultadoInsercion;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            CallableStatement sentencia = conexion.prepareCall("call registrarUsuario(?,?,?,?)");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            CallableStatement sentencia = conexion.prepareCall("call registrarUsuario(?,?,?,?)")){
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
             sentencia.setString(3, usuario.getTipoDeUsuario());
             sentencia.registerOutParameter(4,Types.INTEGER);
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(4);
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoInsercion = -1;
@@ -42,9 +39,8 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     @Override
     public int validarCredenciales(Usuario usuarioAIngresar, Usuario logger) {
         int resultadoValidacion=0;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)")){
             sentencia.setString(1, usuarioAIngresar.getNombreUsuario());
             sentencia.setString(2, usuarioAIngresar.getContrasenia());
             sentencia.setInt(3, 256);
@@ -58,7 +54,6 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             }else{
                 resultadoValidacion = 0;
             }
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoValidacion = -1;
@@ -69,9 +64,8 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     @Override
     public String obtenerTipoDeUsuario(Usuario usuario,Usuario logger){
         String resultadoTipoDeUsuario="";
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT tipodeusuario.tipodeusuario from usuario,tipodeusuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?) AND usuario.TipoDeUsuario_idTipoDeUsuario = tipodeusuario.idTipoDeUsuario");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT tipodeusuario.tipodeusuario from usuario,tipodeusuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?) AND usuario.TipoDeUsuario_idTipoDeUsuario = tipodeusuario.idTipoDeUsuario")){
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
             sentencia.setInt(3,256);
@@ -81,7 +75,6 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                     resultadoTipoDeUsuario = resultado.getString(1);
                 }
             }
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
         }
@@ -91,9 +84,8 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     @Override
     public int obtenerIdUsuario(Usuario usuario, Usuario logger){
         int resultadoId=0;    
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT idUsuario from usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT idUsuario from usuario where nombreDeUsuario = ? AND contrasenia = sha2(?,?)")){
             sentencia.setString(1, usuario.getNombreUsuario());
             sentencia.setString(2, usuario.getContrasenia());
             sentencia.setInt(3,256);
@@ -103,7 +95,6 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                     resultadoId = resultado.getInt("idUsuario");
                 }
             }
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoId = -1;
@@ -114,12 +105,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     @Override
     public boolean confirmarConexionDeInicioDeSesion(Usuario logger) {
         boolean resultadoDeConfirmacionDeConexion=false;
-        try{
-           conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger)){
            resultadoDeConfirmacionDeConexion=true;
-           conexion.close();
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
+            resultadoDeConfirmacionDeConexion = false;
         }
         return resultadoDeConfirmacionDeConexion;
     }
@@ -127,14 +117,12 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     @Override 
     public boolean confirmarConexionDeUsuario(){
          boolean resultadoDeConfirmacionDeConexion=false;
-        try{
-           conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos()){
            if(Objects.isNull(conexion)){
                resultadoDeConfirmacionDeConexion=false;
            }else{
               resultadoDeConfirmacionDeConexion=true; 
            }
-           conexion.close();
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
         }
@@ -144,12 +132,10 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     @Override 
     public int eliminarUsuario(String nombreDeUsuario){
         int resultadoEliminacion;
-        try{
-           conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           PreparedStatement sentencia = conexion.prepareStatement("delete from usuario where nombreDeUsuario=?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+           PreparedStatement sentencia = conexion.prepareStatement("delete from usuario where nombreDeUsuario=?")){
            sentencia.setString(1, nombreDeUsuario);
            resultadoEliminacion = sentencia.executeUpdate();
-           conexion.close();
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoEliminacion = -1;
@@ -159,12 +145,10 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     
     @Override
     public int verificarDuplicidadNombreDeUsuario(String nombre){
-        PreparedStatement declaracion;
         ResultSet resultado;
         int coincidenciasEncontradas = 0;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT count(*) as 'coincidencias encontradas' from usuario where nombreDeUsuario=?;");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT count(*) as 'coincidencias encontradas' from usuario where nombreDeUsuario=?;")){
             declaracion.setString(1, nombre);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){

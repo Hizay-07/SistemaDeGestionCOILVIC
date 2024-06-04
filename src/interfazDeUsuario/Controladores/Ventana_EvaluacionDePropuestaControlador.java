@@ -79,7 +79,7 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         }
     }
     
-    public String obtenerFechaActual(){
+    private String obtenerFechaActual(){
         LocalDate fechaActual = LocalDate.now();                
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fechaActualFormateada = fechaActual.format(formatter);
@@ -107,7 +107,7 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         }               
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -132,7 +132,7 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         }
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         stage_ventana=(Stage) anchor_EvaluacionDePropuesta.getScene().getWindow();
         stage_ventana.close();
     }

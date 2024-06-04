@@ -13,19 +13,15 @@ import org.apache.log4j.Logger;
 
 public class DAORegionAcademicaImplementacion implements RegionAcademicaInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
-    private Connection conexion;
     private static final Logger LOG=Logger.getLogger(DAORegionAcademicaImplementacion.class);
 
     @Override
     public int registrarRegionAcademica(RegionAcademica regionAcademica) {
         int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("INSERT INTO regionAcademica (region) VALUES (?);");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("INSERT INTO regionAcademica (region) VALUES (?);")){
             declaracion.setString(1, regionAcademica.getRegion());numeroFilasAfectadas=declaracion.executeUpdate();
-            numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();            
+            numeroFilasAfectadas=declaracion.executeUpdate();          
         } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -34,12 +30,10 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
 
     @Override
     public List<RegionAcademica> consultarRegionesAcademicas() {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<RegionAcademica> regionesAcademicas=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * FROM RegionAcademica;");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM RegionAcademica;")){
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){             
                 while(resultado.next()){
@@ -49,7 +43,6 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
                     regionesAcademicas.add(regionAcademica);
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -58,20 +51,17 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
     
     @Override
     public int consultarIdDeRegionPorRegion(String region){
-        PreparedStatement declaracion;
         ResultSet resultado;
         int idRegion=0;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT idRegionAcademica from RegionAcademica where region=?");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT idRegionAcademica from RegionAcademica where region=?")){
             declaracion.setString(1, region);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
                     idRegion=resultado.getInt("idRegionAcademica");
                 }
-            }
-            conexion.close();                      
+            }                    
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -82,14 +72,12 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
     public int verificarRegion(){
         int resultadoVerificacion=0;
         ResultSet resultado;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from regionAcademica");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from regionAcademica")){
             resultado=sentencia.executeQuery();
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }            
-            conexion.close();
         }catch(SQLException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;

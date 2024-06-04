@@ -54,14 +54,14 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
         asignarBotonesDeModificarRepresentante();
     }    
     
-    public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales(){
+    private List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales(){
         DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
         List<RepresentanteInstitucional> representantesObtenidos = new ArrayList();
         representantesObtenidos = daoRepresentante.obtenerRepresentantesInstitucionales();
         return representantesObtenidos;
     }
     
-    public void mostrarDatosRepresentantesInstitucionales(){
+    private void mostrarDatosRepresentantesInstitucionales(){
         try{
             List<RepresentanteInstitucional> representantes = obtenerRepresentantesInstitucionales();
             if(!representantes.isEmpty()){
@@ -85,7 +85,7 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
         }
     }
     
-    public void asignarBotonesDeModificarRepresentante(){
+    private void asignarBotonesDeModificarRepresentante(){
         Callback<TableColumn<RepresentanteInstitucional, Void>, TableCell<RepresentanteInstitucional, Void>> frabricaDeCelda = (final TableColumn<RepresentanteInstitucional, Void> param) -> {
                 final TableCell<RepresentanteInstitucional, Void> cell = new TableCell<RepresentanteInstitucional, Void>() {                
                     private final Button btn_Modificar = new Button();{
@@ -117,12 +117,12 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -142,7 +142,7 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
         
     }
     
-     public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

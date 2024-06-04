@@ -40,7 +40,7 @@ public class ventana_InicioDeSesionControlador implements Initializable {
         
     }    
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage) anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
@@ -83,7 +83,7 @@ public class ventana_InicioDeSesionControlador implements Initializable {
         }
     }
     
-    public void validarEstadoProfesor(Usuario usuario){
+    private void validarEstadoProfesor(Usuario usuario){
         Usuario logger = new Usuario();
         logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());
         try{
@@ -100,7 +100,7 @@ public class ventana_InicioDeSesionControlador implements Initializable {
         }
     }
     
-    public void desplegarVentanaCorrespondiente(Usuario usuario){
+    private void desplegarVentanaCorrespondiente(Usuario usuario){
         UsuarioSingleton usuarioIngresado = UsuarioSingleton.getInstancia(usuario);
         usuarioIngresado.getIdUsuario();
         String rutaVentanaFXML=null;

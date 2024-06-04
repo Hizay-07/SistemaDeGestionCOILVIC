@@ -96,7 +96,7 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         agregarBoton();
     }   
     
-    public List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
+    private List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
         List<PropuestaColaboracion> propuestas=new ArrayList<>(); 
         DAOPropuestaColaboracionImplementacion daoPropuestas=new DAOPropuestaColaboracionImplementacion();
         propuestas=daoPropuestas.consultarPropuestasDeColaboracionRegistradas();
@@ -107,7 +107,7 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         return propuestasFinales;                
     } 
     
-    public String obtenerValorInstitucion(PropuestaColaboracion propuesta){
+    private String obtenerValorInstitucion(PropuestaColaboracion propuesta){
         DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
         int idRepresentanteInstitucional=daoProfesorExterno.consultarIdRepresentanteInstitucionalPorIdProfesor(propuesta.getProfesor().getIdProfesor());                
         if(idRepresentanteInstitucional==0){
@@ -174,7 +174,7 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         }                        
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -198,12 +198,12 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         }
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         stage_ventana=(Stage) vb_PropuestasDeColaboracion.getScene().getWindow();
         stage_ventana.close();
     }
     
-    public void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){       
+    private void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){       
         if(validarConexionEstable()){
             try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/interfazDeUsuario/Ventana_EvaluacionDePropuesta.fxml"));

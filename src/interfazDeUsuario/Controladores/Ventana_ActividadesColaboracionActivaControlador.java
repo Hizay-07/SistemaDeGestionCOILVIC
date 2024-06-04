@@ -80,7 +80,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         });
     }
     
-    public List<Actividad> obtenerActividades(){
+    private List<Actividad> obtenerActividades(){
         List<Actividad> actividadesObtenidas = new ArrayList();
         ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
         DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
@@ -93,12 +93,12 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void asignarBotonDeModificacion(){
+    private void asignarBotonDeModificacion(){
         ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
         String estadoColaboracion = colaboracion.getEstadoColaboracion();
         if(estadoColaboracion.equals("Activa")){
@@ -135,7 +135,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         }
     }
     
-    public void asignarBotonEvidencias(){
+    private void asignarBotonEvidencias(){
         Callback<TableColumn<Actividad, Void>, TableCell<Actividad, Void>> frabricaDeCelda = (final TableColumn<Actividad, Void> param) -> {
             final TableCell<Actividad, Void> cell = new TableCell<Actividad, Void>() {
                 private final Button btn_Evidencias = new Button();
@@ -165,7 +165,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         column_Evidencia.setCellFactory(frabricaDeCelda);
     }
     
-    public boolean validarFechasDeColaboracion(){
+    private boolean validarFechasDeColaboracion(){
         boolean resultadoValidacion;
         PropuestaColaboracion propuesta = ColaboracionAuxiliar.getInstancia().getPropuestaColaboracion();
         LocalDate fechaActual = LocalDate.now();
@@ -178,7 +178,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         return resultadoValidacion;
     }
 
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -197,14 +197,14 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         }
     }
     
-     public boolean validarConexionEstable(){
+     private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
     }
      
-    public void salirAlInicioDeSesion(){
+    private void salirAlInicioDeSesion(){
         String rutaVentanaFXML = null;
         try {
             rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";

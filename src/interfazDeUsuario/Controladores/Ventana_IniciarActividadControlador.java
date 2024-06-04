@@ -62,7 +62,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);
     }
     
-    public void limitarFechasDePeriodoActividad(){
+    private void limitarFechasDePeriodoActividad(){
         ColaboracionAuxiliar colaboracionActual = ColaboracionAuxiliar.getInstancia();
         PropuestaColaboracion propuesta = colaboracionActual.getPropuestaColaboracion();
         LocalDate fechaMaxima = LocalDate.parse(propuesta.getFechaCierre());
@@ -92,7 +92,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         };
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -111,7 +111,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+     private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -136,7 +136,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         }
     }
     
-    public Actividad obtenerDatosActividad(){
+    private Actividad obtenerDatosActividad(){
         Actividad nuevaActividad = new Actividad();
         ColaboracionAuxiliar colaboracionActual = ColaboracionAuxiliar.getInstancia();
         LocalDate fechaActual = LocalDate.now();

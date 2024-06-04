@@ -1,5 +1,6 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorUVImplementacion;
@@ -45,7 +46,7 @@ public class PruebaDAOProfesorUVImplementacion {
     @Test (expected = IllegalArgumentException.class)
     public void testRegistrarProfesorUVFallido() {
         ProfesorUV profesor = new ProfesorUV();              
-        profesor.setNumeroDePersonal(null); // Esto debería causar un fallo por violar restricciones de la BD
+        profesor.setNumeroDePersonal(null);
         profesor.setTipoDeContratacion("Tiempo Completo");
         profesor.setCategoriaDeContratacion("A");
         profesor.setIdProfesor(999);
@@ -78,35 +79,35 @@ public class PruebaDAOProfesorUVImplementacion {
     @Test
     public void pruebaEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalExitoso() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorNumeroDePersonal("Tiempo completo", "1972");
+        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Tiempo completo", 1);
         assertEquals(1, resultado);
     }
 
     @Test
     public void testEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorNumeroDePersonal("Tiempo Completo", "9999");
+        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Tiempo Completo", 1);
         assertEquals(0, resultado);
     }
         
     @Test
     public void pruebaEditarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonalExitoso() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonal("Investigador", "1972");
+        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Investigador", 1);
         assertEquals(1, resultado);
-        dao.editarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonal("Docente programacion", "1111");
+        dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Docente programacion", 1);
     }
     
     @Test (expected = NullPointerException.class)
     public void pruebaEditarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
-        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonal("Investigador_becado01", "1972");
+        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Investigador_becado01", 1);
         assertEquals(0, resultado);
     }
     
     @Test
     public void pruebaEditarAreaAcademicaDeProfesorUVPorNumeroDePersonalExitoso() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarAreaAcademicaDeProfesorUVPorNumeroDePersonal(3, "1972");
+        int resultado = dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(3, 1);
         assertEquals(1, resultado);
         List<ProfesorUV> profesores = dao.consultarProfesoresUV();
         boolean encontrado = false;
@@ -117,13 +118,13 @@ public class PruebaDAOProfesorUVImplementacion {
             }
         }
         assertTrue(encontrado);
-        dao.editarAreaAcademicaDeProfesorUVPorNumeroDePersonal(2, "1972");
+        dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(2, 1);
     }
     
     @Test
     public void pruebaEditarAreaAcademicaDeProfesorUVPorNumeroDePersonalFallido() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarAreaAcademicaDeProfesorUVPorNumeroDePersonal(3, "9999");
+        int resultado = dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(3, 1);
         assertEquals(0, resultado);
         List<ProfesorUV> profesores = dao.consultarProfesoresUV();
         boolean encontrado = false;
@@ -139,16 +140,37 @@ public class PruebaDAOProfesorUVImplementacion {
     @Test
     public void pruebaEditarRegionDeProfesorUVPorNumeroDePersonalExitoso() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarRegionDeProfesorUVPorNumeroDePersonal(2, "1111");
+        int resultado = dao.editarRegionDeProfesorUVPorIdProfesorUV(2, 1);
         assertEquals(1, resultado);
-        dao.editarRegionDeProfesorUVPorNumeroDePersonal(1, "1111");
+        dao.editarRegionDeProfesorUVPorIdProfesorUV(1, 1);
     }
     
     @Test
     public void pruebaEditarRegionDeProfesorUVPorNumeroDePersonalFallido() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarRegionDeProfesorUVPorNumeroDePersonal(2, "9999");
+        int resultado = dao.editarRegionDeProfesorUVPorIdProfesorUV(2, 1);
         assertEquals(0, resultado);
+    }
+    
+    @Test
+    public void pruebaValidarInexistenciaDeProfesorUVExitosa(){
+         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+         int resultado = dao.validarInexistenciaProfesorUV("9999");
+         assertEquals(0,resultado);
+    }
+    
+    @Test
+    public void pruebaValidarInexistenciaDeProfesorUVExistoso(){
+         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+         int resultado = dao.validarInexistenciaProfesorUV("4521");
+         assertEquals(1,resultado);
+    }
+    
+    @Test
+    public void pruebaValidarInexistenciaDeProfesorUVFallido(){
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+         int resultado = dao.validarInexistenciaProfesorUV("9999");
+         assertEquals(-1,resultado);
     }
     
     @Test

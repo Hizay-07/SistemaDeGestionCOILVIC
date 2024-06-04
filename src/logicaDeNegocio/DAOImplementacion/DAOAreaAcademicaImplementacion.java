@@ -13,20 +13,15 @@ import org.apache.log4j.Logger;
 
 public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
-    private Connection conexion;
     private static final Logger LOG=Logger.getLogger(DAOAreaAcademicaImplementacion.class);
 
     @Override
     public int registrarAreaAcademica(AreaAcademica areaAcademica) {
-        
         int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try{
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("INSERT INTO areaAcademica (area) VALUES (?);");
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("INSERT INTO areaAcademica (area) VALUES (?);")){
             declaracion.setString(1, areaAcademica.getArea());
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         }catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage()); 
         }
@@ -35,12 +30,10 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
 
     @Override
     public List<AreaAcademica> consultarAreasAcademicas() {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<AreaAcademica> areasAcademicas=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * from areaAcademica;");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from areaAcademica;")){
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
@@ -59,12 +52,10 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
     
     @Override
     public int consultarIdDeAreaAcademicaPorArea(String area){
-        PreparedStatement declaracion;
         ResultSet resultado;
         int idArea=0;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT idAreaAcademica from AreaAcademica where area=?;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT idAreaAcademica from AreaAcademica where area=?;")){
             declaracion.setString(1, area);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -84,9 +75,8 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
     public int verificarAreaAcademica(){
         int resultadoVerificacion=0;
         ResultSet resultado;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from areaAcademica");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from areaAcademica")){
             resultado=sentencia.executeQuery();
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                

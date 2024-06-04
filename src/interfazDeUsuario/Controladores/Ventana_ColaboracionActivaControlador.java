@@ -90,7 +90,7 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         asignarDatosDeColaboracion();
     }   
     
-     public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
@@ -114,7 +114,7 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         }
     }
      
-    public Profesor obtenerDatosDeProfesorSingleton(){
+    private Profesor obtenerDatosDeProfesorSingleton(){
         ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
         Profesor profesor = new Profesor();
         try{
@@ -130,14 +130,14 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         return profesor;
     }
     
-    public List<Profesor> obtenerProfesoresColaboracion(Colaboracion colaboracion){
+    private List<Profesor> obtenerProfesoresColaboracion(Colaboracion colaboracion){
         List<Profesor> profesoresObtenidos = new ArrayList();
         DAOColaboracionProfesorImplementacion daoColaboracionProfesor = new DAOColaboracionProfesorImplementacion();
         profesoresObtenidos = daoColaboracionProfesor.obtenerProfesoresPorIdColaboracion(colaboracion);
         return profesoresObtenidos;
     }
     
-    public Colaboracion obtenerDatosColaboracion(Profesor profesor){
+    private Colaboracion obtenerDatosColaboracion(Profesor profesor){
         Colaboracion colaboracionObtenida = new Colaboracion();
         DAOColaboracionProfesorImplementacion daoColaboracionImplementacion = new DAOColaboracionProfesorImplementacion();
         colaboracionObtenida = daoColaboracionImplementacion.obtenerColaboracionPorIdProfesor(profesor);
@@ -145,7 +145,7 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
     }
     
     
-    public PropuestaColaboracion obtenerDatosPropuestaColaboracion(Colaboracion colaboracion){
+    private PropuestaColaboracion obtenerDatosPropuestaColaboracion(Colaboracion colaboracion){
         PropuestaColaboracion propuestaObtenida = new PropuestaColaboracion();
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion = new DAOPropuestaColaboracionImplementacion();
         propuestaObtenida = daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion());
@@ -179,7 +179,7 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         
     }
     
-    public void asignarDatosDeColaboracion(){
+    private void asignarDatosDeColaboracion(){
         PropuestaColaboracion propuestaActiva = new PropuestaColaboracion();
         Colaboracion colaboracionActiva = new Colaboracion();
         List<Profesor> profesoresObtenidos = new ArrayList();
@@ -229,7 +229,7 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);   
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -248,7 +248,7 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

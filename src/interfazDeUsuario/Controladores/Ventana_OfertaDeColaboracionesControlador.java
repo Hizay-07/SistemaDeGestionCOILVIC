@@ -99,7 +99,7 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
         agregarBoton();
     }                  
        
-    public List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
+    private List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
         ProfesorSingleton profesor=ProfesorSingleton.getInstancia();
         int idProfesor=profesor.getIdProfesor();
         List<PropuestaColaboracion> propuestas=new ArrayList<>(); 
@@ -151,7 +151,7 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
         column_Opcion.setCellFactory(cellFactory);       
     }
     
-    public String obtenerValorInstitucion(PropuestaColaboracion propuesta){
+    private String obtenerValorInstitucion(PropuestaColaboracion propuesta){
         DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
         int idRepresentanteInstitucional=daoProfesorExterno.consultarIdRepresentanteInstitucionalPorIdProfesor(propuesta.getProfesor().getIdProfesor());                
         if(idRepresentanteInstitucional==0){
@@ -163,7 +163,7 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
         }                        
     }    
     
-    public String obtenerFechaActual(){
+    private String obtenerFechaActual(){
         LocalDate fechaActual = LocalDate.now();                
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fechaActualFormateada = fechaActual.format(formatter);
@@ -191,7 +191,7 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
         }                        
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -217,7 +217,7 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
     }
     
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         stage_ventana=(Stage) vb_OfertaDeColaboraciones.getScene().getWindow();
         stage_ventana.close();
     }

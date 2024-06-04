@@ -66,7 +66,7 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
         this.archivoSyllabus = archivo;
     }
     
-    public void restringirTipoDeArchivo(){
+    private void restringirTipoDeArchivo(){
         FileChooser.ExtensionFilter archivosPDF = new FileChooser.ExtensionFilter("Archivos PDF (.pdf)", "*.pdf");
         filechooser_Syllabus.getExtensionFilters().add(archivosPDF);
     }
@@ -86,7 +86,7 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
         }
     }  
     
-    public int cambiarDeEstadoProfesores(){
+    private int cambiarDeEstadoProfesores(){
         int resultadoModificacionProfesores = 0;
         List<Profesor> profesores = new ArrayList();
         ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
@@ -104,7 +104,7 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
         return resultadoModificacionProfesores;
     }
     
-    public int cambiarDeEstadoColaboracion(){
+    private int cambiarDeEstadoColaboracion(){
         int resultadoModificacionColaboracion = 0;
         ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
         Colaboracion colaboracionActual = new Colaboracion();
@@ -154,12 +154,12 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
         
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -178,7 +178,7 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

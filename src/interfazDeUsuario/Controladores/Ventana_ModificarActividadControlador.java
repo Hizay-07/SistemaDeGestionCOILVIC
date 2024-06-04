@@ -55,7 +55,7 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         limitarFechasDePeriodoActividad();
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         ActividadAuxiliar.resetInstancia();
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
@@ -66,7 +66,7 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         desplegarVentanaCorrespondiente(ruta);     
     }
     
-    public void limitarFechasDePeriodoActividad(){
+    private void limitarFechasDePeriodoActividad(){
         ColaboracionAuxiliar colaboracionActual = ColaboracionAuxiliar.getInstancia();
         PropuestaColaboracion propuesta = colaboracionActual.getPropuestaColaboracion();
         LocalDate fechaMaxima = LocalDate.parse(propuesta.getFechaCierre());
@@ -93,7 +93,7 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         };
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -112,7 +112,7 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+     private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -137,7 +137,7 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         }
     }
     
-    public void cargarDatosActividadAModificar(){
+    private void cargarDatosActividadAModificar(){
         ActividadAuxiliar actividad = ActividadAuxiliar.getInstancia();
         txfd_NombreDeActividad.setText(actividad.getNombre());
         dtp_FechaDeCierre.setValue(LocalDate.parse(actividad.getFechaDeCierre()));
@@ -147,7 +147,7 @@ public class Ventana_ModificarActividadControlador implements Initializable {
     }
     
     
-    public Actividad obtenerDatosActividad(){
+    private Actividad obtenerDatosActividad(){
         Actividad actividadAModificar = new Actividad();  
         ActividadAuxiliar actividadAuxiliar = ActividadAuxiliar.getInstancia();
         LocalDate fechaCierreNueva = dtp_FechaDeCierre.getValue();

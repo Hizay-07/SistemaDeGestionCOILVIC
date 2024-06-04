@@ -11,14 +11,6 @@ import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.List;
 import java.util.ArrayList;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import logicaDeNegocio.clases.Colaboracion;
-import logicaDeNegocio.clases.Actividad;
 import org.apache.log4j.Logger;
 
 
@@ -26,21 +18,18 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
     
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOEvidenciaImplementacion.class);
-    private Connection conexion;
     
     @Override
     public int agregarEvidencia(Evidencia evidencia){
         int resultadoInsercion;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            CallableStatement sentencia = conexion.prepareCall("call registrarEvidencia(?,?,?,?)");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            CallableStatement sentencia = conexion.prepareCall("call registrarEvidencia(?,?,?,?)")){
             sentencia.setString(1, evidencia.getNombre());
             sentencia.setString(2, evidencia.getRutaEvidencia());
             sentencia.setInt(3, evidencia.getIdActividad());
             sentencia.registerOutParameter(4,Types.INTEGER);
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(4);
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoInsercion = -1;
@@ -51,14 +40,12 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
     @Override
     public int modificarEvidencia(Evidencia evidenciaNueva) {
         int resultadoModificacion;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("Update evidencia set nombre = ?, ruta = ? where idEvidencia = ?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("Update evidencia set nombre = ?, ruta = ? where idEvidencia = ?")){
             sentencia.setString(1, evidenciaNueva.getNombre());
             sentencia.setString(2, evidenciaNueva.getRutaEvidencia());
             sentencia.setInt(3, evidenciaNueva.getIdEvidencia());
             resultadoModificacion = sentencia.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
@@ -69,9 +56,8 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
     @Override
     public List<Evidencia> obtenerEvidenciasDeActividad(int idActividad){
         List<Evidencia> evidenciasDeActividad = new ArrayList();
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("select * from evidencia where Actividad_idActividad = ?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select * from evidencia where Actividad_idActividad = ?")){
             sentencia.setInt(1, idActividad);
             ResultSet resultado = sentencia.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -84,7 +70,6 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
                     evidenciasDeActividad.add(evidenciaObtenida);
                 }
             }
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
         }

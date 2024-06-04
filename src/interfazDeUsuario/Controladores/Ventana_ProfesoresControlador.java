@@ -94,7 +94,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
         }
     }
     
-    public void mostrarProfesoresUV(){
+    private void mostrarProfesoresUV(){
         tableView_Profesores.getItems().clear();
         try{
             List<ProfesorUV> profesoresUV = obtenerProfesoresUV();
@@ -119,7 +119,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
         }
     }
     
-    public void mostrarProfesoresExternos(){
+    private void mostrarProfesoresExternos(){
         tableView_Profesores.getItems().clear();
         try{
             List<ProfesorExterno> profesoresExternos = obtenerProfesoresExternos();
@@ -144,7 +144,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
         }
     }
     
-    public String obtenerValorInstitucion(Profesor profesor){
+    private String obtenerValorInstitucion(Profesor profesor){
         DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
         int idRepresentanteInstitucional=daoProfesorExterno.consultarIdRepresentanteInstitucionalPorIdProfesor(profesor.getIdProfesor());                
         if(idRepresentanteInstitucional==0){
@@ -156,21 +156,21 @@ public class Ventana_ProfesoresControlador implements Initializable {
         }                        
     } 
     
-    public List<ProfesorExterno> obtenerProfesoresExternos(){
+    private List<ProfesorExterno> obtenerProfesoresExternos(){
         List<ProfesorExterno> profesoresExternosObtenidos = new ArrayList();
         DAOProfesorExternoImplementacion daoProfesores = new DAOProfesorExternoImplementacion();
         profesoresExternosObtenidos = daoProfesores.consultarProfesoresExternos();
         return profesoresExternosObtenidos;
     }
     
-    public List<ProfesorUV> obtenerProfesoresUV(){
+    private List<ProfesorUV> obtenerProfesoresUV(){
         List<ProfesorUV> profesoresUVObtenidos = new ArrayList();
         DAOProfesorUVImplementacion daoProfesor = new DAOProfesorUVImplementacion();
         profesoresUVObtenidos = daoProfesor.consultarProfesoresUV();
         return profesoresUVObtenidos;
     }
     
-    public void asignarBotonesDeModificarPerfil(){
+    private void asignarBotonesDeModificarPerfil(){
         Callback<TableColumn<Profesor, Void>, TableCell<Profesor, Void>> frabricaDeCelda = (final TableColumn<Profesor, Void> param) -> {
                 final TableCell<Profesor, Void> cell = new TableCell<Profesor, Void>() {                
                     private final Button btn_Modificar = new Button();{
@@ -202,12 +202,12 @@ public class Ventana_ProfesoresControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void desplegarVentanaCorrespondiente(String ruta){
+    private void desplegarVentanaCorrespondiente(String ruta){
         if(validarConexionEstable()){
             String rutaVentanaFXML = ruta;
             try{
@@ -227,7 +227,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
         }
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

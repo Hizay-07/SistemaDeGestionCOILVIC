@@ -71,7 +71,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         cargarIdiomas();
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         stage_ventana=(Stage) anchor_VentanaProponerColaboracion.getScene().getWindow();
         stage_ventana.close();
     }
@@ -150,7 +150,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         salirDeLaVentana();
     }    
     
-    public boolean validarFechas(LocalDate fechaInicio,LocalDate fechaCierre){
+    private boolean validarFechas(LocalDate fechaInicio,LocalDate fechaCierre){
         boolean validacion=false;
         LocalDate fechaActual = LocalDate.now();
         if(fechaInicio.isBefore(fechaCierre)&&fechaInicio.isAfter(fechaActual)){
@@ -167,11 +167,11 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         return validacion;                                                        
     }
     
-    public boolean validarMes(int mes){
+    private boolean validarMes(int mes){
         return mes!=1&&mes!=6&&mes!=7&&mes!=12;    
     }
     
-    public String obtenerFechaActual(){
+    private String obtenerFechaActual(){
         LocalDate fechaActual = LocalDate.now();                
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fechaActualFormateada = fechaActual.format(formatter);
@@ -199,7 +199,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         }                        
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

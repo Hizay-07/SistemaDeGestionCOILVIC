@@ -46,7 +46,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         
     }    
     
-    public void llenarComboBoxPais(){
+    private void llenarComboBoxPais(){
         DAOPaisImplementacion daoPais=new DAOPaisImplementacion();
         List<Pais> paises=daoPais.consultarPaises();
         if(!paises.isEmpty()){
@@ -62,12 +62,12 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         stage_ventana=(Stage) anchor_RepresentanteInstitucional.getScene().getWindow();
         stage_ventana.close();
     }
     
-    public RepresentanteInstitucional obtenerRepresentanteInstitucional(){        
+    private RepresentanteInstitucional obtenerRepresentanteInstitucional(){        
         Pais pais=new Pais();        
         RepresentanteInstitucional representanteInstitucional=new RepresentanteInstitucional();        
         try{
@@ -117,7 +117,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         }
     }
     
-    public void limpiarInformacionRepresentanteInstitucional(){
+    private void limpiarInformacionRepresentanteInstitucional(){
         txfd_NombreDeInstitucion.setText("");
         txfd_ClaveInstitucional.setText("");
         txfd_Contacto.setText("");
@@ -129,7 +129,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         desplegarVentana(ruta);
     }
     
-    public void desplegarVentana(String ruta){
+    private void desplegarVentana(String ruta){
         if(validarConexionEstable()){
             String rutaVentanaFXML = ruta;
             try{
@@ -148,7 +148,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         }
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

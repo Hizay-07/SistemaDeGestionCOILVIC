@@ -50,7 +50,7 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
    
     } 
     
-    public void restringirTiposDeArchivo(){
+    private void restringirTiposDeArchivo(){
         FileChooser.ExtensionFilter archivosWord2007 = new FileChooser.ExtensionFilter("Archivos de Word 2007 (.doc)", "*.doc");
         FileChooser.ExtensionFilter archivosWordActual = new FileChooser.ExtensionFilter("Archivos de Word (.docx)", "*.docx");
         FileChooser.ExtensionFilter archivosPDF = new FileChooser.ExtensionFilter("Archivos PDF (.pdf)", "*.pdf");
@@ -109,13 +109,13 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         }
     }
     
-    public File getArchivoASubir(){
+    private File getArchivoASubir(){
         return this.archivoASubir;
     }
-    public void setArchivoASubir(File archivo){
+    private void setArchivoASubir(File archivo){
         archivoASubir = archivo;
     }
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
@@ -125,7 +125,7 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML); 
     }
     
-     public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+     private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -144,7 +144,7 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+     private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
