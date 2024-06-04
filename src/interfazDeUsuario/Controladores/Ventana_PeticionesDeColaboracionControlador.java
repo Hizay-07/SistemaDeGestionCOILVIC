@@ -29,7 +29,6 @@ import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.enums.EnumProfesor;
-import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
@@ -73,7 +72,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         agregarBotonRechazar();                                       
     }    
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         stage_ventana=(Stage) vb_PeticionesDeColaboracion.getScene().getWindow();
         stage_ventana.close();
     }
@@ -99,7 +98,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         }                        
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -124,7 +123,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         }
     }
     
-    public int obtenerIdPropuestaColaboracion(){
+    private int obtenerIdPropuestaColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         int idProfesor=profesor.getIdProfesor();
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
@@ -132,7 +131,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         return idPropuestaColaboracion;
     }
     
-    public List<Integer> obtenerIdProfesores(){
+    private List<Integer> obtenerIdProfesores(){
         int idPropuestaColaboracion=obtenerIdPropuestaColaboracion();
         List<Integer> idProfesores=new ArrayList<>();
         DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
@@ -140,7 +139,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         return idProfesores;        
     }
     
-    public List<Profesor> consultarProfesores(){
+    private List<Profesor> consultarProfesores(){
         List<Profesor> profesores=new ArrayList<>();
         List<Integer> idProfesores=new ArrayList<>();
         idProfesores=obtenerIdProfesores();
@@ -151,7 +150,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         return profesores;
     }
     
-    public String obtenerValorInstitucion(Profesor profesor){
+    private String obtenerValorInstitucion(Profesor profesor){
         DAOProfesorExternoImplementacion daoProfesorExterno=new DAOProfesorExternoImplementacion();
         int idRepresentanteInstitucional=daoProfesorExterno.consultarIdRepresentanteInstitucionalPorIdProfesor(profesor.getIdProfesor());                
         if(idRepresentanteInstitucional==0){
@@ -245,7 +244,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         column_Rechazar.setCellFactory(cellFactory);       
     }
     
-    public int validarNumeroPeticiones(){
+    private int validarNumeroPeticiones(){
         DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
         ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
         int idProfesor=profesorSingleton.getIdProfesor();  

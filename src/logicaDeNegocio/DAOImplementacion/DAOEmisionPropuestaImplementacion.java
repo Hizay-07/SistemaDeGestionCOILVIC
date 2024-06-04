@@ -16,20 +16,16 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
     
     private static final Logger LOG=Logger.getLogger(DAOEmisionPropuestaImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
-    private Connection conexion;
     
     @Override
     public int registrarEmisionPropuesta(EmisionPropuesta emisionPropuesta) {
         int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("INSERT INTO EmisionPropuesta (idProfesor,idPropuestaColaboracion,fechaEmision) VALUES (?,?,?);");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("INSERT INTO EmisionPropuesta (idProfesor,idPropuestaColaboracion,fechaEmision) VALUES (?,?,?);")){
             declaracion.setInt(1, emisionPropuesta.getIdProfesor());
             declaracion.setInt(2, emisionPropuesta.getIdPropuestaColaboracion());
             declaracion.setString(3, emisionPropuesta.getFechaEmision());
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -39,12 +35,10 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
 
     @Override
     public List<EmisionPropuesta> consultarEmisionesDePropuestas() {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<EmisionPropuesta> emisionesPropuesta=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * from EmisionPropuesta;");
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from EmisionPropuesta;")){
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
@@ -55,7 +49,6 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
                     emisionesPropuesta.add(emisionPropuesta);
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -64,12 +57,10 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
 
     @Override
     public int consultarIdProfesorPorIdPropuestaColaboracion(int idPropuestaColaboracion) {
-        PreparedStatement declaracion;
         ResultSet resultado;
         int idProfesor=0;
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT idProfesor from EmisionPropuesta where idPropuestaColaboracion=?;");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT idProfesor from EmisionPropuesta where idPropuestaColaboracion=?;")){
             declaracion.setInt(1, idPropuestaColaboracion);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -77,7 +68,6 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
                     idProfesor=resultado.getInt("idProfesor");
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             idProfesor=-1;
@@ -87,12 +77,10 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
     
     @Override
     public List<Integer> consultarIdPropuestaDeColaboracionPorIdProfesor(Profesor profesor){
-        PreparedStatement declaracion;
         ResultSet resultado;        
         List<Integer> idPropuestas=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from EmisionPropuesta where idProfesor=?;");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT idPropuestaColaboracion from EmisionPropuesta where idProfesor=?;")){
             declaracion.setInt(1, profesor.getIdProfesor());
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){

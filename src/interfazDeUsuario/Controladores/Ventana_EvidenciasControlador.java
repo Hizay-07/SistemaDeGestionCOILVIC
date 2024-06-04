@@ -82,7 +82,7 @@ public class Ventana_EvidenciasControlador implements Initializable {
         inicializarDatosDeActividadDeEvidencia();
     }
     
-    public List<Evidencia> obtenerEvidenciasDeActividad(){
+    private List<Evidencia> obtenerEvidenciasDeActividad(){
         List<Evidencia> listaDeEvidencias = new ArrayList();
         DAOEvidenciaImplementacion daoEvidencia = new DAOEvidenciaImplementacion();
         ActividadAuxiliar actividadAuxiliar = ActividadAuxiliar.getInstancia();
@@ -90,14 +90,14 @@ public class Ventana_EvidenciasControlador implements Initializable {
         return listaDeEvidencias;
     }
 
-    public void inicializarDatosDeActividadDeEvidencia(){
+    private void inicializarDatosDeActividadDeEvidencia(){
         ActividadAuxiliar actividadDatos = ActividadAuxiliar.getInstancia();
         lbl_NombreActividad.setText(actividadDatos.getNombre());
         lbl_FechaDeInicio.setText(actividadDatos.getFechaDeInicio());
         lbl_FechaDeCierre.setText(actividadDatos.getFechaDeCierre());
     }
     
-    public void asignarBotonDeVisualizar(){
+    private void asignarBotonDeVisualizar(){
          Callback<TableColumn<Evidencia, Void>, TableCell<Evidencia, Void>> frabricaDeCelda = (final TableColumn<Evidencia, Void> param) -> {
             final TableCell<Evidencia, Void> cell = new TableCell<Evidencia, Void>() {
                 private final Button btn_VisualizarEvidencia = new Button();{
@@ -132,7 +132,7 @@ public class Ventana_EvidenciasControlador implements Initializable {
         column_VisualizarEvidencia.setCellFactory(frabricaDeCelda);
     }
     
-    public void asignarBotonDeModificar(){
+    private void asignarBotonDeModificar(){
         Callback<TableColumn<Evidencia, Void>, TableCell<Evidencia, Void>> frabricaDeCelda = (final TableColumn<Evidencia, Void> param) -> {
             final TableCell<Evidencia, Void> cell = new TableCell<Evidencia, Void>() {
                 private final Button btn_ModificarEvidencia = new Button();{
@@ -169,12 +169,12 @@ public class Ventana_EvidenciasControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -193,7 +193,7 @@ public class Ventana_EvidenciasControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+     private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

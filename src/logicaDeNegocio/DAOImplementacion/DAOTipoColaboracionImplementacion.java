@@ -13,19 +13,15 @@ import org.apache.log4j.Logger;
 
 public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
-    private Connection conexion;
     private static final Logger LOG=Logger.getLogger(DAOTipoColaboracionImplementacion.class);
 
     @Override
     public int registrarTipoColaboracion(TipoColaboracion tipoColaboracion) {
         int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("INSERT INTO TipoColaboracion(tipo) VALUES (?)");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("INSERT INTO TipoColaboracion(tipo) VALUES (?)")){
             declaracion.setString(1, tipoColaboracion.getTipo());
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion);
         }
@@ -34,12 +30,10 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
 
     @Override
     public List<TipoColaboracion> consultarTiposDeColaboracion() {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<TipoColaboracion> tiposColaboracion=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * from TipoColaboracion");
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from TipoColaboracion")){
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
@@ -49,7 +43,6 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
                     tiposColaboracion.add(tipoColaboracion);
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -58,12 +51,10 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
     
     @Override
     public String consultarTipoColaboracionPorId(int idTipoColaboracion){
-        PreparedStatement declaracion;
         ResultSet resultado;
         String tipo=new String();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT tipo from TipoColaboracion where idTipoColaboracion=?;");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT tipo from TipoColaboracion where idTipoColaboracion=?;")){
             declaracion.setInt(1, idTipoColaboracion);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -71,7 +62,6 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
                     tipo=resultado.getString("tipo");                
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -80,18 +70,15 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
     
     @Override
     public int consultarIdTipoColaboracionPorTipo(String tipo){
-        PreparedStatement declaracion;
         ResultSet resultado;
         int idTipoColaboracion=0;
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT idTipoColaboracion from TipoColaboracion where tipo=?;");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT idTipoColaboracion from TipoColaboracion where tipo=?;")){
             declaracion.setString(1, tipo);
             resultado=declaracion.executeQuery();
             if(resultado.next()){
                 idTipoColaboracion=resultado.getInt("idTipoColaboracion");                               
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             idTipoColaboracion = -1;
@@ -103,14 +90,12 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
     public int verificarTipoColaboracion(){        
         int resultadoVerificacion=0;
         ResultSet resultado;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from tipoColaboracion");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from tipoColaboracion")){
             resultado=sentencia.executeQuery();
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }            
-            conexion.close();
         }catch(SQLException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;

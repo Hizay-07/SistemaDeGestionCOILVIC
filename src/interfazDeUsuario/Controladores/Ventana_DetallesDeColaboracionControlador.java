@@ -81,21 +81,21 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         inicializarDatosColaboracion();
     } 
     
-    public List<Profesor> obtenerProfesoresColaboracion(Colaboracion colaboracion){
+    private List<Profesor> obtenerProfesoresColaboracion(Colaboracion colaboracion){
         List<Profesor> profesoresObtenidos = new ArrayList();
         DAOColaboracionProfesorImplementacion daoColaboracionProfesor = new DAOColaboracionProfesorImplementacion();
         profesoresObtenidos = daoColaboracionProfesor.obtenerProfesoresPorIdColaboracion(colaboracion);
         return profesoresObtenidos;
     }
     
-    public List<Actividad> obtenerActividadesColaboracion(Colaboracion colaboracion){
+    private List<Actividad> obtenerActividadesColaboracion(Colaboracion colaboracion){
         List<Actividad> actividadesObtenidas = new ArrayList();
         DAOActividadImplementacion daoActividades = new DAOActividadImplementacion();
         actividadesObtenidas = daoActividades.obtenerActividades(colaboracion.getIdColaboracion());
         return actividadesObtenidas;
     }
     
-    public void inicializarDatosColaboracion(){
+    private void inicializarDatosColaboracion(){
         ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
         PropuestaColaboracion propuestaDeColaboracion = colaboracion.getPropuestaColaboracion();
         Colaboracion colaboracionProfesores = new Colaboracion();
@@ -128,7 +128,7 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         }
     }
     
-    public Document obtenerInformeDeColaboracion(){
+    private Document obtenerInformeDeColaboracion(){
         Document informeGenerado = new Document();
         ColaboracionAuxiliar colaboracion =  ColaboracionAuxiliar.getInstancia();
         Colaboracion colaboracionActual = new Colaboracion(); 
@@ -143,7 +143,7 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         return informeGenerado;
     }
     
-    public void guardarInforme(Document informeAGuardar){
+    private void guardarInforme(Document informeAGuardar){
         FileChooser escogerRutaDeGuardado = new FileChooser();
         escogerRutaDeGuardado.setTitle("Seleccione el lugar donde desea guardar el informe");
         escogerRutaDeGuardado.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
@@ -181,12 +181,12 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         desplegarVentanaCorrespondiente(rutaVentanaFXML);  
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -205,7 +205,7 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         }
     }
     
-     public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

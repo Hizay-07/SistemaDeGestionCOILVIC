@@ -14,22 +14,18 @@ import org.apache.log4j.Logger;
 public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuestaInterface{
     private static final Logger LOG=Logger.getLogger(DAOEvaluacionPropuestaImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
-    private Connection conexion;
     
     @Override
     public int registrarEvaluacionPropuesta(EvaluacionPropuesta evaluacionPropuesta) {
         int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;
-        try{
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("Insert into EvaluacionPropuesta(idPropuestaColaboracion,idUsuario,evaluacion,fechaEvaluacion,justificacion) values (?,?,?,?,?);");
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("Insert into EvaluacionPropuesta(idPropuestaColaboracion,idUsuario,evaluacion,fechaEvaluacion,justificacion) values (?,?,?,?,?);")){
             declaracion.setInt(1, evaluacionPropuesta.getIdPropuestaColaboracion());
             declaracion.setInt(2,evaluacionPropuesta.getIdUsuario());
             declaracion.setString(3, evaluacionPropuesta.getEvaluacion());
             declaracion.setString(4, evaluacionPropuesta.getFechaEvaluacion());
             declaracion.setString(5, evaluacionPropuesta.getJustificacion());
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
         }
@@ -39,12 +35,10 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
     
     @Override
     public List<EvaluacionPropuesta> consultarEvaluacionesDePropuesta() {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<EvaluacionPropuesta> evaluacionesPropuestas=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * from EvaluacionPropuesta");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from EvaluacionPropuesta")){
             resultado=declaracion.executeQuery();
             while(resultado.next()){
                 EvaluacionPropuesta evaluacionPropuesta=new EvaluacionPropuesta();
@@ -56,7 +50,6 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
                 evaluacionPropuesta.setJustificacion(resultado.getString("justificacion"));
                 evaluacionesPropuestas.add(evaluacionPropuesta);
             }
-            conexion.close();
         } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
         }

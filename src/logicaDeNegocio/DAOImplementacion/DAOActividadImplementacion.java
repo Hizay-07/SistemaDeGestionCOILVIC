@@ -15,15 +15,13 @@ import org.apache.log4j.Logger;
 public class DAOActividadImplementacion implements ActividadInterface {
     
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
-    private Connection conexion;
     private static final Logger LOG=Logger.getLogger(DAOActividadImplementacion.class);
     
     @Override
     public int registrarActividad(Actividad actividadNueva){
         int resultadoRegistro;        
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroDeActividad,estadoActividad) VALUES (?,?,?,?,?,?,?)");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroDeActividad,estadoActividad) VALUES (?,?,?,?,?,?,?)")){
             sentencia.setString(1,actividadNueva.getNombre());
             sentencia.setString(2,actividadNueva.getDescripcion());
             sentencia.setString(3,actividadNueva.getFechaDeInicio());
@@ -32,7 +30,6 @@ public class DAOActividadImplementacion implements ActividadInterface {
             sentencia.setInt(6,actividadNueva.getNumeroActividad());
             sentencia.setString(7, actividadNueva.getEstado());
             resultadoRegistro = sentencia.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoRegistro = -1;
@@ -43,15 +40,13 @@ public class DAOActividadImplementacion implements ActividadInterface {
     @Override
     public int modificarActividad(Actividad actividadActualizada) {
         int resultadoModificacion;   
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET nombre = ?, descripcion = ?, estadoActividad = ? WHERE idActividad = ? ");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET nombre = ?, descripcion = ?, estadoActividad = ? WHERE idActividad = ? ")){
             sentencia.setString(1, actividadActualizada.getNombre());
             sentencia.setString(2, actividadActualizada.getDescripcion());
             sentencia.setString(3, actividadActualizada.getEstado());
             sentencia.setInt(4, actividadActualizada.getIdActividad());
             resultadoModificacion = sentencia.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
@@ -65,14 +60,12 @@ public class DAOActividadImplementacion implements ActividadInterface {
     @Override
     public int modificarFechaActividad(Actividad actividadActualizada) {
         int resultadoModificacion;      
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET fechaDeInicio = ?, FechaDeCierre = ? WHERE idActividad = ? ");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET fechaDeInicio = ?, FechaDeCierre = ? WHERE idActividad = ? ")){
             sentencia.setString(1, actividadActualizada.getFechaDeInicio());
             sentencia.setString(2, actividadActualizada.getFechaDeCierre());
             sentencia.setInt(3, actividadActualizada.getIdActividad());
             resultadoModificacion = sentencia.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
@@ -83,9 +76,8 @@ public class DAOActividadImplementacion implements ActividadInterface {
     @Override
     public List<Actividad> obtenerActividades(int idColaboracion) {
         List<Actividad> actividades = new ArrayList();       
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM actividad WHERE idColaboracion = ?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT * FROM actividad WHERE idColaboracion = ?")){
             sentencia.setInt(1, idColaboracion);
             ResultSet actividadesObtenidas = sentencia.executeQuery();
             if(actividadesObtenidas.isBeforeFirst()){
@@ -102,7 +94,6 @@ public class DAOActividadImplementacion implements ActividadInterface {
                     actividades.add(actividadConsultada);
                 }
             }
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
         }      
@@ -112,9 +103,8 @@ public class DAOActividadImplementacion implements ActividadInterface {
     @Override
     public int obtenerNumeroDeActividad(Actividad actividad){
         int numeroDeActividad=0;       
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT numeroDeActividad FROM actividad WHERE nombre = ? AND descripcion = ?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT numeroDeActividad FROM actividad WHERE nombre = ? AND descripcion = ?")){
             sentencia.setString(1, actividad.getNombre());
             sentencia.setString(2, actividad.getDescripcion());
             ResultSet numeroObtenido = sentencia.executeQuery();
@@ -133,9 +123,8 @@ public class DAOActividadImplementacion implements ActividadInterface {
     @Override
     public boolean validarInexistenciaDeActividad(Actividad actividad) {
         boolean resultadoValidacion;       
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroDeActividad = ? or nombre = ?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroDeActividad = ? or nombre = ?")){
             sentencia.setInt(1, actividad.getNumeroActividad());
             sentencia.setString(2, actividad.getNombre());
             ResultSet resultadoConsulta = sentencia.executeQuery();          
@@ -158,14 +147,12 @@ public class DAOActividadImplementacion implements ActividadInterface {
     @Override
     public int actualizarEstadoActividad(Actividad actividad, String estado) {
         int resultadoActualizacion;      
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET estadoActividad = ? where numeroDeActividad = ? AND idActividad = ?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET estadoActividad = ? where numeroDeActividad = ? AND idActividad = ?")){
             sentencia.setString(1, estado);
             sentencia.setInt(2, actividad.getNumeroActividad());
             sentencia.setInt(3, actividad.getIdActividad());
             resultadoActualizacion = sentencia.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoActualizacion = -1;

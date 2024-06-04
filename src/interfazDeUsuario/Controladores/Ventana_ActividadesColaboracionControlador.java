@@ -68,7 +68,7 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         });
     }
     
-    public List<Actividad> obtenerActividades(){
+    private List<Actividad> obtenerActividades(){
         List<Actividad> actividadesObtenidas = new ArrayList();
         ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
         DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
@@ -81,12 +81,12 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         desplegarVentanaCorrespondiente(rutaVentanaFXML); 
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -104,7 +104,7 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         }
     }
     
-     public boolean validarConexionEstable(){
+     private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

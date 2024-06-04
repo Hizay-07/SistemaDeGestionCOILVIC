@@ -17,20 +17,16 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
 
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOProfesorExternoImplementacion.class);
-    private Connection conexion;
 
     @Override
     public int registrarProfesorExterno(ProfesorExterno profesorExterno) {
         int numeroFilasAfectadas = 0;
-        PreparedStatement declaracion;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("INSERT INTO profesorexterno (idProfesor, idRepresentanteInstitucional)"
-                    + "VALUES (?, ?);");
+        
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("INSERT INTO profesorexterno (idProfesor, idRepresentanteInstitucional) VALUES (?, ?);")){
             declaracion.setInt(1, profesorExterno.getIdProfesor());
             declaracion.setInt(2, profesorExterno.getIdRepresentanteInstitucional());
             numeroFilasAfectadas = declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -39,12 +35,10 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
 
     @Override
     public List<ProfesorExterno> consultarProfesoresExternos() {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<ProfesorExterno> profesoresExternos = new ArrayList<>();
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno,profesor where profesorexterno.idProfesor = profesor.idProfesor;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno,profesor where profesorexterno.idProfesor = profesor.idProfesor;")){
             resultado = declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while (resultado.next()) {
@@ -60,7 +54,6 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
                     profesoresExternos.add(profesorExterno);
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -69,12 +62,10 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
 
     @Override
     public List<ProfesorExterno> consultarProfesoresExternosPorRepresentanteInstitucional(int idRepresentanteInstitucional) {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<ProfesorExterno> profesoresExternos = new ArrayList<>();
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno,profesor WHERE idRepresentanteInstitucional=?;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("SELECT * FROM profesorexterno,profesor WHERE idRepresentanteInstitucional=?;")){
             declaracion.setInt(1, idRepresentanteInstitucional);
             resultado = declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -90,7 +81,6 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
                     profesoresExternos.add(profesorExterno);
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -98,17 +88,14 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
     }
         
     @Override
-    public int consultarIdRepresentanteInstitucionalPorIdProfesor(int idProfesor){
-        CallableStatement declaracion;        
+    public int consultarIdRepresentanteInstitucionalPorIdProfesor(int idProfesor){     
         int idProfesorExterno=0;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareCall("CALL existeIdRepresentanteInstitucional(?,?);");            
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            CallableStatement declaracion=conexion.prepareCall("CALL existeIdRepresentanteInstitucional(?,?);")){            
             declaracion.setInt(1, idProfesor);
             declaracion.registerOutParameter(2,Types.INTEGER);
             declaracion.execute();
             idProfesorExterno=declaracion.getInt(2);
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -116,16 +103,52 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
     }
     
     @Override
+    public ProfesorExterno obtenerProfesorExternoPorIDProfesor(int idProfesor){
+        ProfesorExterno profesorObtenido = new ProfesorExterno();
+        
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("Select * from profesorexterno where idProfesor = ?;")){
+            declaracion.setInt(1, idProfesor);
+            ResultSet resultado = declaracion.executeQuery();
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    profesorObtenido.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
+                    profesorObtenido.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
+                    profesorObtenido.setIdProfesor(resultado.getInt("idProfesor"));
+                }
+            }else{
+                profesorObtenido = null;
+            }
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getMessage());
+            profesorObtenido = null;
+        }
+        return profesorObtenido;
+    }
+    
+    @Override
+    public int editarInstitucionProfesorExternoPorIdProfesor(int idRepresentanteInstitucional, int idProfesorExterno){
+        int resultadoModificacion=0;
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("update profesorexterno set idRepresentanteInstitucional = ? where idProfesorExterno = ?")){
+            declaracion.setInt(1, idRepresentanteInstitucional);
+            declaracion.setInt(2, idProfesorExterno);
+            resultadoModificacion = declaracion.executeUpdate();
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.error(excepcion.getMessage());
+            resultadoModificacion = -1;
+        }
+        return resultadoModificacion;
+    }
+    
+    @Override
     public int eliminarProfesorExterno(String correo){
         int numeroFilasAfectadas = 0;
-        PreparedStatement declaracion;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("DELETE FROM profesorExterno " +
-            "WHERE idProfesor IN (SELECT idProfesor FROM profesor WHERE correo = ?);");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("DELETE FROM profesorExterno " +
+            "WHERE idProfesor IN (SELECT idProfesor FROM profesor WHERE correo = ?);")){
             declaracion.setString(1, correo);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;

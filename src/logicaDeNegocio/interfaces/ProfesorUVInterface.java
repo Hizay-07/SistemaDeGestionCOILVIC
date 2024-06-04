@@ -12,13 +12,17 @@ public interface ProfesorUVInterface {
     
     public List<ProfesorUV> consultarProfesoresUVPorRegion(int idRegion);
     
-    public int editarTipoDeContratacionDeProfesorUVPorNumeroDePersonal(String tipoDeContratacion,String numeroDePersonal);
+    public int editarTipoDeContratacionDeProfesorUVPorIdProfesorUV(String tipoDeContratacion,int idProfesorUV);
     
-    public int editarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonal(String categoriaDeContratacion,String numeroDePersonal);
+    public int editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV(String categoriaDeContratacion,int idProfesorUV);
     
-    public int editarAreaAcademicaDeProfesorUVPorNumeroDePersonal(int areaAcademica,String numeroDePersonal);
+    public int editarAreaAcademicaDeProfesorUVPorIdProfesorUV(int areaAcademica,int idProfesorUV);
     
-    public int editarRegionDeProfesorUVPorNumeroDePersonal(int region,String numeroDePersonal);
+    public int editarRegionDeProfesorUVPorIdProfesorUV(int region,int idProfesorUV);
+    
+    public int editarNumeroDePersonalPorIdProfesorUV(String numeroDePersonal, int idProfesorUV);
+    
+    public ProfesorUV obtenerProfesorUVPorIDProfesor(int idProfesor);
     
     public int validarInexistenciaProfesorUV(String noPersonal);
     

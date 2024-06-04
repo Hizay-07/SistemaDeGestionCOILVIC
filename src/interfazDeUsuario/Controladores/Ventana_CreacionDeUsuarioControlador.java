@@ -40,7 +40,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         llenarComboboxTipoDeUsuario();
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage) anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
@@ -65,7 +65,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+     private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -89,7 +89,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         }
     }
     
-    public void llenarComboboxTipoDeUsuario(){
+    private void llenarComboboxTipoDeUsuario(){
         for(EnumTipoDeUsuario tipos : EnumTipoDeUsuario.values()){
             if(tipos != EnumTipoDeUsuario.Logger){
                 cmb_TipoDeUsuario.getItems().add(tipos.toString());
@@ -97,7 +97,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         }
     }
     
-    public Usuario crearUsuario(){
+    private Usuario crearUsuario(){
         Usuario usuario = new Usuario();
         String tipoDeUsuario = (String)cmb_TipoDeUsuario.getSelectionModel().getSelectedItem();
         String contrasenia = GeneradorDeContrasenias.generarContraseña();
@@ -113,14 +113,14 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         return usuario;
     }
     
-    public void limpiarInformacion(){
+    private void limpiarInformacion(){
         this.txfd_NombreDeUsuario.setText("");
         cmb_TipoDeUsuario.getSelectionModel().clearSelection();        
         cmb_TipoDeUsuario.setPromptText("Tipo de usuario");
     }
     
     
-    public void registrarUsuarioAdministrativo(Usuario usuario){
+    private void registrarUsuarioAdministrativo(Usuario usuario){
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
         
@@ -142,7 +142,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         }
     }
     
-    public void registrarUsuarioProfesor(Usuario usuario){
+    private void registrarUsuarioProfesor(Usuario usuario){
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(usuario.getCorreo());
@@ -175,7 +175,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         }
     }
     
-    public int mandarCorreo(String usuario, String contrasenia, String tipoDeUsuario){
+    private int mandarCorreo(String usuario, String contrasenia, String tipoDeUsuario){
         int resultadoEnvioDeCorreo;
         EnvioDeCorreo mandarCorreoCreacionDeUsuario = new EnvioDeCorreo();
         String asuntoCorreo = "Clave de acceso sistema coil vic";

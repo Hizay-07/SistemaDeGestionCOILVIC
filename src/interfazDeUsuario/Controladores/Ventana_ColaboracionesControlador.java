@@ -66,7 +66,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         llenarComboBoxTipoDeColaboracion();
     }
     
-    public void llenarComboBoxTipoDeColaboracion(){
+    private void llenarComboBoxTipoDeColaboracion(){
         ObservableList<String> tiposDeColaboracion = FXCollections.observableArrayList();
         for(EnumColaboracion colaboracion : EnumColaboracion.values()){
             tiposDeColaboracion.add(colaboracion.toString());
@@ -100,21 +100,21 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         }
     }
     
-    public List<Colaboracion> obtenerColaboracionesCerradas(){
+    private List<Colaboracion> obtenerColaboracionesCerradas(){
         List<Colaboracion> colaboracionesObtenidas = new ArrayList();
         DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
         colaboracionesObtenidas = daoColaboracion.consultarColaboracionesPorEstado(EnumColaboracion.Cerrada.toString());
         return colaboracionesObtenidas;
     }
     
-    public List<Colaboracion> obtenerColaboracionesActivas(){
+    private List<Colaboracion> obtenerColaboracionesActivas(){
         List<Colaboracion> colaboracionesObtenidas = new ArrayList();
         DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
         colaboracionesObtenidas = daoColaboracion.consultarColaboracionesPorEstado(EnumColaboracion.Activa.toString());
         return colaboracionesObtenidas;
     }
     
-    public List<Colaboracion> obtenerColaboracionesFinalizadas(){
+    private List<Colaboracion> obtenerColaboracionesFinalizadas(){
         List<Colaboracion> colaboracionesObtenidas = new ArrayList();
         DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
         colaboracionesObtenidas = daoColaboracion.consultarColaboracionesPorEstado(EnumColaboracion.Finalizada.toString());
@@ -157,7 +157,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         }
     }
     
-    public void asignarBotonesDarDeBajaColaboracion(){
+    private void asignarBotonesDarDeBajaColaboracion(){
         Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
                 final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
                     private final Button btn_DarDeBajaColaboracion = new Button();{
@@ -182,7 +182,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         column_DarDeBajaColaboracion.setCellFactory(frabricaDeCelda);
     }
     
-    public void darDeBajaColaboracion(Colaboracion colaboracion){
+    private void darDeBajaColaboracion(Colaboracion colaboracion){
         boolean resultadoAccion = Alertas.mostrarConfirmacionDeAccion("¿Desea dar fin a la Colaboracion seleccionada?");
         if(resultadoAccion){
             if(!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())){
@@ -200,7 +200,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         }
     }
     
-    public void asignarBotonesDeVisualizarDetalles(){
+    private void asignarBotonesDeVisualizarDetalles(){
         Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
                 final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
                     private final Button btn_VisualizarDetalles = new Button();{
@@ -238,12 +238,12 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         }    
     }
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
+    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
         if(validarConexionEstable()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -261,7 +261,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         }
     }
     
-     public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

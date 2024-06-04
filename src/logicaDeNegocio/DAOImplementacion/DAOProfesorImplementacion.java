@@ -16,23 +16,19 @@ import org.apache.log4j.Logger;
 public class DAOProfesorImplementacion implements ProfesorInterface {
 
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
-    private Connection conexion;
     private static final Logger LOG=Logger.getLogger(DAOProfesorImplementacion.class);
     
     @Override
     public int registrarProfesor(Profesor profesor) {
-        PreparedStatement declaracion;
         int numeroFilasAfectadas = 0; 
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, estadoProfesor) VALUES (?, ?, ?, ?, ?)");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("INSERT INTO profesor(nombre, apellidoPaterno, apellidoMaterno, correo, estadoProfesor) VALUES (?, ?, ?, ?, ?)")){
             declaracion.setString(1, profesor.getNombre());
             declaracion.setString(2, profesor.getApellidoPaterno());
             declaracion.setString(3, profesor.getApellidoMaterno());
             declaracion.setString(4, profesor.getCorreo());
             declaracion.setString(5, EnumProfesor.Activo.toString());            
             numeroFilasAfectadas = declaracion.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -43,14 +39,11 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
     @Override
     public int cambiarEstadoProfesor(int idProfesor, String nuevoEstado) {
         int numeroFilasAfectadas = 0;
-        PreparedStatement declaracion;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("UPDATE profesor SET estadoProfesor=? WHERE idProfesor=?;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("UPDATE profesor SET estadoProfesor=? WHERE idProfesor=?;")){
             declaracion.setString(1, nuevoEstado);
             declaracion.setInt(2, idProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion);
         }
@@ -59,15 +52,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
 
     @Override
     public int modificarNombreProfesor(String nombreActualizado, String correoProfesor) {
-        PreparedStatement declaracion;
         int numeroFilasAfectadas = 0; 
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("UPDATE profesor SET nombre = ? WHERE correo = ?");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("UPDATE profesor SET nombre = ? WHERE correo = ?")){
             declaracion.setString(1, nombreActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -77,15 +67,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
 
     @Override
     public int modificarApellidoPaternoProfesor(String apellidoPaternoActualizado, String correoProfesor) {
-        PreparedStatement declaracion;
         int numeroFilasAfectadas = 0; 
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("UPDATE profesor SET apellidoPaterno = ? WHERE correo = ?");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("UPDATE profesor SET apellidoPaterno = ? WHERE correo = ?")){
             declaracion.setString(1, apellidoPaternoActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -95,15 +82,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
 
     @Override
     public int modificarApellidoMaternoProfesor(String apellidoMaternoActualizado, String correoProfesor) {
-        PreparedStatement declaracion;
         int numeroFilasAfectadas = 0; 
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("UPDATE profesor SET apellidoMaterno = ? WHERE correo = ?");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("UPDATE profesor SET apellidoMaterno = ? WHERE correo = ?")){
             declaracion.setString(1, apellidoMaternoActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -113,15 +97,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
 
     @Override
     public int modificarCorreoProfesor(String correoActualizado, String correoProfesor) {
-        PreparedStatement declaracion;
         int numeroFilasAfectadas = 0; 
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("UPDATE profesor SET correo = ? WHERE correo = ?");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("UPDATE profesor SET correo = ? WHERE correo = ?")){
             declaracion.setString(1, correoActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -131,12 +112,10 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
     
     @Override
     public int obtenerIdProfesorPorCorreo(String correo){
-        PreparedStatement declaracion;
         ResultSet resultado;
         int idProfesor=0;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT idProfesor from Profesor where correo=?;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT idProfesor from Profesor where correo=?;")){
             declaracion.setString(1, correo);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -144,7 +123,6 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                     idProfesor=resultado.getInt("idProfesor");
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             idProfesor = -1;
@@ -154,12 +132,10 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
     
 
     public Profesor consultarProfesorPorId(int idProfesor){
-        PreparedStatement declaracion;
         ResultSet resultado;
         Profesor profesor=new Profesor();
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * from Profesor where idProfesor=?;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from Profesor where idProfesor=?;")){
             declaracion.setInt(1, idProfesor);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -172,7 +148,6 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                     profesor.setEstado(resultado.getString("estadoProfesor"));
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -183,14 +158,12 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
    @Override
    public int asignarUsuarioDeProfesorPorCorreo(String correo){
        int resultadoModificacion;
-       try{
-           conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           CallableStatement declaracion = (CallableStatement) conexion.prepareCall("call asignarCuentaProfesor(?,?)");
+       try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+           CallableStatement declaracion = (CallableStatement) conexion.prepareCall("call asignarCuentaProfesor(?,?)")){
            declaracion.setString(1, correo);
            declaracion.registerOutParameter(2, Types.INTEGER);
            declaracion.execute();
            resultadoModificacion = declaracion.getInt(2);
-           BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getMessage());
            resultadoModificacion = -1;
@@ -200,12 +173,10 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
 
    @Override
    public Profesor obtenerProfesorPorIdUsuario(int idUsuario,Usuario logger){
-       PreparedStatement declaracion;
         ResultSet resultado;
         Profesor profesor=new Profesor();
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
-            declaracion=conexion.prepareStatement("SELECT * from Profesor where Usuario_idUsuario=?;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatosLogger(logger);
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from Profesor where Usuario_idUsuario=?;")){
             declaracion.setInt(1, idUsuario);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -218,7 +189,6 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                     profesor.setEstado(resultado.getString("estadoProfesor"));
                 }
             }
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
@@ -227,12 +197,10 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
    
    @Override
    public int validarDuplicidadDeCorreo(String correo){
-        PreparedStatement declaracion;
         ResultSet resultado;
         int coincidenciasEncontradas = 0;
-        try{
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT count(*) as 'coincidencias encontradas' from Profesor where correo=?;");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT count(*) as 'coincidencias encontradas' from Profesor where correo=?;")){
             declaracion.setString(1, correo);
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
@@ -250,12 +218,10 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
    @Override
    public int eliminarCuentaAsignadaAProfesor(String correoProfesor){
         int resultadoModificacion;
-       try{
-           conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           PreparedStatement declaracion = conexion.prepareStatement(" update profesor set Usuario_idUsuario = null where correo = ?");
+       try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+           PreparedStatement declaracion = conexion.prepareStatement(" update profesor set Usuario_idUsuario = null where correo = ?")){
            declaracion.setString(1, correoProfesor);
            resultadoModificacion = declaracion.executeUpdate();
-           BASE_DE_DATOS.cerrarConexion(conexion);
        }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getMessage());
            resultadoModificacion = -1;
@@ -266,13 +232,10 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
    @Override 
    public int eliminarProfesor(String correo){
        int numeroFilasAfectadas = 0;
-        PreparedStatement declaracion;
-        try {
-            conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion = conexion.prepareStatement("DELETE FROM profesor where correo = ?");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("DELETE FROM profesor where correo = ?")){
             declaracion.setString(1, correo);
             numeroFilasAfectadas = declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
@@ -282,16 +245,13 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
    
    @Override
     public int consultarPrecondicionInicioColaboracionPorIdProfesor(int idProfesor){
-        CallableStatement declaracion;
         int resultadoConsulta=0;
-        try{
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=(CallableStatement) conexion.prepareCall("CALL precondicionIniciarColaboracion(?,?);");
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            CallableStatement declaracion=(CallableStatement) conexion.prepareCall("CALL precondicionIniciarColaboracion(?,?);")){
             declaracion.setInt(1, idProfesor);
             declaracion.registerOutParameter(2, Types.INTEGER);
             declaracion.execute();
-            resultadoConsulta=declaracion.getInt(2);
-            conexion.close();        
+            resultadoConsulta=declaracion.getInt(2);    
         }catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());            
         }

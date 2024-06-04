@@ -48,7 +48,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         spin_NumeroEstudiantes.setValueFactory(valueFactory);                   
     }    
     
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         stage_ventana=(Stage) anchor_IniciarColaboracion.getScene().getWindow();
         stage_ventana.close();
     }
@@ -74,7 +74,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         }               
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
@@ -99,7 +99,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         }
     }
     
-    public PropuestaColaboracion obtenerPropuesta(){
+    private PropuestaColaboracion obtenerPropuesta(){
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
         Profesor profesor=new Profesor();
@@ -118,7 +118,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         return propuestaColaboracion;                        
     }
     
-    public Colaboracion obtenerColaboracion(){        
+    private Colaboracion obtenerColaboracion(){        
         PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
         propuestaColaboracion=obtenerPropuesta();
         Colaboracion colaboracion=new Colaboracion();
@@ -156,7 +156,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
     }
     
 
-    public void agregarProfesoresAColaboracion(int idPropuestaColaboracion){
+    private void agregarProfesoresAColaboracion(int idPropuestaColaboracion){
         DAOColaboracionImplementacion daoColaboracion=new DAOColaboracionImplementacion();
         int idColaboracion=daoColaboracion.obtenerIdColaboracionPorIdPropuesta(idPropuestaColaboracion);
         DAOPeticionColaboracionImplementacion daoPeticionColaboracin=new DAOPeticionColaboracionImplementacion();        
@@ -174,7 +174,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         }                            
     }
     
-    public int obtenerCantidadEstudiantes(){  
+    private int obtenerCantidadEstudiantes(){  
         int cantidadEstudiantes=0;
         try{
             cantidadEstudiantes=spin_NumeroEstudiantes.getValue();              

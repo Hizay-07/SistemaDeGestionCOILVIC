@@ -22,12 +22,10 @@ public class DAOPaisImplementacion implements PaisInterface {
     @Override
     public int registrarPais(Pais paisAIngresar){
         int resultadoRegistro;        
-        try{
-            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO pais(nombrePais) values (?)");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO pais(nombrePais) values (?)")){
             sentencia.setString(1, paisAIngresar.getNombrePais());
             resultadoRegistro = sentencia.executeUpdate();
-            BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoRegistro = -1;
@@ -38,9 +36,8 @@ public class DAOPaisImplementacion implements PaisInterface {
     @Override
     public int obtenerNumeroDePais(Pais paisAConsultar){
         int paisObtenido=0;   
-        try{
-           Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           PreparedStatement sentencia = conexion.prepareStatement("SELECT numeroDePais FROM pais WHERE nombrePais = ?");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+           PreparedStatement sentencia = conexion.prepareStatement("SELECT numeroDePais FROM pais WHERE nombrePais = ?")){
            sentencia.setString(1, paisAConsultar.getNombrePais());
            ResultSet numeroPaisObtenido = sentencia.executeQuery();
            if(numeroPaisObtenido.isBeforeFirst()){
@@ -48,7 +45,6 @@ public class DAOPaisImplementacion implements PaisInterface {
                   paisObtenido = (int)numeroPaisObtenido.getObject(1);  
                 }
            }
-           BASE_DE_DATOS.cerrarConexion(conexion);
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             paisObtenido = -1;
@@ -58,12 +54,10 @@ public class DAOPaisImplementacion implements PaisInterface {
     
     @Override
     public List<Pais> consultarPaises(){
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<Pais> paises=new ArrayList<>();
-        try {
-            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * from Pais;");
+        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from Pais;")){
             resultado=declaracion.executeQuery();
             while(resultado.next()){
                 Pais pais=new Pais();
@@ -71,7 +65,6 @@ public class DAOPaisImplementacion implements PaisInterface {
                 pais.setNumeroDePais(resultado.getInt("numeroDePais"));
                 paises.add(pais);
             }
-            BASE_DE_DATOS.cerrarConexion(conexion);
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }         
@@ -82,14 +75,12 @@ public class DAOPaisImplementacion implements PaisInterface {
     public int verificarPais(){
         int resultadoVerificacion=0;
         ResultSet resultado;
-        try{
-            Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from pais");
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement sentencia = conexion.prepareStatement("select count(*) from pais")){
             resultado=sentencia.executeQuery();
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }        
-            conexion.close();
         }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoVerificacion=-1;

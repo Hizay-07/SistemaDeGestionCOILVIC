@@ -16,16 +16,13 @@ import logicaDeNegocio.interfaces.PropuestaColaboracionInterface;
 
 public class DAOPropuestaColaboracionImplementacion implements PropuestaColaboracionInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
-    private Connection conexion;
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOPropuestaColaboracionImplementacion.class);
           
     @Override
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion) {        
-        CallableStatement declaracion;
         int idPropuestaColaboracion=0;        
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=(CallableStatement) conexion.prepareCall("call registrarPropuestaColaboracion(?,?,?,?,?,?,?,?,?)");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            CallableStatement declaracion=(CallableStatement) conexion.prepareCall("call registrarPropuestaColaboracion(?,?,?,?,?,?,?,?,?)")){
             declaracion.setString(1, propuestaColaboracion.getFechaInicio());
             declaracion.setString(2, propuestaColaboracion.getFechaCierre());
             declaracion.setString(3, propuestaColaboracion.getIdioma());
@@ -37,7 +34,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.registerOutParameter(9, Types.INTEGER);
             declaracion.execute();            
             idPropuestaColaboracion=declaracion.getInt(9);           
-            conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.fatal(excepcion.getMessage());
             System.out.println(excepcion.getMessage());
@@ -48,12 +44,10 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
   
     @Override
     public List<PropuestaColaboracion> consultarPropuestasColaboracion() {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion")){
             resultado=declaracion.executeQuery();
             while(resultado.next()){
                 PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
@@ -68,7 +62,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
@@ -77,12 +70,10 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
 
     @Override
     public List<PropuestaColaboracion> consultarPropuestasColaboracionPorFechaDeInicio(String fecha) {
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where fechaInicio=?");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where fechaInicio=?")){
             declaracion.setString(1, fecha);
             resultado=declaracion.executeQuery();
             while(resultado.next()){
@@ -98,7 +89,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
@@ -107,15 +97,12 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
 
     @Override
     public int editarFechaDeInicioDePropuestaColaboracionPorId(String fechaDeInicio, int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;        
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaInicio=? where idPropuestaColaboracion=?");
+        int numeroFilasAfectadas=0;       
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaInicio=? where idPropuestaColaboracion=?")){
             declaracion.setString(1, fechaDeInicio);
             declaracion.setInt(2, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
@@ -124,15 +111,12 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
 
     @Override
     public int editarFechaDeCierreDePropuestaColaboracionPorId(String fechaDeCierre, int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;        
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaCierre=? where idPropuestaColaboracion=?");
+        int numeroFilasAfectadas=0;       
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaCierre=? where idPropuestaColaboracion=?")){
             declaracion.setString(1, fechaDeCierre);
             declaracion.setInt(2, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
@@ -141,14 +125,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
 
     @Override
     public int aprobarPropuestaColaboracionPorId(int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;   
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Aprobada' where idPropuestaColaboracion=?;");
+        int numeroFilasAfectadas=0;  
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Aprobada' where idPropuestaColaboracion=?;")){
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
@@ -157,14 +138,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
 
     @Override
     public int rechazarPropuestaColaboracionPorId(int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;   
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Rechazada' where idPropuestaColaboracion=?;");
+        int numeroFilasAfectadas=0; 
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Rechazada' where idPropuestaColaboracion=?;")){
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
@@ -173,15 +151,13 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     
     @Override
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadas(){
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
         DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where estadoPropuesta='Aprobada';");            
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where estadoPropuesta='Aprobada';")){      
             resultado=declaracion.executeQuery();            
             while(resultado.next()){
                 PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                
@@ -204,7 +180,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setProfesor(profesor);                
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
@@ -213,14 +188,12 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     
     @Override
     public PropuestaColaboracion obtenerPropuestaDeColaboracionPorId(int idPropuestaColaboracion){
-        PreparedStatement declaracion;
         ResultSet resultado;
         PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
         DAOTipoColaboracionImplementacion daoTipoColaboracion = new DAOTipoColaboracionImplementacion();
         TipoColaboracion tipoColaboracion = new TipoColaboracion();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where idPropuestaColaboracion=?");
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where idPropuestaColaboracion=?")){
             declaracion.setInt(1, idPropuestaColaboracion);
             resultado=declaracion.executeQuery();
             while(resultado.next()){
@@ -238,7 +211,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 tipoColaboracion.setTipo(tipo);
                 propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
             }
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
             propuestaColaboracion = null;
@@ -248,15 +220,13 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     
     @Override
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionRegistradas(){
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
         DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where estadoPropuesta='Registrada';");            
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where estadoPropuesta='Registrada';")){       
             resultado=declaracion.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){
@@ -281,7 +251,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                     propuestasColaboracion.add(propuestaColaboracion);                
                 }
             }
-            conexion.close();
         } catch (SQLException excepcion) {
             LOG.error(excepcion);
         }
@@ -290,18 +259,15 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     
     @Override
     public int obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(int idProfesor){
-        PreparedStatement declaracion;
         ResultSet resultado;
         int idPropuestaColaboracion=0;
-        try{
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("select p.idPropuestaColaboracion from emisionPropuesta e, propuestaColaboracion p where idProfesor=? AND p.idPropuestaColaboracion=e.idPropuestaColaboracion AND p.estadoPropuesta='Aprobada';");
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("select p.idPropuestaColaboracion from emisionPropuesta e, propuestaColaboracion p where idProfesor=? AND p.idPropuestaColaboracion=e.idPropuestaColaboracion AND p.estadoPropuesta='Aprobada';")){
             declaracion.setInt(1, idProfesor);
             resultado=declaracion.executeQuery();           
             if(resultado.next()){
                 idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");                
-            }
-            conexion.close();        
+            }      
         }catch (SQLException ex) {
             LOG.warn(ex);
         }
@@ -310,15 +276,13 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     
     @Override
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadasSinPeticiones(int identificadorProfesor){
-        PreparedStatement declaracion;
         ResultSet resultado;
         List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
         DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("SELECT * FROM propuestaColaboracion pc WHERE pc.estadoPropuesta = 'Aprobada' AND pc.idPropuestaColaboracion NOT IN (SELECT idPropuestaColaboracion FROM peticionColaboracion WHERE idProfesor = ?);");      
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM propuestaColaboracion pc WHERE pc.estadoPropuesta = 'Aprobada' AND pc.idPropuestaColaboracion NOT IN (SELECT idPropuestaColaboracion FROM peticionColaboracion WHERE idProfesor = ?);")){      
             declaracion.setInt(1, identificadorProfesor);
             resultado=declaracion.executeQuery();            
             while(resultado.next()){
@@ -342,7 +306,6 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setProfesor(profesor);                
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
@@ -351,14 +314,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     
     @Override
     public int cambiarEstadoIniciadaPropuestaColaboracionPorId(int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;
-        PreparedStatement declaracion;   
-        try {
-            conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Iniciada' where idPropuestaColaboracion=?;");
+        int numeroFilasAfectadas=0; 
+        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Iniciada' where idPropuestaColaboracion=?;")){
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-            conexion.close();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }

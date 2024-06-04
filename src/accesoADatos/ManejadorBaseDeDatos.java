@@ -19,19 +19,6 @@ public class ManejadorBaseDeDatos {
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(ManejadorBaseDeDatos.class);
     private static ManejadorBaseDeDatos instancia;
     private Connection conexion;
-    private static final String NOMBRE_BASE_DE_DATOS="jdbc:mysql://localhost/bdsistemacoilvic";;
-    private final String USUARIO_BASE_DE_DATOS="root";
-    private final String CONTRASENA_BASE_DE_DATOS="Tortadejamon79";
-
-    
-    public Connection getConexion()throws SQLException{
-        connect();
-        return conexion;
-    }
-    
-    public void connect() throws SQLException{
-        conexion = DriverManager.getConnection(NOMBRE_BASE_DE_DATOS,USUARIO_BASE_DE_DATOS,CONTRASENA_BASE_DE_DATOS);
-    }
     
     public Connection conectarBaseDeDatos(){
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();

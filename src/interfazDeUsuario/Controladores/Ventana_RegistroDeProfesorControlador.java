@@ -80,7 +80,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public void mostrarPanelProfesorUV() {
         pane_ProfesorUV.setVisible(true);
-        pane_Profesores.setVisible(false);
+        pane_ProfesorExterno.setVisible(false);
         llenarComboBoxAreaAcademica();
         llenarComboBoxRegionAcademica();
         btn_Aceptar.setOnAction(event -> registrarProfesorUV());
@@ -88,7 +88,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public void mostrarPanelProfesorExterno() {
         pane_ProfesorExterno.setVisible(true);
-        pane_Profesores.setVisible(false);
+        pane_ProfesorUV.setVisible(false);
         llenarComboBoxUniversidad();
         btn_Aceptar.setOnAction(event -> registrarProfesorExterno());
     }
@@ -143,7 +143,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         return profesor;
     }
 
-    public ProfesorUV obtenerProfesorUV() {
+    private ProfesorUV obtenerProfesorUV() {
         ProfesorUV profesorUV = new ProfesorUV();
         String areaAcademica = (String) cmb_AreaAcademica.getSelectionModel().getSelectedItem();
         DAOAreaAcademicaImplementacion daoAreaAcademica = new DAOAreaAcademicaImplementacion();
@@ -190,7 +190,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         }
     }
 
-    public ProfesorExterno obtenerProfesorExterno() {
+    private ProfesorExterno obtenerProfesorExterno() {
         ProfesorExterno profesorExterno = new ProfesorExterno();
         String universidad = (String) cmb_Universidad.getSelectionModel().getSelectedItem();
         DAORepresentanteInstitucionalImplementacion daoRepresentanteInstitucional = new DAORepresentanteInstitucionalImplementacion();
@@ -228,7 +228,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         }
     }
     
-    public boolean validarInexistenciaDeProfesor(Profesor profesor){
+    private boolean validarInexistenciaDeProfesor(Profesor profesor){
         boolean resultadoValidacion = true;
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
@@ -246,7 +246,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         return resultadoValidacion;
     }
     
-    public boolean validarInexistenciaDeProfesorUV(ProfesorUV profesor){
+    private boolean validarInexistenciaDeProfesorUV(ProfesorUV profesor){
         boolean resultadoValidacion = true;
         DAOProfesorUVImplementacion daoProfesor = new DAOProfesorUVImplementacion();
         int resultadoValidacionInexistencia = daoProfesor.validarInexistenciaProfesorUV(profesor.getNumeroDePersonal());
@@ -264,14 +264,14 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         return resultadoValidacion;
     }
 
-    public void limpiarInformacionProfesor() {
+    private void limpiarInformacionProfesor() {
         txfd_Nombre.setText("");
         txfd_ApellidoPaterno.setText("");
         txfd_ApellidoMaterno.setText("");
         txfd_Correo.setText("");
     }
 
-    public void limpiarInformacionProfesorUV() {
+    private void limpiarInformacionProfesorUV() {
         txfd_NumeroDePersonal.setText("");
         txfd_TipoDeContratacion.setText("");
         txfd_CategoriaDeContratacion.setText("");
@@ -283,7 +283,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         cmb_RegionAcademica.setPromptText(prompText_RegionAcademica);
     }
 
-    public void limpiarInformacionProfesorExterno() {
+    private void limpiarInformacionProfesorExterno() {
         String prompText_Universidad = cmb_Universidad.getPromptText();
         cmb_Universidad.getSelectionModel().clearSelection();
         cmb_Universidad.setPromptText(prompText_Universidad);
@@ -317,7 +317,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         }
     }
     
-    public void eliminarUsuarioProfesor(Usuario usuario,String tipoProfesor){
+    private void eliminarUsuarioProfesor(Usuario usuario,String tipoProfesor){
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
@@ -346,7 +346,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         }          
     }
 
-    public int mandarCorreo(String usuario, String contrasenia) {
+    private int mandarCorreo(String usuario, String contrasenia) {
         int resultadoEnvioDeCorreo;
         EnvioDeCorreo mandarCorreoCreacionDeUsuario = new EnvioDeCorreo();
         String asuntoCorreo = "Clave de acceso sistema coil vic";
@@ -382,7 +382,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();

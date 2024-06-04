@@ -49,7 +49,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         cargarDatosRepresentanteInstitucional();
     }    
     
-    public void cargarDatosRepresentanteInstitucional(){
+    private void cargarDatosRepresentanteInstitucional(){
         RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
         txfd_NombreInstitucion.setText(representante.getNombreInstitucion());
         txfd_ClaveInstitucional.setText(representante.getClaveInstitucional());
@@ -58,7 +58,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         cmb_Pais.getSelectionModel().select(paisRepresentante);
     }
     
-    public void llenarComboBoxPais(){
+    private void llenarComboBoxPais(){
         DAOPaisImplementacion daoPais=new DAOPaisImplementacion();
         List<Pais> paises=daoPais.consultarPaises();
         ObservableList<String> paisesComboBox = FXCollections.observableArrayList();
@@ -68,7 +68,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         cmb_Pais.setItems(paisesComboBox);
     }
     
-    public RepresentanteInstitucional obtenerDatosRepresentanteInstitucional(){
+    private RepresentanteInstitucional obtenerDatosRepresentanteInstitucional(){
         RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
         RepresentanteInstitucional representanteAModificar = new RepresentanteInstitucional();
         Pais paisSeleccionado = new Pais();
@@ -86,7 +86,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         return representanteAModificar;
     }
     
-    public boolean validarDatosSimilaresRepresentante(RepresentanteInstitucional representanteActualizado){
+    private boolean validarDatosSimilaresRepresentante(RepresentanteInstitucional representanteActualizado){
         RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
         RepresentanteInstitucional representanteDesactualizado = new RepresentanteInstitucional();
         representanteDesactualizado.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
@@ -103,7 +103,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         return resultado;
     }
     
-    public int realizarModificacionNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+    private int realizarModificacionNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
         int resultadoModificacion = 0;
         DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
         int resultadoVerificacion = daoRepresentante.verificarExistenciaNombreInstitucionRepresentanteInstitucional(representanteActualizado);
@@ -115,7 +115,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         return resultadoModificacion;
     }
     
-    public int realizarModificacionContactoRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+    private int realizarModificacionContactoRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
         int resultadoModificacion = 0;
         DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
         int resultadoVerificacion = daoRepresentante.verificarExistenciaContactoInstitucionRepresentanteInstitucional(representanteActualizado);
@@ -127,7 +127,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         return resultadoModificacion;
     }
     
-    public int realizarModificacionClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+    private int realizarModificacionClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
         int resultadoModificacion = 0;
         DAORepresentanteInstitucionalImplementacion daoRepresentante = new DAORepresentanteInstitucionalImplementacion();
         int resultadoVerificacion = daoRepresentante.verificarExistenciaClaveInstitucionalRepresentanteInstitucional(representanteActualizado);
@@ -139,7 +139,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         return resultadoModificacion;
     }
     
-     public int realizarModificacionPaisRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
+     private int realizarModificacionPaisRepresentanteInstitucional(RepresentanteInstitucional representanteActualizado){
         RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
         int resultadoModificacion = 0;
         if(!representanteActualizado.getPais().equals(representante.getPais())){
@@ -179,7 +179,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     }
     
      
-    public void cerrarVentana(){
+    private void cerrarVentana(){
         escenario=(Stage) anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
@@ -189,7 +189,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
        desplegarVentana(ruta);
     }
     
-    public void desplegarVentana(String ruta){
+    private void desplegarVentana(String ruta){
         if(validarConexionEstable()){
             String rutaVentanaFXML = ruta;
             try{
@@ -209,7 +209,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         }
     }
     
-    public boolean validarConexionEstable(){
+    private boolean validarConexionEstable(){
         boolean resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
