@@ -86,5 +86,21 @@ public class PruebaDAOEvidenciaImplementacion {
         List<Evidencia> evidencias = dao.obtenerEvidenciasDeActividad(idActividad);
         assertEquals(0, evidencias.size());
     }
+    
+    @Test
+    public void pruebaObtenerNumeroDeEvidenciasExitosa(){
+        int idActividad = 1; 
+        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
+        int numeroActividad = dao.obtenerNumeroDeEvidencia(idActividad);
+        assertEquals(0,numeroActividad);
+    }
+    
+    @Test
+    public void pruebaObtenerNumeroDeEvidenciasFallida(){
+        int idActividad = 1; 
+        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
+        int numeroActividad = dao.obtenerNumeroDeEvidencia(idActividad);
+        assertEquals(-1,numeroActividad);
+    }
 
 }

@@ -11,5 +11,5 @@ public interface EvidenciaInterface {
     public int agregarEvidencia(Evidencia evidencia);
     public int modificarEvidencia(Evidencia evidenciaNueva);
     public List<Evidencia> obtenerEvidenciasDeActividad(int  idActividad);
-    
+    public int obtenerNumeroDeEvidencia(int idActividad);
 }

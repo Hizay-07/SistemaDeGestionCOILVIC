@@ -82,9 +82,10 @@ public class ManejadorDeArchivosPrueba {
         actividad.setIdActividad(1); 
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1); 
-        File archivoEvidencia = new File("C:\\Users\\hizza\\Desktop\\Actividadprueba2.txt");
+        File archivoEvidencia = new File("C:\\Users\\hizza\\Desktop\\RRRRR\\evidenciaII.txt");
+        int numeroDeEvidencias = 1;
         ManejadorDeArchivos manejador = new ManejadorDeArchivos();
-        String resultado = manejador.guardarEvidenciaDeActividad(actividad, colaboracion, archivoEvidencia);
+        String resultado = manejador.guardarEvidenciaDeActividad(actividad, colaboracion, archivoEvidencia,numeroDeEvidencias);
         assertEquals(rutaEsperada, resultado);
     }
 
@@ -95,8 +96,9 @@ public class ManejadorDeArchivosPrueba {
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1);
         File archivoEvidencia = new File("ruta/no/existente/evidencia1.txt");
+        int numeroDeEvidencias = 1;
         ManejadorDeArchivos manejador = new ManejadorDeArchivos();
-        String resultado = manejador.guardarEvidenciaDeActividad(actividad, colaboracion, archivoEvidencia);
+        String resultado = manejador.guardarEvidenciaDeActividad(actividad, colaboracion, archivoEvidencia,numeroDeEvidencias);
         assertEquals("", resultado);
     }
 

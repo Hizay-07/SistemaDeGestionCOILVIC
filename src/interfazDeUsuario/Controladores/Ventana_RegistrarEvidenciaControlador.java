@@ -84,25 +84,30 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         DAOEvidenciaImplementacion daoEvidencia = new DAOEvidenciaImplementacion();
         ManejadorDeArchivos manejadorArchivos = new ManejadorDeArchivos();
         boolean resultadoAccesoACarpeta = manejadorArchivos.crearCarpetaDeActividad(actividad, colaboracion);
+        int numeroDeEvidencias = daoEvidencia.obtenerNumeroDeEvidencia(actividad.getIdActividad()) + 1;
         if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
-            String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir);
-            try{
-                nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
-                nuevaEvidencia.setRutaEvidencia(rutaArchivo);
-                nuevaEvidencia.setIdActividad(actividad.getIdActividad());
-                int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
-                switch(resultadoInsercion) {
-                    case 1 -> Alertas.mostrarMensajeDatosIngresados();
-                    case 0 -> Alertas.mostrarMensajeDatosDuplicados();
-                    default -> {
-                        Alertas.mostrarMensajeErrorEnLaConexion();
-                        manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+            if(numeroDeEvidencias>=0){
+                String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
+                try{
+                    nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
+                    nuevaEvidencia.setRutaEvidencia(rutaArchivo);
+                    nuevaEvidencia.setIdActividad(actividad.getIdActividad());
+                    int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
+                    switch(resultadoInsercion) {
+                        case 1 -> Alertas.mostrarMensajeDatosIngresados();
+                        case 0 -> Alertas.mostrarMensajeDatosDuplicados();
+                        default -> {
+                            Alertas.mostrarMensajeErrorEnLaConexion();
+                            manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                        }
                     }
+                }catch(IllegalArgumentException excepcion){
+                    LOG.error(excepcion.getCause());
+                    manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                    Alertas.mostrarMensajeDatosInvalidos();
                 }
-            }catch(IllegalArgumentException excepcion){
-                LOG.error(excepcion.getCause());
-                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                Alertas.mostrarMensajeDatosInvalidos();
+            }else{
+                Alertas.mostrarMensajeErrorEnLaConexion();
             }
         }else{
             Alertas.mostrarMensajeErrorAlAccederAlaCarpeta();

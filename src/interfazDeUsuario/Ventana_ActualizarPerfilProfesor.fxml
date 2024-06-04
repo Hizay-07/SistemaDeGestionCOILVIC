@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -14,7 +13,7 @@
     <children>
         <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
             <children>
-                <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
+                <AnchorPane id="AnchorPane" layoutX="5.0" layoutY="5.0" prefHeight="484.0" prefWidth="604.0">
                     <children>
                         <Pane layoutX="-20.0" layoutY="-20.0" prefHeight="82.0" prefWidth="624.0" style="-fx-background-color: #168394;">
                             <children>
@@ -25,18 +24,30 @@
                                 </Text>
                             </children>
                         </Pane>
-                        <BorderPane fx:id="btn_cancelar" layoutX="20.0" layoutY="72.0" prefHeight="298.0" prefWidth="563.0" style="-fx-border-color: black;" />
                         <TextField fx:id="txfd_ApellidoPaterno" layoutX="194.0" layoutY="119.0" prefHeight="27.0" prefWidth="366.0" style="-fx-border-color: black;" />
-                        <TextField fx:id="txfd_Correo" layoutX="194.0" layoutY="182.0" prefHeight="27.0" prefWidth="366.0" style="-fx-border-color: black;" />
+                        <TextField fx:id="txfd_Correo" layoutX="194.0" layoutY="182.0" prefHeight="27.0" prefWidth="366.0" />
                         <TextField fx:id="txfd_Nombre" layoutX="194.0" layoutY="82.0" prefHeight="27.0" prefWidth="366.0" style="-fx-border-color: black;" />
                         <TextField fx:id="txfd_ApellidoMaterno" layoutX="195.0" layoutY="149.0" prefHeight="27.0" prefWidth="366.0" style="-fx-border-color: black;" />
-                        <Button fx:id="btn_Confirmar" layoutX="166.0" layoutY="327.0" mnemonicParsing="false" style="-fx-background-color: green};" text="Confirmar" textFill="WHITE" />
-                        <Button fx:id="btn_Cancelar" layoutX="406.0" layoutY="327.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
+                        <Button fx:id="btn_Confirmar" layoutX="223.0" layoutY="442.0" mnemonicParsing="false" style="-fx-background-color: green};" text="Confirmar" textFill="WHITE" />
+                        <Button fx:id="btn_Cancelar" layoutX="316.0" layoutY="442.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
                         <Label fx:id="lbl_Nombre" layoutX="63.0" layoutY="87.0" text="Nombre" />
                         <Label fx:id="lbl_ApellidoMaterno" layoutX="63.0" layoutY="124.0" text="Apellido Paterno" />
                         <Label fx:id="lbl_ApellidoMaterno_" layoutX="62.0" layoutY="154.0" text="Apellido Materno" />
                         <Label fx:id="lbl_Correo" layoutX="62.0" layoutY="191.0" text="Correo" />
-                        <ComboBox fx:id="cmb_EstadosProfesor" layoutX="235.0" layoutY="239.0" prefWidth="150.0" promptText="Estado Profesor" />
+                        <ComboBox fx:id="cmb_EstadosProfesor" layoutX="347.0" layoutY="224.0" prefWidth="150.0" promptText="Estado Profesor" stylesheets="@Combobox.css" />
+                  <Pane fx:id="pane_ProfesorUV" layoutX="52.0" layoutY="271.0" prefHeight="131.0" prefWidth="506.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="11.0" text="No. de personal:" />
+                        <Label layoutX="12.0" layoutY="40.0" text="Tipo de contratación:" />
+                        <Label layoutX="10.0" layoutY="66.0" text="Categoria de contratación:" />
+                        <ComboBox fx:id="cmb_RegionAcademica" layoutX="272.0" layoutY="99.0" prefWidth="150.0" promptText="Región" stylesheets="@Combobox.css" />
+                        <TextField fx:id="txfd_NumeroDePersonal" layoutX="190.0" layoutY="7.0" prefHeight="25.0" prefWidth="316.0" />
+                        <TextField fx:id="txfd_TipoDeContratacion" layoutX="190.0" layoutY="36.0" prefHeight="25.0" prefWidth="316.0" />
+                        <ComboBox fx:id="cmb_AreaAcademica" layoutX="89.0" layoutY="99.0" prefWidth="150.0" promptText="Area académica" stylesheets="@Combobox.css" />
+                        <TextField fx:id="txfd_CategoriaDeContratacion" layoutX="189.0" layoutY="62.0" prefHeight="25.0" prefWidth="316.0" />
+                     </children>
+                  </Pane>
+                  <ComboBox fx:id="cmb_Universidad" layoutX="119.0" layoutY="224.0" prefWidth="150.0" promptText="Universidad" stylesheets="@Combobox.css" />
                     </children>
                 </AnchorPane>
             </children>
