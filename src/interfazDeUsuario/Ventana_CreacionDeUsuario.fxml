@@ -46,9 +46,19 @@
                </children>
             </VBox>
             <TextField fx:id="txfd_NombreDeUsuario" layoutX="164.0" layoutY="120.0" prefHeight="26.0" prefWidth="241.0" promptText="cuenta123@gmail.com" />
-            <ComboBox fx:id="cmb_TipoDeUsuario" layoutX="218.0" layoutY="181.0" prefWidth="150.0" promptText="Tipo de usuario" />
+            <ComboBox fx:id="cmb_TipoDeUsuario" layoutX="218.0" layoutY="181.0" prefWidth="150.0" promptText="Tipo de usuario" stylesheets="@Combobox.css" />
             <Button fx:id="btn_Registrar" layoutX="253.0" layoutY="235.0" mnemonicParsing="false" onAction="#registrarUsuario" style="-fx-background-color: green;" text="Registrar" textFill="WHITE" />
             <Button fx:id="btn_Cancelar" layoutX="325.0" layoutY="235.0" mnemonicParsing="false" onAction="#regresarVentanaPrincipal" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
+            <Label fx:id="lbl_ErrorNombreDeUsuario" layoutX="409.0" layoutY="119.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_ErrorSeleccion" layoutX="379.0" layoutY="185.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

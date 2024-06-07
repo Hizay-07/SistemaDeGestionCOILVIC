@@ -17,8 +17,8 @@
          </font>
       </Label>
       <Label layoutX="82.0" layoutY="81.0" text="Nombre(s):" />
-      <Label layoutX="83.0" layoutY="111.0" text="Apellido paterno:" />
-      <Label layoutX="81.0" layoutY="139.0" text="Apellido materno:" />
+      <Label layoutX="83.0" layoutY="111.0" text="Primer apellido:" />
+      <Label layoutX="81.0" layoutY="139.0" text="Segundo apellido:" />
       <Label layoutX="81.0" layoutY="169.0" text="Correo:" />
       <TextField fx:id="txfd_Nombre" layoutX="153.0" layoutY="77.0" prefHeight="25.0" prefWidth="328.0" />
       <TextField fx:id="txfd_ApellidoPaterno" layoutX="185.0" layoutY="107.0" prefHeight="25.0" prefWidth="297.0" />
@@ -34,8 +34,13 @@
       <Pane fx:id="pane_ProfesorExterno" layoutX="67.0" layoutY="394.0" prefHeight="41.0" prefWidth="172.0" visible="false">
          <children>
             <ComboBox fx:id="cmb_Universidad" prefWidth="150.0" promptText="Universidad" stylesheets="@Combobox.css" />
+            <Label fx:id="lbl_ErrorUniversidad" layoutX="151.0" layoutY="2.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children></Pane>
-      <Pane fx:id="pane_ProfesorUV" layoutX="63.0" layoutY="250.0" prefHeight="131.0" prefWidth="446.0" visible="false">
+      <Pane fx:id="pane_ProfesorUV" layoutX="63.0" layoutY="250.0" prefHeight="131.0" prefWidth="455.0" visible="false">
          <children>
             <Label layoutX="10.0" layoutY="11.0" text="No. de personal:" />
             <Label layoutX="12.0" layoutY="40.0" text="Tipo de contratación:" />
@@ -45,7 +50,52 @@
             <TextField fx:id="txfd_TipoDeContratacion" layoutX="142.0" layoutY="33.0" prefHeight="25.0" prefWidth="272.0" />
             <ComboBox fx:id="cmb_AreaAcademica" layoutX="12.0" layoutY="100.0" prefWidth="150.0" promptText="Area académica" stylesheets="@Combobox.css" />
             <TextField fx:id="txfd_CategoriaDeContratacion" layoutX="162.0" layoutY="62.0" prefHeight="25.0" prefWidth="252.0" />
+            <Label fx:id="lbl_ErrorNoPersonal" layoutX="425.0" layoutY="4.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_ErrorTipoDeContratacion" layoutX="425.0" layoutY="35.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_ErrorCategoriaDeContratacion" layoutX="425.0" layoutY="61.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_ErrorAreaAcademica" layoutX="169.0" layoutY="104.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_ErrorrRegion" layoutX="430.0" layoutY="104.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children></Pane>
       <Button layoutX="308.0" layoutY="451.0" mnemonicParsing="false" onAction="#salirDeLaVentana" style="-fx-background-color: #FF0000;" text="Cancelar" textAlignment="CENTER" textFill="WHITE" />
+      <Label fx:id="lbl_ErrorNombre" layoutX="489.0" layoutY="76.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ErrorApellidoPaterno" layoutX="489.0" layoutY="106.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ErrorApellidoMaterno" layoutX="489.0" layoutY="134.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ErrorCorreo" layoutX="489.0" layoutY="164.0" prefHeight="18.0" prefWidth="9.0" text="*" textFill="RED" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

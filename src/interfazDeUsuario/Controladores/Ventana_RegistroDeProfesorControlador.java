@@ -5,6 +5,7 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -72,10 +74,98 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     private TextField txfd_CategoriaDeContratacion;
     @FXML
     private Button btn_Aceptar;
-
+    @FXML
+    private Label lbl_ErrorUniversidad;
+    @FXML
+    private Label lbl_ErrorNoPersonal;
+    @FXML
+    private Label lbl_ErrorTipoDeContratacion;
+    @FXML
+    private Label lbl_ErrorCategoriaDeContratacion;
+    @FXML
+    private Label lbl_ErrorAreaAcademica;
+    @FXML
+    private Label lbl_ErrorrRegion;
+    @FXML
+    private Label lbl_ErrorNombre;
+    @FXML
+    private Label lbl_ErrorApellidoPaterno;
+    @FXML
+    private Label lbl_ErrorApellidoMaterno;
+    @FXML
+    private Label lbl_ErrorCorreo;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+    }
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorCorreo.setVisible(false);
+        lbl_ErrorApellidoMaterno.setVisible(false);
+        lbl_ErrorApellidoPaterno.setVisible(false);
+        lbl_ErrorNombre.setVisible(false);
+        lbl_ErrorrRegion.setVisible(false);
+        lbl_ErrorAreaAcademica.setVisible(false);
+        lbl_ErrorCategoriaDeContratacion.setVisible(false);
+        lbl_ErrorTipoDeContratacion.setVisible(false);
+        lbl_ErrorNoPersonal.setVisible(false);
+        lbl_ErrorUniversidad.setVisible(false);
+    }
+    
+    private boolean validarDatosProfesor(){
+        boolean resultado = true;
+        Profesor profesor = new Profesor();
+        resultado &= validarAuxiliar(()->profesor.setNombre(txfd_Nombre.getText()),lbl_ErrorNombre);
+        resultado &= validarAuxiliar(()->profesor.setApellidoPaterno(txfd_ApellidoPaterno.getText()),lbl_ErrorApellidoPaterno);
+        resultado &= validarAuxiliar(()->profesor.setApellidoMaterno(txfd_ApellidoMaterno.getText()),lbl_ErrorApellidoMaterno);
+        resultado &= validarAuxiliar(()->profesor.setCorreo(txfd_Correo.getText()),lbl_ErrorCorreo);
+        return resultado;
+    }
+    
+    private boolean validarDatosProfesorUV(){
+        boolean resultado = true;
+        ProfesorUV profesor = new ProfesorUV();
+        resultado &= validarAuxiliar(()->profesor.setCategoriaDeContratacion(txfd_CategoriaDeContratacion.getText()),lbl_ErrorCategoriaDeContratacion);
+        resultado &= validarAuxiliar(()->profesor.setNumeroDePersonal(txfd_NumeroDePersonal.getText()),lbl_ErrorNoPersonal);
+        resultado &= validarAuxiliar(()->profesor.setTipoDeContratacion(txfd_TipoDeContratacion.getText()),lbl_ErrorTipoDeContratacion);
+        resultado &= validarSeleccion(()->(String) cmb_AreaAcademica.getSelectionModel().getSelectedItem(),lbl_ErrorAreaAcademica);
+        resultado &= validarSeleccion(()->(String) cmb_RegionAcademica.getSelectionModel().getSelectedItem(),lbl_ErrorrRegion);
+        return resultado;
+    }
+    
+    private boolean validarDatosProfesorExterno(){
+        boolean resultado = true;
+        resultado &= validarSeleccion(()->(String) cmb_Universidad.getSelectionModel().getSelectedItem(),lbl_ErrorUniversidad);
+        return resultado; 
+    }    
+    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    private boolean validarSeleccion(Supplier<String> selector,Label errorLabel){
+        boolean resultado = true;
+        try{
+            String seleccion = selector.get();
+            if(!seleccion.isEmpty()){
+                resultado = true;
+            }
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
     }
 
     public void mostrarPanelProfesorUV() {
@@ -131,15 +221,10 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public Profesor obtenerProfesor() {
         Profesor profesor = new Profesor();
-        try {
-            profesor.setNombre(txfd_Nombre.getText());
-            profesor.setApellidoPaterno(txfd_ApellidoPaterno.getText());
-            profesor.setApellidoMaterno(txfd_ApellidoMaterno.getText());
-            profesor.setCorreo(txfd_Correo.getText());
-        } catch (IllegalArgumentException excepcion) {
-            Alertas.mostrarMensajeDatosInvalidos();
-            LOG.info(excepcion);
-        }
+        profesor.setNombre(txfd_Nombre.getText());
+        profesor.setApellidoPaterno(txfd_ApellidoPaterno.getText());
+        profesor.setApellidoMaterno(txfd_ApellidoMaterno.getText());
+        profesor.setCorreo(txfd_Correo.getText());
         return profesor;
     }
 
@@ -151,43 +236,41 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         String regionAcademica = (String) cmb_RegionAcademica.getSelectionModel().getSelectedItem();
         DAORegionAcademicaImplementacion daoRegionAcademica = new DAORegionAcademicaImplementacion();
         int idRegionAcademica = daoRegionAcademica.consultarIdDeRegionPorRegion(regionAcademica);
-        try {
-            profesorUV.setNumeroDePersonal(txfd_NumeroDePersonal.getText());
-            profesorUV.setTipoDeContratacion(txfd_TipoDeContratacion.getText());
-            profesorUV.setCategoriaDeContratacion(txfd_CategoriaDeContratacion.getText());
-            profesorUV.setIdAreaAcademica(idAreaAcademica);
-            profesorUV.setIdRegion(idRegionAcademica);
-        } catch (IllegalArgumentException excepcion) {
-            Alertas.mostrarMensajeDatosInvalidos();
-            LOG.info(excepcion);
-        }
+        profesorUV.setNumeroDePersonal(txfd_NumeroDePersonal.getText());
+        profesorUV.setTipoDeContratacion(txfd_TipoDeContratacion.getText());
+        profesorUV.setCategoriaDeContratacion(txfd_CategoriaDeContratacion.getText());
+        profesorUV.setIdAreaAcademica(idAreaAcademica);
+        profesorUV.setIdRegion(idRegionAcademica);
         return profesorUV;
     }
 
     public void registrarProfesorUV() {
-        Profesor profesor = obtenerProfesor();
-        ProfesorUV profesorUV = obtenerProfesorUV();
-        if (!profesor.validarAtributos() || !profesorUV.validarAtributos()) {
-            return;
-        }
-        if(validarInexistenciaDeProfesorUV(profesorUV)){
-            if(validarInexistenciaDeProfesor(profesor)){
-                DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-                int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
-                if(resultadoRegistro==1){
-                    int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
-                    profesorUV.setIdProfesor(idProfesor);
-                    DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
-                    daoProfesorUV.registrarProfesorUV(profesorUV);
-                    obtenerDatosCuentaProfesor(profesor,"UV");
-                    limpiarInformacionProfesor();
-                    limpiarInformacionProfesorUV();
-                }else{
-                    salirAlInicioDeSesion();
-                    Alertas.mostrarMensajeErrorEnLaConexion();
+        ocultarLabelErrores();
+        if(validarDatosProfesor()&&validarDatosProfesorUV()){
+            Profesor profesor = obtenerProfesor();
+            ProfesorUV profesorUV = obtenerProfesorUV();
+            if(validarInexistenciaDeProfesorUV(profesorUV)){
+                if(validarInexistenciaDeProfesor(profesor)){
+                    DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+                    int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
+                    if(resultadoRegistro==1){
+                        int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
+                        profesorUV.setIdProfesor(idProfesor);
+                        DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
+                        daoProfesorUV.registrarProfesorUV(profesorUV);
+                        obtenerDatosCuentaProfesor(profesor,"UV");
+                        limpiarInformacionProfesor();
+                        limpiarInformacionProfesorUV();
+                    }else{
+                        salirAlInicioDeSesion();
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                    }
                 }
             }
+        }else{
+            Alertas.mostrarMensajeDatosInvalidos();
         }
+        
     }
 
     private ProfesorExterno obtenerProfesorExterno() {
@@ -205,26 +288,28 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     }
 
     public void registrarProfesorExterno() {
-        Profesor profesor = obtenerProfesor();
-        ProfesorExterno profesorExterno = obtenerProfesorExterno();
-        if (!profesor.validarAtributos() && !profesorExterno.validarAtributos()) {
-            return;
-        }
-        if(validarInexistenciaDeProfesor(profesor)){
-            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-            int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
-            if(resultadoRegistro==1){
-                int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
-                profesorExterno.setIdProfesor(idProfesor);
-                DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
-                daoProfesorExterno.registrarProfesorExterno(profesorExterno);
-                obtenerDatosCuentaProfesor(profesor,"Externo");
-                limpiarInformacionProfesor();
-                limpiarInformacionProfesorExterno();
-            }else{
-                salirAlInicioDeSesion();
-                Alertas.mostrarMensajeErrorEnLaConexion();
+        ocultarLabelErrores();
+        if(validarDatosProfesor()&&validarDatosProfesorExterno()){
+            Profesor profesor = obtenerProfesor();
+            ProfesorExterno profesorExterno = obtenerProfesorExterno();
+            if(validarInexistenciaDeProfesor(profesor)){
+                DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+                int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
+                if(resultadoRegistro==1){
+                    int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
+                    profesorExterno.setIdProfesor(idProfesor);
+                    DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
+                    daoProfesorExterno.registrarProfesorExterno(profesorExterno);
+                    obtenerDatosCuentaProfesor(profesor,"Externo");
+                    limpiarInformacionProfesor();
+                    limpiarInformacionProfesorExterno();
+                }else{
+                    salirAlInicioDeSesion();
+                    Alertas.mostrarMensajeErrorEnLaConexion();
+                }
             }
+        }else{
+            Alertas.mostrarMensajeDatosInvalidos();
         }
     }
     

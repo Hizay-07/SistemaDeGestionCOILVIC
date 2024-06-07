@@ -3,11 +3,9 @@ package interfazDeUsuario.Controladores;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,8 +28,6 @@ import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
-
-
 public class Ventana_ModificarActividadControlador implements Initializable {
 
     private static final Logger LOG=Logger.getLogger(Ventana_ColaboracionActivaControlador.class);
@@ -48,11 +44,21 @@ public class Ventana_ModificarActividadControlador implements Initializable {
     private DatePicker dtp_FechaDeCierre;
     @FXML
     private Label lbl_NumeroDeActividad;
+    @FXML
+    private Label lbl_ErrorActividad;
+    @FXML
+    private Label lbl_ErrorDescripcion;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarDatosActividadAModificar();
         limitarFechasDePeriodoActividad();
+        ocultarLabelErrores();
+    }
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorActividad.setVisible(false);
+        lbl_ErrorDescripcion.setVisible(false);
     }
     
     private void cerrarVentana(){
@@ -146,6 +152,52 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         lbl_NumeroDeActividad.setText("Numero de actividad "+actividad.getNumeroActividad());
     }
     
+    private boolean validarDatosActividad(){
+        boolean resultado = true;
+        Actividad actividad = new Actividad();
+        resultado &= validarAuxiliar(()->actividad.setNombre(txfd_NombreDeActividad.getText()),lbl_ErrorActividad);
+        resultado &= validarAuxiliar(()->actividad.setDescripcion(txa_Descripcion.getText()),lbl_ErrorDescripcion);
+        return resultado; 
+    }    
+    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    private boolean validarFechasDeActividad(){
+        boolean resultado = true;
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaInicioActividad = dtp_FechaDeInicio.getValue();
+        LocalDate fechaCierreActividad = dtp_FechaDeCierre.getValue(); 
+        if(fechaInicioActividad.isBefore(fechaCierreActividad)&&fechaCierreActividad.isAfter(fechaActual)||fechaCierreActividad.isEqual(fechaInicioActividad)){
+            resultado = true;
+        }else{
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    private boolean validarModificacionDeCampos(){
+        boolean resultado = true;
+        ActividadAuxiliar actividadAuxiliar = ActividadAuxiliar.getInstancia();
+        Actividad actividad = obtenerDatosActividad();
+        if(actividad.getDescripcion().equals(actividadAuxiliar.getDescripcion())&&actividad.getFechaDeCierre().equals(actividadAuxiliar.getFechaDeCierre())&&
+                actividad.getFechaDeInicio().equals(actividadAuxiliar.getFechaDeInicio())&&actividad.getNombre().equals(actividadAuxiliar.getNombre())){
+            resultado = true;
+        }else{
+            resultado = false;
+        }
+        return resultado;
+    }
     
     private Actividad obtenerDatosActividad(){
         Actividad actividadAModificar = new Actividad();  
@@ -153,42 +205,42 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         LocalDate fechaCierreNueva = dtp_FechaDeCierre.getValue();
         LocalDate fechaInicioNueva = dtp_FechaDeInicio.getValue();
         LocalDate fechaActual = LocalDate.now(); 
-        if(fechaCierreNueva.isAfter(fechaActual)&&fechaCierreNueva.isAfter(fechaInicioNueva)){
-            String estadoActividad;
-            if(fechaInicioNueva.isBefore(fechaActual)||fechaInicioNueva.isEqual(fechaActual)){
-                estadoActividad = "Activa";
-            }else{
-                estadoActividad = "Inactiva";
-            }
-            try{
-                actividadAModificar.setNombre(txfd_NombreDeActividad.getText());
-                actividadAModificar.setFechaDeCierre(fechaCierreNueva.toString());
-                actividadAModificar.setFechaDeInicio(fechaInicioNueva.toString());
-                actividadAModificar.setDescripcion(txa_Descripcion.getText());
-                actividadAModificar.setIdActividad(actividadAuxiliar.getIdActividad());
-                actividadAModificar.setEstado(estadoActividad);
-            }catch(IllegalArgumentException excepcion){
-               LOG.error(excepcion);
-               Alertas.mostrarMensajeDatosInvalidos();
-               actividadAModificar = null;
-            }
-        }else{
-            Alertas.mostrarFechasInvalidas();
+        String estadoActividad;
+        if (fechaInicioNueva.isBefore(fechaActual) || fechaInicioNueva.isEqual(fechaActual)) {
+            estadoActividad = "Activa";
+        } else {
+            estadoActividad = "Inactiva";
         }
+        actividadAModificar.setNombre(txfd_NombreDeActividad.getText());
+        actividadAModificar.setFechaDeCierre(fechaCierreNueva.toString());
+        actividadAModificar.setFechaDeInicio(fechaInicioNueva.toString());
+        actividadAModificar.setDescripcion(txa_Descripcion.getText());
+        actividadAModificar.setIdActividad(actividadAuxiliar.getIdActividad());
+        actividadAModificar.setEstado(estadoActividad);
         return actividadAModificar;
     }    
     
      public void realizarModificacionDeActividad(){
-        Actividad actividadAModificar = obtenerDatosActividad();
-        DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
-        if(Objects.nonNull(actividadAModificar)){
-            int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
-            int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
-            if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
-                Alertas.mostrarMensajeErrorEnLaConexion();
-            } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {
-                Alertas.mostrarMensajeDatosModificados();
+        if(validarDatosActividad()){
+            if(validarFechasDeActividad()){
+                if(!validarModificacionDeCampos()){
+                    Actividad actividadAModificar = obtenerDatosActividad();
+                    DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
+                    int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
+                    int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
+                    if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                    } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {
+                        Alertas.mostrarMensajeDatosModificados();
+                    }
+                }else{
+                    Alertas.mostrarMensajeSinModificarDatos();
+                }
+            }else{
+                Alertas.mostrarMensajeFechaInvalida();
             }
+        }else{
+            Alertas.mostrarMensajeDatosInvalidos();
         }
     }
 }

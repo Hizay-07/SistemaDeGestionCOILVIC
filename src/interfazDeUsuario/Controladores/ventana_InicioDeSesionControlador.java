@@ -15,11 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.clases.Profesor;
-import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
@@ -34,20 +34,51 @@ public class ventana_InicioDeSesionControlador implements Initializable {
     private TextField txtf_Usuario;
     @FXML
     private PasswordField pwdf_Contrasenia;
+    @FXML
+    private Label lbl_ErrorContrasena;
+    @FXML
+    private Label lbl_ErrorUsuario;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        ocultarLabelErrores();
     }    
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorUsuario.setVisible(false);
+        lbl_ErrorContrasena.setVisible(false);
+    }
     
     private void cerrarVentana(){
         escenario = (Stage) anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
     
-    public void iniciarSesion(Usuario logger){
-        Usuario usuarioAIngresar = new Usuario();
+    private boolean validarDatosProfesorExterno(){
+        boolean resultado = true;
+         Usuario usuarioAIngresar = new Usuario();
+        resultado &= validarAuxiliar(()->usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText()),lbl_ErrorUsuario);
+        resultado &= validarAuxiliar(()->usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText()),lbl_ErrorContrasena);
+        return resultado; 
+    }    
+    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
         try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    public void iniciarSesion(Usuario logger){
+        ocultarLabelErrores();
+        if(validarDatosProfesorExterno()){
+            Usuario usuarioAIngresar = new Usuario();
             usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText());
             usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText());
             DAOUsuarioImplementacion DAOUsuario = new DAOUsuarioImplementacion();
@@ -64,11 +95,11 @@ public class ventana_InicioDeSesionControlador implements Initializable {
                 Alertas.mostrarMensajeUsuarioNoEncontrado();
             }else{
                 Alertas.mostrarMensajeErrorEnLaConexion();
-            }            
-        }catch(IllegalArgumentException excepcion){
-            LOG.error(excepcion);
+            }     
+        }else{
             Alertas.mostrarMensajeDatosInvalidos();
         }
+                   
     }
     
     public void confirmarConexionALaBaseDeDatos(){

@@ -60,10 +60,17 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
     private Button btn_Cancelar;
     @FXML
     private FileChooser filechooser_Evidencia = new FileChooser();
+    @FXML
+    private Label lbl_ErrorNombreEvidencia;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarDatosEvidencia();
+        ocultarLabelErrores();
+    }
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorNombreEvidencia.setVisible(false);
     }
     
     private void restringirTiposDeArchivo(){
@@ -77,6 +84,26 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
     private void cargarDatosEvidencia(){
         EvidenciaAuxiliar evidencia = EvidenciaAuxiliar.getEvidencia();
         txfd_NombreEvidenciaModificador.setText(evidencia.getNombre());
+    }
+    
+    private boolean validarDatosEvidencia(){
+        boolean resultado = true;
+        Evidencia evidencia = new Evidencia();
+        resultado &= validarAuxiliar(()->evidencia.setNombre(txfd_NombreEvidenciaModificador.getText()),lbl_ErrorNombreEvidencia);
+        return resultado; 
+    }    
+    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
     }
     
     public void modificarEvidencia(){
@@ -94,23 +121,25 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
         int numeroDeEvidencias = daoEvidencia.obtenerNumeroDeEvidencia(actividad.getIdActividad()) + 1;
         if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
             if(numeroDeEvidencias>=0){
-                EvidenciaAuxiliar evidenciaPasada = EvidenciaAuxiliar.getEvidencia();
-                manejadorArchivos.borrarArchivoDeEvidencia(evidenciaPasada.getRutaEvidencia());
                 String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
-                try{
+                if(validarDatosEvidencia()){
+                    EvidenciaAuxiliar evidenciaPasada = EvidenciaAuxiliar.getEvidencia();
+                    manejadorArchivos.borrarArchivoDeEvidencia(evidenciaPasada.getRutaEvidencia());
                     nuevaEvidencia.setNombre(txfd_NombreEvidenciaModificador.getText());
                     nuevaEvidencia.setRutaEvidencia(rutaArchivo);
                     nuevaEvidencia.setIdEvidencia(evidenciaPasada.getIdEvidencia());
                     int resultadoModificacion= daoEvidencia.modificarEvidencia(nuevaEvidencia);
                     switch(resultadoModificacion) {
-                        case 1 -> Alertas.mostrarMensajeDatosModificados();
+                        case 1 -> {
+                            Alertas.mostrarMensajeDatosModificados();
+                            cancelarModificacion();
+                        }
                         default -> {
                             Alertas.mostrarMensajeErrorEnLaConexion();
                             manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
                         }
                     }
-                }catch(IllegalArgumentException excepcion){
-                    LOG.error(excepcion.getCause());
+                }else{
                     manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
                     Alertas.mostrarMensajeDatosInvalidos();
                 }
@@ -118,7 +147,7 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
                 Alertas.mostrarMensajeErrorEnLaConexion();
             }
         }else{
-            Alertas.mostrarMensajeErrorAlAccederAlaCarpeta();
+            Alertas.mostrarMensajeArchivoSinSeleccionar();
         }
     }
     

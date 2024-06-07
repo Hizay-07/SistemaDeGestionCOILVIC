@@ -19,7 +19,7 @@
          </children>
       </Pane>
       <Pane fx:id="pane_ColorInferior" layoutY="223.0" prefHeight="50.0" prefWidth="618.0" style="-fx-background-color: #168394;" />
-      <Button fx:id="btn_EscogerArchivo" layoutX="504.0" layoutY="114.0" mnemonicParsing="false" style="-fx-background-color: #87CEEB;" text="Escoger archivo" textFill="WHITE" onAction="#obtenerArchivoASubir"/>
+      <Button fx:id="btn_EscogerArchivo" layoutX="504.0" layoutY="114.0" mnemonicParsing="false" onAction="#obtenerArchivoASubir" style="-fx-background-color: #87CEEB;" text="Escoger archivo" textFill="WHITE" />
       <Label fx:id="lbl_NombreEvidencia" layoutX="31.0" layoutY="84.0" text="Nombre de evidencia:">
          <font>
             <Font name="MS Reference Sans Serif" size="16.0" />
@@ -32,7 +32,12 @@
       </Label>
       <TextField fx:id="txfd_NombreEvidenciaModificador" layoutX="217.0" layoutY="82.0" prefHeight="26.0" prefWidth="279.0" promptText="Evidencia_NombreApellidoPApellidoM" />
       <Label fx:id="lbl_NombreArchivo" layoutX="217.0" layoutY="114.0" prefHeight="26.0" prefWidth="279.0" style="-fx-border-color: grey;" />
-      <Button fx:id="btn_Guardar" layoutX="411.0" layoutY="159.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: green;" text="Guardar" textFill="WHITE" onAction="#modificarEvidencia"/>
-      <Button fx:id="btn_Cancelar" layoutX="315.0" layoutY="159.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" onAction="#cancelarModificacion"/>
+      <Button fx:id="btn_Guardar" layoutX="411.0" layoutY="159.0" mnemonicParsing="false" onAction="#modificarEvidencia" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: green;" text="Guardar" textFill="WHITE" />
+      <Button fx:id="btn_Cancelar" layoutX="315.0" layoutY="159.0" mnemonicParsing="false" onAction="#cancelarModificacion" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
+      <Label fx:id="lbl_ErrorNombreEvidencia" layoutX="504.0" layoutY="79.0" text="*" textFill="#ff0400">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -70,6 +71,20 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     private TextField txfd_TipoDeContratacion;
     @FXML
     private TextField txfd_CategoriaDeContratacion;
+    @FXML
+    private Label lbl_ErrorNumeroPersonal;
+    @FXML
+    private Label lbl_ErrorTipoDeContratacion;
+    @FXML
+    private Label lbl_ErrorCategoriaDeContratacion;
+    @FXML
+    private Label lbl_ErrorNombre;
+    @FXML
+    private Label lbl_ErrorApellidoPaterno;
+    @FXML
+    private Label lbl_ErrorApellidoMaterno;
+    @FXML
+    private Label lbl_ErrorCorreo;
     
     private Stage escenario;
 
@@ -83,6 +98,17 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         llenarComboBoxUniversidad();
         cargarDatosComboBoxEstadoProfesor();
         cargarDatosProfesor(); 
+        ocultarLabelErrores();
+    }
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorCorreo.setVisible(false);
+        lbl_ErrorApellidoMaterno.setVisible(false);
+        lbl_ErrorApellidoPaterno.setVisible(false);
+        lbl_ErrorNombre.setVisible(false);
+        lbl_ErrorCategoriaDeContratacion.setVisible(false);
+        lbl_ErrorTipoDeContratacion.setVisible(false);
+        lbl_ErrorNumeroPersonal.setVisible(false);
     }
     
     private void cerrarVentana(){
@@ -248,56 +274,71 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     
     private Profesor obtenerDatosProfesorAModificar(){
         Profesor profesorAActualizar = new Profesor();
-        try{
-            profesorAActualizar.setNombre(txfd_Nombre.getText());
-            profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
-            profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
-            profesorAActualizar.setCorreo(txfd_Correo.getText());
-            profesorAActualizar.setEstado((String) cmb_EstadosProfesor.getSelectionModel().getSelectedItem());
-        }catch(IllegalArgumentException excepcion){
-            LOG.info(excepcion.getMessage());
-            Alertas.mostrarMensajeDatosInvalidos();
-            profesorAActualizar = null;
-        }
+        profesorAActualizar.setNombre(txfd_Nombre.getText());
+        profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
+        profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
+        profesorAActualizar.setCorreo(txfd_Correo.getText());
+        profesorAActualizar.setEstado((String) cmb_EstadosProfesor.getSelectionModel().getSelectedItem());
         return profesorAActualizar;
     }
     
     private ProfesorUV obtenerDatosProfesorUVAModificar(){
         ProfesorUV profesorAActualizar = new ProfesorUV();
-        try{
-            profesorAActualizar.setCategoriaDeContratacion(txfd_CategoriaDeContratacion.getText());
-            profesorAActualizar.setNumeroDePersonal(txfd_NumeroDePersonal.getText());
-            profesorAActualizar.setTipoDeContratacion(txfd_TipoDeContratacion.getText());
-            String areaAcademica = (String) cmb_AreaAcademica.getSelectionModel().getSelectedItem();
-            DAOAreaAcademicaImplementacion daoAreaAcademica = new DAOAreaAcademicaImplementacion();
-            int idAreaAcademica = daoAreaAcademica.consultarIdDeAreaAcademicaPorArea(areaAcademica);
-            String regionAcademica = (String) cmb_RegionAcademica.getSelectionModel().getSelectedItem();
-            DAORegionAcademicaImplementacion daoRegionAcademica = new DAORegionAcademicaImplementacion();
-            int idRegionAcademica = daoRegionAcademica.consultarIdDeRegionPorRegion(regionAcademica);
-            profesorAActualizar.setIdAreaAcademica(idAreaAcademica);
-            profesorAActualizar.setIdRegion(idRegionAcademica);
-        }catch(IllegalArgumentException | NullPointerException excepcion){
-            LOG.info(excepcion.getMessage());
-            Alertas.mostrarMensajeDatosInvalidos();
-            profesorAActualizar = null;
-        }
+        profesorAActualizar.setCategoriaDeContratacion(txfd_CategoriaDeContratacion.getText());
+        profesorAActualizar.setNumeroDePersonal(txfd_NumeroDePersonal.getText());
+        profesorAActualizar.setTipoDeContratacion(txfd_TipoDeContratacion.getText());
+        String areaAcademica = (String) cmb_AreaAcademica.getSelectionModel().getSelectedItem();
+        DAOAreaAcademicaImplementacion daoAreaAcademica = new DAOAreaAcademicaImplementacion();
+        int idAreaAcademica = daoAreaAcademica.consultarIdDeAreaAcademicaPorArea(areaAcademica);
+        String regionAcademica = (String) cmb_RegionAcademica.getSelectionModel().getSelectedItem();
+        DAORegionAcademicaImplementacion daoRegionAcademica = new DAORegionAcademicaImplementacion();
+        int idRegionAcademica = daoRegionAcademica.consultarIdDeRegionPorRegion(regionAcademica);
+        profesorAActualizar.setIdAreaAcademica(idAreaAcademica);
+        profesorAActualizar.setIdRegion(idRegionAcademica);
         return profesorAActualizar;
     }
     
     private ProfesorExterno obtenerDatosProfesorExternoAModificar(){
         ProfesorExterno profesorExternoAActualizar = new ProfesorExterno();
         DAORepresentanteInstitucionalImplementacion daoProfesorExterno = new DAORepresentanteInstitucionalImplementacion();
-        try{
-            String universidad = (String) cmb_Universidad.getSelectionModel().getSelectedItem();
-            int idUniversidad = daoProfesorExterno.consultarIdRepresentanteInstitucionalPorUniversidad(universidad);
-            profesorExternoAActualizar.setIdRepresentanteInstitucional(idUniversidad);
-        }catch(IllegalArgumentException | NullPointerException excepcion){
-            LOG.info(excepcion.getMessage());
-            Alertas.mostrarMensajeDatosInvalidos();
-            profesorExternoAActualizar = null;
-        }
+        String universidad = (String) cmb_Universidad.getSelectionModel().getSelectedItem();
+        int idUniversidad = daoProfesorExterno.consultarIdRepresentanteInstitucionalPorUniversidad(universidad);
+        profesorExternoAActualizar.setIdRepresentanteInstitucional(idUniversidad);
         return profesorExternoAActualizar; 
     }
+    
+    private boolean validarDatosProfesor(){
+        boolean resultado = true;
+        Profesor profesor = new Profesor();
+        resultado &= validarAuxiliar(()->profesor.setNombre(txfd_Nombre.getText()),lbl_ErrorNombre);
+        resultado &= validarAuxiliar(()->profesor.setApellidoPaterno(txfd_ApellidoPaterno.getText()),lbl_ErrorApellidoPaterno);
+        resultado &= validarAuxiliar(()->profesor.setApellidoMaterno(txfd_ApellidoMaterno.getText()),lbl_ErrorApellidoMaterno);
+        resultado &= validarAuxiliar(()->profesor.setCorreo(txfd_Correo.getText()),lbl_ErrorCorreo);
+        return resultado;
+    }
+    
+    private boolean validarDatosProfesorUV(){
+        boolean resultado = true;
+        ProfesorUV profesor = new ProfesorUV();
+        resultado &= validarAuxiliar(()->profesor.setCategoriaDeContratacion(txfd_CategoriaDeContratacion.getText()),lbl_ErrorCategoriaDeContratacion);
+        resultado &= validarAuxiliar(()->profesor.setNumeroDePersonal(txfd_NumeroDePersonal.getText()),lbl_ErrorNumeroPersonal);
+        resultado &= validarAuxiliar(()->profesor.setTipoDeContratacion(txfd_TipoDeContratacion.getText()),lbl_ErrorTipoDeContratacion);
+        return resultado;
+    }
+    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
     
     private boolean validarCamposModificadosProfesorUV(Profesor profesor,ProfesorUV profesorUVViejo,ProfesorUV profesorUVNuevo){
         boolean resultado;
@@ -338,58 +379,65 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     }
     
     public void validarDuplicidadDeCamposNuevosProfesorUV(ProfesorUV profesorUv){
-        Profesor profesorNuevo = obtenerDatosProfesorAModificar();
-        ProfesorUV profesorUVNuevo = obtenerDatosProfesorUVAModificar();
-        String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        DAOProfesorUVImplementacion daoProfesorUv = new DAOProfesorUVImplementacion();
-        int resultadoCoincidenciasCorreo=0;
-        int resultadoCoincidenciasNumeroPersonal=0;
-        if(Objects.nonNull(profesorNuevo)&&Objects.nonNull(profesorUVNuevo)){
-            if(validarCamposModificadosProfesorUV(profesorNuevo,profesorUv,profesorUVNuevo)){
+        ocultarLabelErrores();
+        if(validarDatosProfesor()&&validarDatosProfesorUV()){
+            Profesor profesorNuevo = obtenerDatosProfesorAModificar();
+            ProfesorUV profesorUVNuevo = obtenerDatosProfesorUVAModificar();
+            String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            DAOProfesorUVImplementacion daoProfesorUv = new DAOProfesorUVImplementacion();
+            int resultadoCoincidenciasCorreo = 0;
+            int resultadoCoincidenciasNumeroPersonal = 0;
+            if (validarCamposModificadosProfesorUV(profesorNuevo, profesorUv, profesorUVNuevo)) {
                 profesorUVNuevo.setIdProfesorUV(profesorUv.getIdProfesorUV());
                 String numeroDePersonal = profesorUVNuevo.getNumeroDePersonal();
-                if(!numeroDePersonal.equals(profesorUv.getNumeroDePersonal())){
-                    resultadoCoincidenciasNumeroPersonal = daoProfesorUv.validarInexistenciaProfesorUV(numeroDePersonal); 
-                }if(!correoProfesor.equals(profesorNuevo.getCorreo())){
+                if (!numeroDePersonal.equals(profesorUv.getNumeroDePersonal())) {
+                    resultadoCoincidenciasNumeroPersonal = daoProfesorUv.validarInexistenciaProfesorUV(numeroDePersonal);
+                }
+                if (!correoProfesor.equals(profesorNuevo.getCorreo())) {
                     resultadoCoincidenciasCorreo = daoProfesor.validarDuplicidadDeCorreo(profesorNuevo.getCorreo());
                 }
-                if(resultadoCoincidenciasNumeroPersonal==0&&resultadoCoincidenciasCorreo==0){
-                    actualizarPerfilProfesorUv(profesorNuevo,profesorUVNuevo);
-                }else if(resultadoCoincidenciasNumeroPersonal>=1||resultadoCoincidenciasCorreo>=1){
+                if (resultadoCoincidenciasNumeroPersonal == 0 && resultadoCoincidenciasCorreo == 0) {
+                    actualizarPerfilProfesorUv(profesorNuevo, profesorUVNuevo);
+                } else if (resultadoCoincidenciasNumeroPersonal >= 1 || resultadoCoincidenciasCorreo >= 1) {
                     Alertas.mostrarMensajeDatosDuplicados();
-                }else{
+                } else {
                     Alertas.mostrarMensajeErrorEnLaConexion();
                 }
-            }else{
+            } else {
                 Alertas.mostrarMensajeSinModificarDatos();
             }
+        }else{
+            Alertas.mostrarMensajeDatosInvalidos();
         }
     }
     
     public void validarDuplicidadDeCamposNuevosProfesorExterno(ProfesorExterno profesorExternoViejo){
-        Profesor profesorNuevo = obtenerDatosProfesorAModificar();
-        ProfesorExterno profesorExternoNuevo = obtenerDatosProfesorExternoAModificar();
-        String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        DAORepresentanteInstitucionalImplementacion daoProfesorUv = new DAORepresentanteInstitucionalImplementacion();
-        int resultadoCoincidenciasCorreo=0;
-        if(Objects.nonNull(profesorExternoNuevo)){
-            if(validarCamposModificadosProfesorExterno(profesorNuevo,profesorExternoViejo,profesorExternoNuevo)){
+        ocultarLabelErrores();
+        if(validarDatosProfesor()){
+            Profesor profesorNuevo = obtenerDatosProfesorAModificar();
+            ProfesorExterno profesorExternoNuevo = obtenerDatosProfesorExternoAModificar();
+            String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            DAORepresentanteInstitucionalImplementacion daoProfesorUv = new DAORepresentanteInstitucionalImplementacion();
+            int resultadoCoincidenciasCorreo=0;
+            if (validarCamposModificadosProfesorExterno(profesorNuevo, profesorExternoViejo, profesorExternoNuevo)) {
                 profesorExternoNuevo.setIdProfesorExterno(profesorExternoViejo.getIdProfesorExterno());
-                if(!correoProfesor.equals(profesorNuevo.getCorreo())){
-                    resultadoCoincidenciasCorreo =  daoProfesor.validarDuplicidadDeCorreo(correoProfesor);
+                if (!correoProfesor.equals(profesorNuevo.getCorreo())) {
+                    resultadoCoincidenciasCorreo = daoProfesor.validarDuplicidadDeCorreo(correoProfesor);
                 }
-                if(resultadoCoincidenciasCorreo==0){
-                    actualizarPerfilProfesorExterno(profesorNuevo,profesorExternoNuevo);
-                }else if(resultadoCoincidenciasCorreo>=1){
+                if (resultadoCoincidenciasCorreo == 0) {
+                    actualizarPerfilProfesorExterno(profesorNuevo, profesorExternoNuevo);
+                } else if (resultadoCoincidenciasCorreo >= 1) {
                     Alertas.mostrarMensajeDatosDuplicados();
-                }else{
+                } else {
                     Alertas.mostrarMensajeErrorEnLaConexion();
                 }
             }else{
                 Alertas.mostrarMensajeSinModificarDatos();
-            }    
+            }  
+        }else{
+            Alertas.mostrarMensajeDatosInvalidos();
         }
     }
     

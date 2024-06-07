@@ -4,7 +4,6 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -42,12 +41,25 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     private TextField txfd_Contacto;
     @FXML
     private ComboBox<String> cmb_Pais;
+    @FXML
+    private Label lbl_ErrorNombreInstitucion;
+    @FXML
+    private Label lbl_ErrorClaveInstitucional;
+    @FXML
+    private Label lbl_ErrorContacto;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboBoxPais();
         cargarDatosRepresentanteInstitucional();
+        ocultarLabelErrores();
     }    
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorNombreInstitucion.setVisible(false);
+        lbl_ErrorClaveInstitucional.setVisible(false);
+        lbl_ErrorContacto.setVisible(false);
+    }
     
     private void cargarDatosRepresentanteInstitucional(){
         RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
@@ -68,21 +80,38 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         cmb_Pais.setItems(paisesComboBox);
     }
     
+    public boolean validarDatosRepresentanteInstitucional(){
+        boolean resultado = true;
+        RepresentanteInstitucional representante = new RepresentanteInstitucional();
+        resultado &= validarAuxiliar(()->representante.setNombreInstitucion(txfd_NombreInstitucion.getText()),lbl_ErrorNombreInstitucion);
+        resultado &= validarAuxiliar(()->representante.setClaveInstitucional(txfd_ClaveInstitucional.getText().toUpperCase()),lbl_ErrorClaveInstitucional);
+        resultado &= validarAuxiliar(()->representante.setContacto(txfd_Contacto.getText()),lbl_ErrorContacto);
+        return resultado;
+    }
+    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
     private RepresentanteInstitucional obtenerDatosRepresentanteInstitucional(){
         RepresentanteAuxiliar representante = RepresentanteAuxiliar.getInstancia();
         RepresentanteInstitucional representanteAModificar = new RepresentanteInstitucional();
         Pais paisSeleccionado = new Pais();
-        try{
-            representanteAModificar.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
-            representanteAModificar.setClaveInstitucional(txfd_ClaveInstitucional.getText());
-            representanteAModificar.setNombreInstitucion(txfd_NombreInstitucion.getText());
-            representanteAModificar.setContacto(txfd_Contacto.getText());
-            paisSeleccionado.setNombrePais((String) cmb_Pais.getSelectionModel().getSelectedItem());
-            representanteAModificar.setPais(paisSeleccionado);
-        }catch(IllegalArgumentException excepcion){
-            LOG.error(excepcion.getCause());
-            paisSeleccionado = null;
-        }
+        representanteAModificar.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
+        representanteAModificar.setClaveInstitucional(txfd_ClaveInstitucional.getText());
+        representanteAModificar.setNombreInstitucion(txfd_NombreInstitucion.getText());
+        representanteAModificar.setContacto(txfd_Contacto.getText());
+        paisSeleccionado.setNombrePais((String) cmb_Pais.getSelectionModel().getSelectedItem());
+        representanteAModificar.setPais(paisSeleccionado);
         return representanteAModificar;
     }
     
@@ -150,9 +179,10 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     }
     
     public void modificarDatosRepresentanteInstituciona(){
-        RepresentanteInstitucional representante =  obtenerDatosRepresentanteInstitucional();
-        String nombreRepresentante = representante.getNombreInstitucion().trim().replaceAll("\\s+", "").toLowerCase();
-        if(!Objects.isNull(representante)){
+        ocultarLabelErrores();
+        if(validarDatosRepresentanteInstitucional()){
+            RepresentanteInstitucional representante =  obtenerDatosRepresentanteInstitucional();
+            String nombreRepresentante = representante.getNombreInstitucion().trim().replaceAll("\\s+", "").toLowerCase();
             if(nombreRepresentante.equals("uv")||nombreRepresentante.equals("universidadveracruzana")){
                 Alertas.mostrarMensajeUniversidadVeracruzana();
             }else{
