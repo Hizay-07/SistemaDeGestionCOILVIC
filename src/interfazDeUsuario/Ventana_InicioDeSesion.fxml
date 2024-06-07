@@ -56,5 +56,15 @@
             </Label>
          </children>
       </VBox>
+      <Label fx:id="lbl_ErrorUsuario" layoutX="661.0" layoutY="223.0" text="*" textFill="RED" visible="false">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ErrorContrasena" layoutX="661.0" layoutY="303.0" text="*" textFill="RED" visible="false">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -6,12 +6,14 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -27,15 +29,18 @@ import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
+    
     private static final Logger LOG=Logger.getLogger(Ventana_EvaluacionDePropuestaControlador.class);    
     @FXML
     private AnchorPane anchor_EvaluacionDePropuesta;
-
     @FXML
     private ComboBox<String> cmb_EvaluarPropuesta;
-
     @FXML
     private TextArea txa_Justificacion;
+    @FXML
+    private Label lbl_ErrorJustificacion;
+    @FXML
+    private Label lbl_ErrorEvaluacionPropuesta;
     private Stage stage_ventana;
     private int idPropuestaColaboracion;
     
@@ -56,8 +61,7 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
-        
-        try{
+        if(validarDatosEvaluacion()){
             evaluacionPropuesta.setIdUsuario(idUsuario);
             evaluacionPropuesta.setJustificacion(txa_Justificacion.getText());
             String evaluacion=(String) cmb_EvaluarPropuesta.getSelectionModel().getSelectedItem();
@@ -73,11 +77,46 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
                 daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString());
             }            
             salirDeLaVentana();
-        }catch(IllegalArgumentException excepcion){     
+        }else{
             Alertas.mostrarMensajeDatosInvalidos();
-            LOG.info(excepcion);
         }
     }
+    
+     private boolean validarDatosEvaluacion(){
+        boolean resultado = true;
+        EvaluacionPropuesta evaluacionPropuesta = new EvaluacionPropuesta();
+        resultado &= validarAuxiliar(()->evaluacionPropuesta.setJustificacion(txa_Justificacion.getText()),lbl_ErrorJustificacion);
+        resultado &= validarSeleccion(()->(String) cmb_EvaluarPropuesta.getSelectionModel().getSelectedItem(),lbl_ErrorEvaluacionPropuesta);
+        return resultado; 
+    }    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    private boolean validarSeleccion(Supplier<String> selector,Label errorLabel){
+        boolean resultado = true;
+        try{
+            String seleccion = selector.get();
+            if(!seleccion.isEmpty()){
+                resultado = true;
+            }
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
     
     private String obtenerFechaActual(){
         LocalDate fechaActual = LocalDate.now();                

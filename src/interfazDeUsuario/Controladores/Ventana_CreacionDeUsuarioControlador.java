@@ -5,6 +5,7 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -34,10 +36,20 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     private ComboBox cmb_TipoDeUsuario;
     @FXML
     private AnchorPane anchor_Ventana;
+    @FXML
+    private Label lbl_ErrorNombreDeUsuario;
+    @FXML 
+    private Label lbl_ErrorSeleccion;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboboxTipoDeUsuario();
+        ocultarLabelErrores();
+    }
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorNombreDeUsuario.setVisible(false);
+        lbl_ErrorSeleccion.setVisible(false);
     }
     
     private void cerrarVentana(){
@@ -111,6 +123,41 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         }
         
         return usuario;
+    }
+    
+    private boolean validarDatosUsuario(){
+        boolean resultado = true;
+        Usuario usuario = new Usuario();
+        resultado &= validarAuxiliar(()->usuario.setNombreUsuario(txfd_NombreDeUsuario.getText()),lbl_ErrorNombreDeUsuario);
+        resultado &= validarSeleccion(()->(String) cmb_TipoDeUsuario.getSelectionModel().getSelectedItem(),lbl_ErrorSeleccion);
+        return resultado; 
+    }    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    private boolean validarSeleccion(Supplier<String> selector,Label errorLabel){
+        boolean resultado = true;
+        try{
+            String seleccion = selector.get();
+            if(!seleccion.isEmpty()){
+                resultado = true;
+            }
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
     }
     
     private void limpiarInformacion(){
@@ -192,18 +239,22 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     
     
     public void registrarUsuario() {
-        Usuario usuarioNuevo = crearUsuario();
-        try{
-             if (usuarioNuevo.getTipoDeUsuario().equals("Administrativo")) {
-            registrarUsuarioAdministrativo(usuarioNuevo);
-            } else if (usuarioNuevo.getTipoDeUsuario().equals("Profesor")) {
-                registrarUsuarioProfesor(usuarioNuevo);
+        ocultarLabelErrores();
+        if(validarDatosUsuario()){
+            Usuario usuarioNuevo = crearUsuario();
+            try{
+                 if (usuarioNuevo.getTipoDeUsuario().equals("Administrativo")) {
+                registrarUsuarioAdministrativo(usuarioNuevo);
+                } else if (usuarioNuevo.getTipoDeUsuario().equals("Profesor")) {
+                    registrarUsuarioProfesor(usuarioNuevo);
+                }
+            }catch(NullPointerException excepcion){
+                LOG.error(excepcion.getMessage());
+                Alertas.mostrarMensajeDatosInvalidos();
             }
-        }catch(NullPointerException excepcion){
-            LOG.error(excepcion.getMessage());
+            limpiarInformacion();
+        }else{
             Alertas.mostrarMensajeDatosInvalidos();
         }
-
-        limpiarInformacion();
     }
 }

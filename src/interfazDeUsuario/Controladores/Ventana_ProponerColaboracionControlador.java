@@ -12,12 +12,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.function.Supplier;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
@@ -56,7 +58,21 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     @FXML
     private Button btn_Cancelar;
     @FXML
-    private AnchorPane anchor_VentanaProponerColaboracion;    
+    private AnchorPane anchor_VentanaProponerColaboracion;
+    @FXML
+    private Label lbl_ErrorFechaInicio;
+    @FXML
+    private Label lbl_ErrorFechaCierre;
+    @FXML
+    private Label lbl_ErrorExperienciaEducativa;
+    @FXML
+    private Label lbl_ErrorProgramaEducativo;
+    @FXML
+    private Label lbl_ErrorObjetivoGeneral;
+    @FXML
+    private Label lbl_ErrorIdioma;
+    @FXML
+    private Label lbl_ErrorTipoDeColaboracion;
     private Stage stage_ventana;   
     
     @Override
@@ -100,7 +116,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     }
     
     public void registrarPropuestaColaboracion(){
-        try{
+        if(validarDatosEvaluacion()){
             LocalDate fechaInicio=dtp_FechaInicio.getValue();
             LocalDate fechaCierre=dtp_FechaCierre.getValue();
             if(validarFechas(fechaInicio,fechaCierre)){
@@ -128,11 +144,50 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
                 }                                    
             }else{
                 Alertas.mostrarFechasInvalidas();
-            }       
-        }catch(NullPointerException | IllegalArgumentException excepcion){
-            Alertas.mostrarMensajeDatosInvalidos();  
-            LOG.info(excepcion);
+            }     
+        }else{
+            Alertas.mostrarMensajeDatosInvalidos(); 
         }                 
+    }
+    
+    private boolean validarDatosEvaluacion(){
+        boolean resultado = true;
+        PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
+        resultado &= validarAuxiliar(()-> propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText()),lbl_ErrorExperienciaEducativa);
+        resultado &= validarAuxiliar(()->propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText()),lbl_ErrorProgramaEducativo);
+        resultado &= validarAuxiliar(()->propuestaColaboracion.setObjetivo(txfd_ObjetivoGeneral.getText()),lbl_ErrorObjetivoGeneral);
+        resultado &= validarSeleccion(()->(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem(),lbl_ErrorTipoDeColaboracion);
+        resultado &= validarSeleccion(()->(String) cmb_Idiomas.getSelectionModel().getSelectedItem(),lbl_ErrorIdioma);
+        resultado &= validarAuxiliar(()-> propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString()),lbl_ErrorFechaInicio);
+        resultado &= validarAuxiliar(()->propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString()),lbl_ErrorFechaCierre);
+        return resultado; 
+    }    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    private boolean validarSeleccion(Supplier<String> selector,Label errorLabel){
+        boolean resultado = true;
+        try{
+            String seleccion = selector.get();
+            if(!seleccion.isEmpty()){
+                resultado = true;
+            }
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
     }
     
     public void registrarEmisionPropuesta(int idPropuesta){

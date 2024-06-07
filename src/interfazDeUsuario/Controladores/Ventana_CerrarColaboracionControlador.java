@@ -82,7 +82,6 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
             lbl_NombreDeArchivo.setText(archivoSeleccionado.getName());
         }catch(NullPointerException excepcion){
             LOG.error(excepcion.getCause());
-            Alertas.mostrarMensajeArchivoSinSeleccionar();
         }
     }  
     

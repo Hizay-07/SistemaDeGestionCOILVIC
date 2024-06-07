@@ -11,11 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.ActividadAuxiliar;
@@ -44,11 +42,17 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
     private TextField txfd_NombreEvidencia;
     @FXML
     private FileChooser filechooser_Evidencia = new FileChooser();
+    @FXML
+    private Label lbl_ErrorNombreEvidencia;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-   
+        ocultarLabelErrores();
     } 
+    
+    private void ocultarLabelErrores(){
+        lbl_ErrorNombreEvidencia.setVisible(false);
+    }
     
     private void restringirTiposDeArchivo(){
         FileChooser.ExtensionFilter archivosWord2007 = new FileChooser.ExtensionFilter("Archivos de Word 2007 (.doc)", "*.doc");
@@ -57,6 +61,27 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         FileChooser.ExtensionFilter archivosExcel = new FileChooser.ExtensionFilter("Archivos de Excel (.xlsx)", "*.xlsx");
         filechooser_Evidencia.getExtensionFilters().addAll(archivosWord2007,archivosWordActual,archivosPDF,archivosExcel);
     }
+    
+    private boolean validarDatosEvidencia(){
+        boolean resultado = true;
+        Evidencia evidencia = new Evidencia();
+        resultado &= validarAuxiliar(()->evidencia.setNombre(txfd_NombreEvidencia.getText()),lbl_ErrorNombreEvidencia);
+        return resultado; 
+    }    
+    
+    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+        boolean resultado = true;
+        try{
+            setter.run();
+            resultado = true;
+        }catch(IllegalArgumentException | NullPointerException excepcion){
+            LOG.info(excepcion);
+            errorLabel.setVisible(true);
+            resultado = false;
+        }
+        return resultado;
+    }
+    
     public void obtenerArchivoASubir(){
         setArchivoASubir(null);
         lbl_NombreArchivo.setText("Seleccione un archivo");
@@ -68,7 +93,6 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
             lbl_NombreArchivo.setText(archivoSeleccionado.getName());
         }catch(NullPointerException excepcion){
             LOG.error(excepcion.getCause());
-            Alertas.mostrarMensajeArchivoSinSeleccionar();
         }
     }
     
@@ -86,31 +110,33 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         boolean resultadoAccesoACarpeta = manejadorArchivos.crearCarpetaDeActividad(actividad, colaboracion);
         int numeroDeEvidencias = daoEvidencia.obtenerNumeroDeEvidencia(actividad.getIdActividad()) + 1;
         if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
-            if(numeroDeEvidencias>=0){
-                String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
-                try{
-                    nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
-                    nuevaEvidencia.setRutaEvidencia(rutaArchivo);
-                    nuevaEvidencia.setIdActividad(actividad.getIdActividad());
-                    int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
-                    switch(resultadoInsercion) {
-                        case 1 -> Alertas.mostrarMensajeDatosIngresados();
-                        case 0 -> Alertas.mostrarMensajeDatosDuplicados();
-                        default -> {
-                            Alertas.mostrarMensajeErrorEnLaConexion();
-                            manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+            String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
+            if(validarDatosEvidencia()){
+                if(numeroDeEvidencias>=0){
+                        nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
+                        nuevaEvidencia.setRutaEvidencia(rutaArchivo);
+                        nuevaEvidencia.setIdActividad(actividad.getIdActividad());
+                        int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
+                        switch(resultadoInsercion) {
+                            case 1 -> {
+                                Alertas.mostrarMensajeDatosIngresados();
+                                cancelarRegistro();
+                            }
+                            case 0 -> Alertas.mostrarMensajeDatosDuplicados();
+                            default -> {
+                                Alertas.mostrarMensajeErrorEnLaConexion();
+                                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                            }
                         }
-                    }
-                }catch(IllegalArgumentException excepcion){
-                    LOG.error(excepcion.getCause());
-                    manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                    Alertas.mostrarMensajeDatosInvalidos();
+                }else{
+                    Alertas.mostrarMensajeErrorEnLaConexion();
                 }
             }else{
-                Alertas.mostrarMensajeErrorEnLaConexion();
+                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                Alertas.mostrarMensajeDatosInvalidos();
             }
         }else{
-            Alertas.mostrarMensajeErrorAlAccederAlaCarpeta();
+            Alertas.mostrarMensajeArchivoSinSeleccionar();
         }
     }
     

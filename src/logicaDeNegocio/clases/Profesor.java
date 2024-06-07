@@ -47,8 +47,10 @@ public class Profesor{
     }
 
     public void setApellidoMaterno(String apellidoMaterno)throws IllegalArgumentException {
-        if(apellidoMaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoMaterno.trim())&&apellidoMaterno.trim().length()<=45){
+        if(Pattern.matches(SOLO_LETRAS_PATTERN, apellidoMaterno.trim())&&apellidoMaterno.trim().length()<=45){
             this.apellidoMaterno = apellidoMaterno.trim().replaceAll("\\s+", " ");
+        }else if(apellidoMaterno.isEmpty()){
+            this.apellidoMaterno = apellidoMaterno;
         }else{
             throw new IllegalArgumentException();
         }

@@ -60,5 +60,20 @@
          </font>
       </Label>
       <TextField fx:id="txfd_NumeroDeActividad" layoutX="220.0" layoutY="75.0" prefHeight="26.0" prefWidth="238.0" />
+      <Label fx:id="lbl_ErrorNumeroActividad" layoutX="466.0" layoutY="73.0" text="*" textFill="RED">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ErrorNombreActividad" layoutX="466.0" layoutY="105.0" text="*" textFill="RED">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ErrorDescripcionActividad" layoutX="466.0" layoutY="268.0" text="*" textFill="RED">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
