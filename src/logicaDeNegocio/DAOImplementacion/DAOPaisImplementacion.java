@@ -20,20 +20,6 @@ public class DAOPaisImplementacion implements PaisInterface {
 
     
     @Override
-    public int registrarPais(Pais paisAIngresar){
-        int resultadoRegistro;        
-        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO pais(nombrePais) values (?)")){
-            sentencia.setString(1, paisAIngresar.getNombrePais());
-            resultadoRegistro = sentencia.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getMessage());
-            resultadoRegistro = -1;
-        }        
-        return resultadoRegistro;
-    }
-    
-    @Override
     public int obtenerNumeroDePais(Pais paisAConsultar){
         int paisObtenido=0;   
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();

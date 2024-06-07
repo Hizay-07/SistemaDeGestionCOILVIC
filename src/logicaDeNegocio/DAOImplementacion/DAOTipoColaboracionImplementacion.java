@@ -14,20 +14,7 @@ import org.apache.log4j.Logger;
 public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOTipoColaboracionImplementacion.class);
-
-    @Override
-    public int registrarTipoColaboracion(TipoColaboracion tipoColaboracion) {
-        int numeroFilasAfectadas=0;
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("INSERT INTO TipoColaboracion(tipo) VALUES (?)")){
-            declaracion.setString(1, tipoColaboracion.getTipo());
-            numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion);
-        }
-        return numeroFilasAfectadas;               
-    }
-
+    
     @Override
     public List<TipoColaboracion> consultarTiposDeColaboracion() {
         ResultSet resultado;

@@ -27,46 +27,16 @@ public class pruebaDAOPaisImplementacion {
     }
     
     @Test
-    public void pruebaRegistrarPaisExitosa(){
-        Pais paisPrueba = new Pais();
-        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        paisPrueba.setNombrePais(EnumPais.Ecuador.toString());       
-        int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);        
-        assertEquals(1,resultadoInsercion);        
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void pruebaRegistrarPaisFallida() {
-        Pais paisPrueba = new Pais();
-        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion();
-        paisPrueba.setNombrePais(null);
-        try {
-            int resultadoInsercion = pruebaMetodo.registrarPais(paisPrueba);
-            assertEquals(-1, resultadoInsercion);
-        } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException|| e instanceof NullPointerException);
-        }
-    }    
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void pruebaFallidaRegistrarPais() {
-        DAOPaisImplementacion dao = new DAOPaisImplementacion();
-        Pais pais = new Pais();
-        pais.setNombrePais("Corea_Sur");
-        int resultado = dao.registrarPais(pais);
-    }
-    
-    @Test
     public void pruebaObtenerNumeroDePaisExitosa(){
         Pais paisPrueba = new Pais();
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        paisPrueba.setNombrePais(EnumPais.Colombia.toString());       
+        paisPrueba.setNombrePais("México");       
         int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
-        assertEquals(2,resultadoConsulta);
+        assertEquals(1,resultadoConsulta);
     }
     
     @Test (expected = AssertionError.class)
-    public void pruebaFlujoFallidoObtenerNumeroDePaisExitoso(){
+    public void pruebaObtenerNumeroDePaisFallida(){
         Pais paisPrueba = new Pais();
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion();         
         int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
@@ -74,14 +44,14 @@ public class pruebaDAOPaisImplementacion {
     }
     
     @Test
-    public void pruebaConsultarPaisesExitoso() {
+    public void pruebaConsultarPaisesExitosa() {
         DAOPaisImplementacion dao = new DAOPaisImplementacion();
         List<Pais> paises = dao.consultarPaises();
         assertEquals(5, paises.size());
     }
     
     @Test(expected = AssertionError.class)
-    public void pruebaFallidaConsultarPaisesExitosa() {
+    public void pruebaConsultarPaisesFallida() {
         DAOPaisImplementacion dao = new DAOPaisImplementacion();
         List<Pais> paises = dao.consultarPaises();
         assertEquals(4, paises.size());

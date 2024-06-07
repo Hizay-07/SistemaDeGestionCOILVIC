@@ -10,6 +10,10 @@ public interface PeticionColaboracionInterface {
     int aceptarColaboracion(int idColaboracion, String nuevoEstado);
     int rechazarColaboracion(int idColaboracion, String nuevoEstado);
     public int consultarIdPropuestaDeColaboracionPorIdProfesor(int idProfesor);
+    public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracion(int idPropuestaColaboracion);
     public int aceptarPeticionColaboracion(int idPropuestaColaboracion,int idProfesor);
     public int rechazarPeticionColaboracion(int idPropuestaColaboracion,int idProfesor);    
+    public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(int idPropuestaColaboracion);
+    public int revisarPrecondicionEvaluarPeticionesPorIdProfesor(int idProfesor);
+    public int cambiarEstadoPeticionesRegistradasPorIdPropuesta(int idPropuestaColaboracion);
 }

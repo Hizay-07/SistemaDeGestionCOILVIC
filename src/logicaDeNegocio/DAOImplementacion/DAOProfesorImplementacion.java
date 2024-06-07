@@ -131,6 +131,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
     }
     
 
+    @Override
     public Profesor consultarProfesorPorId(int idProfesor){
         ResultSet resultado;
         Profesor profesor=new Profesor();
@@ -215,6 +216,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         return coincidenciasEncontradas;
    }
    
+   //No se hacen pruebas de esto
    @Override
    public int eliminarCuentaAsignadaAProfesor(String correoProfesor){
         int resultadoModificacion;
@@ -228,7 +230,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
        }
        return resultadoModificacion;
    }
-   
+    
+   //No se hacen pruebas de esto
    @Override 
    public int eliminarProfesor(String correo){
        int numeroFilasAfectadas = 0;

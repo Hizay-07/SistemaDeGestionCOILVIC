@@ -25,34 +25,40 @@ public class PruebaDAOAreaAcademicaImplementacion {
     }
     
     @Test
-    public void pruebaRegistrarAreaAcademicaExitosa() {
-        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
-        AreaAcademica areaAcademica = new AreaAcademica();
-        areaAcademica.setArea("Ingeniería");
-        int resultado = dao.registrarAreaAcademica(areaAcademica);
-        assertEquals(1, resultado);
-    }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void pruebaFallidaRegistrarAreaAcademica() {
-        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
-        AreaAcademica areaAcademica = new AreaAcademica();
-        areaAcademica.setArea("Artes_Plásticas2");
-        int resultado = dao.registrarAreaAcademica(areaAcademica);
-    }    
-    
-    @Test
     public void pruebaConsultarAreasAcademicasExitosa() {
         DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
-        List<AreaAcademica> areasAcademicas = dao.consultarAreasAcademicas();
-        assertFalse(areasAcademicas.isEmpty());
+        List<AreaAcademica> areasAcademicasEsperadas=new ArrayList<>();
+        AreaAcademica areaArtes=new AreaAcademica();
+        areaArtes.setArea("Artes");
+        AreaAcademica areaCienciasSalud=new AreaAcademica();
+        areaCienciasSalud.setArea("Ciencias de la salud");
+        AreaAcademica areaHumanidades=new AreaAcademica();
+        areaHumanidades.setArea("Humanidades");
+        AreaAcademica areaBiologica=new AreaAcademica();
+        areaBiologica.setArea("Ciencias biológicas y agropecuarias");
+        AreaAcademica areaEconomica=new AreaAcademica();
+        areaEconomica.setArea("Económico-Administrativa");
+        AreaAcademica areaTecnica=new AreaAcademica();
+        areaTecnica.setArea("Técnica");
+        areasAcademicasEsperadas.add(areaArtes);
+        areasAcademicasEsperadas.add(areaCienciasSalud);
+        areasAcademicasEsperadas.add(areaHumanidades);
+        areasAcademicasEsperadas.add(areaBiologica);
+        areasAcademicasEsperadas.add(areaEconomica);
+        areasAcademicasEsperadas.add(areaTecnica);        
+        List<AreaAcademica> areasAcademicasObtenidas = dao.consultarAreasAcademicas();
+        assertEquals(areasAcademicasEsperadas,areasAcademicasObtenidas);
     }
     
-    @Test(expected = AssertionError.class)
-    public void pruebaFallidaConsultarAreasAcademicas() {
-        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
-        List<AreaAcademica> areasAcademicas = dao.consultarAreasAcademicas();
-        assertEquals(5, areasAcademicas.size());
+    @Test
+    public void pruebaConsultarAreasAcademicasFallida() {
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();        
+        AreaAcademica areaArtes=new AreaAcademica();
+        areaArtes.setArea("Artes");
+        List<AreaAcademica> areasAcademicasEsperadas=new ArrayList<>();
+        areasAcademicasEsperadas.add(areaArtes);
+        List<AreaAcademica> areasAcademicasObtenidas = dao.consultarAreasAcademicas();
+        assertNotEquals(areasAcademicasEsperadas,areasAcademicasObtenidas);
     }
        
     @Test
@@ -65,7 +71,7 @@ public class PruebaDAOAreaAcademicaImplementacion {
     }
     
     @Test
-    public void pruebaFallidaConsultarIdDeAreaAcademicaPorArea() {
+    public void pruebaConsultarIdDeAreaAcademicaPorAreaFallida() {
         DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
         int idArea = dao.consultarIdDeAreaAcademicaPorArea("Música");
         assertEquals(0, idArea);

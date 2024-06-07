@@ -2,8 +2,7 @@ package logicaDeNegocio.interfaces;
 
 import logicaDeNegocio.clases.Usuario;
 
-public interface UsuarioInterface {
-    
+public interface UsuarioInterface {    
     public int validarCredenciales(Usuario usuario, Usuario logger);
 
     public int registrarUsuario(Usuario usuario);

@@ -16,19 +16,6 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
     private static final Logger LOG=Logger.getLogger(DAOAreaAcademicaImplementacion.class);
 
     @Override
-    public int registrarAreaAcademica(AreaAcademica areaAcademica) {
-        int numeroFilasAfectadas=0;
-        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("INSERT INTO areaAcademica (area) VALUES (?);")){
-            declaracion.setString(1, areaAcademica.getArea());
-            numeroFilasAfectadas=declaracion.executeUpdate();
-        }catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage()); 
-        }
-         return numeroFilasAfectadas;
-    }
-
-    @Override
     public List<AreaAcademica> consultarAreasAcademicas() {
         ResultSet resultado;
         List<AreaAcademica> areasAcademicas=new ArrayList<>();
