@@ -107,6 +107,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return idPropuestaColaboracion;
     }
     
+    @Override
     public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracion(int idPropuestaColaboracion){
         ResultSet resultado;
         List<Integer> idProfesores=new ArrayList<>();
@@ -152,6 +153,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return numeroFilasAfectadas;
     }
     
+    @Override
     public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(int idPropuestaColaboracion){
         ResultSet resultado;
         List<Integer> idProfesores=new ArrayList<>();
@@ -169,6 +171,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return idProfesores;                        
     }
     
+    @Override
     public int revisarPrecondicionEvaluarPeticionesPorIdProfesor(int idProfesor){
         int resultadoPrecondicion=0;
         try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
@@ -184,6 +187,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return resultadoPrecondicion;        
     }
     
+    @Override
     public int cambiarEstadoPeticionesRegistradasPorIdPropuesta(int idPropuestaColaboracion){
         int resultadoCambioEstado=0;
         try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
@@ -195,12 +199,6 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             LOG.error(excepcion.getMessage());
             resultadoCambioEstado=-1;
         }
-        return resultadoCambioEstado;  
-        
-        
-    }
-    
-    
-    
-    
+        return resultadoCambioEstado;                  
+    }                
 }

@@ -141,6 +141,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         return resultadoModificacion;
     }
     
+    //No se hacen pruebas
     @Override
     public int eliminarProfesorExterno(String correo){
         int numeroFilasAfectadas = 0;

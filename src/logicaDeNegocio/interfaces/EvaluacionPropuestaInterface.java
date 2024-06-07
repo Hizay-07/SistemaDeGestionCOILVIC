@@ -6,6 +6,5 @@ import logicaDeNegocio.clases.EvaluacionPropuesta;
 public interface EvaluacionPropuestaInterface {
     public int registrarEvaluacionPropuesta(EvaluacionPropuesta evaluacionPropuesta);
     
-    public List<EvaluacionPropuesta> consultarEvaluacionesDePropuesta();
-    
+    public List<EvaluacionPropuesta> consultarEvaluacionesDePropuesta();    
 }

@@ -36,9 +36,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         }
         return resultadoRegistro;
     }
-  
-    
-
+      
     @Override
     public int modificarNombreRepresentanteInstitucional(String nombreActualizado, RepresentanteInstitucional representanteAActualizar) {
         int resultadoModificacion=0;
@@ -177,9 +175,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
           LOG.error(excepcion.getMessage());
        }
        return representantes;
-    }
-    
-    
+    }        
     
     @Override
     public int consultarIdRepresentanteInstitucionalPorUniversidad(String universidad){

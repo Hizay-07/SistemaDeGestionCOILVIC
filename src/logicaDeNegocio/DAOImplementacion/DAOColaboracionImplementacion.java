@@ -117,6 +117,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         return numeroFilasAfectadas;
     }
     
+    @Override
     public int obtenerIdColaboracionPorIdPropuesta(int idPropuestaColaboracion){
         ResultSet resultado;
         int idColaboracion=0;

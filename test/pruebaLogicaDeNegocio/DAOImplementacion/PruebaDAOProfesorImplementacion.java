@@ -29,10 +29,10 @@ public class PruebaDAOProfesorImplementacion {
     public void pruebaRegistrarProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         Profesor profesor = new Profesor();
-        profesor.setNombre("LizbethEliminar");
+        profesor.setNombre("Lizbeth");
         profesor.setApellidoPaterno("Rodriguez");
         profesor.setApellidoMaterno("Gomez");
-        profesor.setCorreo("lizeliminar@gmail.com");
+        profesor.setCorreo("lizbeth@gmail.com");
         Usuario usuario = new Usuario();
         usuario.setIdUsuario(13);
         profesor.setUsuario(usuario);

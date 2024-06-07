@@ -3,8 +3,7 @@ package logicaDeNegocio.interfaces;
 import java.util.List;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 
-public interface PropuestaColaboracionInterface {    
-    
+public interface PropuestaColaboracionInterface {        
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion);
     
     public List<PropuestaColaboracion> consultarPropuestasColaboracion();

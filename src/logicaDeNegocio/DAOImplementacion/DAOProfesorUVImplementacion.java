@@ -66,70 +66,6 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
     }
 
     @Override
-    public List<ProfesorUV> consultarProfesoresUVPorAreaAcademica(int idAreaAcademica) {
-        ResultSet resultado;
-        List<ProfesorUV> profesoresUV=new ArrayList<>();
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("select * from profesoruv,profesor where idAreaAcademica = ?")){
-            declaracion.setInt(1, idAreaAcademica);
-            resultado=declaracion.executeQuery();
-            if(resultado.isBeforeFirst()){
-                while(resultado.next()){
-                    ProfesorUV profesorUV=new ProfesorUV();
-                    profesorUV.setNombre(resultado.getString("nombre"));
-                    profesorUV.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-                    profesorUV.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-                    profesorUV.setCorreo(resultado.getString("Correo"));
-                    profesorUV.setEstado(resultado.getString("estadoProfesor"));
-                    profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
-                    profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
-                    profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
-                    profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
-                    profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
-                    profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
-                    profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
-                    profesoresUV.add(profesorUV);           
-                }
-            }                     
-        } catch (SQLException excepcion) {
-            LOG.error(excepcion.getMessage());
-        }
-        return profesoresUV;                
-    }
-
-    @Override
-    public List<ProfesorUV> consultarProfesoresUVPorRegion(int idRegion) {
-        ResultSet resultado;
-        List<ProfesorUV> profesoresUV=new ArrayList<>();
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("select * from profesoruv,profesor where idRegionAcademica = ?;")){
-            declaracion.setInt(1, idRegion);
-            resultado=declaracion.executeQuery();
-            if(resultado.isBeforeFirst()){
-                while(resultado.next()){
-                    ProfesorUV profesorUV=new ProfesorUV();
-                    profesorUV.setNombre(resultado.getString("nombre"));
-                    profesorUV.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-                    profesorUV.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-                    profesorUV.setCorreo(resultado.getString("Correo"));
-                    profesorUV.setEstado(resultado.getString("estadoProfesor"));
-                    profesorUV.setIdProfesorUV(resultado.getInt("idProfesorUV"));
-                    profesorUV.setNumeroDePersonal(resultado.getString("numeroPersonal"));
-                    profesorUV.setTipoDeContratacion(resultado.getString("tipoContratacion"));
-                    profesorUV.setCategoriaDeContratacion(resultado.getString("categoriaContratacion"));
-                    profesorUV.setIdProfesor(resultado.getInt("idProfesor"));
-                    profesorUV.setIdRegion(resultado.getInt("idRegionAcademica"));
-                    profesorUV.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
-                    profesoresUV.add(profesorUV);           
-                }
-            }                      
-        } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage());
-        }
-        return profesoresUV;  
-    }
-
-    @Override
     public int editarTipoDeContratacionDeProfesorUVPorIdProfesorUV(String tipoDeContratacion, int idProfesorUV) {
         int numeroFilasAfectadas=0;
         try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
@@ -196,8 +132,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
-        return numeroFilasAfectadas;
-    
+        return numeroFilasAfectadas;    
     }
     
     @Override
@@ -244,6 +179,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return numeroDeCoincidencias;
     }
     
+    //No se hacen pruebas
     @Override
     public int eliminarProfesorUV(String correo){
         int numeroFilasAfectadas = 0;

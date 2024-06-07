@@ -7,11 +7,7 @@ public interface ProfesorUVInterface {
     public int registrarProfesorUV(ProfesorUV profesorUV);
         
     public List<ProfesorUV> consultarProfesoresUV();
-    
-    public List<ProfesorUV> consultarProfesoresUVPorAreaAcademica(int idAreaAcademica);
-    
-    public List<ProfesorUV> consultarProfesoresUVPorRegion(int idRegion);
-    
+                    
     public int editarTipoDeContratacionDeProfesorUVPorIdProfesorUV(String tipoDeContratacion,int idProfesorUV);
     
     public int editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV(String categoriaDeContratacion,int idProfesorUV);
@@ -26,6 +22,5 @@ public interface ProfesorUVInterface {
     
     public int validarInexistenciaProfesorUV(String noPersonal);
     
-    public int eliminarProfesorUV(String correo);
-              
+    public int eliminarProfesorUV(String correo);              
 }

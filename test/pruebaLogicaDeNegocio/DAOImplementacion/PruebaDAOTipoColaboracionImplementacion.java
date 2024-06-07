@@ -22,40 +22,37 @@ public class PruebaDAOTipoColaboracionImplementacion {
         usuarioPrueba.setTipoDeUsuario("Administrativo");
         UsuarioSingleton.getInstancia(usuarioPrueba);
     }
-    
-    @Test
-    public void pruebaRegistrarTipoColaboracionExitosa() {
-        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        TipoColaboracion tipoColaboracion = new TipoColaboracion();
-        tipoColaboracion.setTipo("Intercambio Cultural");
-        int resultado = dao.registrarTipoColaboracion(tipoColaboracion);
-        assertEquals(1, resultado);
-    }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void pruebaFallidaDatosInvalidosRegistrarTipoColaboracion() {
-        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        TipoColaboracion tipoColaboracion = new TipoColaboracion();
-        tipoColaboracion.setTipo("");
-        int resultado = dao.registrarTipoColaboracion(tipoColaboracion);
-    }
-    
+
     
     @Test
     public void pruebaConsultarTiposDeColaboracionExitosa() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        List<TipoColaboracion> tiposColaboracion = dao.consultarTiposDeColaboracion();
-        assertEquals(3, tiposColaboracion.size());  
+        List<TipoColaboracion> listaEsperada=new ArrayList<>();
+        listaEsperada.add(new TipoColaboracion(1,"Clase espejo"));
+        listaEsperada.add(new TipoColaboracion(2,"Implementación COIL-VIC"));        
+        List<TipoColaboracion> tiposColaboracionObtenidas = dao.consultarTiposDeColaboracion();
+        assertEquals(listaEsperada, tiposColaboracionObtenidas);  
     }
 
       
-    @Test(expected = AssertionError.class)
+    @Test
     public void pruebaFallidaConsultarTiposDeColaboracion() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        List<TipoColaboracion> tiposColaboracion = dao.consultarTiposDeColaboracion();
-        assertEquals(5, tiposColaboracion.size());
+        List<TipoColaboracion> listaEsperada=new ArrayList<>();
+        listaEsperada.add(new TipoColaboracion(1,"Clase espejo"));
+        List<TipoColaboracion> tiposColaboracionObtenidas = dao.consultarTiposDeColaboracion();
+        assertNotEquals(listaEsperada, tiposColaboracionObtenidas);
     }
 
+    @Test
+    public void pruebaConsultarTiposDeColaboracionSinConexionExitosa(){
+        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
+        List<TipoColaboracion> listaEsperada=new ArrayList<>();
+        listaEsperada.add(new TipoColaboracion(1,"Clase espejo"));
+        listaEsperada.add(new TipoColaboracion(2,"Implementación COIL-VIC"));        
+        List<TipoColaboracion> tiposColaboracionObtenidas = dao.consultarTiposDeColaboracion();
+        assertNotEquals(listaEsperada, tiposColaboracionObtenidas);         
+    }
     
     @Test
     public void pruebaConsultarTipoColaboracionPorIdExitosa() {
@@ -66,9 +63,9 @@ public class PruebaDAOTipoColaboracionImplementacion {
 
     
     @Test
-    public void pruebaFallidaConsultarTipoColaboracionPorId() {
+    public void pruebaConsultarTipoColaboracionPorIdFallida() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        String tipo = dao.consultarTipoColaboracionPorId(999);
+        String tipo = dao.consultarTipoColaboracionPorId(0);
         assertEquals("", tipo);
     }
 
@@ -83,7 +80,7 @@ public class PruebaDAOTipoColaboracionImplementacion {
     @Test
     public void pruebaFallidaConsultarIdTipoColaboracionPorTipo() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        int idTipo = dao.consultarIdTipoColaboracionPorTipo("Tipo Inexistente");
+        int idTipo = dao.consultarIdTipoColaboracionPorTipo("Taller");
         assertEquals(0, idTipo); 
     }
 

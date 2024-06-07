@@ -16,19 +16,6 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
     private static final Logger LOG=Logger.getLogger(DAORegionAcademicaImplementacion.class);
 
     @Override
-    public int registrarRegionAcademica(RegionAcademica regionAcademica) {
-        int numeroFilasAfectadas=0;
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("INSERT INTO regionAcademica (region) VALUES (?);")){
-            declaracion.setString(1, regionAcademica.getRegion());numeroFilasAfectadas=declaracion.executeUpdate();
-            numeroFilasAfectadas=declaracion.executeUpdate();          
-        } catch (SQLException excepcion) {
-            LOG.error(excepcion.getMessage());
-        }
-        return numeroFilasAfectadas;                        
-    }
-
-    @Override
     public List<RegionAcademica> consultarRegionesAcademicas() {
         ResultSet resultado;
         List<RegionAcademica> regionesAcademicas=new ArrayList<>();
