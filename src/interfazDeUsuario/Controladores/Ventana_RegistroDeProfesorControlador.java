@@ -382,7 +382,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             case 1 -> {
                 int resultadoModificacion = daoProfesor.asignarUsuarioDeProfesorPorCorreo(usuario.getCorreo());
                 if (resultadoModificacion == 0) {
-                    eliminarUsuarioProfesor(usuario,tipoProfesor);
                     Alertas.mostrarMensajeProfesorConUsuario();
                 } else {
                     int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(), usuario.getContrasenia());
@@ -390,8 +389,9 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
                         Alertas.mostrarMensajeDatosIngresados();
                         salirDeLaVentana();
                     } else if (resultadoCorreo == -1) {
-                        eliminarUsuarioProfesor(usuario,tipoProfesor);
-                        Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet o el correo proporcionado antes de registrar un usuario de profesor");
+                        Alertas.mostrarSinConexionAInternet("No se mandó el correo por la falta de internet.\n Si desea mandar nuevamente la cuenta"
+                                + " asignada al profesor registrado, consulte los profesores y presione el botón 'Reenviar Datos'.");
+                        salirDeLaVentana();
                     }
                 }
             }
@@ -402,20 +402,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         }
     }
     
-    private void eliminarUsuarioProfesor(Usuario usuario,String tipoProfesor){
-        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
-        DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
-        if(tipoProfesor.equals("Externo")) {
-            daoProfesorExterno.eliminarProfesorExterno(usuario.getNombreUsuario());
-        }else if (tipoProfesor.equals("UV")) {
-            daoProfesorUV.eliminarProfesorUV(usuario.getNombreUsuario());
-        }
-        daoProfesor.eliminarCuentaAsignadaAProfesor(usuario.getNombreUsuario());
-        daoProfesor.eliminarProfesor(usuario.getNombreUsuario());
-        daoUsuario.eliminarUsuario(usuario.getNombreUsuario());
-    }
     
     public void obtenerDatosCuentaProfesor(Profesor profesor,String tipo){
         Usuario usuario = new Usuario();

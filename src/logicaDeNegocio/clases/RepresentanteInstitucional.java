@@ -8,7 +8,7 @@ public class RepresentanteInstitucional{
     private String claveInstitucional;
     private String contacto;
     private Pais pais;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜçÇñÑÉèô'’-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜçÇñÑÉèô'’-]+)*$";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String SOLO_LETRAS_Y_NUMEROS_PATTERN ="^[\\p{L}0-9]+$";
     

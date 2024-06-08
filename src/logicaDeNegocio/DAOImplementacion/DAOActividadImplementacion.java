@@ -124,9 +124,10 @@ public class DAOActividadImplementacion implements ActividadInterface {
     public boolean validarInexistenciaDeActividad(Actividad actividad) {
         boolean resultadoValidacion;       
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroDeActividad = ? or nombre = ?")){
-            sentencia.setInt(1, actividad.getNumeroActividad());
-            sentencia.setString(2, actividad.getNombre());
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE idColaboracion = ? AND (numeroDeActividad = ? OR nombre = ?)")){
+            sentencia.setInt(1, actividad.getIdColaboracion());
+            sentencia.setInt(2, actividad.getNumeroActividad());
+            sentencia.setString(3, actividad.getNombre());
             ResultSet resultadoConsulta = sentencia.executeQuery();          
             int numeroDeResultados=0;
             while(resultadoConsulta.next()){

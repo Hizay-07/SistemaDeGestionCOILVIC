@@ -9,7 +9,7 @@ public class ProfesorUV extends Profesor {
     private int idAreaAcademica;
     private int idRegion;
     private int idProfesorUV;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+(?:[\\s-][\\p{L}\\sáéíóúÁÉÍÓÚüÜ]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     
     public ProfesorUV() {

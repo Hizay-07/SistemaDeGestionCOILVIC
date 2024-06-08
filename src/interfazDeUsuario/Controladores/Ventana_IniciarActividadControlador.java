@@ -212,13 +212,18 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         if(validarDatosActividad()){
             if(validarFechasDeActividad()){
                 Actividad nuevaActividad = obtenerDatosActividad();
+                nuevaActividad.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
                 DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
-                int resultadoRegistro = daoActividad.registrarActividad(nuevaActividad);
-                if (resultadoRegistro == 1) {
-                    Alertas.mostrarMensajeDatosIngresados();
-                } else if (resultadoRegistro == -1) {
-                    Alertas.mostrarMensajeErrorEnLaConexion();
-                    regresarMenuPrincipal();
+                if(!daoActividad.validarInexistenciaDeActividad(nuevaActividad)){
+                    int resultadoRegistro = daoActividad.registrarActividad(nuevaActividad);
+                    if (resultadoRegistro == 1) {
+                        Alertas.mostrarMensajeDatosIngresados();
+                    } else if (resultadoRegistro == -1) {
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                        regresarMenuPrincipal();
+                    }
+                }else{
+                    Alertas.mostrarMensajeActividadExistente();
                 }
             }else{
                 Alertas.mostrarMensajeFechaInvalida();

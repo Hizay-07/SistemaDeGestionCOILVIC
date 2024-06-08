@@ -44,7 +44,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SpinnerValueFactory<Integer> valueFactory =new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 1);        
+        SpinnerValueFactory<Integer> valueFactory =new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 150, 1);        
         spin_NumeroEstudiantes.setValueFactory(valueFactory);                   
     }    
     
