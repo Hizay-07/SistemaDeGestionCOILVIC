@@ -10,7 +10,7 @@ public class PruebaProfesor {
     @Test
     public void pruebaSetNombreProfesorExitosa(){
         Profesor profesorPrueba = new Profesor();
-        profesorPrueba.setNombre("José José");
+        profesorPrueba.setNombre("Brian O'Connor");
         assertNotNull(profesorPrueba.getNombre());
     }
         
@@ -24,7 +24,7 @@ public class PruebaProfesor {
     @Test
     public void pruebaSetApellidoPaternoProfesorExitosa(){
         Profesor profesorPrueba = new Profesor();
-        profesorPrueba.setApellidoPaterno("III");
+        profesorPrueba.setApellidoPaterno("Velasquez");
         assertNotNull(profesorPrueba.getApellidoPaterno());
     }
     
@@ -52,14 +52,14 @@ public class PruebaProfesor {
     @Test
     public void pruebaSetCorreoProfesorExitosa(){
         Profesor profesorPrueba = new Profesor();
-        profesorPrueba.setCorreo("Oscar@example.com");
+        profesorPrueba.setCorreo("alguien.correo@gmail.com");
         assertNotNull(profesorPrueba.getCorreo());
     }
         
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetCorreoInvalidoProfesor(){
         Profesor profesorPrueba = new Profesor();
-        profesorPrueba.setCorreo("Juan@ejemplo.com.mx1");
+        profesorPrueba.setCorreo("******.correo@gmail.com");
         assertNull(profesorPrueba.getCorreo());
     }
     

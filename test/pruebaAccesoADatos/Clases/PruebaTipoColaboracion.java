@@ -10,7 +10,7 @@ public class PruebaTipoColaboracion {
     @Test
     public void pruebaSetTipoExitoso(){
         TipoColaboracion tipoColaboracionPrueba = new TipoColaboracion();
-        tipoColaboracionPrueba.setTipo("Colaboración Académica"); 
+        tipoColaboracionPrueba.setTipo("Implementación COIL-VIC"); 
         assertNotNull(tipoColaboracionPrueba.getTipo());
     }
     
