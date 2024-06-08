@@ -24,14 +24,14 @@ public class PruebaEvidencia {
     @Test
     public void pruebaSetNombreExitosa(){
         Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setNombre("Nombre de la evidencia");
+        evidenciaPrueba.setNombre("Evidencia1_PruebaDao");
         assertNotNull(evidenciaPrueba.getNombre());
     }
     
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNombreInvalida(){
         Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setNombre("12345");
+        evidenciaPrueba.setNombre("¿Evidencia1_PruebaDao?");
         assertNull(evidenciaPrueba.getNombre());
     }
     

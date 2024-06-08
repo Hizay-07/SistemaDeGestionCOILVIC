@@ -380,7 +380,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
         switch (resultadoRegistro) {
             case 1 -> {
-                int resultadoModificacion = daoProfesor.asignarUsuarioDeProfesorPorCorreo(usuario.getCorreo());
+                int resultadoModificacion = daoProfesor.asignarUsuarioDeProfesorPorCorreo(usuario.getNombreUsuario());
                 if (resultadoModificacion == 0) {
                     Alertas.mostrarMensajeProfesorConUsuario();
                 } else {
