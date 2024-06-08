@@ -121,27 +121,31 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
         int numeroDeEvidencias = daoEvidencia.obtenerNumeroDeEvidencia(actividad.getIdActividad()) + 1;
         if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
             if(numeroDeEvidencias>=0){
-                String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
-                if(validarDatosEvidencia()){
-                    EvidenciaAuxiliar evidenciaPasada = EvidenciaAuxiliar.getEvidencia();
-                    manejadorArchivos.borrarArchivoDeEvidencia(evidenciaPasada.getRutaEvidencia());
-                    nuevaEvidencia.setNombre(txfd_NombreEvidenciaModificador.getText());
-                    nuevaEvidencia.setRutaEvidencia(rutaArchivo);
-                    nuevaEvidencia.setIdEvidencia(evidenciaPasada.getIdEvidencia());
-                    int resultadoModificacion= daoEvidencia.modificarEvidencia(nuevaEvidencia);
-                    switch(resultadoModificacion) {
-                        case 1 -> {
-                            Alertas.mostrarMensajeDatosModificados();
-                            cancelarModificacion();
+                if(!manejadorArchivos.validarExistenciaDeArchivo(actividad, colaboracion, archivoASubir, numeroDeEvidencias)){
+                    String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
+                    if(validarDatosEvidencia()){
+                        EvidenciaAuxiliar evidenciaPasada = EvidenciaAuxiliar.getEvidencia();
+                        manejadorArchivos.borrarArchivoDeEvidencia(evidenciaPasada.getRutaEvidencia());
+                        nuevaEvidencia.setNombre(txfd_NombreEvidenciaModificador.getText());
+                        nuevaEvidencia.setRutaEvidencia(rutaArchivo);
+                        nuevaEvidencia.setIdEvidencia(evidenciaPasada.getIdEvidencia());
+                        int resultadoModificacion= daoEvidencia.modificarEvidencia(nuevaEvidencia);
+                        switch(resultadoModificacion) {
+                            case 1 -> {
+                                Alertas.mostrarMensajeDatosModificados();
+                                cancelarModificacion();
+                            }
+                            default -> {
+                                Alertas.mostrarMensajeErrorEnLaConexion();
+                                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                            }
                         }
-                        default -> {
-                            Alertas.mostrarMensajeErrorEnLaConexion();
-                            manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                        }
+                    }else{
+                        manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                        Alertas.mostrarMensajeDatosInvalidos();
                     }
                 }else{
-                    manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                    Alertas.mostrarMensajeDatosInvalidos();
+                    Alertas.mostrarMensajeArchivoASubirExistente();
                 }
             }else{
                 Alertas.mostrarMensajeErrorEnLaConexion();

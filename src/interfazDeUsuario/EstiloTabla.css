@@ -23,6 +23,8 @@
     -fx-border-width: 0;
     -fx-wrap-text: true; 
     -fx-alignment: CENTER-LEFT; 
+    -fx-wrap-text: true;
+    -fx-cell-size: 60px;
 }
 
 .table-view .table-cell {

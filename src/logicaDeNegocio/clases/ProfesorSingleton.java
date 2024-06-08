@@ -11,8 +11,9 @@ public final class ProfesorSingleton {
     private String estado;
     private int idProfesor;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9]+([._][a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*\\.[a-zA-Z]{2,}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
+    private static final String NOMBRE_APELLIDO_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜçÇñÑÉèô'’-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜçÇñÑÉèô'’-]+)*$";
     
     private ProfesorSingleton(Profesor profesor){
         setNombre(profesor.getNombre());
@@ -36,7 +37,7 @@ public final class ProfesorSingleton {
     }
 
     public void setNombre(String nombre)throws IllegalArgumentException{
-        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre)){
+        if(nombre!=null&&Pattern.matches(NOMBRE_APELLIDO_PATTERN, nombre)){
             this.nombre = nombre;
         }else{
             throw new IllegalArgumentException();
@@ -48,7 +49,7 @@ public final class ProfesorSingleton {
     }
 
     public void setApellidoPaterno(String apellidoPaterno)throws IllegalArgumentException{
-        if(apellidoPaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoPaterno)){
+        if(apellidoPaterno!=null&&Pattern.matches(NOMBRE_APELLIDO_PATTERN, apellidoPaterno)){
             this.apellidoPaterno = apellidoPaterno;
         }else{
             throw new IllegalArgumentException();
@@ -60,7 +61,7 @@ public final class ProfesorSingleton {
     }
 
     public void setApellidoMaterno(String apellidoMaterno)throws IllegalArgumentException {
-        if(apellidoMaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoMaterno)){
+        if(apellidoMaterno!=null&&Pattern.matches(NOMBRE_APELLIDO_PATTERN, apellidoMaterno)){
             this.apellidoMaterno = apellidoMaterno;
         }else{
             throw new IllegalArgumentException();

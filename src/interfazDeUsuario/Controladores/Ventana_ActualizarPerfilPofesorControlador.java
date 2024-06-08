@@ -424,7 +424,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
             if (validarCamposModificadosProfesorExterno(profesorNuevo, profesorExternoViejo, profesorExternoNuevo)) {
                 profesorExternoNuevo.setIdProfesorExterno(profesorExternoViejo.getIdProfesorExterno());
                 if (!correoProfesor.equals(profesorNuevo.getCorreo())) {
-                    resultadoCoincidenciasCorreo = daoProfesor.validarDuplicidadDeCorreo(correoProfesor);
+                    resultadoCoincidenciasCorreo = daoProfesor.validarDuplicidadDeCorreo(profesorNuevo.getCorreo());
                 }
                 if (resultadoCoincidenciasCorreo == 0) {
                     actualizarPerfilProfesorExterno(profesorNuevo, profesorExternoNuevo);

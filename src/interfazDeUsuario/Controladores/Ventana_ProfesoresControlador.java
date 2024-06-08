@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import envioDeCorreos.EnvioDeCorreo;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import logicaDeNegocio.ClasesAuxiliares.GeneradorDeContrasenias;
 import logicaDeNegocio.ClasesAuxiliares.ProfesorAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorExternoImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorUVImplementacion;
@@ -60,6 +62,8 @@ public class Ventana_ProfesoresControlador implements Initializable {
     @FXML
     private TableColumn<Profesor, String> column_EstadoProfesor;
     @FXML
+    private TableColumn<Profesor, Void> column_Credenciales;
+    @FXML
     private Button btn_Regresar;
     @FXML
     private ComboBox cmb_TipoDeProfesor;
@@ -69,6 +73,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
         mostrarProfesoresUV();
         asignarBotonesDeModificarPerfil();
         llenarComboBoxTipoDeProfesor();
+        asignarBotonDeReenvioDeCredenciales();
     }    
     
     private void llenarComboBoxTipoDeProfesor(){
@@ -194,7 +199,65 @@ public class Ventana_ProfesoresControlador implements Initializable {
                 };
             return cell;
             };
-            column_Modificar.setCellFactory(frabricaDeCelda);
+        column_Modificar.setCellFactory(frabricaDeCelda);
+    }
+    
+    private void asignarBotonDeReenvioDeCredenciales(){
+        Callback<TableColumn<Profesor, Void>, TableCell<Profesor, Void>> frabricaDeCelda = (final TableColumn<Profesor, Void> param) -> {
+                final TableCell<Profesor, Void> cell = new TableCell<Profesor, Void>() {                
+                    private final Button btn_Credenciales = new Button();{
+                        btn_Credenciales.setText("Reenviar");
+                        btn_Credenciales.setOnAction((ActionEvent event) -> {
+                            Profesor profesorSeleccionado = getTableView().getItems().get(getIndex());
+                            reenviarCredencialesProfesor(profesorSeleccionado);
+                        });
+                    }                
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        }else{ 
+                            setGraphic(btn_Credenciales);
+                        }
+                    }
+                };
+            return cell;
+            };
+        column_Credenciales.setCellFactory(frabricaDeCelda);
+    }
+
+    private void reenviarCredencialesProfesor(Profesor profesorSeleccionado){
+        if(Alertas.confirmarActualizarCredenciales()){
+            DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+            String contrasenia = GeneradorDeContrasenias.generarContraseña();
+            int resultadoModificacion = daoUsuario.actualizarUsuarioPorIdUsuario(profesorSeleccionado, contrasenia);
+            if(resultadoModificacion==1){
+                int resultadoCorreo = mandarCorreo(profesorSeleccionado.getCorreo(),contrasenia);
+                if(resultadoCorreo==1){
+                    Alertas.mostrarMensajeDatosIngresados();
+                }else{
+                    Alertas.mostrarSinConexionAInternet("No hay conexión a internet, inténtelo de nuevo");
+                }
+            }else{
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
+        }  
+    }
+    
+    private int mandarCorreo(String usuario, String contrasenia) {
+        int resultadoEnvioDeCorreo;
+        EnvioDeCorreo mandarCorreoCreacionDeUsuario = new EnvioDeCorreo();
+        String asuntoCorreo = "Clave de acceso sistema coil vic actualizada";
+        String cuerpoCorreo = "Se le han actualizado sus credenciales como profesor dentro del sistema COIL-VIC. \n\n"
+                + "A continuación se le presentan sus claves de acceso para acceder al sistema: \n\n"
+                + "Usuario: " + usuario + "\n\nContraseña: " + contrasenia + "\nBuen día\nAtte: Sistema de gestión COIL-VIC";
+        String destinatario = usuario;
+        mandarCorreoCreacionDeUsuario.setAsunto(asuntoCorreo);
+        mandarCorreoCreacionDeUsuario.setContenido(cuerpoCorreo);
+        mandarCorreoCreacionDeUsuario.setDestinatario(destinatario);
+        resultadoEnvioDeCorreo = mandarCorreoCreacionDeUsuario.enviarCorreo();
+        return resultadoEnvioDeCorreo;
     }
     
     public void regresarMenuPrincipal(){

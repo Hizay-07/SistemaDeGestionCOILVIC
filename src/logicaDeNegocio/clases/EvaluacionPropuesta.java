@@ -9,7 +9,7 @@ public class EvaluacionPropuesta {
     private String evaluacion;
     private String fechaEvaluacion;
     private String justificacion;    
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
+    private static final String SOLO_LETRAS_Y_NUMEROS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()\"0-9]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()\"0-9]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
 
@@ -58,7 +58,7 @@ public class EvaluacionPropuesta {
     }
 
     public void setEvaluacion(String evaluacion)throws IllegalArgumentException {
-        if(evaluacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, evaluacion.trim())&&evaluacion.trim().length()<=45){
+        if(evaluacion!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN, evaluacion.trim())&&evaluacion.trim().length()<=45){
             this.evaluacion = evaluacion.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
@@ -82,7 +82,7 @@ public class EvaluacionPropuesta {
     }
 
     public void setJustificacion(String justificacion) {
-        if(justificacion!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, justificacion.trim())&&justificacion.trim().length()<=255){
+        if(justificacion!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN, justificacion.trim())&&justificacion.trim().length()<=255){
             this.justificacion = justificacion.trim().replaceAll("[ \t]+", " ");
         }else{
             throw new IllegalArgumentException();

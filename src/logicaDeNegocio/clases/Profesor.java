@@ -11,9 +11,10 @@ public class Profesor{
     private Usuario usuario;
     private int idProfesor;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9]+([._][a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*\\.[a-zA-Z]{2,}$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
-    
+    private static final String NOMBRE_APELLIDO_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜçÇñÑÉèô'’-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜçÇñÑÉèô'’-]+)*$";
+
     public Profesor(){
         
     }
@@ -23,7 +24,7 @@ public class Profesor{
     }
 
     public void setNombre(String nombre)throws IllegalArgumentException{
-        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre.trim())&&nombre.trim().length()<=45){
+        if(nombre!=null&&Pattern.matches(NOMBRE_APELLIDO_PATTERN, nombre.trim())&&nombre.trim().length()<=45){
             this.nombre = nombre.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
@@ -35,7 +36,7 @@ public class Profesor{
     }
 
     public void setApellidoPaterno(String apellidoPaterno)throws IllegalArgumentException{
-        if(apellidoPaterno!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, apellidoPaterno.trim())&&apellidoPaterno.trim().length()<=45){
+        if(apellidoPaterno!=null&&Pattern.matches(NOMBRE_APELLIDO_PATTERN, apellidoPaterno.trim())&&apellidoPaterno.trim().length()<=45){
             this.apellidoPaterno = apellidoPaterno.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
@@ -47,7 +48,7 @@ public class Profesor{
     }
 
     public void setApellidoMaterno(String apellidoMaterno)throws IllegalArgumentException {
-        if(Pattern.matches(SOLO_LETRAS_PATTERN, apellidoMaterno.trim())&&apellidoMaterno.trim().length()<=45){
+        if(Pattern.matches(NOMBRE_APELLIDO_PATTERN, apellidoMaterno.trim())&&apellidoMaterno.trim().length()<=45){
             this.apellidoMaterno = apellidoMaterno.trim().replaceAll("\\s+", " ");
         }else if(apellidoMaterno.isEmpty()){
             this.apellidoMaterno = apellidoMaterno;

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 import java.sql.Types;
 import java.util.Objects;
+import logicaDeNegocio.clases.Profesor;
 import org.apache.log4j.Logger;
 
 
@@ -161,5 +162,21 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             coincidenciasEncontradas = -1;
         }
         return coincidenciasEncontradas;
+    }
+    
+    @Override
+    public int actualizarUsuarioPorIdUsuario(Profesor profesor, String contrasenia){
+        int resultadoModificacion = 0;
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("update usuario set nombreDeUsuario = ?, contrasenia = sha2(?,256) where idUsuario = ?")){
+            declaracion.setString(1, profesor.getCorreo());
+            declaracion.setString(2, contrasenia);
+            declaracion.setInt(3, profesor.getUsuario().getIdUsuario());
+            resultadoModificacion = declaracion.executeUpdate();
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getMessage());
+            resultadoModificacion = -1;
+        }
+        return resultadoModificacion;
     }
 }

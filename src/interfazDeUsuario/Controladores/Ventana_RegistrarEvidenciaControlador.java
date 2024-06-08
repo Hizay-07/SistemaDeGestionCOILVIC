@@ -110,30 +110,34 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         boolean resultadoAccesoACarpeta = manejadorArchivos.crearCarpetaDeActividad(actividad, colaboracion);
         int numeroDeEvidencias = daoEvidencia.obtenerNumeroDeEvidencia(actividad.getIdActividad()) + 1;
         if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
-            String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
-            if(validarDatosEvidencia()){
-                if(numeroDeEvidencias>=0){
-                        nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
-                        nuevaEvidencia.setRutaEvidencia(rutaArchivo);
-                        nuevaEvidencia.setIdActividad(actividad.getIdActividad());
-                        int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
-                        switch(resultadoInsercion) {
-                            case 1 -> {
-                                Alertas.mostrarMensajeDatosIngresados();
-                                cancelarRegistro();
+            if(!manejadorArchivos.validarExistenciaDeArchivo(actividad, colaboracion, archivoASubir, numeroDeEvidencias)){
+                String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
+                if(validarDatosEvidencia()){
+                    if(numeroDeEvidencias>=0){
+                            nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
+                            nuevaEvidencia.setRutaEvidencia(rutaArchivo);
+                            nuevaEvidencia.setIdActividad(actividad.getIdActividad());
+                            int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
+                            switch(resultadoInsercion) {
+                                case 1 -> {
+                                    Alertas.mostrarMensajeDatosIngresados();
+                                    cancelarRegistro();
+                                }
+                                case 0 -> Alertas.mostrarMensajeDatosDuplicados();
+                                default -> {
+                                    Alertas.mostrarMensajeErrorEnLaConexion();
+                                    manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                                }
                             }
-                            case 0 -> Alertas.mostrarMensajeDatosDuplicados();
-                            default -> {
-                                Alertas.mostrarMensajeErrorEnLaConexion();
-                                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                            }
-                        }
+                    }else{
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                    }
                 }else{
-                    Alertas.mostrarMensajeErrorEnLaConexion();
+                    manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                    Alertas.mostrarMensajeDatosInvalidos();
                 }
             }else{
-                manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                Alertas.mostrarMensajeDatosInvalidos();
+                Alertas.mostrarMensajeArchivoASubirExistente();
             }
         }else{
             Alertas.mostrarMensajeArchivoSinSeleccionar();

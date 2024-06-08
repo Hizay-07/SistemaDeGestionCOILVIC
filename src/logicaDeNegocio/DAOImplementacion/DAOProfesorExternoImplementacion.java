@@ -10,6 +10,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.clases.ProfesorExterno;
+import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.interfaces.ProfesorExternoInterface;
 import org.apache.log4j.Logger;
 
@@ -50,6 +51,9 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
                     profesorExterno.setEstado(resultado.getString("estadoProfesor"));
                     profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
                     profesorExterno.setIdProfesor(resultado.getInt("idProfesor"));
+                    Usuario usuarioProfesor = new Usuario();
+                    usuarioProfesor.setIdUsuario(resultado.getInt("Usuario_idUsuario"));
+                    profesorExterno.setUsuario(usuarioProfesor);
                     profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
                     profesoresExternos.add(profesorExterno);
                 }
