@@ -29,36 +29,58 @@ public class PruebaDAOProfesorImplementacion {
     public void pruebaRegistrarProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         Profesor profesor = new Profesor();
-        profesor.setNombre("Lizbeth");
-        profesor.setApellidoPaterno("Rodriguez");
-        profesor.setApellidoMaterno("Gomez");
-        profesor.setCorreo("lizbeth@gmail.com");
+        profesor.setNombre("Alberto");
+        profesor.setApellidoPaterno("Cruz");
+        profesor.setApellidoMaterno("Nava");
+        profesor.setCorreo("profesorpruebauno@gmail.com");
         Usuario usuario = new Usuario();
-        usuario.setIdUsuario(13);
+        usuario.setIdUsuario(1);
         profesor.setUsuario(usuario);
         int resultado = dao.registrarProfesor(profesor);
         assertEquals(1, resultado);
     }
      
    @Test(expected = IllegalArgumentException.class)
-    public void pruebaFallidaRegistrarProfesor() {
+    public void pruebaRegistrarProfesorFallida() {        
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         Profesor profesor = new Profesor();
-        profesor.setNombre("");
+        profesor.setNombre(null);
+        profesor.setApellidoPaterno(null);
+        profesor.setApellidoMaterno(null);
+        profesor.setCorreo(null);
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(1);
+        profesor.setUsuario(usuario);
         int resultado = dao.registrarProfesor(profesor);
+        assertEquals(-1, resultado);
+    }
+    
+    @Test
+    public void pruebaRegistrarProfesorSinConexionExitosa() {
+        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
+        Profesor profesor = new Profesor();
+        profesor.setNombre("Alberto");
+        profesor.setApellidoPaterno("Cruz");
+        profesor.setApellidoMaterno("Nava");
+        profesor.setCorreo("profesorpruebauno@gmail.com");
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(2);
+        profesor.setUsuario(usuario);
+        int resultado = dao.registrarProfesor(profesor);
+        assertEquals(-1, resultado);
     }
 
     @Test
     public void pruebaCambiarEstadoProfesorExitosa() {
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         int idProfesor = 1; 
-        String nuevoEstado = EnumProfesor.Activo.toString(); 
+        String nuevoEstado = EnumProfesor.Esperando.toString(); 
         int resultado = daoProfesor.cambiarEstadoProfesor(idProfesor, nuevoEstado);
         assertEquals(1, resultado);
     }
     
     @Test
-    public void pruebaFallidaCambiarEstadoProfesor() {
+    public void pruebaCambiarEstadoProfesorFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         int idProfesor = 999;
         String nuevoEstado = EnumProfesor.Activo.toString(); 
@@ -69,14 +91,14 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaModificarNombreProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String nuevoNombre = "RogelioJos";
-        String correoProfesor = "regelio@gmail.com";
+        String nuevoNombre = "Beto";
+        String correoProfesor = "profesorpruebauno@gmail.com";
         int resultado = dao.modificarNombreProfesor(nuevoNombre, correoProfesor);
         assertEquals(1, resultado);
     }
     
     @Test
-    public void pruebaFallidaModificarNombreProfesor() {
+    public void pruebaModificarNombreProfesorFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String nuevoNombre = "Pedro";
         String correoProfesor = "correoInvalido@example.com";
@@ -87,17 +109,16 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaModificarApellidoPaternoProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String nuevoApellidoPaterno = "Gomez";
-        String correoProfesor = "jose@example.com";
+        String nuevoApellidoPaterno = "Gómez";
+        String correoProfesor = "profesorpruebauno@gmail.com";
         int resultado = dao.modificarApellidoPaternoProfesor(nuevoApellidoPaterno, correoProfesor);
         assertEquals(1, resultado);
     }
-
     
     @Test
-    public void pruebaFallidaModificarApellidoPaternoProfesor() {
+    public void pruebaModificarApellidoPaternoProfesorFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String nuevoApellidoPaterno = "Gonzalez";
+        String nuevoApellidoPaterno = "Pérez";
         String correoProfesor = "correoInvalido@example.com";
         int resultado = dao.modificarApellidoPaternoProfesor(nuevoApellidoPaterno, correoProfesor);
         assertEquals(0, resultado);
@@ -106,15 +127,15 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaModificarApellidoMaternoProfesorExitoso() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String apellidoMaternoActualizado = "Camacho";
-        String correoProfesor = "jose@example.com";
+        String apellidoMaternoActualizado = "Pérez";
+        String correoProfesor = "profesorpruebauno@gmail.com";
         int resultadoEsperado = 1;
         int resultadoObtenido = dao.modificarApellidoMaternoProfesor(apellidoMaternoActualizado, correoProfesor);
         assertEquals(resultadoEsperado, resultadoObtenido);
     }
 
     @Test
-    public void pruebaFallidaModificarApellidoMaternoProfesor() {
+    public void pruebaModificarApellidoMaternoProfesorFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String nuevoApellidoMaterno = "Hernandez";
         String correoProfesor = "correoInvalido@example.com";
@@ -125,14 +146,14 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaModificarCorreoProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String nuevoCorreo = "vera@example.com";
-        String correoProfesor = "edgar@gmail.com";
+        String nuevoCorreo = "profesorpruebaunocambio@gmail.com";
+        String correoProfesor = "profesorpruebauno@gmail.com";
         int resultado = dao.modificarCorreoProfesor(nuevoCorreo, correoProfesor);
         assertEquals(1, resultado);
     }
     
     @Test
-    public void pruebaFallidaModificarCorreoProfesor() {
+    public void pruebaModificarCorreoProfesorFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String nuevoCorreo = "pedro@example.com";
         String correoProfesor = "correoInvalido@example.com";
@@ -143,13 +164,13 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaObtenerIdProfesorPorCorreoExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correo = "regelio@gmail.com";
+        String correo = "profesorpruebaunocambio@gmail.com";
         int idProfesor = dao.obtenerIdProfesorPorCorreo(correo);
         assertEquals(1, idProfesor);
     }
     
    @Test
-    public void pruebaFallidaObtenerIdProfesorPorCorreo() {
+    public void pruebaObtenerIdProfesorPorCorreoFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String correo = "correoInvalido@example.com";
         int idProfesor = dao.obtenerIdProfesorPorCorreo(correo);
@@ -159,13 +180,13 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaAsignarUsuarioDeProfesorPorCorreoExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correo = "oscar@example.com"; 
+        String correo = "profesorpruebaunocambio@gmail.com"; 
         int resultado = dao.asignarUsuarioDeProfesorPorCorreo(correo);
         assertEquals(1, resultado);
     }
     
     @Test
-    public void pruebaFallidaAsignarUsuarioDeProfesorPorCorreo() {
+    public void pruebaAsignarUsuarioDeProfesorPorCorreoFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String correo = "correoInvalido@example.com";
         int resultado = dao.asignarUsuarioDeProfesorPorCorreo(correo);
@@ -182,7 +203,7 @@ public class PruebaDAOProfesorImplementacion {
     }
     
     @Test
-    public void pruebaFallidaObtenerProfesorPorIdUsuario() {
+    public void pruebaObtenerProfesorPorIdUsuarioFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         int idUsuario = 999; 
         Usuario logger = new Usuario(); 
@@ -193,31 +214,31 @@ public class PruebaDAOProfesorImplementacion {
     @Test
     public void pruebaValidarDuplicidadDeCorreoExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correo = "jose@example.com";
+        String correo = "profesorpruebaunocambio@gmail.com";
         int coincidencias = dao.validarDuplicidadDeCorreo(correo);
         assertEquals(1, coincidencias);
     }
     
     @Test (expected = AssertionError.class)
-    public void pruebaFallidaValidarDuplicidadDeCorreo() {
+    public void pruebaValidarDuplicidadDeCorreoFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         String correo = "Correo-Invalido@example.com";
         int coincidencias = dao.validarDuplicidadDeCorreo(correo);
         assertEquals(-1, coincidencias);
-    }
+    }  
 
     @Test
     public void pruebaConsultarPrecondicionInicioColaboracionPorIdProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        int idProfesor = 2; 
+        int idProfesor = 1; 
         int resultado = dao.consultarPrecondicionInicioColaboracionPorIdProfesor(idProfesor);
         assertTrue(resultado > 0);
     }
     
     @Test
-    public void pruebaFallidaConsultarPrecondicionInicioColaboracionPorIdProfesor() {
+    public void pruebaConsultarPrecondicionInicioColaboracionPorIdProfesorFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        int idProfesor = 2; 
+        int idProfesor = 1; 
         int resultado = dao.consultarPrecondicionInicioColaboracionPorIdProfesor(idProfesor);
         assertTrue(resultado < 0);
     }

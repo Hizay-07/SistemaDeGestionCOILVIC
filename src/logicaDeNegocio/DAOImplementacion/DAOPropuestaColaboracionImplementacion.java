@@ -81,85 +81,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         return propuestasColaboracion;
 
     }      
-
-   
-
-    /**
-    *Consultar las propuesta de colaboración registradas en la base de datos por medio
-    * de su fecha de inicio
-    * @param fecha String con la fecha de inicio asignada a una propuesta de colaboración
-    *@return Regresa la lista de propuestas de colaboración registradas en la base
-    * de datos
-    **/
-    @Override
-    public List<PropuestaColaboracion> consultarPropuestasColaboracionPorFechaDeInicio(String fecha) {
-        ResultSet resultado;
-        List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where fechaInicio=?")){
-            declaracion.setString(1, fecha);
-            resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-                propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
-                propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
-                propuestaColaboracion.setIdioma(resultado.getString("idioma"));
-                propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
-                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
-                propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
-                propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
-                propuestasColaboracion.add(propuestaColaboracion);                
-            }
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
-        }
-        return propuestasColaboracion;        
-    }
-    
-    /**
-    *Modificar la fecha de inicio de una propuesta de colaboración registrada en la base de datos
-    *@param idPropuestaColaboracion int con el ID de una propuesta de colaboración
-    * registrada en la base de datos 
-    *@param fechaDeInicio String con la nueva fecha de inicio a asignar
-    *@return Regresa el numero de filas afectadas
-    **/
-    @Override
-    public int editarFechaDeInicioDePropuestaColaboracionPorId(String fechaDeInicio, int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;       
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaInicio=? where idPropuestaColaboracion=?")){
-            declaracion.setString(1, fechaDeInicio);
-            declaracion.setInt(2, idPropuestaColaboracion);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
-        }
-        return numeroFilasAfectadas;            
-    }
-
-    /**
-    *Modificar la fecha de cierre de una propuesta de colaboración registrada en la base de datos
-    *@param idPropuestaColaboracion int con el ID de una propuesta de colaboración
-    * registrada en la base de datos 
-    *@param fechaDeCierre String con la nueva fecha de cierre a asignar
-    *@return Regresa el numero de filas afectadas
-    **/
-    @Override
-    public int editarFechaDeCierreDePropuestaColaboracionPorId(String fechaDeCierre, int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;       
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaCierre=? where idPropuestaColaboracion=?")){
-            declaracion.setString(1, fechaDeCierre);
-            declaracion.setInt(2, idPropuestaColaboracion);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
-        }
-        return numeroFilasAfectadas;                    
-    }
-
+  
     /**
     *Aprobar una propuesta de colaboración por medio de su ID asignado en la base
     * de datos
@@ -176,6 +98,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
+            numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;        
     }
@@ -196,6 +119,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
+            numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;         
     }
@@ -321,6 +245,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion);
+            return new ArrayList<>();
         }
         return propuestasColaboracion;                
     }
@@ -344,6 +269,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }      
         }catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
+            return -1;
         }
         return idPropuestaColaboracion;                                        
     }
@@ -409,6 +335,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
+            
         }
         return numeroFilasAfectadas;        
     }

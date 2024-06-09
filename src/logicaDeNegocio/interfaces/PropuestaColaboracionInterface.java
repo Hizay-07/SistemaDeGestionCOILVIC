@@ -6,7 +6,9 @@ import logicaDeNegocio.clases.PropuestaColaboracion;
 public interface PropuestaColaboracionInterface {        
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion);
     
-    public List<PropuestaColaboracion> consultarPropuestasColaboracion();        
+
+    public List<PropuestaColaboracion> consultarPropuestasColaboracion();
+      
                          
     public int aprobarPropuestaColaboracionPorId(int idPropuestaColaboracion);
     
