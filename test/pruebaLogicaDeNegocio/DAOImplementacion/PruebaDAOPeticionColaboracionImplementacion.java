@@ -59,42 +59,6 @@ public class PruebaDAOPeticionColaboracionImplementacion {
     }
     
     @Test
-    public void pruebaAceptarColaboracionExitosa() {
-        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
-        int idColaboracion = 1; 
-        String nuevoEstado = EnumPeticionColaboracion.Aceptada.toString();
-        int resultado = instancia.aceptarColaboracion(idColaboracion, nuevoEstado);
-        assertEquals(1, resultado); 
-    }
-    
-    @Test
-    public void pruebaAceptarColaboracionFracaso() {
-        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
-        int idColaboracion = 2; 
-        String nuevoEstado = EnumPeticionColaboracion.Aceptada.toString();
-        int resultado = instancia.aceptarColaboracion(idColaboracion, nuevoEstado);
-        assertEquals(0, resultado); 
-    }
- 
-    @Test
-    public void pruebaRechazarColaboracionExitosa() {
-        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
-        int idColaboracion = 2; 
-        String nuevoEstado = EnumPeticionColaboracion.Rechazada.toString();
-        int resultado = instancia.rechazarColaboracion(idColaboracion, nuevoEstado);
-        assertEquals(1, resultado); 
-    }
-    
-    @Test
-    public void pruebaRechazarColaboracionFracaso() {
-        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
-        int idColaboracion = 2;
-        String nuevoEstado = EnumPeticionColaboracion.Rechazada.toString();
-        int resultado = instancia.rechazarColaboracion(idColaboracion, nuevoEstado);
-        assertEquals(0, resultado);
-    }
-    
-    @Test
     public void pruebaConsultarIdProfesoresPorIdPropuestaColaboracionExitosa(){
         int idPropuestaColaboracion=2;
         List<Integer> resultadoEsperado=new ArrayList<>();

@@ -16,6 +16,11 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOProfesorUVImplementacion.class);
 
+    /**
+    *Registrar un profesor UV dentro de la base de datos
+    *@param profesorUV ProfesorUV con los datos a registrar dentro de la base de datos
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarProfesorUV(ProfesorUV profesorUV) {
         int numeroFilasAfectadas=0;
@@ -34,7 +39,11 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         }
         return numeroFilasAfectadas;        
     }
-
+    
+    /**
+    *Obtener la lista de profesores UV registrados en la base de datos
+    *@return Regresa la lista de profesores UV registrados en la base de datos
+    **/
     @Override
     public List<ProfesorUV> consultarProfesoresUV() {
         ResultSet resultado;
@@ -68,7 +77,14 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         }
         return profesoresUV;
     }
-
+    
+    /**
+    *Editar el tipo de contratación asociado a un profesor UV registrado en la base de 
+    * datos a través del ID de profesor asignado
+    *@param idProfesorUV int con el ID de un profesor registrado en la base de datos 
+    *@param tipoDeContratacion String con el nuevo tipoDeContratacion a asignar
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int editarTipoDeContratacionDeProfesorUVPorIdProfesorUV(String tipoDeContratacion, int idProfesorUV) {
         int numeroFilasAfectadas=0;
@@ -83,6 +99,13 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return numeroFilasAfectadas;                
     }
 
+    /**
+    *Editar la categoria de contratacion asociada a un profesor UV registrado en la base de 
+    * datos a través del ID de profesor asignado
+    *@param idProfesorUV int con el ID de un profesor registrado en la base de datos 
+    *@param categoriaDeContratacion String con la nueva categoriaDeContratacion a asignar
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV(String categoriaDeContratacion, int idProfesorUV) {
         int numeroFilasAfectadas=0;
@@ -97,6 +120,13 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return numeroFilasAfectadas;         
     }
 
+    /**
+    *Editar la categoria de contratacion asociada a un profesor UV registrado en la base de 
+    * datos a través del ID de profesor asignado
+    *@param idProfesorUV int con el ID de un profesor registrado en la base de datos 
+    *@param areaAcademica int con el nuevo ID de areaAcademica a asignar
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int editarAreaAcademicaDeProfesorUVPorIdProfesorUV(int areaAcademica, int idProfesorUV) {
         int numeroFilasAfectadas=0;
@@ -111,6 +141,13 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return numeroFilasAfectadas;         
     }
 
+    /**
+    *Editar la región académica de profesor asociada a un profesor UV registrado en la base de 
+    * datos a través del ID de profesor asignado
+    *@param idProfesorUV int con el ID de un profesor registrado en la base de datos 
+    *@param region int con el nuevo ID de región académica a asignar
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int editarRegionDeProfesorUVPorIdProfesorUV(int region, int idProfesorUV) {
         int numeroFilasAfectadas=0;
@@ -125,6 +162,13 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return numeroFilasAfectadas;    
     }
     
+    /**
+    *Editar el numero de personal de profesor asociado a un profesor UV registrado en la base de 
+    * datos a través del ID de profesor asignado
+    *@param idProfesorUV int con el ID de un profesor registrado en la base de datos 
+    *@param numeroDePersonal String con el nuevo numeroDePersonal a asignar
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override 
     public int editarNumeroDePersonalPorIdProfesorUV(String numeroDePersonal, int idProfesorUV){
         int numeroFilasAfectadas=0;
@@ -139,6 +183,11 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return numeroFilasAfectadas;    
     }
     
+    /**
+    *Obtener un profesor UV registrado en la base de datos a través del ID profesor
+    *@param idProfesor int con el ID de un profesor registrado en la base de datos 
+    *@return Regresa un Profesor UV registrado en la base de datos
+    **/
     @Override
     public ProfesorUV obtenerProfesorUVPorIDProfesor(int idProfesor){
         ProfesorUV profesorObtenido = new ProfesorUV();
@@ -166,6 +215,12 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
         return profesorObtenido;
     }
     
+    /**
+    *Validar la inexistencia de un profesor uv en la base de datos
+    *@param noPersonal String con el numero de personal de un profesor 
+    * registrado en la base de datos 
+    *@return Regresa el numero de coincidencias encontradas
+    **/
     @Override
     public int validarInexistenciaProfesorUV(String noPersonal){
         int numeroDeCoincidencias=0;
@@ -181,22 +236,6 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             numeroDeCoincidencias = -1;
         }
         return numeroDeCoincidencias;
-    }
-    
-    //No se hacen pruebas
-    @Override
-    public int eliminarProfesorUV(String correo){
-        int numeroFilasAfectadas = 0;
-        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion = conexion.prepareStatement("DELETE FROM profesorUV " +
-            "WHERE idProfesor IN (SELECT idProfesor FROM profesor WHERE correo = ?);")){
-            declaracion.setString(1, correo);
-            numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage());
-            numeroFilasAfectadas = -1;
-        }
-        return numeroFilasAfectadas;
     }
     
 }

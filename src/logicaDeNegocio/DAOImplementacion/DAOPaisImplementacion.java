@@ -18,7 +18,12 @@ public class DAOPaisImplementacion implements PaisInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOPaisImplementacion.class);
 
-    
+    /**
+    *Obtener el numero de un país registrado en la base de datos
+    *@param paisAConsultar Pais del cual se desea obtener su numero registrado en
+    * la base de datos
+    *@return Regresa el numero de pais asignado en la base de datos
+    **/
     @Override
     public int obtenerNumeroDePais(Pais paisAConsultar){
         int paisObtenido=0;   
@@ -38,6 +43,10 @@ public class DAOPaisImplementacion implements PaisInterface {
         return paisObtenido;
     }
     
+    /**
+    *Obtener la lista de paises registrados en la base de datos
+    *@return Regresa la lista de paises registrados en la base de datos
+    **/
     @Override
     public List<Pais> consultarPaises(){
         ResultSet resultado;
@@ -57,6 +66,10 @@ public class DAOPaisImplementacion implements PaisInterface {
         return paises;
     }
     
+    /**
+    *Obtener el número de paises registrados en la base de datos
+    *@return Regresa el número de paises registrados en la base de datos
+    **/
     @Override
     public int verificarPais(){
         int resultadoVerificacion=0;

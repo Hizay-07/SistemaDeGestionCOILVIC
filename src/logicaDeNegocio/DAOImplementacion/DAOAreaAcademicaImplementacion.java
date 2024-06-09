@@ -14,7 +14,11 @@ import org.apache.log4j.Logger;
 public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOAreaAcademicaImplementacion.class);
-
+    
+    /**
+    *Obtener la lista de áreas académicas registradas en la base de datos
+    *@return Regresa la lista de Áreas académicas registradas en la base de datos
+    **/
     @Override
     public List<AreaAcademica> consultarAreasAcademicas() {
         ResultSet resultado;
@@ -37,6 +41,11 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
         return areasAcademicas;
     }
     
+    /**
+    *Obtener el ID de una área académica
+    *@param area String con el nombre del área académica a consultar
+    *@return Regresa el ID del área académica consultado
+    **/
     @Override
     public int consultarIdDeAreaAcademicaPorArea(String area){
         ResultSet resultado;
@@ -58,6 +67,10 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
         return idArea;        
     }
     
+    /**
+    *Verificar el número de áreas académicas registradas dentro de la base de datos
+    *@return Regresa el número de áreas académicas registradas en la base de datos
+    **/
     @Override
     public int verificarAreaAcademica(){
         int resultadoVerificacion=0;

@@ -17,6 +17,12 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
     private static final Logger LOG=Logger.getLogger(DAOEmisionPropuestaImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     
+    /**
+    *Registrar una emisión de propuesta dentro de la base de datos
+    *@param emisionPropuesta EmisionPropuesta con los datos a registrar dentro de la
+    *base de datos
+    *@return Regresa el número de filas afectadas
+    **/
     @Override
     public int registrarEmisionPropuesta(EmisionPropuesta emisionPropuesta) {
         int numeroFilasAfectadas=0;
@@ -32,7 +38,11 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         }
         return numeroFilasAfectadas;                
     }
-
+    
+    /**
+    *Obtener las emisiones de propuestas registradas en la base de datos
+    *@return Regresa la lista de emisiones de propuesta registradas en la base de datos
+    **/
     @Override
     public List<EmisionPropuesta> consultarEmisionesDePropuestas() {
         ResultSet resultado;
@@ -54,7 +64,15 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         }
         return emisionesPropuesta;        
     }
-
+    
+    /**
+    *Obtener el ID de un profesor asociado a una propuesta de colaboración registrada
+    * en la base de datos
+    * @param idPropuestaColaboracion Int que contiene el ID de la propuesta de colaboración
+    * registrada en la base de datos
+    *@return Regresa ID de profesor asociado a una propuesta de colaboración registrada en la base
+    * de datos
+    **/
     @Override
     public int consultarIdProfesorPorIdPropuestaColaboracion(int idPropuestaColaboracion) {
         ResultSet resultado;
@@ -75,6 +93,14 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
         return idProfesor;        
     }
     
+    
+    /**
+    *Obtener los ID de propuestas de colaboración realizadas por un profesor
+    * @param profesor Profesor del cual se desea obtener las propuestas de colaboración
+    * asociadas a el, registradas en la base de datos
+    *@return Regresa la lista de los ID de propuestas de colaboración asociadas al profesor
+    * ingresado
+    **/
     @Override
     public List<Integer> consultarIdPropuestaDeColaboracionPorIdProfesor(Profesor profesor){
         ResultSet resultado;        
