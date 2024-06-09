@@ -70,14 +70,19 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
                 propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
-                propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
+                TipoColaboracion tipoColaboracion=new TipoColaboracion();
+                tipoColaboracion.setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
+                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return propuestasColaboracion;
-    }
+
+    }      
+
+   
 
     /**
     *Consultar las propuesta de colaboración registradas en la base de datos por medio
@@ -314,7 +319,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                     propuestasColaboracion.add(propuestaColaboracion);                
                 }
             }
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion);
         }
         return propuestasColaboracion;                
@@ -337,7 +342,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             if(resultado.next()){
                 idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");                
             }      
-        }catch (SQLException ex) {
+        }catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
         }
         return idPropuestaColaboracion;                                        

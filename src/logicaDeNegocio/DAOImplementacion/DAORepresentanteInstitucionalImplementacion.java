@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 
-
-public class DAORepresentanteInstitucionalImplementacion implements RepresentanteInstitucionalInterface {
-    
+public class DAORepresentanteInstitucionalImplementacion implements RepresentanteInstitucionalInterface {    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class);
 
@@ -26,7 +24,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     **/
     @Override
     public int registrarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
-        int resultadoRegistro;
+        int resultadoRegistro=0;
         DAOPaisImplementacion paisRepresentante = new DAOPaisImplementacion();
         int numeroDePais = paisRepresentante.obtenerNumeroDePais(representanteIngresado.getPais());
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
@@ -196,12 +194,16 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         }
         return validacionDeExistencia;
     }
+
+            
+
     
     
     /**
     *Obtener los representantes institucionales registrados en la base de datos
     *@return Regresa la lista de representantes institucionales
     **/
+
     @Override
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales(){
        List<RepresentanteInstitucional> representantes = new ArrayList();
@@ -248,6 +250,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            idRepresentanteInstitucional=-1;
         }
         return idRepresentanteInstitucional;        
     }
@@ -289,7 +292,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }        
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;
         }

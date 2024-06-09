@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 
-
-
-public class DAOPaisImplementacion implements PaisInterface {
-    
+public class DAOPaisImplementacion implements PaisInterface {    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOPaisImplementacion.class);
+
+    
+
 
     /**
     *Obtener el numero de un país registrado en la base de datos
@@ -80,7 +80,7 @@ public class DAOPaisImplementacion implements PaisInterface {
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }        
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoVerificacion=-1;
         }

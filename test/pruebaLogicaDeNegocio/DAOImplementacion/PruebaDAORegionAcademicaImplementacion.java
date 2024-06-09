@@ -22,8 +22,7 @@ public class PruebaDAORegionAcademicaImplementacion {
         usuarioPrueba.setTipoDeUsuario("Administrativo");
         UsuarioSingleton.getInstancia(usuarioPrueba);
     }
-    
-    
+        
     @Test
     public void pruebaConsultarRegionesAcademicasExitosa() {
         DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
@@ -47,11 +46,23 @@ public class PruebaDAORegionAcademicaImplementacion {
         assertEquals(regionesAcademicasEsperadas,regionesAcademicasObtenidas);
     }
     
-    @Test(expected = AssertionError.class)
+    @Test
     public void pruebaConsultarRegionesAcademicasFallida() {
         DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
-        List<RegionAcademica> regionesAcademicas = dao.consultarRegionesAcademicas();
-        assertEquals(6, regionesAcademicas.size());
+        RegionAcademica regionXalapa=new RegionAcademica();
+        regionXalapa.setRegion("Xalapa");
+        List<RegionAcademica> regionesAcademicasEsperadas=new ArrayList<>();
+        regionesAcademicasEsperadas.add(regionXalapa);
+        List<RegionAcademica> regionesAcademicasObtenidas = dao.consultarRegionesAcademicas();
+        assertNotEquals(regionesAcademicasEsperadas, regionesAcademicasObtenidas);
+    }
+    
+    //Probar sin BD 
+    @Test
+    public void pruebaConsultarRegionesAcademicasSinConexionExitosa(){
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        List<RegionAcademica> regionesAcademicasObtenidas = dao.consultarRegionesAcademicas();
+        assertTrue(regionesAcademicasObtenidas.isEmpty());        
     }
     
     @Test
@@ -68,34 +79,34 @@ public class PruebaDAORegionAcademicaImplementacion {
         assertEquals(0, idRegion);
     }
     
+    //Probar sin BD 
+    @Test
+    public void pruebaConsultarIdDeRegionPorRegionSinConexionExitosa(){
+        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
+        int idRegion = dao.consultarIdDeRegionPorRegion("Veracruz");
+        assertEquals(-1, idRegion);        
+    }
+    
     @Test
     public void pruebaVerificarRegionExitosa() {
         DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion();
         int resultado = daoRegion.verificarRegion();
-        assertTrue(resultado > 1);
+        assertEquals(5,resultado);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void pruebaVerificarRegionFallida() {
-        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion() {
-            @Override
-            public int verificarRegion() {
-                throw new RuntimeException();
-            }
-        };
-        daoRegion.verificarRegion();
+        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion();
+        int resultado = daoRegion.verificarRegion();
+        assertEquals(0,resultado);       
     }
     
+    //Probar sin BD 
     @Test
-    public void pruebaVerificarRegionSinValoresFallida() {
-        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion() {
-            @Override
-            public int verificarRegion() {
-                return 0;
-            }
-        };
+    public void pruebaVerificarRegionSinConexionExitosa(){
+        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion();
         int resultado = daoRegion.verificarRegion();
-        assertEquals( 0, resultado);
+        assertEquals(-1,resultado);         
     }
 
 }
