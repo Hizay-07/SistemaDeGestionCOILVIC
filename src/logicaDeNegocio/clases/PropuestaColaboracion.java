@@ -13,7 +13,8 @@ public class PropuestaColaboracion {
     private String estadoPropuesta;    
     private TipoColaboracion tipoColaboracion;
     private Profesor profesor;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
+    private static final String OBJETIVO_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'.-_,;0-9]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'.-_,;0-9]+)*$";
+    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'.,]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'.,]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
     
@@ -38,7 +39,7 @@ public class PropuestaColaboracion {
     }
 
     public void setObjetivo(String objetivo)throws IllegalArgumentException {
-        if(objetivo!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, objetivo.trim())&&objetivo.trim().length()<=255){
+        if(objetivo!=null&&Pattern.matches(OBJETIVO_PATTERN, objetivo.trim())&&objetivo.trim().length()<=255){
             this.objetivo = objetivo.trim().replaceAll("[ \t]+", " ");
         }else{
             throw new IllegalArgumentException();

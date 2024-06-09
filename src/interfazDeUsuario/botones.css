@@ -1,0 +1,31 @@
+.root {
+    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.button {
+    -fx-background-color: #007B8A; /* Color de fondo del botón */
+    -fx-text-fill: #ffffff; /* Color del texto del botón */
+    -fx-border-radius: 5px; /* Bordes redondeados */
+    -fx-padding: 10px 20px; /* Espaciado interno */
+}
+
+.button:hover {
+    -fx-background-color: #005F6B; /* Color de fondo cuando el botón es hovered */
+}
+
+.button:pressed {
+    -fx-background-color: #004C56; /* Color de fondo cuando el botón es presionado */
+}
+
+.button-cancel {
+    -fx-background-color: #D9534F; /* Color de fondo del botón de cancelar */
+    -fx-text-fill: #ffffff; /* Color del texto del botón de cancelar */
+}
+
+.button-cancel:hover {
+    -fx-background-color: #C9302C; /* Color de fondo cuando el botón de cancelar es hovered */
+}
+
+.button-cancel:pressed {
+    -fx-background-color: #AC2925; /* Color de fondo cuando el botón de cancelar es presionado */
+}

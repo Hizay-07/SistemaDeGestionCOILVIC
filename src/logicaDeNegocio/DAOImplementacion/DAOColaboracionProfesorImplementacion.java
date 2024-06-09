@@ -19,7 +19,12 @@ import org.apache.log4j.Logger;
 public class DAOColaboracionProfesorImplementacion implements ColaboracionProfesorInterface {
     private static final Logger LOG=Logger.getLogger(DAOColaboracionProfesorImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
-
+    
+    /**
+    *Obtener los profesores pertenecientes a una colaboración a través del ID de la colaboración
+    *@param colaboracion Colaboración de la cual se desea obtener los profesores asociados 
+    *@return Regresa la lista de profesores pertenecientes a la colaboración ingresada
+    **/
     @Override
     public List<Profesor> obtenerProfesoresPorIdColaboracion(Colaboracion colaboracion) {
        ResultSet resultado;
@@ -46,6 +51,11 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
        return profesoresObtenidos;
     }
 
+    /**
+    *Obtener el ID de colaboración asociada a un profesor
+    *@param profesor Profesor del cual se desea obtener el ID de colaboración a la cual pertenece
+    *@return Regresa el ID de colaboración asociado al profesor ingresado
+    **/
     @Override
     public Colaboracion obtenerColaboracionPorIdProfesor(Profesor profesor){
        ResultSet resultado;
@@ -71,7 +81,13 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
        }
        return colaboracionObtenida;
     }
-
+    
+    /**
+    *Registrar un profesor a una colaboración dentro de la base de datos
+    *@param profesor Profesor que se desea asignar a una colaboración
+    *@param colaboracion Colaboración que se desea asociar a un profesor
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarColaboracionProfesor(Profesor profesor, Colaboracion colaboracion) {
         int resultadoInsercion;   

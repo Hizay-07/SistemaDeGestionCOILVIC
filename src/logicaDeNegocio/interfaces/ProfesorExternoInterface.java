@@ -16,5 +16,4 @@ public interface ProfesorExternoInterface {
 
     public int editarInstitucionProfesorExternoPorIdProfesor(int idRepresentanteInstitucional, int idProfesorExterno);
 
-    public int eliminarProfesorExterno(String correo);
 }

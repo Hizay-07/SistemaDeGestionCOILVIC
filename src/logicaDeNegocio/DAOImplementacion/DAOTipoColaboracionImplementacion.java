@@ -15,6 +15,10 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOTipoColaboracionImplementacion.class);
     
+    /**
+    *Obtener los tipos de colaboración registrados en la base de datos
+    *@return Regresa la lista de tipos de colaboración
+    **/
     @Override
     public List<TipoColaboracion> consultarTiposDeColaboracion() {
         ResultSet resultado;
@@ -36,6 +40,12 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         return tiposColaboracion;
     }     
     
+    /**
+    *Obtener el tipo de colaboración asignado a un tipo de colaboración registrada en
+    * la base de datos
+    * @param idTipoColaboracion int con el ID del tipo de colaboración 
+    *@return Regresa el tipo de colaboración 
+    **/
     @Override
     public String consultarTipoColaboracionPorId(int idTipoColaboracion){
         ResultSet resultado;
@@ -55,6 +65,12 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         return tipo;        
     }
     
+    /**
+    *Obtener el ID de tipo de colaboración asignado a un tipo de colaboración registrada en
+    * la base de datos
+    * @param tipo String con el tipo de colaboración 
+    *@return Regresa el ID del tipo de colaboración 
+    **/
     @Override
     public int consultarIdTipoColaboracionPorTipo(String tipo){
         ResultSet resultado;
@@ -73,6 +89,10 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         return idTipoColaboracion;                
     }
     
+    /**
+    *Obtener el numero de tipos de colaboración registrados en la base de datos
+    *@return Regresa el numero de coincidencias encontradas 
+    **/
     @Override
     public int verificarTipoColaboracion(){        
         int resultadoVerificacion=0;
@@ -83,7 +103,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }            
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;
         }

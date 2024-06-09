@@ -15,6 +15,12 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
     private static final Logger LOG=Logger.getLogger(DAOEvaluacionPropuestaImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     
+    /**
+    *Registrar una evaluación de propuesta dentro de la base de datos
+    *@param evaluacionPropuesta EvaluacionPropuesta con los datos a registrar dentro de la
+    *base de datos
+    *@return Regresa el número de filas afectadas
+    **/
     @Override
     public int registrarEvaluacionPropuesta(EvaluacionPropuesta evaluacionPropuesta) {
         int numeroFilasAfectadas=0;
@@ -32,7 +38,11 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
         return numeroFilasAfectadas;                        
     }
     
-    
+    /**
+    *Obtener las evaluaciones de propuestas registradas en la base de datos
+    *@return Regresa la lista de evaluaciones de propuesta encontradas en la base 
+    * de datos
+    **/
     @Override
     public List<EvaluacionPropuesta> consultarEvaluacionesDePropuesta() {
         ResultSet resultado;

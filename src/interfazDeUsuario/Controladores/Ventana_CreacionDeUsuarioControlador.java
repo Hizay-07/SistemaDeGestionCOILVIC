@@ -178,7 +178,6 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
                    Alertas.mostrarMensajeDatosIngresados();
                 }else{
                    Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet antes de registrar un usuario administrativo");
-                   daoUsuario.eliminarUsuario(usuario.getNombreUsuario());
                 }
             }
             case 0 -> Alertas.mostrarMensajeDatosDuplicados();
@@ -205,8 +204,6 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
                         if(resultadoCorreo==1){
                             Alertas.mostrarMensajeDatosIngresados();
                         }else if(resultadoCorreo==-1){
-                            daoProfesor.eliminarCuentaAsignadaAProfesor(usuario.getNombreUsuario());
-                            daoUsuario.eliminarUsuario(usuario.getNombreUsuario());
                             Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet o el correo proporcionado antes de registrar un usuario de profesor");
                         }
                     }

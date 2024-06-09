@@ -10,6 +10,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.clases.ProfesorExterno;
+import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.interfaces.ProfesorExternoInterface;
 import org.apache.log4j.Logger;
 
@@ -17,7 +18,12 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
 
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOProfesorExternoImplementacion.class);
-
+    
+    /**
+    *Registrar un profesor externo dentro de la base de datos
+    *@param profesorExterno ProfesorExterno con los datos a registrar dentro de la base de datos
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarProfesorExterno(ProfesorExterno profesorExterno) {
         int numeroFilasAfectadas = 0;
@@ -32,7 +38,11 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         }
         return numeroFilasAfectadas;
     }
-
+    
+    /**
+    *Obtener la lista de profesores externos registrados dentro de la base de datos
+    *@return Regresa la lista de profesores externos registrados en la base de datos
+    **/
     @Override
     public List<ProfesorExterno> consultarProfesoresExternos() {
         ResultSet resultado;
@@ -50,6 +60,9 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
                     profesorExterno.setEstado(resultado.getString("estadoProfesor"));
                     profesorExterno.setIdProfesorExterno(resultado.getInt("idProfesorExterno"));
                     profesorExterno.setIdProfesor(resultado.getInt("idProfesor"));
+                    Usuario usuarioProfesor = new Usuario();
+                    usuarioProfesor.setIdUsuario(resultado.getInt("Usuario_idUsuario"));
+                    profesorExterno.setUsuario(usuarioProfesor);
                     profesorExterno.setIdRepresentanteInstitucional(resultado.getInt("idRepresentanteInstitucional"));
                     profesoresExternos.add(profesorExterno);
                 }
@@ -59,7 +72,15 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         }
         return profesoresExternos;
     }
-
+    
+    /**
+    *Obtener la lista de profesores externos registrados dentro de la base de datos
+    * asociados a un representante institucional
+    * @param idRepresentanteInstitucional int con el ID del representante institucional
+    * asociado a un profesor externo registrado en la base de datos
+    *@return Regresa la lista de profesores externos registrados en la base de datos
+    * asociados al ID del representante institucional
+    **/
     @Override
     public List<ProfesorExterno> consultarProfesoresExternosPorRepresentanteInstitucional(int idRepresentanteInstitucional) {
         ResultSet resultado;
@@ -86,7 +107,14 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         }
         return profesoresExternos;
     }
-        
+    
+    /**
+    *Obtener el ID de un representante institucional asociado a un profesor
+    * @param idProfesor int con el ID del profesor asociado a un representante institucional
+    * registrado en la base de datos
+    *@return Regresa la lista de profesores externos registrados en la base de datos
+    * asociados al ID del representante institucional
+    **/    
     @Override
     public int consultarIdRepresentanteInstitucionalPorIdProfesor(int idProfesor){     
         int idProfesorExterno=0;
@@ -102,6 +130,12 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         return idProfesorExterno;                
     }
     
+    /**
+    *Obtener un profesor externo registrado en la base de datos a través del ID del profesor
+    * asociado al profesor externo
+    *@param idProfesor int con el ID del profesor asociado a un profesor externo registrado en la base de datos
+    *@return Regresa el profesor externo registrado en la base de datos
+    **/   
     @Override
     public ProfesorExterno obtenerProfesorExternoPorIDProfesor(int idProfesor){
         ProfesorExterno profesorObtenido = new ProfesorExterno();
@@ -126,6 +160,15 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         return profesorObtenido;
     }
     
+    /**
+    *Modificar el representante institucional asociado a un profesor externo registrado en la 
+    * base de datos
+    * @param idRepresentanteInstitucional int con el ID de un representante institucional
+    * registrado en la base de datos
+    *@param idProfesorExterno int con el ID del profesor asociado a un profesor externo 
+    * registrado en la base de datos
+    *@return Regresa el numero de filas afectadas
+    **/ 
     @Override
     public int editarInstitucionProfesorExternoPorIdProfesor(int idRepresentanteInstitucional, int idProfesorExterno){
         int resultadoModificacion=0;
@@ -140,20 +183,5 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
         }
         return resultadoModificacion;
     }
-    
-    //No se hacen pruebas
-    @Override
-    public int eliminarProfesorExterno(String correo){
-        int numeroFilasAfectadas = 0;
-        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion = conexion.prepareStatement("DELETE FROM profesorExterno " +
-            "WHERE idProfesor IN (SELECT idProfesor FROM profesor WHERE correo = ?);")){
-            declaracion.setString(1, correo);
-            numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage());
-            numeroFilasAfectadas = -1;
-        }
-        return numeroFilasAfectadas;
-    }
+   
 }

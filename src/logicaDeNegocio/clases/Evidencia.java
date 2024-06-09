@@ -7,7 +7,7 @@ public class Evidencia {
     private String nombre;
     private String rutaEvidencia;
     private int idActividad;
-    private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
+    private static final String SOLO_LETRAS_Y_NUMEROS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,'-_()0-9]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,'-_()0-9]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
     public int getIdEvidencia() {
@@ -27,7 +27,7 @@ public class Evidencia {
     }
 
     public void setNombre(String nombre)throws IllegalArgumentException {
-        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN,nombre.trim())&&nombre.trim().length()<=50){
+        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN,nombre.trim())&&nombre.trim().length()<=50){
             this.nombre = nombre.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();

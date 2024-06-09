@@ -101,7 +101,7 @@ public class PruebaDAOProfesorExternoImplementacion {
         int idRepresentanteInstitucional = dao.consultarIdRepresentanteInstitucionalPorIdProfesor(idProfesor);
         assertEquals(0, idRepresentanteInstitucional);
     }
-    
+
     @Test
     public void pruebaEditarInstitucionProfesorExternoPorIdProfesorExitosa(){
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();

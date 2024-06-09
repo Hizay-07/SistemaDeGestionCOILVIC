@@ -31,7 +31,7 @@ public class PruebaColaboracion {
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoColaboracionInvalida(){
         Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setEstadoColaboracion("Estado*");
+        colaboracionPrueba.setEstadoColaboracion("*Estado*");
         assertNull(colaboracionPrueba.getEstadoColaboracion());
     }
 }

@@ -38,7 +38,7 @@ public class PruebaActividad {
     @Test
     public void pruebaSetNombreActividadExitosa(){
         Actividad actividadPrueba = new Actividad();
-        actividadPrueba.setNombre("PSP");
+        actividadPrueba.setNombre("Entrega de psp");
         assertNotNull(actividadPrueba.getNombre());
     }
     
@@ -102,7 +102,7 @@ public class PruebaActividad {
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoActividadInvalido(){
         Actividad actividadPrueba = new Actividad();
-        actividadPrueba.setEstado("No activa*");
+        actividadPrueba.setEstado("No activada hasta el 21 de junio");
         assertNotNull(actividadPrueba.getEstado());
     }
     

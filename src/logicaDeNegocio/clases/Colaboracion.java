@@ -53,7 +53,7 @@ public class Colaboracion {
 
 
     public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
-        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes)) && cantidadEstudiantes >= 0 && cantidadEstudiantes <= 50){
+        if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes)) && cantidadEstudiantes >= 0 && cantidadEstudiantes <= 150){
             this.cantidadEstudiantes = cantidadEstudiantes;
         }else{
             throw new IllegalArgumentException();

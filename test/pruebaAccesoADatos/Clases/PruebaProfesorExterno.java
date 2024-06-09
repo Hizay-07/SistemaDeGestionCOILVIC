@@ -14,7 +14,7 @@ public class PruebaProfesorExterno {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void pruebaSetIdPrfesorExternoInvalido() {
+    public void pruebaSetIdProfesorExternoInvalido() {
         ProfesorExterno profesorPrueba = new ProfesorExterno();
         profesorPrueba.setIdProfesorExterno(-1);
         assertNull(profesorPrueba.getIdProfesorExterno());

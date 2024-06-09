@@ -225,13 +225,18 @@ public class Ventana_ModificarActividadControlador implements Initializable {
             if(validarFechasDeActividad()){
                 if(!validarModificacionDeCampos()){
                     Actividad actividadAModificar = obtenerDatosActividad();
+                    actividadAModificar.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
                     DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
-                    int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
-                    int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
-                    if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
-                        Alertas.mostrarMensajeErrorEnLaConexion();
-                    } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {
-                        Alertas.mostrarMensajeDatosModificados();
+                    if(!daoActividad.validarInexistenciaDeActividad(actividadAModificar)){
+                        int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
+                        int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
+                        if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
+                            Alertas.mostrarMensajeErrorEnLaConexion();
+                        } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {
+                            Alertas.mostrarMensajeDatosModificados();
+                        }
+                    }else{
+                        Alertas.mostrarMensajeActividadExistente();
                     }
                 }else{
                     Alertas.mostrarMensajeSinModificarDatos();

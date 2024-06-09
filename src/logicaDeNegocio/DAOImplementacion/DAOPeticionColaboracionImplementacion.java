@@ -19,6 +19,12 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOPeticionColaboracionImplementacion.class);
 
+    /**
+    *Registrar una petición de colaboracion dentro de la base de datos
+    *@param peticion PeticionColaboracion con los datos a registrar en la base de
+    * datos
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarPeticionColaboracion(PeticionColaboracion peticion) {
         int numeroFilasAfectadas = 0;
@@ -36,6 +42,11 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return numeroFilasAfectadas;
     }
     
+    /**
+    *Obtener las peticiones de colaboración registradas en la base de datos
+    *@return Regresa la lista de peticiones de colaboración registradas en la 
+    * base de datos
+    **/
     @Override
     public List<PeticionColaboracion> consultarPeticiones() {
         ResultSet resultado;
@@ -59,34 +70,13 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return peticiones;
     }
 
-    @Override
-    public int aceptarColaboracion(int idColaboracion, String nuevoEstado) {
-        int numeroFilasAfectadas = 0;
-        try (Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion=? WHERE idColaboracion=?;")){
-            declaracion.setString(1, nuevoEstado);
-            declaracion.setInt(2, idColaboracion);
-            numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage());
-        }
-        return numeroFilasAfectadas;
-    }
-
-    @Override
-    public int rechazarColaboracion(int idColaboracion, String nuevoEstado) {
-        int numeroFilasAfectadas = 0;
-        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion = conexion.prepareStatement("UPDATE peticioncolaboracion SET estadoPeticion=? WHERE idColaboracion=?;")){
-            declaracion.setString(1, nuevoEstado);
-            declaracion.setInt(2, idColaboracion);
-            numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage());
-        }
-        return numeroFilasAfectadas;
-    }
-    
+    /**
+    *Consultar el ID Propuesta de una propuesta de colaboración registrada en la 
+    * base de datos asociada a un profesor y a una petición de colaboración
+    *@param idProfesor Int con el ID de un profesor asociado a una petición de
+    * colaboración registrada en la base de datos
+    *@return Regresa el ID de la propuesta de colaboración
+    **/
     @Override
     public int consultarIdPropuestaDeColaboracionPorIdProfesor(int idProfesor){
         ResultSet resultado;
@@ -107,6 +97,14 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return idPropuestaColaboracion;
     }
     
+    /**
+    * Obtener los ID de profesores asociados a una petición de colaboración en estado
+    * registrada a través del ID de propuesta de colaboración
+    *@param idPropuestaColaboracion Int con el ID de la propuesta de colaboración
+    * asociada a la petición de colaboración
+    *@return Regresa la lista con los ID de los profesores asociados a una petición de
+    * colaboración registrada en la base de datos
+    **/
     @Override
     public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracion(int idPropuestaColaboracion){
         ResultSet resultado;
@@ -125,6 +123,14 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return idProfesores;                        
     }
     
+    /**
+    *Registrar la aceptación de una petición de colaboración en la base de datos
+    *@param idProfesor Int con el ID de un profesor asociado a una petición de
+    * colaboración registrada en la base de datos
+    *@param idPropuestaColaboracion Int con el ID de una propuesta de colaboración
+    * asociado a una petición de colaboración registrada en la base de datos.
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int aceptarPeticionColaboracion(int idPropuestaColaboracion,int idProfesor) {
         int numeroFilasAfectadas = 0;
@@ -139,6 +145,14 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return numeroFilasAfectadas;
     }
     
+    /**
+    *Registrar el rechazo de una petición de colaboración en la base de datos
+    *@param idProfesor Int con el ID de un profesor asociado a una petición de
+    * colaboración registrada en la base de datos
+    *@param idPropuestaColaboracion Int con el ID de una propuesta de colaboración
+    * asociado a una petición de colaboración registrada en la base de datos.
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int rechazarPeticionColaboracion(int idPropuestaColaboracion,int idProfesor) {
         int numeroFilasAfectadas = 0;
@@ -153,6 +167,13 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return numeroFilasAfectadas;
     }
     
+    /**
+    *Consultar el ID de los profesores pertenecientes a una petición de colaboración aceptada
+    * a través del ID propuesta de colaboración
+    *@param idPropuestaColaboracion Int con el ID de una propuesta de colaboración asociada
+    * a una peticiónd de colaboración
+    *@return Regresa la lista de ID de profesores asociados a una petición de colaboración
+    **/
     @Override
     public List<Integer> consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(int idPropuestaColaboracion){
         ResultSet resultado;
@@ -171,6 +192,13 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return idProfesores;                        
     }
     
+    /**
+    *Consultar el numero de peticiones de colaboración aceptadas registradas en la base de datos,
+    * asociadas a un profesor
+    *@param idProfesor Int con el ID de un profesor asociado a una petición de colaboración
+    * registrada en la base de datos
+    *@return Regresa el numero de peticiones de colaboración aceptadas asociadas a un profesor
+    **/
     @Override
     public int revisarPrecondicionEvaluarPeticionesPorIdProfesor(int idProfesor){
         int resultadoPrecondicion=0;
@@ -187,6 +215,13 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
         return resultadoPrecondicion;        
     }
     
+    /**
+    *Actualizar el estado de peticiones de colaboración registradas en la base de datos a través
+    * del ID de la propuesta de colaboración asociado
+    *@param idPropuestaColaboracion Int con el ID de una propuesta de colaboración asociada
+    * a una peticiónd de colaboración
+    *@return Regresa el resultado del cambio de estado de la petición de colaboración
+    **/
     @Override
     public int cambiarEstadoPeticionesRegistradasPorIdPropuesta(int idPropuestaColaboracion){
         int resultadoCambioEstado=0;

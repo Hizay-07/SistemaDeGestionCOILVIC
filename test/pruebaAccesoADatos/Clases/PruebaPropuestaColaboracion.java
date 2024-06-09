@@ -68,7 +68,7 @@ public class PruebaPropuestaColaboracion {
     @Test
     public void pruebaSetIdiomaExitoso(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setIdioma("Español");
+        propuestaPrueba.setIdioma("Chino mandarín");
         assertNotNull(propuestaPrueba.getIdioma());
     }
     
@@ -96,14 +96,14 @@ public class PruebaPropuestaColaboracion {
     @Test
     public void pruebaSetProgramaEducativoEstudiantilExitoso(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setProgramaEducativoEstudiantil("Bachillerato");
+        propuestaPrueba.setProgramaEducativoEstudiantil("Ingeniería en ciberseguridad");
         assertNotNull(propuestaPrueba.getProgramaEducativoEstudiantil());
     }
     
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetProgramaEducativoEstudiantilInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setProgramaEducativoEstudiantil("12345");
+        propuestaPrueba.setProgramaEducativoEstudiantil("Letras 12345");
         assertNotNull(propuestaPrueba.getProgramaEducativoEstudiantil());
     }
     
@@ -117,7 +117,7 @@ public class PruebaPropuestaColaboracion {
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoPropuestaInvalido(){
         PropuestaColaboracion propuestaPrueba = new PropuestaColaboracion();
-        propuestaPrueba.setEstadoPropuesta("12345");
+        propuestaPrueba.setEstadoPropuesta("En-Espera");
         assertNull(propuestaPrueba.getEstadoPropuesta());
     }
     

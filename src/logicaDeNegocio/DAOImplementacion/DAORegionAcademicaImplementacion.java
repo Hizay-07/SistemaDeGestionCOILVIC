@@ -15,6 +15,11 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAORegionAcademicaImplementacion.class);
 
+    /**
+    *Obtener las regiones académicas registradas dentro de la base de datos
+    *@return Regresa la lista de regiones académicas registradas dentro de la
+    * base de datos
+    **/
     @Override
     public List<RegionAcademica> consultarRegionesAcademicas() {
         ResultSet resultado;
@@ -36,6 +41,13 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
         return regionesAcademicas;        
     }
     
+    /**
+    *Obtener el ID de una región académica a traves su nombre registrado dentro de
+    * la base de datos
+    * @param region String con el nombre de region académica registrada en la base 
+    * de datos
+    *@return Regresa el ID de una región académica
+    **/
     @Override
     public int consultarIdDeRegionPorRegion(String region){
         ResultSet resultado;
@@ -51,10 +63,15 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             }                    
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            idRegion=-1;
         }
         return idRegion;                
     }
     
+    /**
+    *Obtener el numero de regiones académicas registradas dentro de la base de datos
+    *@return Regresa el numero de regiones académicas
+    **/
     @Override
     public int verificarRegion(){
         int resultadoVerificacion=0;
@@ -65,7 +82,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }            
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;
         }

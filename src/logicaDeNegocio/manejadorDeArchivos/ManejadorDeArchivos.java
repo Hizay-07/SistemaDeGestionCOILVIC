@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.Colaboracion;
+import logicaDeNegocio.clases.ProfesorSingleton;
 import org.apache.log4j.Logger;
 
 public class ManejadorDeArchivos {
@@ -45,16 +46,32 @@ public class ManejadorDeArchivos {
         }
         return resultadoGuardoDeSyllabus;
     }
+    
+    public boolean validarExistenciaDeArchivo(Actividad actividad, Colaboracion colaboracion, File archivoNuevo, int idEvidencia){
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        String nuevoNombre = profesor.getNombre()+"_"+profesor.getApellidoPaterno()+"_"+profesor.getApellidoMaterno()+"_"+archivoNuevo.getName();
+        String rutaAGuardarArchivo = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/Actividad"+actividad.getIdActividad()+"/Evidencia/"+nuevoNombre;
+        Path rutaAGuardar = Paths.get(rutaAGuardarArchivo);
+        boolean resultado = true;
+        if(Files.exists(rutaAGuardar)){
+            resultado = true;
+        }else{
+            resultado = false;
+        }
+        return resultado;
+    }
 
     public String guardarEvidenciaDeActividad(Actividad actividad, Colaboracion colaboracion, File archivoNuevo, int idEvidencia) {
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         String rutaDeRegistro="";
         String rutaOriginal = archivoNuevo.getAbsolutePath();
-        String rutaDeDestino = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/Actividad"+actividad.getIdActividad()+"/Evidencia"+idEvidencia+"/"+archivoNuevo.getName();
+        String nuevoNombre = profesor.getNombre()+"_"+profesor.getApellidoPaterno()+"_"+profesor.getApellidoMaterno()+"_"+archivoNuevo.getName();
+        String rutaDeDestino = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/Actividad"+actividad.getIdActividad()+"/Evidencia/"+nuevoNombre;
         Path rutaDeArchivoOriginal = Paths.get(rutaOriginal);
         Path rutaArchivoDeDestino = Paths.get(rutaDeDestino);
         try{
             Files.createDirectories(rutaArchivoDeDestino.getParent());
-            Files.copy(rutaDeArchivoOriginal, rutaArchivoDeDestino, StandardCopyOption.REPLACE_EXISTING);
+            Files.move(rutaDeArchivoOriginal, rutaArchivoDeDestino, StandardCopyOption.REPLACE_EXISTING);
             rutaDeRegistro = rutaDeDestino;
         }catch(IOException excepcion){
             LOG.error(excepcion.getCause());

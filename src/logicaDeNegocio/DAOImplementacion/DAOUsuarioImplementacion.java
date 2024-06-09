@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 import java.sql.Types;
 import java.util.Objects;
+import logicaDeNegocio.clases.Profesor;
 import org.apache.log4j.Logger;
 
 
@@ -18,6 +19,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOUsuarioImplementacion.class);
     
+    /**
+    *Registrar un usuario dentro de la base de datos
+    *@param usuario Usuario con los datos a registrar dentro de la base de datos
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarUsuario(Usuario usuario) {
         int resultadoInsercion;
@@ -36,6 +42,12 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoInsercion;
     }
     
+    /**
+    *Validar la existencia de un usuario dentro de la base de datos
+    *@param logger Usuario que se encarga de validar credenciales
+    *@param usuarioAIngresar Usuario con los datos a validar
+    *@return Regresa el numero de coincidencias encontradas
+    **/
     @Override
     public int validarCredenciales(Usuario usuarioAIngresar, Usuario logger) {
         int resultadoValidacion=0;
@@ -61,6 +73,12 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoValidacion;
     }
 
+    /**
+    *Obtener el tipo de usuario a ingresar al sistema
+    *@param logger Usuario que se encarga de validar credenciales
+    *@param usuario Usuario con los datos a obtener
+    *@return Regresa el tipo de usuario encontrado
+    **/
     @Override
     public String obtenerTipoDeUsuario(Usuario usuario,Usuario logger){
         String resultadoTipoDeUsuario="";
@@ -81,6 +99,12 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoTipoDeUsuario;
     }
     
+    /**
+    *Obtener el ID de un usuario a ingresar al sistema
+    *@param logger Usuario que se encarga de validar credenciales
+    *@param usuario Usuario con los datos a obtener
+    *@return Regresa el ID de usuario encontrado
+    **/
     @Override
     public int obtenerIdUsuario(Usuario usuario, Usuario logger){
         int resultadoId=0;    
@@ -102,6 +126,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoId;
     }
 
+    /**
+    *Confirmar la conexión a la base de datos
+    *@param logger Usuario que se encarga de validar credenciales
+    *@return Regresa un booleano con verdadero si hay conexión o falso si no hay conexión
+    **/
     @Override
     public boolean confirmarConexionDeInicioDeSesion(Usuario logger) {
         boolean resultadoDeConfirmacionDeConexion=false;
@@ -114,6 +143,10 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return resultadoDeConfirmacionDeConexion;
     }
     
+    /**
+    *Confirmar la conexión de un usuario a la base de datos
+    *@return Regresa un booleano con verdadero si hay conexión o falso si no hay conexión
+    **/
     @Override 
     public boolean confirmarConexionDeUsuario(){
          boolean resultadoDeConfirmacionDeConexion=false;
@@ -127,22 +160,18 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             LOG.error(excepcion.getMessage());
         }
         return resultadoDeConfirmacionDeConexion;
-    }
+
+    }      
     
-    @Override 
-    public int eliminarUsuario(String nombreDeUsuario){
-        int resultadoEliminacion;
-        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-           PreparedStatement sentencia = conexion.prepareStatement("delete from usuario where nombreDeUsuario=?")){
-           sentencia.setString(1, nombreDeUsuario);
-           resultadoEliminacion = sentencia.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getMessage());
-            resultadoEliminacion = -1;
-        }
-        return resultadoEliminacion;
-    }
+
+ 
     
+    /**
+    *Verificar la existencia de un nombre de usuario registrado en la base de datos
+    *@param nombre Strinf con el nombre de usuario 
+    *@return Regresa el número de coincidencias encontradas
+    **/
+
     @Override
     public int verificarDuplicidadNombreDeUsuario(String nombre){
         ResultSet resultado;
@@ -161,5 +190,29 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             coincidenciasEncontradas = -1;
         }
         return coincidenciasEncontradas;
+    }
+    
+
+
+    /**
+    *Actualizar las credenciales de un usuario registrado en la base de datos
+    *@param profesor Profesor con los datos para modificar su usuario
+    *@param contrasenia String con la nueva contrasenia del usuario
+    *@return Regresa el numero de filas afectadas
+    **/
+    @Override
+    public int actualizarUsuarioPorIdUsuario(Profesor profesor, String contrasenia){
+        int resultadoModificacion = 0;
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("update usuario set nombreDeUsuario = ?, contrasenia = sha2(?,256) where idUsuario = ?")){
+            declaracion.setString(1, profesor.getCorreo());
+            declaracion.setString(2, contrasenia);
+            declaracion.setInt(3, profesor.getUsuario().getIdUsuario());
+            resultadoModificacion = declaracion.executeUpdate();
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion.getMessage());
+            resultadoModificacion = -1;
+        }
+        return resultadoModificacion;
     }
 }

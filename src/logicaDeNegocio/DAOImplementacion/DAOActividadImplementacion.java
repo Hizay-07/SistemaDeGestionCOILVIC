@@ -2,7 +2,6 @@ package logicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.interfaces.ActividadInterface;
 import logicaDeNegocio.clases.Actividad;
-import logicaDeNegocio.enums.EnumActividades;
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.SQLException;
 import java.sql.Connection;
@@ -17,6 +16,11 @@ public class DAOActividadImplementacion implements ActividadInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOActividadImplementacion.class);
     
+    /**
+    *Registrar una nueva actividad dentro de la base de datos
+    *@param actividadNueva Actividad nueva a registrar dentro de la base datos
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarActividad(Actividad actividadNueva){
         int resultadoRegistro;        
@@ -37,6 +41,12 @@ public class DAOActividadImplementacion implements ActividadInterface {
         return resultadoRegistro;
     }
 
+    /**
+    *Modificar los datos de una actividad registrada en la base de datos 
+    *@param actividadActualizada Actividad que contiene datos nuevos a modificar
+    *@return Regresa el numero de filas afectadas
+    * 
+    **/
     @Override
     public int modificarActividad(Actividad actividadActualizada) {
         int resultadoModificacion;   
@@ -56,7 +66,12 @@ public class DAOActividadImplementacion implements ActividadInterface {
         }        
         return resultadoModificacion;
     }
-
+    
+    /**
+    *Modificar las fechas de una actividad registrada en la base de datos 
+    *@param actividadActualizada Actividad que contiene las fechas nuevas a modificar
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int modificarFechaActividad(Actividad actividadActualizada) {
         int resultadoModificacion;      
@@ -72,7 +87,13 @@ public class DAOActividadImplementacion implements ActividadInterface {
         }      
         return resultadoModificacion;
     }
-
+    
+    
+    /**
+    *Obtener la lista de actividades de una coolaboración a través de su ID 
+    *@param idColaboracion id de la colaboración de la cual se desea obtener actividades
+    *@return Regresa la lista de actividades recuperadas de la base de datos
+    **/
     @Override
     public List<Actividad> obtenerActividades(int idColaboracion) {
         List<Actividad> actividades = new ArrayList();       
@@ -100,6 +121,11 @@ public class DAOActividadImplementacion implements ActividadInterface {
         return actividades;
     }
     
+    /**
+    *Obtener el numero de una actividad deseada
+    *@param actividad Actividad de la cual se requiere conocer su número
+    *@return Regresa el numero de la actividad deseada
+    **/
     @Override
     public int obtenerNumeroDeActividad(Actividad actividad){
         int numeroDeActividad=0;       
@@ -120,13 +146,19 @@ public class DAOActividadImplementacion implements ActividadInterface {
         return numeroDeActividad;
     }
 
+    /**
+    *Validar si una actividad ya se encuentra registrada dentro de la base de datos
+    *@param actividad Actividad de la cual se desea saber si se encuentra registrada en la base de datos
+    *@return Regresa un booleano que indica verdadero si la actividad existe o falso si no existe
+    **/
     @Override
     public boolean validarInexistenciaDeActividad(Actividad actividad) {
         boolean resultadoValidacion;       
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE numeroDeActividad = ? or nombre = ?")){
-            sentencia.setInt(1, actividad.getNumeroActividad());
-            sentencia.setString(2, actividad.getNombre());
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE idColaboracion = ? AND (numeroDeActividad = ? OR nombre = ?)")){
+            sentencia.setInt(1, actividad.getIdColaboracion());
+            sentencia.setInt(2, actividad.getNumeroActividad());
+            sentencia.setString(3, actividad.getNombre());
             ResultSet resultadoConsulta = sentencia.executeQuery();          
             int numeroDeResultados=0;
             while(resultadoConsulta.next()){
@@ -144,6 +176,12 @@ public class DAOActividadImplementacion implements ActividadInterface {
         return resultadoValidacion;
     }
 
+    /**
+    *Actualizar el estado de una actividad 
+    *@param actividad Actividad de la cual se desea cambiar su estado
+    *@param estado Estado de la actividad que se desea actualizar
+    *@return Regresa el número de filas afectadas
+    **/
     @Override
     public int actualizarEstadoActividad(Actividad actividad, String estado) {
         int resultadoActualizacion;      

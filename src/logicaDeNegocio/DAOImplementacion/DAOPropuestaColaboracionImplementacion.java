@@ -17,7 +17,13 @@ import logicaDeNegocio.interfaces.PropuestaColaboracionInterface;
 public class DAOPropuestaColaboracionImplementacion implements PropuestaColaboracionInterface {
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOPropuestaColaboracionImplementacion.class);
-          
+    
+    /**
+    *Registrar una propuesta de colaboración dentro de la base de datos
+    *@param propuestaColaboracion PropuestaColaboracion con los datos a registrar
+    * dentro de la base de datos
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion) {        
         int idPropuestaColaboracion=0;        
@@ -42,6 +48,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         return idPropuestaColaboracion;        
     }
   
+    /**
+    *Consultar las propuesta de colaboración registradas en la base de datos
+    *@return Regresa la lista de propuestas de colaboración registradas en la base
+    * de datos
+    **/
     @Override
     public List<PropuestaColaboracion> consultarPropuestasColaboracion() {
         ResultSet resultado;
@@ -68,8 +79,16 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             LOG.error(ex);
         }
         return propuestasColaboracion;
-    }
 
+    }      
+  
+    /**
+    *Aprobar una propuesta de colaboración por medio de su ID asignado en la base
+    * de datos
+    *@param idPropuestaColaboracion int con el ID de una propuesta de colaboración
+    * registrada en la base de datos 
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int aprobarPropuestaColaboracionPorId(int idPropuestaColaboracion) {
         int numeroFilasAfectadas=0;  
@@ -84,6 +103,13 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         return numeroFilasAfectadas;        
     }
 
+    /**
+    *Rechazar una propuesta de colaboración por medio de su ID asignado en la base
+    * de datos
+    *@param idPropuestaColaboracion int con el ID de una propuesta de colaboración
+    * registrada en la base de datos 
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int rechazarPropuestaColaboracionPorId(int idPropuestaColaboracion) {
         int numeroFilasAfectadas=0; 
@@ -98,6 +124,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         return numeroFilasAfectadas;         
     }
     
+    /**
+    *Obtener las propuestas de colaboración aceptadas registradas dentro de la base de datos
+    *@return Regresa la lista de Propuestas de colaboración registradas dentro de la
+    * base de datos
+    **/
     @Override
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadas(){
         ResultSet resultado;
@@ -135,6 +166,13 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         return propuestasColaboracion;        
     }
     
+    /**
+    *Obtener las propuestas de colaboración registradas dentro de la base de datos
+    * a través del ID de propuesta de colaboración asociado
+    * @param idPropuestaColaboracion int con el ID de propuesta de colaboracion asociado
+    * a una propuesta de colaboración registrada dentro de la base de datos
+    *@return Regresa la Propuesta de colaboración registrada dentro de la base de datos
+    **/
     @Override
     public PropuestaColaboracion obtenerPropuestaDeColaboracionPorId(int idPropuestaColaboracion){
         ResultSet resultado;
@@ -167,6 +205,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         return propuestaColaboracion;
     }
     
+    /**
+    *Obtener las propuestas de colaboración registradas dentro de la base de datos
+    *@return Regresa la lista de Propuestas de colaboración registradas dentro de la
+    * base de datos
+    **/
     @Override
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionRegistradas(){
         ResultSet resultado;
@@ -200,13 +243,19 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                     propuestasColaboracion.add(propuestaColaboracion);                
                 }
             }
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion);
             return new ArrayList<>();
         }
         return propuestasColaboracion;                
     }
     
+    /**
+    *Obtener el ID de propuesta de colaboración aprobada a través de un ID de profesor
+    * asociado en la base de datos
+    * @param idProfesor int con el ID de profesor registrado en la base de datos
+    *@return Regresa el ID de propuesta de colaboración encontrada
+    **/
     @Override
     public int obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(int idProfesor){
         ResultSet resultado;
@@ -218,13 +267,20 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             if(resultado.next()){
                 idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");                
             }      
-        }catch (SQLException ex) {
+        }catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
             return -1;
         }
         return idPropuestaColaboracion;                                        
     }
     
+    /**
+    *Obtener las propuestas de colaboración registradas dentro de la base de datos sin 
+    * peticiones asociadas
+    * @param identificadorProfesor int con ID de profesor registrado dentro de la base de datos
+    *@return Regresa la lista de Propuestas de colaboración registradas dentro de la
+    * base de datos
+    **/
     @Override
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadasSinPeticiones(int identificadorProfesor){
         ResultSet resultado;
@@ -263,6 +319,13 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         return propuestasColaboracion; 
     }
     
+     /**
+    *Modificar el estado de una propuesta de colaboración a travpes del ID de propuesta
+    * de colaboración
+    *@param idPropuestaColaboracion int con el ID de una propuesta de colaboración
+    * registrada en la base de datos 
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int cambiarEstadoIniciadaPropuestaColaboracionPorId(int idPropuestaColaboracion) {
         int numeroFilasAfectadas=0; 
