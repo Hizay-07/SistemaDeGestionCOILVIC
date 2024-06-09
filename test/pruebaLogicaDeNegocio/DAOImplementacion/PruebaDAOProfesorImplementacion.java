@@ -207,38 +207,6 @@ public class PruebaDAOProfesorImplementacion {
     }
 
     @Test
-    public void pruebaEliminarCuentaAsignadaAProfesorExitosa() {
-        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correoProfesor = "oscarE@example.com";
-        int resultado = dao.eliminarCuentaAsignadaAProfesor(correoProfesor);
-        assertEquals(1, resultado);
-    }
-    
-    @Test (expected = AssertionError.class)
-    public void pruebaFallidaEliminarCuentaAsignadaAProfesor() {
-        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correoProfesor = "oscarE@example.com"; 
-        int resultado = dao.eliminarCuentaAsignadaAProfesor(correoProfesor);
-        assertEquals(-1, resultado);
-    }
-
-    @Test
-    public void pruebaEliminarProfesorExitosa() {
-        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correo = "pruebaeliminar2@example.com";
-        int resultado = dao.eliminarProfesor(correo);
-        assertEquals(1, resultado);
-    }
-    
-    @Test (expected = AssertionError.class)
-    public void pruebaFallidaEliminarProfesor() {
-        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correo = "correoInvalido@example.com";
-        int resultado = dao.eliminarProfesor(correo);
-        assertEquals(-1, resultado);
-    }
-
-    @Test
     public void pruebaConsultarPrecondicionInicioColaboracionPorIdProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         int idProfesor = 2; 

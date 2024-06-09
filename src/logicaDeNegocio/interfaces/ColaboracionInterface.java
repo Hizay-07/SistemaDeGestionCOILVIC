@@ -10,8 +10,6 @@ public interface ColaboracionInterface {
 
     public List<Colaboracion> consultarColaboracionesPorEstado(String estado);
 
-    public int registrarRetroalimentacionColaboracionPorId(int idColaboracion, String retroalimentacion);
-
     public int cambiarEstadoColaboracion(String estado, Colaboracion colaboracion);
 
     public int obtenerIdColaboracionPorIdPropuesta(int idPropuestaColaboracion);

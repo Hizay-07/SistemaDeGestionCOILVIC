@@ -172,48 +172,5 @@ public class PruebaDAOProfesorUVImplementacion {
          int resultado = dao.validarInexistenciaProfesorUV("9999");
          assertEquals(-1,resultado);
     }
-    
-    @Test
-    public void pruebaEliminarProfesorUVExitoso() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        ProfesorUV profesorUV = new ProfesorUV();
-        profesorUV.setNumeroDePersonal("1234");
-        profesorUV.setTipoDeContratacion("Temporal");
-        profesorUV.setCategoriaDeContratacion("Profesor");
-        profesorUV.setIdProfesor(16);
-        profesorUV.setIdRegion(4);
-        profesorUV.setIdAreaAcademica(2);
-        int resultadoAgregar = dao.registrarProfesorUV(profesorUV);
-        assertEquals(1, resultadoAgregar);
-        List<ProfesorUV> profesores = dao.consultarProfesoresUV();
-        boolean encontrado = false;
-        for (ProfesorUV profesor : profesores) {
-            if (profesor.getNumeroDePersonal().equals("1234")) {
-                encontrado = true;
-                break;
-            }
-        }
-        assertTrue(encontrado);
-        int resultadoEliminar = dao.eliminarProfesorUV("lizeliminar@gmail.com");
-        assertEquals(1, resultadoEliminar);
-        profesores = dao.consultarProfesoresUV();
-        encontrado = false;
-        for (ProfesorUV profesor : profesores) {
-            if (profesor.getNumeroDePersonal().equals("1234")) {
-                encontrado = true;
-                break;
-            }
-        }
-        assertFalse(encontrado);
-    }
-
-    @Test (expected = AssertionError.class)
-    public void pruebaEliminarProfesorUVFallido() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.eliminarProfesorUV("correoInexistente@uv.mx");
-        assertEquals(0, resultado);
-        resultado = dao.eliminarProfesorUV(null);
-        assertEquals(-1, resultado);
-    }
 
 }

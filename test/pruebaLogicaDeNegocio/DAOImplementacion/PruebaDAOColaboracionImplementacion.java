@@ -78,24 +78,6 @@ public class PruebaDAOColaboracionImplementacion {
     }
     
     @Test
-    public void pruebaRegistrarRetroalimentacionColaboracionPorIdExitosa(){
-        DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
-        String retroalimentacion="La colaboracion obtuvo los resultados esperados";
-        int resultadoEsperado=1;
-        int resultadoObtenido=instancia.registrarRetroalimentacionColaboracionPorId(2, retroalimentacion);
-        assertEquals(resultadoEsperado,resultadoObtenido);                 
-    }        
-    
-    @Test
-    public void pruebaRegistrarRetroalimentacionColaboracionPorIdFracaso(){
-        DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
-        String retroalimentacion="La colaboracion obtuvo los resultados esperados";
-        int resultadoEsperado=0;
-        int resultadoObtenido=instancia.registrarRetroalimentacionColaboracionPorId(0, retroalimentacion);
-        assertEquals(resultadoEsperado,resultadoObtenido);        
-    }
-    
-    @Test
     public void pruebaModificarEstadoColaboracionExitosa(){
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
         Colaboracion colaboracionPrueba = new Colaboracion();
