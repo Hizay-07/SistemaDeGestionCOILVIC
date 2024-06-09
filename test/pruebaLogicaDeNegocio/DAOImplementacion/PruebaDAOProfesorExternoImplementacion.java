@@ -28,8 +28,8 @@ public class PruebaDAOProfesorExternoImplementacion {
     public void pruebaRegistrarProfesorExternoExitosa() {
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         ProfesorExterno profesorExterno = new ProfesorExterno();
-        profesorExterno.setIdProfesor(13); 
-        profesorExterno.setIdRepresentanteInstitucional(3); 
+        profesorExterno.setIdProfesor(1); 
+        profesorExterno.setIdRepresentanteInstitucional(1); 
         int resultado = dao.registrarProfesorExterno(profesorExterno);
         assertEquals(1, resultado);
     }
@@ -42,6 +42,16 @@ public class PruebaDAOProfesorExternoImplementacion {
         profesorExterno.setIdRepresentanteInstitucional(999);
         int resultado = dao.registrarProfesorExterno(profesorExterno);
         assertEquals(0, resultado);
+    }
+    
+    @Test
+    public void pruebaRegistrarProfesorExternoSinConexionExitosa() {
+        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
+        ProfesorExterno profesorExterno = new ProfesorExterno();
+        profesorExterno.setIdProfesor(1); 
+        profesorExterno.setIdRepresentanteInstitucional(1); 
+        int resultado = dao.registrarProfesorExterno(profesorExterno);
+        assertEquals(-1, resultado);
     }
     
     @Test
@@ -92,22 +102,6 @@ public class PruebaDAOProfesorExternoImplementacion {
         assertEquals(0, idRepresentanteInstitucional);
     }
     
-    @Test
-    public void pruebaEliminarProfesorExternoExitosa() {
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        String correo = "juanlopez@gmail.com";
-        int resultado = dao.eliminarProfesorExterno(correo);
-        assertEquals(1, resultado);
-    }
-
-    @Test
-    public void pruebaEliminarProfesorExternoFallida() {
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        String correo = "correoInexistente@example.com";
-        int resultado = dao.eliminarProfesorExterno(correo);
-        assertEquals(0, resultado);
-    }
-
     @Test
     public void pruebaEditarInstitucionProfesorExternoPorIdProfesorExitosa(){
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();

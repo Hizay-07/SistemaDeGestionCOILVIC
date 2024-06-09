@@ -24,7 +24,7 @@ public class PruebaDAOUsuarioImplementacion {
     public void pruebaRegistrarUsuarioExitosa() {
         Usuario usuarioPrueba = new Usuario();
         DAOUsuarioImplementacion implementacion = new DAOUsuarioImplementacion();
-        usuarioPrueba.setNombreUsuario("profesoruvtres@gmail.com");
+        usuarioPrueba.setNombreUsuario("profesorpruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
         usuarioPrueba.setTipoDeUsuario("Profesor");
         int resultado = implementacion.registrarUsuario(usuarioPrueba);

@@ -59,68 +59,15 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
                 propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
                 propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
-                propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
+                TipoColaboracion tipoColaboracion=new TipoColaboracion();
+                tipoColaboracion.setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
+                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
         }
         return propuestasColaboracion;
-    }
-
-    @Override
-    public List<PropuestaColaboracion> consultarPropuestasColaboracionPorFechaDeInicio(String fecha) {
-        ResultSet resultado;
-        List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion where fechaInicio=?")){
-            declaracion.setString(1, fecha);
-            resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-                propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
-                propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
-                propuestaColaboracion.setIdioma(resultado.getString("idioma"));
-                propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
-                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
-                propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
-                propuestaColaboracion.getTipoColaboracion().setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
-                propuestasColaboracion.add(propuestaColaboracion);                
-            }
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
-        }
-        return propuestasColaboracion;        
-    }
-
-    @Override
-    public int editarFechaDeInicioDePropuestaColaboracionPorId(String fechaDeInicio, int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;       
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaInicio=? where idPropuestaColaboracion=?")){
-            declaracion.setString(1, fechaDeInicio);
-            declaracion.setInt(2, idPropuestaColaboracion);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
-        }
-        return numeroFilasAfectadas;            
-    }
-
-    @Override
-    public int editarFechaDeCierreDePropuestaColaboracionPorId(String fechaDeCierre, int idPropuestaColaboracion) {
-        int numeroFilasAfectadas=0;       
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set fechaCierre=? where idPropuestaColaboracion=?")){
-            declaracion.setString(1, fechaDeCierre);
-            declaracion.setInt(2, idPropuestaColaboracion);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
-        }
-        return numeroFilasAfectadas;                    
     }
 
     @Override
@@ -132,6 +79,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
+            numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;        
     }
@@ -145,6 +93,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
+            numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;         
     }
@@ -253,6 +202,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException excepcion) {
             LOG.error(excepcion);
+            return new ArrayList<>();
         }
         return propuestasColaboracion;                
     }
@@ -270,6 +220,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }      
         }catch (SQLException ex) {
             LOG.warn(ex);
+            return -1;
         }
         return idPropuestaColaboracion;                                        
     }
@@ -321,6 +272,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
+            
         }
         return numeroFilasAfectadas;        
     }

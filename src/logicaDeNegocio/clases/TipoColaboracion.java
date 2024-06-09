@@ -8,10 +8,19 @@ public class TipoColaboracion {
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
 
+    public TipoColaboracion(){
+        
+    }
+    
+    public TipoColaboracion(int idTipoColaboracion,String tipo){
+        this.idTipoColaboracion=idTipoColaboracion;
+        this.tipo=tipo;
+    }
+    
     public String getTipo() {
         return tipo;
     }
-
+       
     public void setTipo(String tipo)throws IllegalArgumentException {
         if(tipo!=null&&!tipo.isEmpty()&&Pattern.matches(SOLO_LETRAS_PATTERN, tipo.trim())&&tipo.trim().length()<=150){
             this.tipo = tipo.trim().replaceAll("\\s+", " ");

@@ -151,5 +151,5 @@ public class PropuestaColaboracion {
                 tipoColaboracion.equals(propuestaColaboracionTemporal.getTipoColaboracion())&&
                 objetivo.equals(propuestaColaboracionTemporal.getObjetivo());                
     }
-        
+      
 }

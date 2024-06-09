@@ -252,9 +252,9 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
         try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
             CallableStatement declaracion=(CallableStatement) conexion.prepareCall("CALL precondicionIniciarColaboracion(?,?);")){
             declaracion.setInt(1, idProfesor);
-            declaracion.registerOutParameter(2, Types.INTEGER);
+            declaracion.registerOutParameter(1, Types.INTEGER);
             declaracion.execute();
-            resultadoConsulta=declaracion.getInt(2);    
+            resultadoConsulta=declaracion.getInt(1);    
         }catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());            
         }
