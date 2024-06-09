@@ -10,14 +10,14 @@ public class PruebaPais {
     @Test
     public void pruebaSetNombrePaisExitoso(){
         Pais paisPrueba = new Pais();
-        paisPrueba.setNombrePais("España");
+        paisPrueba.setNombrePais("Papua-Nueva Guinea");
         assertNotNull(paisPrueba.getNombrePais());
     }
     
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetNombrePaisInvalido(){
         Pais paisPrueba = new Pais();
-        paisPrueba.setNombrePais("12345");
+        paisPrueba.setNombrePais("España12");
         assertNull(paisPrueba.getNombrePais());
     }
     

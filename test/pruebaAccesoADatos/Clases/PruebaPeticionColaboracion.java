@@ -31,7 +31,7 @@ public class PruebaPeticionColaboracion {
     @Test (expected = IllegalArgumentException.class)
     public void pruebaSetEstadoInvalido(){
         PeticionColaboracion peticionPrueba = new PeticionColaboracion();
-        peticionPrueba.setEstado("Inactiva*");
+        peticionPrueba.setEstado("En-Espera");
         assertNull(peticionPrueba.getEstado());
     }
     

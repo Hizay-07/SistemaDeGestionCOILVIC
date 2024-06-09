@@ -16,6 +16,12 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class);
 
+    /**
+    *Registrar un representante institucional dentro de la base de datos
+    *@param representanteIngresado RepresentanteInstitucional con los datos a registrar
+    * dentro de la base de datos
+    *@return Regresa el numero de filas afectadas
+    **/
     @Override
     public int registrarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado) {
         int resultadoRegistro=0;
@@ -34,7 +40,13 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         }
         return resultadoRegistro;
     }
-      
+    
+    /**
+    *Editar el nombre asociado a un representante institucional registrado en la base de datos
+    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@param nombreActualizado String con el nuevo nombre a asignar
+    *@return Regresa el numero de filas afectadas
+    **/  
     @Override
     public int modificarNombreRepresentanteInstitucional(String nombreActualizado, RepresentanteInstitucional representanteAActualizar) {
         int resultadoModificacion=0;
@@ -50,6 +62,12 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return resultadoModificacion;
     }
 
+    /**
+    *Editar la clave institucional asociada a un representante institucional registrado en la base de datos
+    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@param claveActualizada String con la nueva clave institucional a asignar
+    *@return Regresa el numero de filas afectadas
+    **/  
     @Override
     public int modificarClaveRepresentanteInstitucional(String claveActualizada, RepresentanteInstitucional representanteAActualizar) {
         int resultadoModificacion=0;
@@ -65,6 +83,12 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return resultadoModificacion;
     }
 
+    /**
+    *Editar el contacto asociado a un representante institucional registrado en la base de datos
+    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@param contactoActualizado String con el contacto nombre a asignar
+    *@return Regresa el numero de filas afectadas
+    **/ 
     @Override
     public int modificarContactoRepresentanteInstitucional(String contactoActualizado, RepresentanteInstitucional representanteAActualizar) {
        int resultadoModificacion=0;
@@ -80,6 +104,11 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return resultadoModificacion;
     }
     
+    /**
+    *Editar el país asociado a un representante institucional registrado en la base de datos
+    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@return Regresa el numero de filas afectadas
+    **/ 
     @Override
     public int modificarPaisRepresentanteInstitucional(RepresentanteInstitucional representanteAActualizar){
         int resultadoModificacion=0;
@@ -97,6 +126,12 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return resultadoModificacion;
     }
     
+    /**
+    *Verificar la existencia de un representante institucional en la base de datos
+    * a través de su clave institucional asociado
+    *@param representanteAConsultar RepresentanteInstitucional a consultar
+    *@return Regresa el numero de coincidencias encontradas
+    **/ 
     @Override
     public int verificarExistenciaClaveInstitucionalRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
         int validacionDeExistencia=0;
@@ -114,6 +149,12 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return validacionDeExistencia;
     }
     
+    /**
+    *Verificar la existencia de un representante institucional en la base de datos
+    * a través de su nombre asociado
+    *@param representanteAConsultar RepresentanteInstitucional a consultar
+    *@return Regresa el numero de coincidencias encontradas
+    **/ 
     @Override
     public int verificarExistenciaNombreInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
         int validacionDeExistencia=0;
@@ -131,7 +172,13 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return validacionDeExistencia;
     }
     
-     @Override
+    /**
+    *Verificar la existencia de un representante institucional en la base de datos
+    * a través de su contacto asociado
+    *@param representanteAConsultar RepresentanteInstitucional a consultar
+    *@return Regresa el numero de coincidencias encontradas
+    **/ 
+    @Override
     public int verificarExistenciaContactoInstitucionRepresentanteInstitucional(RepresentanteInstitucional representanteAConsultar){
         int validacionDeExistencia=0;
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
@@ -147,7 +194,16 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         }
         return validacionDeExistencia;
     }
+
             
+
+    
+    
+    /**
+    *Obtener los representantes institucionales registrados en la base de datos
+    *@return Regresa la lista de representantes institucionales
+    **/
+
     @Override
     public List<RepresentanteInstitucional> obtenerRepresentantesInstitucionales(){
        List<RepresentanteInstitucional> representantes = new ArrayList();
@@ -171,8 +227,14 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
           LOG.error(excepcion.getMessage());
        }
        return representantes;
-    }        
+    }  
     
+    /**
+    *Obtener el ID de un representante institucional a través de su nombre asignado
+    * @param universidad String con el nombre asociado a un representante
+    * institucional
+    *@return Regresa el ID de un representante institucional
+    **/
     @Override
     public int consultarIdRepresentanteInstitucionalPorUniversidad(String universidad){
         ResultSet resultado;
@@ -193,6 +255,12 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return idRepresentanteInstitucional;        
     }
     
+    /**
+    *Obtener el nombre de un representante institucional a través de su ID asignado
+    * @param idRepresentanteInstitucional Int con el ID asociado a un representante
+    * institucional
+    *@return Regresa el nombre de un representante institucional
+    **/
     @Override
     public String consultarNombreInstitucionPorIdRepresentanteInstitucional(int idRepresentanteInstitucional){
         ResultSet resultado;
@@ -210,6 +278,10 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         return nombreInstitucion;        
     }
     
+    /**
+    *Obtener el numero de representantes institucionales registrados dentro de la base de datos
+    *@return Regresa el numero de representantes institucionales
+    **/
     @Override
     public int verificarRepresentanteInstitucional(){
         int resultadoVerificacion=0;

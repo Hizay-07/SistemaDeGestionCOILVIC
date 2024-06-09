@@ -91,22 +91,6 @@ public class PruebaDAOProfesorExternoImplementacion {
         int idRepresentanteInstitucional = dao.consultarIdRepresentanteInstitucionalPorIdProfesor(idProfesor);
         assertEquals(0, idRepresentanteInstitucional);
     }
-    
-    @Test
-    public void pruebaEliminarProfesorExternoExitosa() {
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        String correo = "juanlopez@gmail.com";
-        int resultado = dao.eliminarProfesorExterno(correo);
-        assertEquals(1, resultado);
-    }
-
-    @Test
-    public void pruebaEliminarProfesorExternoFallida() {
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        String correo = "correoInexistente@example.com";
-        int resultado = dao.eliminarProfesorExterno(correo);
-        assertEquals(0, resultado);
-    }
 
     @Test
     public void pruebaEditarInstitucionProfesorExternoPorIdProfesorExitosa(){

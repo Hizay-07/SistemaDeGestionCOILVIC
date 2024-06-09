@@ -19,6 +19,12 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOEvidenciaImplementacion.class);
     
+    /**
+    *Registrar una evidencia dentro de la base de datos
+    *@param evidencia Evidencia con los datos a registrar dentro de la
+    *base de datos
+    *@return Regresa el número de filas afectadas
+    **/
     @Override
     public int agregarEvidencia(Evidencia evidencia){
         int resultadoInsercion;
@@ -36,7 +42,13 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
         }
         return resultadoInsercion;
     }
-
+    
+    /**
+    *Modificar una evidencia registrada dentro de la base de datos
+    *@param evidenciaNueva Evidencia con los datos actualizados a modificar dentro de la
+    *base de datos
+    *@return Regresa el número de filas afectadas
+    **/
     @Override
     public int modificarEvidencia(Evidencia evidenciaNueva) {
         int resultadoModificacion;
@@ -53,6 +65,13 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
         return resultadoModificacion;
     }
 
+    /**
+    *Obtener las evidencias pertenecientes a una actividad registrada en la base de datos
+    *@param idActividad Int con el ID de una actividad de la cual se desea obtener sus 
+    *evidencias registradas en la base de datos
+    *@return Regresa la lista de evidencias registradas en la base de datos 
+    * pertenecientes al idActividad ingresado
+    **/
     @Override
     public List<Evidencia> obtenerEvidenciasDeActividad(int idActividad){
         List<Evidencia> evidenciasDeActividad = new ArrayList();
@@ -76,6 +95,12 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
         return evidenciasDeActividad;
     }
     
+    /**
+    *Obtener el numero de una evidencia a travpes del id de una actividad
+    *@param idActividad Int con el ID de una actividad de la cual se desea obtener el
+    * numero de evidencias registradas en la base de datos pertenecientes a una actividad
+    *@return Regresa el numero de evidencias pertenecientes a una actividad
+    **/
     @Override
     public int obtenerNumeroDeEvidencia(int idActividad){
         int numeroDeActividades=0;

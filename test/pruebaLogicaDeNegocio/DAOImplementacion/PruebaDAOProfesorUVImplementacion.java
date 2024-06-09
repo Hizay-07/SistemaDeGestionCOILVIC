@@ -242,6 +242,7 @@ public class PruebaDAOProfesorUVImplementacion {
         int resultadoObtenido=dao.editarNumeroDePersonalPorIdProfesorUV("3333", 1);
         assertEquals(1,resultadoObtenido);
     }
+
     
     @Test
     public void pruebaEditarNumeroDePersonalPorIdProfesorUVFallida(){
@@ -256,5 +257,5 @@ public class PruebaDAOProfesorUVImplementacion {
         int resultadoObtenido=dao.editarNumeroDePersonalPorIdProfesorUV("4444", 0);
         assertEquals(-1,resultadoObtenido);        
     }
-        
+       
 }

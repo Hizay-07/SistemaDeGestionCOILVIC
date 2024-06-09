@@ -257,6 +257,5 @@ public class PruebaDAOUsuarioImplementacion {
         int resultadoObtenido=daoUsuario.actualizarUsuarioPorIdUsuario(profesor, contrasena);
         assertEquals(resultadoEsperado,resultadoObtenido);          
     }
-    
-       
+          
 }

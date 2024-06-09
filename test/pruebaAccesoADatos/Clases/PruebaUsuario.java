@@ -24,7 +24,7 @@ public class PruebaUsuario {
     @Test
     public void pruebaSetNombreUsuarioExitoso(){
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("Usuario@gmail.com");
+        usuarioPrueba.setNombreUsuario("usuario.prueba@gmail.com");
         assertNotNull(usuarioPrueba.getNombreUsuario());
     }
     
@@ -38,7 +38,7 @@ public class PruebaUsuario {
     @Test 
     public void pruebaSetContraseniaExitoso(){
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setContrasenia("P@ssw0rd");
+        usuarioPrueba.setContrasenia("P@ssw0rd!?");
         assertNotNull(usuarioPrueba.getContrasenia());
     }
     
@@ -61,20 +61,5 @@ public class PruebaUsuario {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setTipoDeUsuario("Admin*"); 
         assertNull(usuarioPrueba.getTipoDeUsuario()); 
-    }
-    
-    @Test
-    public void pruebaSetCorreoExitoso(){
-        Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setCorreo("usuario@example.com"); 
-        assertNotNull(usuarioPrueba.getCorreo());
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void pruebaSetCorreoInvalido(){
-        Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setCorreo("usuario@example"); 
-        assertNull(usuarioPrueba.getCorreo()); 
-    }
-        
+    }   
 }

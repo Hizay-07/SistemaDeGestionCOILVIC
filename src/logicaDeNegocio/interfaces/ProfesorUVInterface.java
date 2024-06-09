@@ -21,6 +21,5 @@ public interface ProfesorUVInterface {
     public ProfesorUV obtenerProfesorUVPorIDProfesor(int idProfesor);
     
     public int validarInexistenciaProfesorUV(String noPersonal);
-    
-    public int eliminarProfesorUV(String correo);              
+             
 }

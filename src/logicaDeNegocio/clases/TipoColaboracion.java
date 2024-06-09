@@ -19,6 +19,15 @@ public class TipoColaboracion {
     public String getTipo() {
         return tipo;
     }
+    
+    public TipoColaboracion(){
+        
+    }
+    
+    public TipoColaboracion(int idTipoColaboracion,String tipo){
+        this.idTipoColaboracion=idTipoColaboracion;
+        this.tipo=tipo;
+    }
 
     public void setTipo(String tipo)throws IllegalArgumentException {
         if(tipo!=null&&!tipo.isEmpty()&&Pattern.matches(SOLO_LETRAS_PATTERN, tipo.trim())&&tipo.trim().length()<=150){

@@ -16,7 +16,12 @@ import logicaDeNegocio.clases.PropuestaColaboracion;
 public class DAOColaboracionImplementacion implements ColaboracionInterface{
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOColaboracionImplementacion.class);
-
+    
+    /**
+    *Registrar una colaboración dentro de la base de datos
+    *@param colaboracion Colaboración con los datos a registrar dentro de la base de datos
+    *@return Regresa el número de filas afectadas
+    **/
     @Override
     public int registrarColaboracion(Colaboracion colaboracion) {
         int numeroFilasAfectadas=0;
@@ -35,6 +40,10 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         return numeroFilasAfectadas;        
     }
 
+    /**
+    *Obtener las colaboraciones registradas dentro de la base de datos
+    *@return Regresa la lista de colaboraciones registradas en la base de datos
+    **/
     @Override
     public List<Colaboracion> consultarColaboraciones() {
         ResultSet resultado;
@@ -61,6 +70,13 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         return colaboraciones;
     }
     
+    /**
+    *Obtener las colaboraciones con un estado específico que se encuentran registradas
+    *en la base de datos
+    *@param estado String con el estado de la colaboración
+    *@return Regresa la lista de colaboraciones con un estado específico 
+    * encontradas en la base de datos
+    **/
     @Override
     public List<Colaboracion> consultarColaboracionesPorEstado(String estado) {
         ResultSet resultado;
@@ -87,21 +103,13 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         }
         return colaboraciones;
     }
-
-    @Override
-    public int registrarRetroalimentacionColaboracionPorId(int idColaboracion,String retroalimentacion) {
-        int numeroFilasAfectadas=0;
-        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("UPDATE Colaboracion set retroalimentacion=? where idColaboracion=?;")){
-            declaracion.setString(1, retroalimentacion);
-            declaracion.setInt(2, idColaboracion);
-            numeroFilasAfectadas=declaracion.executeUpdate();
-        }catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage());
-        }
-        return numeroFilasAfectadas;        
-    }
     
+    /**
+    *Cambiar el estado de una colaboración registrada en la base de datos
+    *@param estado String con el estado nuevo a actualizar
+    *@param colaboracion Colaboración a actualizar registrada en la base de datos
+    *@return Regresa el número de filas afectadas
+    **/
     @Override
     public int cambiarEstadoColaboracion(String estado,Colaboracion colaboracion){
         int numeroFilasAfectadas = 0;
@@ -117,6 +125,12 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         return numeroFilasAfectadas;
     }
     
+    /**
+    *Obtener el ID de una colaboración a través del ID de su propuesta
+    *@param idPropuestaColaboracion Int con el ID de propuesta relacionada a una
+    *colaboración registrada en la base de datos
+    *@return Regresa el ID de colaboración coincidente con el ID de propuesta ingresado
+    **/
     @Override
     public int obtenerIdColaboracionPorIdPropuesta(int idPropuestaColaboracion){
         ResultSet resultado;
