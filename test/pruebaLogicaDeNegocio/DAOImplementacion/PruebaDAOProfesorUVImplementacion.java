@@ -1,8 +1,8 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorUVImplementacion;
 import logicaDeNegocio.clases.ProfesorUV;
 import logicaDeNegocio.clases.Usuario;
@@ -11,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,10 +32,16 @@ public class PruebaDAOProfesorUVImplementacion {
     @Test
     public void pruebaRegistrarProfesorUVExitosa(){
         ProfesorUV profesorUV=new ProfesorUV();
-        profesorUV.setNumeroDePersonal("1112");
-        profesorUV.setCategoriaDeContratacion("Docente bases de datos");
-        profesorUV.setTipoDeContratacion("Planta");
-        profesorUV.setIdProfesor(15);
+        profesorUV.setNombre("Carlos");
+        profesorUV.setApellidoPaterno("García");
+        profesorUV.setApellidoMaterno("Acevedo");
+        profesorUV.setCorreo("carlos@gmail.com");        
+        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+        daoProfesor.registrarProfesor(profesorUV);
+        profesorUV.setIdProfesor(2);                
+        profesorUV.setNumeroDePersonal("1234");
+        profesorUV.setCategoriaDeContratacion("Docente");
+        profesorUV.setTipoDeContratacion("Planta");        
         profesorUV.setIdRegion(1);       
         profesorUV.setIdAreaAcademica(1);
         DAOProfesorUVImplementacion instancia=new DAOProfesorUVImplementacion();
@@ -43,177 +50,211 @@ public class PruebaDAOProfesorUVImplementacion {
         assertEquals(resultadoEsperado,resultadoObtenido);                                   
     }
     
-    @Test (expected = IllegalArgumentException.class)
-    public void pruebaRegistrarProfesorUVFallido() {
-        ProfesorUV profesor = new ProfesorUV();              
-        profesor.setNumeroDePersonal(null);
-        profesor.setTipoDeContratacion("Tiempo Completo");
-        profesor.setCategoriaDeContratacion("A");
-        profesor.setIdProfesor(999);
-        profesor.setIdRegion(99);
-        profesor.setIdAreaAcademica(1);
+    @Test
+    public void pruebaRegistrarProfesorUVFallida() {
+        ProfesorUV profesorUV = new ProfesorUV();              
+        profesorUV.setIdProfesor(0);                
+        profesorUV.setNumeroDePersonal("1234");
+        profesorUV.setCategoriaDeContratacion("Docente");
+        profesorUV.setTipoDeContratacion("Planta");        
+        profesorUV.setIdRegion(1);       
+        profesorUV.setIdAreaAcademica(1);
         DAOProfesorUVImplementacion dao=new DAOProfesorUVImplementacion();        
-        int resultado = dao.registrarProfesorUV(profesor);
-        assertEquals(0, resultado);
-    }
-    
-    @Test
-    public void pruebaConsultarProfesoresUVExitoso() {
-        DAOProfesorUVImplementacion dao=new DAOProfesorUVImplementacion();        
-        List<ProfesorUV> profesores = dao.consultarProfesoresUV();
-        assertNotNull(profesores);
-        assertFalse(profesores.isEmpty());
-    }
-    
-    @Test
-    public void pruebaConsultarProfesoresUVFracaso(){
-        List<ProfesorUV> resultadoEsperado=new ArrayList<>();
-        ProfesorUV profesorUV=new ProfesorUV();        
-        resultadoEsperado.add(profesorUV);
-        DAOProfesorUVImplementacion instancia=new DAOProfesorUVImplementacion();
-        List<ProfesorUV> resultadoObtenido=new ArrayList<>();
-        resultadoObtenido=instancia.consultarProfesoresUV();
-        assertNotEquals(resultadoEsperado,resultadoObtenido);            
-    }
-    
-    @Test
-    public void pruebaEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalExitoso() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Tiempo completo", 1);
-        assertEquals(1, resultado);
-    }
-
-    @Test
-    public void pruebaEditarTipoDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Tiempo Completo", 1);
+        int resultado = dao.registrarProfesorUV(profesorUV);
         assertEquals(0, resultado);
     }
         
     @Test
-    public void pruebaEditarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonalExitoso() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Investigador", 1);
-        assertEquals(1, resultado);
-        dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Docente programacion", 1);
-    }
-    
-    @Test (expected = NullPointerException.class)
-    public void pruebaEditarCategoriaDeContratacionDeProfesorUVPorNumeroDePersonalFallido() {
-        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Investigador_becado01", 1);
-        assertEquals(0, resultado);
-    }
-    
-    @Test
-    public void pruebaEditarAreaAcademicaDeProfesorUVPorNumeroDePersonalExitoso() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(3, 1);
-        assertEquals(1, resultado);
-        List<ProfesorUV> profesores = dao.consultarProfesoresUV();
-        boolean encontrado = false;
-        for (ProfesorUV profesor : profesores) {
-            if (profesor.getNumeroDePersonal().equals("1972") && profesor.getIdAreaAcademica() == 3) {
-                encontrado = true;
-                break;
-            }
-        }
-        assertTrue(encontrado);
-        dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(2, 1);
+    public void pruebaRegistrarProfesorUVSinConexionExitosa(){
+        ProfesorUV profesorUV = new ProfesorUV();              
+        profesorUV.setIdProfesor(0);                
+        profesorUV.setNumeroDePersonal("1234");
+        profesorUV.setCategoriaDeContratacion("Docente");
+        profesorUV.setTipoDeContratacion("Planta");        
+        profesorUV.setIdRegion(1);       
+        profesorUV.setIdAreaAcademica(1);
+        DAOProfesorUVImplementacion dao=new DAOProfesorUVImplementacion();        
+        int resultado = dao.registrarProfesorUV(profesorUV);
+        assertEquals(-1, resultado);    
     }
     
     @Test
-    public void pruebaEditarAreaAcademicaDeProfesorUVPorNumeroDePersonalFallido() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(3, 1);
-        assertEquals(0, resultado);
-        List<ProfesorUV> profesores = dao.consultarProfesoresUV();
-        boolean encontrado = false;
-        for (ProfesorUV profesor : profesores) {
-            if (profesor.getNumeroDePersonal().equals("9999")) {
-                encontrado = true;
-                break;
-            }
-        }
-        assertFalse(encontrado);
+    public void pruebaConsultarProfesoresUVExitoso() {
+        DAOProfesorUVImplementacion dao=new DAOProfesorUVImplementacion(); 
+        ProfesorUV profesorUV=new ProfesorUV();
+        profesorUV.setNumeroDePersonal("1234");
+        List<ProfesorUV> profesoresEsperados=new ArrayList<>();
+        profesoresEsperados.add(profesorUV);        
+        List<ProfesorUV> profesoresObtenidos = dao.consultarProfesoresUV();        
+        assertEquals(profesoresEsperados,profesoresObtenidos);
     }
     
     @Test
-    public void pruebaEditarRegionDeProfesorUVPorNumeroDePersonalExitoso() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarRegionDeProfesorUVPorIdProfesorUV(2, 1);
-        assertEquals(1, resultado);
-        dao.editarRegionDeProfesorUVPorIdProfesorUV(1, 1);
+    public void pruebaConsultarProfesoresUVFallida(){
+        List<ProfesorUV> resultadoEsperado=new ArrayList<>();
+        ProfesorUV profesorUV=new ProfesorUV();        
+        resultadoEsperado.add(profesorUV);
+        DAOProfesorUVImplementacion instancia=new DAOProfesorUVImplementacion();
+        List<ProfesorUV> resultadoObtenido=instancia.consultarProfesoresUV();        
+        assertNotEquals(resultadoEsperado,resultadoObtenido);            
+    }
+        
+    @Test
+    public void pruebaConsultarProfesoresUVSinConexionExitosa(){
+        DAOProfesorUVImplementacion instancia=new DAOProfesorUVImplementacion();
+        List<ProfesorUV> resultadoObtenido=instancia.consultarProfesoresUV();   
+        assertTrue(resultadoObtenido.isEmpty());                
     }
     
     @Test
-    public void pruebaEditarRegionDeProfesorUVPorNumeroDePersonalFallido() {
-        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.editarRegionDeProfesorUVPorIdProfesorUV(2, 1);
-        assertEquals(0, resultado);
+    public void pruebaObtenerProfesorUVPorIDProfesorExitosa(){
+        ProfesorUV profesorEsperado=new ProfesorUV();
+        profesorEsperado.setNumeroDePersonal("1234");
+        DAOProfesorUVImplementacion daoProfesorUV=new DAOProfesorUVImplementacion();        
+        ProfesorUV profesorObtenido=daoProfesorUV.obtenerProfesorUVPorIDProfesor(2);
+        assertEquals(profesorEsperado,profesorObtenido);        
+    }
+    
+    @Test
+    public void pruebaObtenerProfesorUVPorIDProfesorFallida(){
+        ProfesorUV profesorEsperado=new ProfesorUV();
+        profesorEsperado.setNumeroDePersonal("1234");
+        DAOProfesorUVImplementacion daoProfesorUV=new DAOProfesorUVImplementacion();        
+        ProfesorUV profesorObtenido=daoProfesorUV.obtenerProfesorUVPorIDProfesor(0);
+        assertNotEquals(profesorEsperado,profesorObtenido);        
+    }
+        
+    @Test
+    public void pruebaObtenerProfesorUVPorIDProfesorSinConexionExitosa(){                
+        DAOProfesorUVImplementacion daoProfesorUV=new DAOProfesorUVImplementacion();        
+        ProfesorUV profesorObtenido=daoProfesorUV.obtenerProfesorUVPorIDProfesor(0);
+        assertNull(profesorObtenido);        
     }
     
     @Test
     public void pruebaValidarInexistenciaDeProfesorUVExitosa(){
          DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-         int resultado = dao.validarInexistenciaProfesorUV("9999");
+         int resultado = dao.validarInexistenciaProfesorUV("1111");
          assertEquals(0,resultado);
     }
     
     @Test
-    public void pruebaValidarInexistenciaDeProfesorUVExistoso(){
+    public void pruebaValidarInexistenciaDeProfesorUVFallida(){
          DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-         int resultado = dao.validarInexistenciaProfesorUV("4521");
+         int resultado = dao.validarInexistenciaProfesorUV("1234");
          assertEquals(1,resultado);
-    }
-    
+    }        
+        
     @Test
-    public void pruebaValidarInexistenciaDeProfesorUVFallido(){
+    public void pruebaValidarInexistenciaDeProfesorUVSinConexionExitosa(){
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-         int resultado = dao.validarInexistenciaProfesorUV("9999");
-         assertEquals(-1,resultado);
+        int resultado = dao.validarInexistenciaProfesorUV("1111");
+        assertEquals(-1,resultado);        
     }
-    
+        
     @Test
-    public void pruebaEliminarProfesorUVExitoso() {
+    public void pruebaEditarTipoDeContratacionDeProfesorUVPorIdProfesorUVExitosa() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        ProfesorUV profesorUV = new ProfesorUV();
-        profesorUV.setNumeroDePersonal("1234");
-        profesorUV.setTipoDeContratacion("Temporal");
-        profesorUV.setCategoriaDeContratacion("Profesor");
-        profesorUV.setIdProfesor(16);
-        profesorUV.setIdRegion(4);
-        profesorUV.setIdAreaAcademica(2);
-        int resultadoAgregar = dao.registrarProfesorUV(profesorUV);
-        assertEquals(1, resultadoAgregar);
-        List<ProfesorUV> profesores = dao.consultarProfesoresUV();
-        boolean encontrado = false;
-        for (ProfesorUV profesor : profesores) {
-            if (profesor.getNumeroDePersonal().equals("1234")) {
-                encontrado = true;
-                break;
-            }
-        }
-        assertTrue(encontrado);
-        int resultadoEliminar = dao.eliminarProfesorUV("lizeliminar@gmail.com");
-        assertEquals(1, resultadoEliminar);
-        profesores = dao.consultarProfesoresUV();
-        encontrado = false;
-        for (ProfesorUV profesor : profesores) {
-            if (profesor.getNumeroDePersonal().equals("1234")) {
-                encontrado = true;
-                break;
-            }
-        }
-        assertFalse(encontrado);
+        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Suplente", 1);
+        assertEquals(1, resultado);
     }
 
-    @Test (expected = AssertionError.class)
-    public void pruebaEliminarProfesorUVFallido() {
+    @Test
+    public void pruebaEditarTipoDeContratacionDeProfesorUVPorIdProfesorUVFallida() {
         DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
-        int resultado = dao.eliminarProfesorUV("correoInexistente@uv.mx");
+        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Eventual", 0);
         assertEquals(0, resultado);
-        resultado = dao.eliminarProfesorUV(null);
+    }
+            
+    @Test
+    public void pruebaEditarTipoDeContratacionDeProfesorUVPorIdProfesorUVSinConexionExitosa() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV("Eventual", 0);
         assertEquals(-1, resultado);
     }
-
+        
+    @Test
+    public void pruebaEditarCategoriaDeContratacionDeProfesorUVPorIdProfesorUVExitosa() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Investigador", 1);
+        assertEquals(1, resultado);        
+    }
+    
+    @Test 
+    public void pruebaEditarCategoriaDeContratacionDeProfesorUVPorIdProfesorUVFallida() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Técnico académico", 0);
+        assertEquals(0, resultado);
+    }
+        
+    @Test 
+    public void pruebaEditarCategoriaDeContratacionDeProfesorUVPorIdProfesorUVSinConexionExitosa() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV("Técnico académico", 0);
+        assertEquals(-1, resultado);
+    }
+        
+    @Test
+    public void pruebaEditarAreaAcademicaDeProfesorUVPorIdProfesorUVExitosa() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(2, 1);
+        assertEquals(1, resultado);       
+    }
+    
+    @Test
+    public void pruebaEditarAreaAcademicaDeProfesorUVPorIdProfesorUVFallida() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(3, 0);
+        assertEquals(0, resultado);                 
+    }
+        
+    @Test
+    public void pruebaEditarAreaAcademicaDeProfesorUVPorIdProfesorUVsinConexionExitosa() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(3, 0);
+        assertEquals(-1, resultado);                 
+    }
+                
+    @Test
+    public void pruebaEditarRegionDeProfesorUVPorIdProfesorUVExitosa() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarRegionDeProfesorUVPorIdProfesorUV(2, 1);
+        assertEquals(1, resultado);        
+    }
+    
+    @Test
+    public void pruebaEditarRegionDeProfesorUVPorIdProfesorUVExitosaFallida() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarRegionDeProfesorUVPorIdProfesorUV(3, 0);
+        assertEquals(0, resultado);
+    }
+            
+    @Test
+    public void pruebaEditarRegionDeProfesorUVPorIdProfesorUVExitosasinConexionExitosa() {
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultado = dao.editarRegionDeProfesorUVPorIdProfesorUV(3, 0);
+        assertEquals(-1, resultado);
+    }
+    
+    @Test
+    public void pruebaEditarNumeroDePersonalPorIdProfesorUVExitosa(){
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultadoObtenido=dao.editarNumeroDePersonalPorIdProfesorUV("3333", 1);
+        assertEquals(1,resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaEditarNumeroDePersonalPorIdProfesorUVFallida(){
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultadoObtenido=dao.editarNumeroDePersonalPorIdProfesorUV("4444", 0);
+        assertEquals(0,resultadoObtenido);        
+    }
+        
+    @Test
+    public void pruebaEditarNumeroDePersonalPorIdProfesorUVSinConexionExitosa(){
+        DAOProfesorUVImplementacion dao = new DAOProfesorUVImplementacion();
+        int resultadoObtenido=dao.editarNumeroDePersonalPorIdProfesorUV("4444", 0);
+        assertEquals(-1,resultadoObtenido);        
+    }
+        
 }

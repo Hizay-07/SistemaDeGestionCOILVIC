@@ -83,7 +83,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }            
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;
         }

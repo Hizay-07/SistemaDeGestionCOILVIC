@@ -70,6 +70,9 @@ public class RepresentanteInstitucional{
     
     @Override
     public boolean equals(Object obj){
+        if(!(obj instanceof RepresentanteInstitucional)){
+            return false;
+        }                        
         RepresentanteInstitucional representanteTemporal = (RepresentanteInstitucional)obj;
         return nombreInstitucion.equals(representanteTemporal.getNombreInstitucion())&&
                 claveInstitucional.equals(representanteTemporal.getClaveInstitucional())&&

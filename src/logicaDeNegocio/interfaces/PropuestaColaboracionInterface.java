@@ -6,13 +6,7 @@ import logicaDeNegocio.clases.PropuestaColaboracion;
 public interface PropuestaColaboracionInterface {        
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion);
     
-    public List<PropuestaColaboracion> consultarPropuestasColaboracion();
-    
-    public List<PropuestaColaboracion> consultarPropuestasColaboracionPorFechaDeInicio(String fecha);        
-    
-    public int editarFechaDeInicioDePropuestaColaboracionPorId(String fechaDeInicio,int idPropuestaColaboracion);
-    
-    public int editarFechaDeCierreDePropuestaColaboracionPorId(String fechaDeCierre,int idPropuestaColaboracion);
+    public List<PropuestaColaboracion> consultarPropuestasColaboracion();        
                          
     public int aprobarPropuestaColaboracionPorId(int idPropuestaColaboracion);
     

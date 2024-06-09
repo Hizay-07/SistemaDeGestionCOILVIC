@@ -69,7 +69,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
                 resultadoVerificacion=resultado.getInt(1);                
             }            
             conexion.close();
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoVerificacion=-1;
         }

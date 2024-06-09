@@ -8,7 +8,6 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +21,6 @@ public class PruebaDAOTipoColaboracionImplementacion {
         usuarioPrueba.setTipoDeUsuario("Administrativo");
         UsuarioSingleton.getInstancia(usuarioPrueba);
     }
-
     
     @Test
     public void pruebaConsultarTiposDeColaboracionExitosa() {
@@ -33,17 +31,16 @@ public class PruebaDAOTipoColaboracionImplementacion {
         List<TipoColaboracion> tiposColaboracionObtenidas = dao.consultarTiposDeColaboracion();
         assertEquals(listaEsperada, tiposColaboracionObtenidas);  
     }
-
       
     @Test
-    public void pruebaFallidaConsultarTiposDeColaboracion() {
+    public void pruebaConsultarTiposDeColaboracionFallida() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         List<TipoColaboracion> listaEsperada=new ArrayList<>();
         listaEsperada.add(new TipoColaboracion(1,"Clase espejo"));
         List<TipoColaboracion> tiposColaboracionObtenidas = dao.consultarTiposDeColaboracion();
         assertNotEquals(listaEsperada, tiposColaboracionObtenidas);
     }
-
+        
     @Test
     public void pruebaConsultarTiposDeColaboracionSinConexionExitosa(){
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
@@ -68,7 +65,13 @@ public class PruebaDAOTipoColaboracionImplementacion {
         String tipo = dao.consultarTipoColaboracionPorId(0);
         assertEquals("", tipo);
     }
-
+        
+    @Test
+    public void pruebaConsultarTipoColaboracionPorIdSinConexionExitosa(){
+        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
+        String tipo = dao.consultarTipoColaboracionPorId(1);
+        assertEquals("", tipo);        
+    }
     
     @Test
     public void pruebaConsultarIdTipoColaboracionPorTipoExitosa() {
@@ -78,28 +81,38 @@ public class PruebaDAOTipoColaboracionImplementacion {
     }
     
     @Test
-    public void pruebaFallidaConsultarIdTipoColaboracionPorTipo() {
+    public void pruebaConsultarIdTipoColaboracionPorTipoFallida() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         int idTipo = dao.consultarIdTipoColaboracionPorTipo("Taller");
         assertEquals(0, idTipo); 
+    }
+            
+    @Test
+    public void pruebaConsultarIdTipoColaboracionPorTipoSinConexionExitosa(){
+        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
+        int idTipo = dao.consultarIdTipoColaboracionPorTipo("Implementación COIL-VIC");
+        assertEquals(-1, idTipo);        
     }
 
     @Test
     public void pruebaVerificarTipoColaboracionExitosa() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         int resultado = dao.verificarTipoColaboracion();
-        assertTrue(resultado > 1);
+        assertEquals(2,resultado);
     }
-
+    
     @Test
-    public void pruebaVerificarTipoColaboracionSinValores() {
-        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion() {
-            @Override
-            public int verificarTipoColaboracion() {
-                return 0;
-            }
-        };
+    public void pruebaVerificarTipoColaboracionFallida() {
+        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         int resultado = dao.verificarTipoColaboracion();
-        assertEquals(0, resultado);
+        assertEquals(0,resultado);                            
+    }
+        
+    @Test
+    public void pruebaVerificarTipoColaboracionSinConexionExitosa(){
+        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
+        int resultado = dao.verificarTipoColaboracion();
+        assertEquals(-1,resultado); 
+        
     }
 }

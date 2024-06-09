@@ -69,60 +69,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         listaEsperada.add(propuestaColaboracion);
         List<PropuestaColaboracion> listaObtenida = dao.consultarPropuestasColaboracion();
         assertNotEquals(listaEsperada, listaObtenida);
-    }
-        
-    @Test
-    public void pruebaConsultarPropuestasColaboracionPorFechaDeInicioExitosa(){
-        PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
-        propuestaColaboracion.setIdPropuestaColaboracion(1);
-        TipoColaboracion tipoColaboracion = new TipoColaboracion();
-        tipoColaboracion.setIdTipoColaboracion(1);
-        propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-        propuestaColaboracion.setObjetivo("Compartir los distintos para programar en java");
-        List<PropuestaColaboracion> listaEsperada = new ArrayList<>();
-        listaEsperada.add(propuestaColaboracion);
-        List<PropuestaColaboracion> listaObtenida = dao.consultarPropuestasColaboracionPorFechaDeInicio("2024-05-02");
-        assertEquals(listaEsperada, listaObtenida);
-    }
-    
-    @Test
-    public void pruebaConsultarPropuestasColaboracionPorFechaDeInicioFracaso(){
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();                           
-        List<PropuestaColaboracion> listaEsperada=new ArrayList<>();
-        listaEsperada.add(propuestaColaboracion);
-        List<PropuestaColaboracion> listaObtenida=new ArrayList<>();
-        DAOPropuestaColaboracionImplementacion instancia=new DAOPropuestaColaboracionImplementacion();
-        listaObtenida=instancia.consultarPropuestasColaboracionPorFechaDeInicio("2024-08-10");
-        assertNotEquals(listaEsperada,listaObtenida);        
-    }        
-    
-    @Test
-    public void pruebaEditarFechaDeInicioDePropuestaColaboracionPorIdExitosa(){
-        int resultadoEsperado = 1;
-        int resultadoObtenido = dao.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 1);
-        assertEquals(resultadoEsperado, resultadoObtenido);        
-    }
-    
-    @Test
-    public void pruebaEditarFechaDeInicioDePropuestaColaboracionPorIdFracaso(){
-        int resultadoEsperado = 0;
-        int resultadoObtenido = dao.editarFechaDeInicioDePropuestaColaboracionPorId("2024-10-16", 0);
-        assertEquals(resultadoEsperado, resultadoObtenido);          
-    }
-        
-    @Test
-    public void pruebaEditarFechaDeCierreDePropuestaColaboracionPorIdExitosa(){
-        int resultadoEsperado = 1;
-        int resultadoObtenido = dao.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 1);
-        assertEquals(resultadoEsperado, resultadoObtenido);        
-    }
-    
-    @Test
-    public void pruebaEditarFechaDeCierreDePropuestaColaboracionPorIdFracaso(){
-        int resultadoEsperado = 0;
-        int resultadoObtenido = dao.editarFechaDeCierreDePropuestaColaboracionPorId("2024-12-12", 0);
-        assertEquals(resultadoEsperado, resultadoObtenido);        
-    }
+    }  
     
     @Test
     public void pruebaAprobarPropuestaColaboracionPorIdExitosa(){
