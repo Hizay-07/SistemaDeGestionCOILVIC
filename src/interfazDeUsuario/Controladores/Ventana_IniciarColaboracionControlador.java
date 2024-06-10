@@ -32,13 +32,11 @@ import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
 public class Ventana_IniciarColaboracionControlador implements Initializable {
-    private static final Logger LOG=Logger.getLogger(Ventana_IniciarColaboracionControlador.class);    
-
-    private Stage stage_ventana;
     
+    private static final Logger LOG=Logger.getLogger(Ventana_IniciarColaboracionControlador.class);   
+    private Stage stage_ventana;
     @FXML
     private AnchorPane anchor_IniciarColaboracion;
-
     @FXML
     private Spinner<Integer> spin_NumeroEstudiantes;
     

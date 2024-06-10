@@ -4,6 +4,7 @@ import logicaDeNegocio.clases.RepresentanteInstitucional;
 import java.util.List;
 
 public interface RepresentanteInstitucionalInterface{
+    
     public int registrarRepresentanteInstitucional(RepresentanteInstitucional representanteIngresado);
 
     public int modificarNombreRepresentanteInstitucional(String nombreActualizado, RepresentanteInstitucional representanteAActualizar);
@@ -27,4 +28,5 @@ public interface RepresentanteInstitucionalInterface{
     public String consultarNombreInstitucionPorIdRepresentanteInstitucional(int idRepresentanteInstitucional);
 
     public int verificarRepresentanteInstitucional();
+    
 }

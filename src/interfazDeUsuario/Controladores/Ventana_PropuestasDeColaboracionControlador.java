@@ -28,48 +28,36 @@ import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAORepresentanteInstitucionalImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
-import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.TipoColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_PropuestasDeColaboracionControlador implements Initializable {
-    private static final Logger LOG=Logger.getLogger(Ventana_PropuestasDeColaboracionControlador.class);    
-   
+    
+    private static final Logger LOG=Logger.getLogger(Ventana_PropuestasDeColaboracionControlador.class);      
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ExperienciaEducativa;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_FechaInicio;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_FechaCierre;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_Idioma;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_Institucion;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ObjetivoGeneral;
-
     @FXML
     private TableColumn column_Opcion;
-
     @FXML
     private TableColumn<PropuestaColaboracion,Profesor> column_Profesor;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ProgramaEducativo;
-
     @FXML
     private TableColumn<PropuestaColaboracion,TipoColaboracion> column_TipoDeColaboracion;
-
     @FXML
     private TableView<PropuestaColaboracion> tableView_PropuestasDeColaboracion;
-
     @FXML
     private VBox vb_PropuestasDeColaboracion;
     private Stage stage_ventana;
@@ -83,8 +71,7 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         column_ProgramaEducativo.setCellValueFactory(new PropertyValueFactory<>("programaEducativoEstudiantil"));
         column_ObjetivoGeneral.setCellValueFactory(new PropertyValueFactory<>("objetivo"));
         column_TipoDeColaboracion.setCellValueFactory(new PropertyValueFactory<>("tipoColaboracion"));        
-        column_Profesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));        
-        
+        column_Profesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));               
         column_Institucion.setCellValueFactory(cellData -> {
             PropuestaColaboracion propuesta = cellData.getValue();
             String valorInstitucion = obtenerValorInstitucion(propuesta);

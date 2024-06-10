@@ -12,6 +12,7 @@ import logicaDeNegocio.interfaces.TipoColaboracionInterface;
 import org.apache.log4j.Logger;
 
 public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterface{
+    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAOTipoColaboracionImplementacion.class);
     
@@ -109,4 +110,5 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
         }
         return resultadoVerificacion;           
     }
+    
 }

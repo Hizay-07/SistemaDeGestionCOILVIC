@@ -111,4 +111,5 @@ public final class PropuestaColaboracionAuxiliar {
     public void setTipoColaboracion(TipoColaboracion tipoColaboracion) {
         this.tipoColaboracion = tipoColaboracion;
     }  
+    
 }

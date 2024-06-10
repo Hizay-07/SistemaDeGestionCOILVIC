@@ -67,6 +67,5 @@ public final class RepresentanteAuxiliar {
     private void setPais(Pais pais) {
         this.pais = pais;
     }
-    
-    
+      
 }

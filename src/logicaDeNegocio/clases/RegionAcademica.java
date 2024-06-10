@@ -3,6 +3,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class RegionAcademica {
+    
     private int idRegionAcademica;
     private String region;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'\\-_\\*]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'\\-_\\*]+)*$";
@@ -35,7 +36,6 @@ public class RegionAcademica {
             throw new IllegalArgumentException();
         }
     }
-
     
     @Override
     public boolean equals(Object obj){
@@ -45,4 +45,5 @@ public class RegionAcademica {
         RegionAcademica regionAcademicaTemporal=(RegionAcademica)obj;
         return region.equals(regionAcademicaTemporal.getRegion());    
     }    
+    
 }

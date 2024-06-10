@@ -28,12 +28,10 @@ import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.ClasesAuxiliares.EvidenciaAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
-import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.Evidencia;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
-
 
 public class Ventana_EvidenciasControlador implements Initializable {
     
@@ -217,4 +215,5 @@ public class Ventana_EvidenciasControlador implements Initializable {
             LOG.error(excepcion.getCause());
         }
     }
+    
 }

@@ -5,6 +5,7 @@ import logicaDeNegocio.clases.EmisionPropuesta;
 import logicaDeNegocio.clases.Profesor;
 
 public interface EmisionPropuestaInterface {
+    
     public int registrarEmisionPropuesta(EmisionPropuesta emisionPropuesta);
     
     public List<EmisionPropuesta> consultarEmisionesDePropuestas();

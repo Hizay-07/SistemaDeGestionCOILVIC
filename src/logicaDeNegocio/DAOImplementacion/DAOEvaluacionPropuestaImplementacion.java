@@ -9,6 +9,7 @@ import logicaDeNegocio.interfaces.EvaluacionPropuestaInterface;
 import org.apache.log4j.Logger;
 
 public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuestaInterface{
+    
     private static final Logger LOG=Logger.getLogger(DAOEvaluacionPropuestaImplementacion.class);
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     

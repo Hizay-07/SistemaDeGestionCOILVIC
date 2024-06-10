@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import envioDeCorreos.EnvioDeCorreo;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +24,7 @@ import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.EvaluacionPropuesta;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumProfesor;
@@ -62,19 +64,23 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         if(validarDatosEvaluacion()){
+            String justificacion = txa_Justificacion.getText();
             evaluacionPropuesta.setIdUsuario(idUsuario);
-            evaluacionPropuesta.setJustificacion(txa_Justificacion.getText());
+            evaluacionPropuesta.setJustificacion(justificacion);
             String evaluacion=(String) cmb_EvaluarPropuesta.getSelectionModel().getSelectedItem();
             evaluacionPropuesta.setEvaluacion(evaluacion);
             evaluacionPropuesta.setFechaEvaluacion(obtenerFechaActual());
             evaluacionPropuesta.setIdPropuestaColaboracion(idPropuestaColaboracion);
             daoEvaluacionPropuesta.registrarEvaluacionPropuesta(evaluacionPropuesta);            
             if(evaluacion.equals("Aprobada")){
-                daoPropuestaColaboracion.aprobarPropuestaColaboracionPorId(idPropuestaColaboracion);                
+                daoPropuestaColaboracion.aprobarPropuestaColaboracionPorId(idPropuestaColaboracion); 
+                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
+                mandarCorreoRespuestaPropuestaDeColaboracion(idProfesor,"Aprobada",justificacion);
             }else{
                 daoPropuestaColaboracion.rechazarPropuestaColaboracionPorId(idPropuestaColaboracion);                
                 int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
                 daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString());
+                mandarCorreoRespuestaPropuestaDeColaboracion(idProfesor,"Rechazada",justificacion);
             }            
             salirDeLaVentana();
         }else{
@@ -117,6 +123,27 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         return resultado;
     }
     
+    private void mandarCorreoRespuestaPropuestaDeColaboracion(int idProfesor, String resultado,String justificacion){
+        int resultadoEnvioDeCorreo;
+        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+        Profesor profesor = daoProfesor.consultarProfesorPorId(idProfesor);
+        EnvioDeCorreo mandarCorreoCreacionDeUsuario = new EnvioDeCorreo();
+        String asuntoCorreo = "Respuesta de propuesta de colaboración COIL-VIC";
+        String cuerpoCorreo = "Estimado profesor "+profesor.getNombre()+" "+profesor.getApellidoPaterno()+": "+
+                "\nLa propuesta de colaboración que ha emitido previamente ha sido "+resultado+""
+                +"\n\nJustificación: \n"+justificacion+"\n\n Buen día. \n ATTE: Sistema de gestión COIL-VIC";
+        String destinatario = profesor.getCorreo();
+        mandarCorreoCreacionDeUsuario.setAsunto(asuntoCorreo);
+        mandarCorreoCreacionDeUsuario.setContenido(cuerpoCorreo);
+        mandarCorreoCreacionDeUsuario.setDestinatario(destinatario);
+        resultadoEnvioDeCorreo = mandarCorreoCreacionDeUsuario.enviarCorreo();
+        if(resultadoEnvioDeCorreo==1){
+            Alertas.mostrarMensajeNotificacionEnviada();
+        }else{
+             Alertas.mostrarSinConexionAInternet("No se ha podido mandar la notificación al profesor destinatario.\n"
+                     + "Por favor verifique su conexión a internet.");
+        }
+    }
     
     private String obtenerFechaActual(){
         LocalDate fechaActual = LocalDate.now();                

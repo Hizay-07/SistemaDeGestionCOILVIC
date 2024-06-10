@@ -38,43 +38,32 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_OfertaDeColaboracionesControlador implements Initializable {
+   
     private static final Logger LOG=Logger.getLogger(Ventana_OfertaDeColaboracionesControlador.class);    
     @FXML
     private VBox vb_OfertaDeColaboraciones;
-    
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ExperienciaEducativa;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_Idioma;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_Institucion;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ObjetivoGeneral;
-
     @FXML
     private TableColumn column_Profesor;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_ProgramaEducativo;
-
     @FXML
     private TableColumn column_TipoDeColaboracion;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_FechaCierre;
-
     @FXML
     private TableColumn<PropuestaColaboracion,String> column_FechaInicio;
-
     @FXML
-    private TableView tableView_OfertaDeColaboracion;  
-    
+    private TableView tableView_OfertaDeColaboracion;    
     @FXML
-    private TableColumn column_Opcion;           
-    
+    private TableColumn column_Opcion;              
     private Stage stage_ventana;    
     
     @Override
@@ -87,13 +76,11 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
         column_ObjetivoGeneral.setCellValueFactory(new PropertyValueFactory<>("objetivo"));
         column_TipoDeColaboracion.setCellValueFactory(new PropertyValueFactory<>("tipoColaboracion"));        
         column_Profesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));        
-        
         column_Institucion.setCellValueFactory(cellData -> {
             PropuestaColaboracion propuesta = cellData.getValue();
             String valorInstitucion = obtenerValorInstitucion(propuesta);
             return new SimpleStringProperty(valorInstitucion);
         });
-        
         List<PropuestaColaboracion> propuestas=obtenerPropuestasDeColaboracion();
         tableView_OfertaDeColaboracion.getItems().addAll(propuestas);                                        
         agregarBoton();
@@ -134,6 +121,7 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
                         daoProfesor.cambiarEstadoProfesor(idProfesor,   EnumProfesor.Esperando.toString());
                         column_Opcion.setVisible(false);
                         Alertas.mostrarPeticionColaboracionRegistrada();
+                        salirDeLaVentana();
                     });
                 }                
                 @Override

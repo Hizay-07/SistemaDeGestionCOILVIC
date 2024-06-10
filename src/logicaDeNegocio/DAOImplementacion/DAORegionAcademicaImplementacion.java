@@ -12,6 +12,7 @@ import logicaDeNegocio.interfaces.RegionAcademicaInterface;
 import org.apache.log4j.Logger;
 
 public class DAORegionAcademicaImplementacion implements RegionAcademicaInterface {
+    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAORegionAcademicaImplementacion.class);
 

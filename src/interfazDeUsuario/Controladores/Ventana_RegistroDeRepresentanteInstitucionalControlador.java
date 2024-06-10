@@ -27,6 +27,7 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements Initializable {
+    
     private static final Logger LOG=Logger.getLogger(Ventana_RegistroDeRepresentanteInstitucionalControlador.class);    
     @FXML
     private TextField txfd_NombreDeInstitucion;
@@ -45,8 +46,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     @FXML
     private Label lbl_ErrorContacto;
     @FXML
-    private Label lbl_ErrorPais;
-    
+    private Label lbl_ErrorPais;   
     private Stage stage_ventana;    
     
     @Override
@@ -88,7 +88,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         RepresentanteInstitucional representante = new RepresentanteInstitucional();
         resultado &= validarAuxiliar(()->representante.setNombreInstitucion(txfd_NombreDeInstitucion.getText()),lbl_ErrorNombreInstitucion);
         resultado &= validarAuxiliar(()->representante.setClaveInstitucional(txfd_ClaveInstitucional.getText().toUpperCase()),lbl_ErrorClaveInstitucional);
-        resultado &= validarAuxiliar(()->representante.setContacto(txfd_Contacto.getText()),lbl_ErrorContacto);
+        resultado &= validarAuxiliar(()->representante.setContacto(txfd_Contacto.getText().toLowerCase()),lbl_ErrorContacto);
         resultado &= validarSeleccion(()->(String) cmb_Pais.getSelectionModel().getSelectedItem(),lbl_ErrorPais);
         return resultado;
     }
@@ -126,7 +126,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         RepresentanteInstitucional representanteInstitucional=new RepresentanteInstitucional();        
         representanteInstitucional.setNombreInstitucion(txfd_NombreDeInstitucion.getText());
         representanteInstitucional.setClaveInstitucional(txfd_ClaveInstitucional.getText().toUpperCase());
-        representanteInstitucional.setContacto(txfd_Contacto.getText());
+        representanteInstitucional.setContacto(txfd_Contacto.getText().toLowerCase());
         String nombrePais = (String) cmb_Pais.getSelectionModel().getSelectedItem();
         pais.setNombrePais(nombrePais);
         representanteInstitucional.setPais(pais);
@@ -214,4 +214,5 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
             LOG.error(excepcion.getCause());
         }
     }
+    
 }

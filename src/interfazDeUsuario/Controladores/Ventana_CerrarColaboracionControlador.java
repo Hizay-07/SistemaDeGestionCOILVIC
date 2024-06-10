@@ -13,13 +13,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
-import logicaDeNegocio.ClasesAuxiliares.PropuestaColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
@@ -27,13 +25,11 @@ import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
-import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumColaboracion;
 import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.manejadorDeArchivos.ManejadorDeArchivos;
 import org.apache.log4j.Logger;
-
 
 public class Ventana_CerrarColaboracionControlador implements Initializable {
     
@@ -41,12 +37,6 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
     private Stage escenario;
     @FXML
     private AnchorPane anchor_Ventana;
-    @FXML
-    private Button btn_Aceptar;
-    @FXML
-    private Button btn_Cancelar;
-    @FXML
-    private Button btn_SubirArchivo;
     @FXML
     private Label lbl_NombreDeArchivo;
     @FXML

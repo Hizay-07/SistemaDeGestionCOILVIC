@@ -4,6 +4,7 @@ import java.util.List;
 import logicaDeNegocio.clases.ProfesorUV;
 
 public interface ProfesorUVInterface {
+    
     public int registrarProfesorUV(ProfesorUV profesorUV);
         
     public List<ProfesorUV> consultarProfesoresUV();

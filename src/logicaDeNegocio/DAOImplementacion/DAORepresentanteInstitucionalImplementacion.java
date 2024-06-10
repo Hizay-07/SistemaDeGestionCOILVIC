@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 public class DAORepresentanteInstitucionalImplementacion implements RepresentanteInstitucionalInterface {    
+    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
     private static final Logger LOG=Logger.getLogger(DAORepresentanteInstitucionalImplementacion.class);
 
@@ -298,4 +299,5 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
         }
         return resultadoVerificacion;            
     }
+    
 }

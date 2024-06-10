@@ -440,6 +440,15 @@ public class Alertas extends Application {
         });
     }
     
+    public static void mostrarMensajeNotificacionEnviada(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("Notificación enviada");
+            mensaje.setContentText("La notificación ha sido enviada correctamente.");
+            mensaje.showAndWait();
+        });
+    }
+    
     @Override
     public void start(Stage stage){
         try{

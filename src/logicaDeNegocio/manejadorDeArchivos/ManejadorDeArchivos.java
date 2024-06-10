@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.ProfesorSingleton;

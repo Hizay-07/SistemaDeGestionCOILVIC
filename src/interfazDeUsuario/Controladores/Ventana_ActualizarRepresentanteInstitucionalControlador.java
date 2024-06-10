@@ -26,7 +26,6 @@ import logicaDeNegocio.clases.RepresentanteInstitucional;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
-
 public class Ventana_ActualizarRepresentanteInstitucionalControlador implements Initializable {
 
     private static final Logger LOG=Logger.getLogger(Ventana_ActualizarRepresentanteInstitucionalControlador.class);
@@ -85,7 +84,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         RepresentanteInstitucional representante = new RepresentanteInstitucional();
         resultado &= validarAuxiliar(()->representante.setNombreInstitucion(txfd_NombreInstitucion.getText()),lbl_ErrorNombreInstitucion);
         resultado &= validarAuxiliar(()->representante.setClaveInstitucional(txfd_ClaveInstitucional.getText().toUpperCase()),lbl_ErrorClaveInstitucional);
-        resultado &= validarAuxiliar(()->representante.setContacto(txfd_Contacto.getText()),lbl_ErrorContacto);
+        resultado &= validarAuxiliar(()->representante.setContacto(txfd_Contacto.getText().toLowerCase()),lbl_ErrorContacto);
         return resultado;
     }
     
@@ -109,7 +108,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         representanteAModificar.setIdRepresentanteInstitucional(representante.getIdRepresentanteInstitucional());
         representanteAModificar.setClaveInstitucional(txfd_ClaveInstitucional.getText());
         representanteAModificar.setNombreInstitucion(txfd_NombreInstitucion.getText());
-        representanteAModificar.setContacto(txfd_Contacto.getText());
+        representanteAModificar.setContacto(txfd_Contacto.getText().toLowerCase());
         paisSeleccionado.setNombrePais((String) cmb_Pais.getSelectionModel().getSelectedItem());
         representanteAModificar.setPais(paisSeleccionado);
         return representanteAModificar;
@@ -193,6 +192,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
                     resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
                     if(resultadoAtributosModificados>=1&&resultadoAtributosModificados<=4){
                         Alertas.mostrarMensajeDatosModificados();
+                        regresarRepresentantesInstitucionales();
                     }else if(resultadoAtributosModificados==0){
                         Alertas.mostrarMensajeDatosDuplicados();
                     }else{

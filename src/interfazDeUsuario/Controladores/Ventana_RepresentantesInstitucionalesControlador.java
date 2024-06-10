@@ -46,7 +46,6 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
     private TableColumn<RepresentanteInstitucional, String> column_Pais;
     @FXML
     private TableColumn<RepresentanteInstitucional, Void> column_Actualizar;
-
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

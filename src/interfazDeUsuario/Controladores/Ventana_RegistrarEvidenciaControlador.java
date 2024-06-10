@@ -28,7 +28,6 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.manejadorDeArchivos.ManejadorDeArchivos;
 import org.apache.log4j.Logger;
 
-
 public class Ventana_RegistrarEvidenciaControlador implements Initializable {
     
     private static final Logger LOG=Logger.getLogger(Ventana_RegistrarEvidenciaControlador.class);
@@ -203,4 +202,5 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
             LOG.error(excepcion.getCause());
         }
     }
+    
 }

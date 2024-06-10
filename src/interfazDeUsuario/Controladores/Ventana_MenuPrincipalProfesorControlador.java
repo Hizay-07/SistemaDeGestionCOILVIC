@@ -57,28 +57,21 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
         btn_ColaboracionActiva.setOnAction(Event ->{
             visualizarColaboracionActiva();
         });
-        
         btn_ProponerColaboracion.setOnAction(Event ->{
             realizarPropuestaDeColaboracion();
         });
-        
         btn_ColaborarConProfesor.setOnAction(Event ->{
             visualizarOfertasDeColaboracion();
         });
-        
         btn_Salir.setOnAction(Event ->{
             regresarAlInicioDeSesion();
         });
-        
         btn_VerPeticionesDeColaboracion.setOnAction(Event ->{
             visualizarPeticionesColaboracion();
         });
-        
         btn_IniciarColaboracion.setOnAction(Event ->{
             visualizarInicioColaboracion();
         });
-        
-       
         mostrarMensajeProfesor();
     }    
        

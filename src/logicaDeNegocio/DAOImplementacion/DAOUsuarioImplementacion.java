@@ -13,7 +13,6 @@ import java.util.Objects;
 import logicaDeNegocio.clases.Profesor;
 import org.apache.log4j.Logger;
 
-
 public class DAOUsuarioImplementacion implements UsuarioInterface{
    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS = new ManejadorBaseDeDatos();
@@ -163,15 +162,11 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
 
     }      
     
-
- 
-    
     /**
     *Verificar la existencia de un nombre de usuario registrado en la base de datos
     *@param nombre Strinf con el nombre de usuario 
     *@return Regresa el número de coincidencias encontradas
     **/
-
     @Override
     public int verificarDuplicidadNombreDeUsuario(String nombre){
         ResultSet resultado;
@@ -192,8 +187,6 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         return coincidenciasEncontradas;
     }
     
-
-
     /**
     *Actualizar las credenciales de un usuario registrado en la base de datos
     *@param profesor Profesor con los datos para modificar su usuario
@@ -215,4 +208,5 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
         }
         return resultadoModificacion;
     }
+    
 }

@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 
 public class DAOColaboracionImplementacion implements ColaboracionInterface{
+    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOColaboracionImplementacion.class);
     
@@ -147,4 +148,5 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
         }
         return idColaboracion;                
     }
+    
 }

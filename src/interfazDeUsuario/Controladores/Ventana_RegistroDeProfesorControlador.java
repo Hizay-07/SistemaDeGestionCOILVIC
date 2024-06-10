@@ -42,7 +42,6 @@ import org.apache.log4j.Logger;
 public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     private static final Logger LOG = Logger.getLogger(Ventana_RegistroDeProfesorControlador.class);
-
     @FXML
     private Pane pane_ProfesorUV;
     @FXML
@@ -95,7 +94,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     @FXML
     private Label lbl_ErrorCorreo;
     
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -119,7 +117,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         resultado &= validarAuxiliar(()->profesor.setNombre(txfd_Nombre.getText()),lbl_ErrorNombre);
         resultado &= validarAuxiliar(()->profesor.setApellidoPaterno(txfd_ApellidoPaterno.getText()),lbl_ErrorApellidoPaterno);
         resultado &= validarAuxiliar(()->profesor.setApellidoMaterno(txfd_ApellidoMaterno.getText()),lbl_ErrorApellidoMaterno);
-        resultado &= validarAuxiliar(()->profesor.setCorreo(txfd_Correo.getText()),lbl_ErrorCorreo);
+        resultado &= validarAuxiliar(()->profesor.setCorreo(txfd_Correo.getText().toLowerCase()),lbl_ErrorCorreo);
         return resultado;
     }
     
@@ -224,7 +222,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         profesor.setNombre(txfd_Nombre.getText());
         profesor.setApellidoPaterno(txfd_ApellidoPaterno.getText());
         profesor.setApellidoMaterno(txfd_ApellidoMaterno.getText());
-        profesor.setCorreo(txfd_Correo.getText());
+        profesor.setCorreo(txfd_Correo.getText().toLowerCase());
         return profesor;
     }
 

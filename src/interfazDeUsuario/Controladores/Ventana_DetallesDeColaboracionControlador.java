@@ -17,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
@@ -40,10 +39,6 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     private Stage escenario;
     @FXML
     private AnchorPane anchor_Ventana;
-    @FXML
-    private Button btn_Regresar;
-    @FXML
-    private Button btn_Actividades;
     @FXML
     private Button btn_GenerarInforme;
     @FXML

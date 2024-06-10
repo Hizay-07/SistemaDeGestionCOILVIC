@@ -52,35 +52,27 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
         btn_Salir.setOnAction(Event ->{ 
             regresarAlInicioDeSesion();
         });   
-        
         btn_RegistrarProfesor.setOnAction(Event ->{
             registrarProfesor();
         });
-        
         btn_CreacionDeUsuario.setOnAction(Event ->{
             registrarUsuario();
         });
-        
         btn_ConaultarColaboracionesEnCurso.setOnAction(Event->{ 
             mostrarVentanaColaboraciones();
         });
-        
         btn_VisualizarPropuestasDeColaboracion.setOnAction(Event ->{
             visualizarPropuestasColaboracion();            
         });    
-        
         btn_ConsultarProfesores.setOnAction(Event ->{
             consultarProfesores();
         });
-        
         btn_RegistrarRepresentante.setOnAction(Event->{
             registrarRepresentanteInstitucional();
         });
-        
         btn_ConsultarRepresentanteInstitucional.setOnAction(Event ->{ 
             consultarRepresentanteInstitucional();
         });
-        
         lbl_Administrador.setText("Administrativo COIL-VIC");
     }
     

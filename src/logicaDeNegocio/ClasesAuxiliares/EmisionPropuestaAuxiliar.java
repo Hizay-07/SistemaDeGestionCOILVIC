@@ -2,7 +2,6 @@ package logicaDeNegocio.ClasesAuxiliares;
 
 import logicaDeNegocio.clases.EmisionPropuesta;
 
-
 public final class EmisionPropuestaAuxiliar {
     
     private static EmisionPropuestaAuxiliar instancia;

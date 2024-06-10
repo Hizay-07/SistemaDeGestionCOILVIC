@@ -3,7 +3,8 @@ package logicaDeNegocio.interfaces;
 import java.util.List;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 
-public interface PropuestaColaboracionInterface {        
+public interface PropuestaColaboracionInterface {  
+    
     public int registrarPropuestaColaboracion(PropuestaColaboracion propuestaColaboracion);
                                        
     public int aprobarPropuestaColaboracionPorId(int idPropuestaColaboracion);
@@ -21,4 +22,5 @@ public interface PropuestaColaboracionInterface {
     public List<PropuestaColaboracion> consultarPropuestasDeColaboracionAprobadasSinPeticiones(int identificadorProfesor);
     
     public int cambiarEstadoIniciadaPropuestaColaboracionPorId(int idPropuestaColaboracion);
+    
 }

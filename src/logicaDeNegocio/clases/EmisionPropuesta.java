@@ -3,6 +3,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class EmisionPropuesta {
+    
     private int idProfesor;
     private int idPropuestaColaboracion;
     private String fechaEmision;
