@@ -42,7 +42,7 @@ public class RepresentanteInstitucional{
     }
 
     public void setClaveInstitucional(String claveInstitucional)throws IllegalArgumentException {
-        if(claveInstitucional!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN, claveInstitucional.trim())&&claveInstitucional.trim().length()<=20){
+        if(claveInstitucional!=null&&Pattern.matches(SOLO_LETRAS_Y_NUMEROS_PATTERN, claveInstitucional.trim())&&claveInstitucional.trim().length()>=4&&claveInstitucional.trim().length()<=20){
             this.claveInstitucional = claveInstitucional.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();
