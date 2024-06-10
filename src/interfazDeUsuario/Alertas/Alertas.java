@@ -412,6 +412,34 @@ public class Alertas extends Application {
         });
     }
     
+    public static boolean confirmarActualizarCredenciales() {
+        Alert mensaje = new Alert(AlertType.CONFIRMATION);
+        mensaje.setTitle("Reenvío de credenciales");
+        mensaje.setContentText("¿Está seguro de reenviar las credenciales al profesor seleccionado?, esto hará que su contraseña se actualice.");
+
+        Optional<ButtonType> resultado = mensaje.showAndWait();
+
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
+    
+    public static void mostrarMensajeArchivoASubirExistente(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Archivo duplicado");
+            mensaje.setContentText("El nombre del archivo que desea subir ya ha sido guardado previamente.");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeActividadExistente(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Actividad existente");
+            mensaje.setContentText("El numero o nombre de la actividad que desea subir, ya se ha registrado previamente.");
+            mensaje.showAndWait();
+        });
+    }
+    
     @Override
     public void start(Stage stage){
         try{

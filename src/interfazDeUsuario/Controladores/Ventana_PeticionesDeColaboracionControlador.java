@@ -36,18 +36,16 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
     private static final Logger LOG=Logger.getLogger(Ventana_PeticionesDeColaboracionControlador.class);    
     @FXML
     private TableColumn<Profesor,String> column_Institucion;
-
     @FXML
     private TableColumn column_Aceptar;
     @FXML
     private TableColumn column_Rechazar;
-    
     @FXML
     private TableColumn<Profesor,String> column_Profesor;
-
+    @FXML
+    private TableColumn<Profesor,String> column_Contacto;
     @FXML
     private TableView<Profesor> tableView_PeticionesDeColaboracion;
-
     @FXML
     private VBox vb_PeticionesDeColaboracion;
     private Stage stage_ventana; 
@@ -64,7 +62,12 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
             Profesor profesor = cellData.getValue();
             String valorInstitucion = obtenerValorInstitucion(profesor);
             return new SimpleStringProperty(valorInstitucion);
-        });      
+        });   
+        column_Contacto.setCellValueFactory(cellData -> {
+            Profesor profesor = cellData.getValue();
+            String contacto = profesor.getCorreo();
+            return new SimpleStringProperty(contacto);
+        }); 
         List<Profesor> profesores=new ArrayList<>();
         profesores=consultarProfesores();
         tableView_PeticionesDeColaboracion.getItems().addAll(profesores);
