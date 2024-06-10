@@ -61,13 +61,8 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb){
-        if(validarConexionEstable()){ 
-            mostrarColaboraciones("Activa");
-            llenarComboBoxTipoDeColaboracion();        
-        }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();
-            salirAlInicioDeSesion();        
-        }        
+        mostrarColaboraciones("Activa");
+        llenarComboBoxTipoDeColaboracion();              
     }
     
     private void llenarComboBoxTipoDeColaboracion(){
@@ -87,7 +82,8 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     
     public void mostrarConsultaSeleccionada(){
         String seleccion = (String) cmb_TipoDeColaboracion.getSelectionModel().getSelectedItem();
-        if(validarConexionEstable()){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
              switch(seleccion){
             case "Activa":
                 mostrarColaboraciones("Activa");
@@ -103,11 +99,12 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                 Alertas.mostrarMensajeDatosInvalidos();
                 break;
             }        
-        }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();           
-            salirAlInicioDeSesion();
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
         }
-       
     }
     
     private List<Colaboracion> obtenerColaboracionesCerradas(){
