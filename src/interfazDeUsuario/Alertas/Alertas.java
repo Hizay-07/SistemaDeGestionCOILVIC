@@ -147,7 +147,7 @@ public class Alertas extends Application {
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.ERROR);
             mensaje.setTitle("Error en la conexion");
-            mensaje.setContentText("No se ha podido conectar a la base de datos");
+            mensaje.setContentText("No se ha podido conectar de forma correcta a la base de datos");
             mensaje.showAndWait();
         });
     }

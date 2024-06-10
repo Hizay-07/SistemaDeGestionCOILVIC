@@ -82,18 +82,27 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
     }
     
     public void registrarProfesor(){
-        DAORegionAcademicaImplementacion daoRegion=new DAORegionAcademicaImplementacion();
-        DAOAreaAcademicaImplementacion daoAreaAcademica=new DAOAreaAcademicaImplementacion();
-        DAORepresentanteInstitucionalImplementacion daoRepresentante=new DAORepresentanteInstitucionalImplementacion();
-        int verificadorRegion=daoRegion.verificarRegion();
-        int verificadorArea=daoAreaAcademica.verificarAreaAcademica();
-        int verificadorRepresentante=daoRepresentante.verificarRepresentanteInstitucional();
-        if(verificadorRegion>0&&verificadorArea>0&&verificadorRepresentante>0){
-            String ruta = "/interfazDeUsuario/Ventana_RegistroDeProfesor.fxml";
-            desplegarVentana(ruta);        
-        }else{
-            Alertas.mostrarBaseDatosSinCatalogos();
-        }               
+        int resultadoValidacion = validarConexionEstable();
+        if(resultadoValidacion== 1){
+            DAORegionAcademicaImplementacion daoRegion=new DAORegionAcademicaImplementacion();
+            DAOAreaAcademicaImplementacion daoAreaAcademica=new DAOAreaAcademicaImplementacion();
+            DAORepresentanteInstitucionalImplementacion daoRepresentante=new DAORepresentanteInstitucionalImplementacion();
+            int verificadorRegion=daoRegion.verificarRegion();
+            int verificadorArea=daoAreaAcademica.verificarAreaAcademica();
+            int verificadorRepresentante=daoRepresentante.verificarRepresentanteInstitucional();
+            if(verificadorRegion>0&&verificadorArea>0&&verificadorRepresentante>0){
+                String ruta = "/interfazDeUsuario/Ventana_RegistroDeProfesor.fxml";
+                desplegarVentana(ruta);        
+            }else{
+                Alertas.mostrarBaseDatosSinCatalogos();
+            } 
+        }else if(resultadoValidacion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+             salirAlMenuPrincipal();
+        }
+                      
     }
     
     public void registrarUsuario(){
@@ -112,8 +121,10 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
         if(numeroPaises>0){
             String ruta = "/interfazDeUsuario/Ventana_RegistroDeRepresentanteInstitucional.fxml";
             desplegarVentana(ruta);        
-        }else{
-            Alertas.mostrarBaseDatosSinCatalogos();            
+        }else if(numeroPaises==0){
+            Alertas.mostrarBaseDatosSinCatalogos(); 
+        }else if (numeroPaises==-1){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
         }
         
     }
@@ -123,8 +134,16 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
         desplegarVentana(ruta);
     }
     
+    public int validarConexionEstable(){
+        int resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+    
     public void desplegarVentana(String rutaFxml){
-        if(validarConexionEstable()==true){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -136,9 +155,11 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlMenuPrincipal();
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+             salirAlMenuPrincipal();
         }
     }
     
@@ -147,13 +168,6 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
          if(resultadoEleccion){
              salirAlMenuPrincipal();
          }
-    }
-    
-    public boolean validarConexionEstable(){
-        boolean resultado;
-        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
-        resultado = daoUsuario.confirmarConexionDeUsuario();
-        return resultado;
     }
      
     public void salirAlMenuPrincipal(){
@@ -181,6 +195,6 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
     
     public void visualizarPropuestasColaboracion(){
         String ruta = "/interfazDeUsuario/Ventana_PropuestasDeColaboracion.fxml";
-        desplegarVentana(ruta);        
+        desplegarVentana(ruta);
     }
 }

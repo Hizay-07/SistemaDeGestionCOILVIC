@@ -182,7 +182,8 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     }
     
     private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
-        if(validarConexionEstable()){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
@@ -194,14 +195,16 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
-        }
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
+        }  
     }
     
-    private boolean validarConexionEstable(){
-        boolean resultado;
+    public int validarConexionEstable(){
+        int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;

@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
+import java.util.Objects;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
@@ -43,6 +44,33 @@ public class ManejadorBaseDeDatos {
         }
         return conexion;
     }
+    
+    public int validarConectarBaseDeDatos(){
+        int resultadoValidacion=1;
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
+        Properties datosUsuario = new Properties();
+        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+            datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionAdministrativo();
+        }else if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Profesor.toString())){
+            datosUsuario = new ManejadorBaseDeDatos().obtenerArchivoConexionProfesor();
+        }
+        try{
+            String nombreBaseDeDatos = datosUsuario.getProperty("Direccion");
+            String nombreUsuario = datosUsuario.getProperty("Usuario");
+            String contrasenia = datosUsuario.getProperty("Contrasenia");
+            conexion = DriverManager.getConnection(nombreBaseDeDatos,nombreUsuario,contrasenia);
+        }catch(SQLException excepcion){
+            LOG.fatal(excepcion.getCause());
+            if(excepcion.getSQLState().equals("28000")){
+                resultadoValidacion = 0;
+            }else{
+                resultadoValidacion = -1;
+            }
+        }
+        System.out.println(resultadoValidacion);
+        return resultadoValidacion;
+    }
+    
     
     public Connection conectarBaseDeDatosLogger(Usuario usuario){
         Properties datosLogger = new Properties();

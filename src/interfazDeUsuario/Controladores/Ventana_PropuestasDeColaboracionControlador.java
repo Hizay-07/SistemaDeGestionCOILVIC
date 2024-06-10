@@ -141,7 +141,8 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
     }
     
     public void salirDeLaVentana(){
-        if(validarConexionEstable()){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
@@ -155,14 +156,16 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
-        }                        
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
+        }                       
     }
     
-    private boolean validarConexionEstable(){
-        boolean resultado;
+    public int validarConexionEstable(){
+        int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
@@ -190,8 +193,9 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         stage_ventana.close();
     }
     
-    private void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){       
-        if(validarConexionEstable()){
+    private void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){   
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/interfazDeUsuario/Ventana_EvaluacionDePropuesta.fxml"));
             Parent root = loader.load();
@@ -206,10 +210,12 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
-        }      
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
+        }   
     }
     
 }

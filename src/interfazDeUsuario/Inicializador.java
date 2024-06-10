@@ -13,7 +13,7 @@ public class Inicializador extends Application {
     private static final Logger LOG = Logger.getLogger(Inicializador.class);
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root=FXMLLoader.load(getClass().getResource("/interfazDeUsuario/Ventan                                                                           a_InicioDeSesion.fxml"));
+        Parent root=FXMLLoader.load(getClass().getResource("/interfazDeUsuario/Ventana_InicioDeSesion.fxml"));
         
         Scene scene = new Scene(root);
         stage.setScene(scene);  

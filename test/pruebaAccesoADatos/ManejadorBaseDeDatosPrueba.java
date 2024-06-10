@@ -15,7 +15,7 @@ public class ManejadorBaseDeDatosPrueba{
     @Test
     public void pruebaConectarBaseDeDatosExitosa()throws SQLException{
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
         usuarioPrueba.setTipoDeUsuario("Administrativo");
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
@@ -28,9 +28,9 @@ public class ManejadorBaseDeDatosPrueba{
     @Test (expected = SQLSyntaxErrorException.class)
     public void pruebaFalloConectarBaseDeDatosExitosa()throws SQLException{
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("CuentaPruebaUno");
+        usuarioPrueba.setNombreUsuario("cuenta@gmail.com");
         usuarioPrueba.setContrasenia("Contrasena123*");
-        usuarioPrueba.setTipoDeUsuario("Profesor");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos();
