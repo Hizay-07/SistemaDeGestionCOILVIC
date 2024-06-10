@@ -37,7 +37,7 @@ public class PruebaDAOPeticionColaboracionImplementacion {
     }
     
     @Test
-    public void pruebaRegistrarPeticionColaboracionFracaso(){
+    public void pruebaRegistrarPeticionColaboracionFallida(){
         PeticionColaboracion peticion = new PeticionColaboracion();        
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         int resultadoEsperado = 0; 
@@ -65,7 +65,7 @@ public class PruebaDAOPeticionColaboracionImplementacion {
     }
     
     @Test (expected = AssertionError.class)
-    public void pruebaConsultarPeticionesFracaso() {
+    public void pruebaConsultarPeticionesFallida() {
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         List<PeticionColaboracion> peticiones = instancia.consultarPeticiones();
         assertEquals(true, peticiones.isEmpty());
