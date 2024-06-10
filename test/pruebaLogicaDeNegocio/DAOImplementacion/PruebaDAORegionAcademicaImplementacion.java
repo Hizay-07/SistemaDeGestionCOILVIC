@@ -56,8 +56,7 @@ public class PruebaDAORegionAcademicaImplementacion {
         List<RegionAcademica> regionesAcademicasObtenidas = dao.consultarRegionesAcademicas();
         assertNotEquals(regionesAcademicasEsperadas, regionesAcademicasObtenidas);
     }
-    
-    //Probar sin BD 
+       
     @Test
     public void pruebaConsultarRegionesAcademicasSinConexionExitosa(){
         DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
@@ -78,8 +77,7 @@ public class PruebaDAORegionAcademicaImplementacion {
         int idRegion = dao.consultarIdDeRegionPorRegion("Ciudad de México");
         assertEquals(0, idRegion);
     }
-    
-    //Probar sin BD 
+      
     @Test
     public void pruebaConsultarIdDeRegionPorRegionSinConexionExitosa(){
         DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
@@ -100,8 +98,7 @@ public class PruebaDAORegionAcademicaImplementacion {
         int resultado = daoRegion.verificarRegion();
         assertEquals(0,resultado);       
     }
-    
-    //Probar sin BD 
+     
     @Test
     public void pruebaVerificarRegionSinConexionExitosa(){
         DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion();

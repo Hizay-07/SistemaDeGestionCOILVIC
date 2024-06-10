@@ -1,17 +1,13 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-import java.io.File;
 import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.clases.Evidencia;
-import logicaDeNegocio.clases.Actividad;
-import logicaDeNegocio.clases.Colaboracion;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 
