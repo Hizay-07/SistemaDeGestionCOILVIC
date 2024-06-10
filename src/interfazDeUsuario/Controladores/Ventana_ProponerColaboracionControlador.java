@@ -146,6 +146,9 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
                     } else {
                         Alertas.mostrarMensajeErrorEnLaConexion();
                     }                                    
+                }else{
+                    lbl_ErrorFechaInicio.setVisible(true);
+                    lbl_ErrorFechaCierre.setVisible(true);                                        
                 }                                 
             }else{
                 Alertas.mostrarMensajeDatosInvalidos(); 

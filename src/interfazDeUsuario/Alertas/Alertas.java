@@ -447,6 +447,15 @@ public class Alertas extends Application {
         });
     }
     
+    public static void mostrarRepresentanteSinRegistrar(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.WARNING);
+            mensaje.setTitle("Representante sin registrar");
+            mensaje.setContentText("Debe registrar un representante institucional");
+            mensaje.showAndWait();
+        });
+    }
+    
     public static void mostrarMensajeUniversidadVeracruzana(){
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.WARNING);
