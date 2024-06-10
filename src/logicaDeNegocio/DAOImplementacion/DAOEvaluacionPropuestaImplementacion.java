@@ -3,10 +3,7 @@ package logicaDeNegocio.DAOImplementacion;
 import accesoADatos.ManejadorBaseDeDatos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import logicaDeNegocio.clases.EvaluacionPropuesta;
 import logicaDeNegocio.interfaces.EvaluacionPropuestaInterface;
 import org.apache.log4j.Logger;
@@ -32,40 +29,10 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
             declaracion.setString(4, evaluacionPropuesta.getFechaEvaluacion());
             declaracion.setString(5, evaluacionPropuesta.getJustificacion());
             numeroFilasAfectadas=declaracion.executeUpdate();
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
+            numeroFilasAfectadas=-1;
         }
         return numeroFilasAfectadas;                        
-    }
-    
-    /**
-    *Obtener las evaluaciones de propuestas registradas en la base de datos
-    *@return Regresa la lista de evaluaciones de propuesta encontradas en la base 
-    * de datos
-    **/
-    @Override
-    public List<EvaluacionPropuesta> consultarEvaluacionesDePropuesta() {
-        ResultSet resultado;
-        List<EvaluacionPropuesta> evaluacionesPropuestas=new ArrayList<>();
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("SELECT * from EvaluacionPropuesta")){
-            resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                EvaluacionPropuesta evaluacionPropuesta=new EvaluacionPropuesta();
-                evaluacionPropuesta.setIdEvaluacionPropuesta(resultado.getInt("idEvaluacionPropuesta"));
-                evaluacionPropuesta.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                evaluacionPropuesta.setIdUsuario(resultado.getInt("idUsuario"));
-                evaluacionPropuesta.setEvaluacion(resultado.getString("evaluacion"));
-                evaluacionPropuesta.setFechaEvaluacion(resultado.getString("fechaEvaluacion"));
-                evaluacionPropuesta.setJustificacion(resultado.getString("justificacion"));
-                evaluacionesPropuestas.add(evaluacionPropuesta);
-            }
-        } catch (SQLException excepcion) {
-            LOG.error(excepcion.getMessage());
-        }
-        return evaluacionesPropuestas;
-    }
-    
-
-    
+    }         
 }

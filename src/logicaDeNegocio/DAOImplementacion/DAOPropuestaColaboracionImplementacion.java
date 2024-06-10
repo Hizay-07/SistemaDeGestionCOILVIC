@@ -47,41 +47,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
         }
         return idPropuestaColaboracion;        
     }
-  
-    /**
-    *Consultar las propuesta de colaboración registradas en la base de datos
-    *@return Regresa la lista de propuestas de colaboración registradas en la base
-    * de datos
-    **/
-    @Override
-    public List<PropuestaColaboracion> consultarPropuestasColaboracion() {
-        ResultSet resultado;
-        List<PropuestaColaboracion> propuestasColaboracion=new ArrayList<>();
-        try (Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("SELECT * FROM PropuestaColaboracion")){
-            resultado=declaracion.executeQuery();
-            while(resultado.next()){
-                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-                propuestaColaboracion.setIdPropuestaColaboracion(resultado.getInt("idPropuestaColaboracion"));
-                propuestaColaboracion.setFechaInicio(resultado.getString("fechaInicio"));
-                propuestaColaboracion.setFechaCierre(resultado.getString("fechaCierre"));
-                propuestaColaboracion.setIdioma(resultado.getString("idioma"));
-                propuestaColaboracion.setExperienciaEducativa(resultado.getString("experienciaEducativa"));
-                propuestaColaboracion.setObjetivo(resultado.getString("objetivo"));
-                propuestaColaboracion.setProgramaEducativoEstudiantil(resultado.getString("programaEducativoEstudiantil"));
-                propuestaColaboracion.setEstadoPropuesta(resultado.getString("estadoPropuesta"));
-                TipoColaboracion tipoColaboracion=new TipoColaboracion();
-                tipoColaboracion.setIdTipoColaboracion(resultado.getInt("idTipoColaboracion"));
-                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-                propuestasColaboracion.add(propuestaColaboracion);                
-            }
-        } catch (SQLException | NullPointerException ex) {
-            LOG.error(ex);
-        }
-        return propuestasColaboracion;
-
-    }      
-  
+       
     /**
     *Aprobar una propuesta de colaboración por medio de su ID asignado en la base
     * de datos
@@ -335,7 +301,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             numeroFilasAfectadas=declaracion.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             LOG.error(ex);
-            
+            numeroFilasAfectadas=-1;
         }
         return numeroFilasAfectadas;        
     }

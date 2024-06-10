@@ -23,7 +23,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     **/
     @Override
     public int registrarActividad(Actividad actividadNueva){
-        int resultadoRegistro;        
+        int resultadoRegistro=0;        
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO actividad (nombre,descripcion,fechaDeInicio,fechaDeCierre,idColaboracion,numeroDeActividad,estadoActividad) VALUES (?,?,?,?,?,?,?)")){
             sentencia.setString(1,actividadNueva.getNombre());
@@ -49,7 +49,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     **/
     @Override
     public int modificarActividad(Actividad actividadActualizada) {
-        int resultadoModificacion;   
+        int resultadoModificacion=0;   
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET nombre = ?, descripcion = ?, estadoActividad = ? WHERE idActividad = ? ")){
             sentencia.setString(1, actividadActualizada.getNombre());
@@ -74,7 +74,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     **/
     @Override
     public int modificarFechaActividad(Actividad actividadActualizada) {
-        int resultadoModificacion;      
+        int resultadoModificacion=0;      
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET fechaDeInicio = ?, FechaDeCierre = ? WHERE idActividad = ? ")){
             sentencia.setString(1, actividadActualizada.getFechaDeInicio());
@@ -136,7 +136,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
             ResultSet numeroObtenido = sentencia.executeQuery();
             if(numeroObtenido.isBeforeFirst()){
                 while(numeroObtenido.next()){
-                    numeroDeActividad = (int)numeroObtenido.getObject(1);
+                    numeroDeActividad =numeroObtenido.getInt("numeroDeActividad");
                 }
             }
         }catch(SQLException | NullPointerException excepcion){
@@ -184,7 +184,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     **/
     @Override
     public int actualizarEstadoActividad(Actividad actividad, String estado) {
-        int resultadoActualizacion;      
+        int resultadoActualizacion=0;      
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE actividad SET estadoActividad = ? where numeroDeActividad = ? AND idActividad = ?")){
             sentencia.setString(1, estado);
