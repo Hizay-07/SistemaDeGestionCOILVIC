@@ -41,7 +41,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="btn_RegistrarRepresentante" layoutX="614.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #0026FA; -fx-border-color: #001AAB;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Registrar Representante Intituional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btn_RegistrarRepresentante" layoutX="616.0" layoutY="148.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: #0026FA; -fx-border-color: #001AAB;" styleClass="Button" stylesheets="@EstiloBoton.css" text="Registrar Representante Institucional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
