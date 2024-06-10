@@ -1,4 +1,4 @@
-    package pruebaLogicaDeNegocio.DAOImplementacion;
+package pruebaLogicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Profesor;
@@ -256,6 +256,5 @@ public class PruebaDAOUsuarioImplementacion {
         int resultadoEsperado=-1;
         int resultadoObtenido=daoUsuario.actualizarUsuarioPorIdUsuario(profesor, contrasena);
         assertEquals(resultadoEsperado,resultadoObtenido);          
-    }
-          
+    }          
 }

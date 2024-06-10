@@ -112,7 +112,6 @@ public class PruebaDAOTipoColaboracionImplementacion {
     public void pruebaVerificarTipoColaboracionSinConexionExitosa(){
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         int resultado = dao.verificarTipoColaboracion();
-        assertEquals(-1,resultado); 
-        
+        assertEquals(-1,resultado);         
     }
 }

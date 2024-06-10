@@ -113,8 +113,7 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         Colaboracion colaboracionObtenida = dao.obtenerColaboracionPorIdProfesor(profesor);
         assertNotEquals(colaboracionEsperada,colaboracionObtenida);
     }
-    
-    //Probar sin BD
+      
     @Test
     public void pruebaObtenerColaboracionPorIdProfesorSinConexionExitosa(){
         Profesor profesor = new Profesor();

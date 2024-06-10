@@ -1,6 +1,5 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorExternoImplementacion;
 import logicaDeNegocio.clases.ProfesorExterno;

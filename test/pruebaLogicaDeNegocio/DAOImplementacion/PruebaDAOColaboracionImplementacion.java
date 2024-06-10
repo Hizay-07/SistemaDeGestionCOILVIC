@@ -1,6 +1,5 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
@@ -66,7 +65,7 @@ public class PruebaDAOColaboracionImplementacion {
     @Test
     public void pruebaConsultarColaboracionesFallida() {
         DAOColaboracionImplementacion dao = new DAOColaboracionImplementacion();
-        List<Colaboracion> colaboraciones = new ArrayList<>();
+        List<Colaboracion> colaboraciones = dao.consultarColaboraciones();
         assertEquals(0, colaboraciones.size());
     }
     

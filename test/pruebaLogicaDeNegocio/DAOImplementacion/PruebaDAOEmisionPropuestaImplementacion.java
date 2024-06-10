@@ -1,6 +1,5 @@
 package pruebaLogicaDeNegocio.DAOImplementacion;
 
-import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
 import logicaDeNegocio.clases.EmisionPropuesta;
@@ -9,7 +8,6 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
