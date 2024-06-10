@@ -39,25 +39,11 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
     @FXML
     private AnchorPane anchor_Ventana;
     @FXML
-    private Pane pane_ColorSuperior;
-    @FXML
-    private Pane pane_ColorInferior;
-    @FXML
-    private Button btn_EscogerArchivo;
-    @FXML
-    private Label lbl_TituloVentana;
-    @FXML
-    private Label lbl_NombreEvidencia;
-    @FXML
     private Label lbl_ArchivoSeleccionado;
     @FXML
     private TextField txfd_NombreEvidenciaModificador;
     @FXML
     private Label lbl_NombreArchivo;
-    @FXML
-    private Button btn_Guardar;  
-    @FXML
-    private Button btn_Cancelar;
     @FXML
     private FileChooser filechooser_Evidencia = new FileChooser();
     @FXML

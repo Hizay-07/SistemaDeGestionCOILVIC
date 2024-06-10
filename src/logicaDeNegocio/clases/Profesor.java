@@ -3,6 +3,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class Profesor{    
+    
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;

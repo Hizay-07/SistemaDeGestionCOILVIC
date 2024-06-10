@@ -59,6 +59,5 @@ public final class EvidenciaAuxiliar {
     private void setIdActividad(int idActividad) {
         this.idActividad = idActividad;
     }
-    
-    
+      
 }

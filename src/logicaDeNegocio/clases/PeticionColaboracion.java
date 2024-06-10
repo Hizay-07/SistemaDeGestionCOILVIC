@@ -3,6 +3,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class PeticionColaboracion {   
+    
     private int idProfesor;    
     private String estado;
     private String fechaEnvio;
@@ -62,6 +63,5 @@ public class PeticionColaboracion {
             throw new IllegalArgumentException();
         }
     }
-   
 
 }

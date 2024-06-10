@@ -3,7 +3,8 @@ package logicaDeNegocio.interfaces;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.Usuario;
 
-public interface UsuarioInterface {    
+public interface UsuarioInterface {  
+    
     public int validarCredenciales(Usuario usuario, Usuario logger);
 
     public int registrarUsuario(Usuario usuario);
@@ -19,4 +20,5 @@ public interface UsuarioInterface {
     public int verificarDuplicidadNombreDeUsuario(String nombre);
     
     public int actualizarUsuarioPorIdUsuario(Profesor profesor, String contrasenia);
+    
 }

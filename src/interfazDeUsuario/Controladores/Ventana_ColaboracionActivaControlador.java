@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
-import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,10 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.Objects;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
@@ -33,8 +29,6 @@ import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
-
-
 
 public class Ventana_ColaboracionActivaControlador implements Initializable {
     
@@ -57,10 +51,6 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
     @FXML 
     private Button btn_Actividades;
     @FXML 
-    private Button btn_CerrarColaboracion;
-    @FXML 
-    private VBox vb_Profesores;
-    @FXML 
     private Label lbl_Profesor1;
     @FXML 
     private Label lbl_Profesor2;
@@ -70,8 +60,6 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
     private Label lbl_Profesor4;
     @FXML 
     private Button btn_Regresar;
-
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -272,4 +260,5 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
             Alertas.mostrarMensajeErrorAlDesplegarVentana();
         }
     }
+    
 }

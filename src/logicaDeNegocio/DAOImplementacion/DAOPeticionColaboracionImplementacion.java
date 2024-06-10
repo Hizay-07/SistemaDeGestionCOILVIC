@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Types;
 import logicaDeNegocio.clases.PeticionColaboracion;
-
 import logicaDeNegocio.interfaces.PeticionColaboracionInterface;
 import org.apache.log4j.Logger;
 
@@ -235,5 +234,6 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             resultadoCambioEstado=-1;
         }
         return resultadoCambioEstado;                  
-    }                
+    }         
+    
 }

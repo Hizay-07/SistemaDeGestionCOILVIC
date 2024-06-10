@@ -16,6 +16,7 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 
 public class ManejadorBaseDeDatos {
+    
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(ManejadorBaseDeDatos.class);
     private static ManejadorBaseDeDatos instancia;
     private Connection conexion;
@@ -113,4 +114,5 @@ public class ManejadorBaseDeDatos {
             }
         }
     }
+    
 }

@@ -2,8 +2,6 @@ package logicaDeNegocio.ClasesAuxiliares;
 
 import logicaDeNegocio.clases.Actividad;
 
-
-
 public final class ActividadAuxiliar {
     
     private static ActividadAuxiliar instancia;
@@ -102,5 +100,6 @@ public final class ActividadAuxiliar {
     private void setIdColaboracion(int idColaboracion) {
         this.idColaboracion = idColaboracion;
     }
+    
 }
 

@@ -221,4 +221,5 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
             LOG.error(excepcion.getCause());
         }
     }
+    
 }

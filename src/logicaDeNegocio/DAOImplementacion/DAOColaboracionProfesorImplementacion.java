@@ -1,6 +1,5 @@
 package logicaDeNegocio.DAOImplementacion;
 
-import logicaDeNegocio.clases.ColaboracionProfesor;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.interfaces.ColaboracionProfesorInterface;

@@ -15,6 +15,7 @@ import logicaDeNegocio.clases.TipoColaboracion;
 import logicaDeNegocio.interfaces.PropuestaColaboracionInterface;
 
 public class DAOPropuestaColaboracionImplementacion implements PropuestaColaboracionInterface {
+    
     private static final ManejadorBaseDeDatos BASE_DE_DATOS=new ManejadorBaseDeDatos();
     private static final org.apache.log4j.Logger LOG=org.apache.log4j.Logger.getLogger(DAOPropuestaColaboracionImplementacion.class);
     

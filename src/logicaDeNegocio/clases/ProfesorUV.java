@@ -3,6 +3,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class ProfesorUV extends Profesor {
+    
     private String numeroDePersonal;
     private String tipoDeContratacion;
     private String categoriaDeContratacion;

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,7 +23,6 @@ import logicaDeNegocio.ClasesAuxiliares.GeneradorDeContrasenias;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
-
 
 public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     
@@ -114,10 +112,10 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         String tipoDeUsuario = (String)cmb_TipoDeUsuario.getSelectionModel().getSelectedItem();
         String contrasenia = GeneradorDeContrasenias.generarContraseña();
         try{
-            usuario.setNombreUsuario(txfd_NombreDeUsuario.getText());
+            usuario.setNombreUsuario(txfd_NombreDeUsuario.getText().toLowerCase());
             usuario.setContrasenia(contrasenia);
             usuario.setTipoDeUsuario(tipoDeUsuario);
-            usuario.setCorreo(txfd_NombreDeUsuario.getText());
+            usuario.setCorreo(txfd_NombreDeUsuario.getText().toLowerCase());
         }catch(IllegalArgumentException excepcion){
             Alertas.mostrarMensajeDatosInvalidos();
         }
@@ -128,7 +126,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     private boolean validarDatosUsuario(){
         boolean resultado = true;
         Usuario usuario = new Usuario();
-        resultado &= validarAuxiliar(()->usuario.setNombreUsuario(txfd_NombreDeUsuario.getText()),lbl_ErrorNombreDeUsuario);
+        resultado &= validarAuxiliar(()->usuario.setNombreUsuario(txfd_NombreDeUsuario.getText().toLowerCase()),lbl_ErrorNombreDeUsuario);
         resultado &= validarSeleccion(()->(String) cmb_TipoDeUsuario.getSelectionModel().getSelectedItem(),lbl_ErrorSeleccion);
         return resultado; 
     }    
@@ -170,7 +168,6 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     private void registrarUsuarioAdministrativo(Usuario usuario){
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
-        
         switch (resultadoRegistro) {
             case 1 -> {
                 int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(),usuario.getContrasenia(),usuario.getTipoDeUsuario());
@@ -254,4 +251,5 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
             Alertas.mostrarMensajeDatosInvalidos();
         }
     }
+    
 }

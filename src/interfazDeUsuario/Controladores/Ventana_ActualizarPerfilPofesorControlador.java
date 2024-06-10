@@ -85,7 +85,6 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     private Label lbl_ErrorApellidoMaterno;
     @FXML
     private Label lbl_ErrorCorreo;
-    
     private Stage escenario;
 
     @Override
@@ -277,7 +276,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         profesorAActualizar.setNombre(txfd_Nombre.getText());
         profesorAActualizar.setApellidoMaterno(txfd_ApellidoMaterno.getText());
         profesorAActualizar.setApellidoPaterno(txfd_ApellidoPaterno.getText());
-        profesorAActualizar.setCorreo(txfd_Correo.getText());
+        profesorAActualizar.setCorreo(txfd_Correo.getText().toLowerCase());
         profesorAActualizar.setEstado((String) cmb_EstadosProfesor.getSelectionModel().getSelectedItem());
         return profesorAActualizar;
     }
@@ -313,7 +312,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         resultado &= validarAuxiliar(()->profesor.setNombre(txfd_Nombre.getText()),lbl_ErrorNombre);
         resultado &= validarAuxiliar(()->profesor.setApellidoPaterno(txfd_ApellidoPaterno.getText()),lbl_ErrorApellidoPaterno);
         resultado &= validarAuxiliar(()->profesor.setApellidoMaterno(txfd_ApellidoMaterno.getText()),lbl_ErrorApellidoMaterno);
-        resultado &= validarAuxiliar(()->profesor.setCorreo(txfd_Correo.getText()),lbl_ErrorCorreo);
+        resultado &= validarAuxiliar(()->profesor.setCorreo(txfd_Correo.getText().toLowerCase()),lbl_ErrorCorreo);
         return resultado;
     }
     
@@ -485,4 +484,5 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
             LOG.error(excepcion.getCause());
         }
     }
+    
 }

@@ -19,9 +19,7 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfSmartCopy;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import logicaDeNegocio.clases.Colaboracion;
@@ -159,4 +157,5 @@ public class InformeImplementacion {
         }
         return resultadoGuardado;
     }
+    
 }

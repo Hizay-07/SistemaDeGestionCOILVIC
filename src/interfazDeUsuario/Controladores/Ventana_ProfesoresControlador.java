@@ -64,8 +64,6 @@ public class Ventana_ProfesoresControlador implements Initializable {
     @FXML
     private TableColumn<Profesor, Void> column_Credenciales;
     @FXML
-    private Button btn_Regresar;
-    @FXML
     private ComboBox cmb_TipoDeProfesor;
     @Override
     

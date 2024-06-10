@@ -1,4 +1,3 @@
-
 package interfazDeUsuario.Controladores;
 
 import logicaDeNegocio.clases.Actividad;
@@ -21,11 +20,9 @@ import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import org.apache.log4j.Logger;
 import java.time.LocalDate;
-import java.util.Objects;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.Label;
 import javafx.util.Callback;
-import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
@@ -82,7 +79,6 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         PropuestaColaboracion propuesta = colaboracionActual.getPropuestaColaboracion();
         LocalDate fechaMaxima = LocalDate.parse(propuesta.getFechaCierre());
         LocalDate fechaMinima = LocalDate.parse(propuesta.getFechaInicio());
-        LocalDate fechaActual = LocalDate.now();
         dtp_FechaDeInicio.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
         dtp_FechaDeInicio.setValue(fechaMinima);
         dtp_FechaDeCierre.setDayCellFactory(createDayCellFactory(fechaMinima, fechaMaxima));
@@ -232,4 +228,5 @@ public class Ventana_IniciarActividadControlador implements Initializable {
             Alertas.mostrarMensajeDatosInvalidos();
         }
     }
+    
 }

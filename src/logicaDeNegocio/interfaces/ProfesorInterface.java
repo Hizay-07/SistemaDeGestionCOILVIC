@@ -4,6 +4,7 @@ import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.Usuario;
 
 public interface ProfesorInterface {
+    
     int registrarProfesor(Profesor profesor);
 
     int cambiarEstadoProfesor(int idProfesor, String nuevoEstado);
@@ -27,4 +28,5 @@ public interface ProfesorInterface {
     public int validarDuplicidadDeCorreo(String correo);
 
     public int consultarPrecondicionInicioColaboracionPorIdProfesor(int idProfesor);
+    
 }

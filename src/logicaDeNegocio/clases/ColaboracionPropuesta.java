@@ -1,6 +1,7 @@
 package logicaDeNegocio.clases;
 
-public class ColaboracionPropuesta {    
+public class ColaboracionPropuesta {  
+    
     private Colaboracion colaboracion;
     private PropuestaColaboracion propuestaColaboracion;
 

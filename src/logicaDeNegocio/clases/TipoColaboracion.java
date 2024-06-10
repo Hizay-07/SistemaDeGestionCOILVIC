@@ -3,6 +3,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public class TipoColaboracion {
+    
     private String tipo;
     private int idTipoColaboracion;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ'-]+)*$";
@@ -58,4 +59,5 @@ public class TipoColaboracion {
     public String toString(){
         return tipo;        
     }
+    
 }

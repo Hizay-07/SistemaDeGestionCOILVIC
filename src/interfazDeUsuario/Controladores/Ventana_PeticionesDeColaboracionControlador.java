@@ -1,5 +1,6 @@
 package interfazDeUsuario.Controladores;
 
+import envioDeCorreos.EnvioDeCorreo;
 import interfazDeUsuario.Alertas.Alertas;
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +34,7 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import org.apache.log4j.Logger;
 
 public class Ventana_PeticionesDeColaboracionControlador implements Initializable {
+    
     private static final Logger LOG=Logger.getLogger(Ventana_PeticionesDeColaboracionControlador.class);    
     @FXML
     private TableColumn<Profesor,String> column_Institucion;
@@ -49,8 +51,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
     @FXML
     private VBox vb_PeticionesDeColaboracion;
     private Stage stage_ventana; 
-
-    
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         column_Profesor.setCellValueFactory(cellData -> {
@@ -190,6 +191,7 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
                                 Alertas.mostrarLimitePeticionesColaboracion();
                                 salirDeLaVentana();                                                            
                             }else{
+                                mandarCorreoRespuestaPeticionDeColaboracion(profesor,"Aceptada");
                                 tableView_PeticionesDeColaboracion.getItems().clear();
                                 tableView_PeticionesDeColaboracion.getItems().addAll(consultarProfesores());                             
                             }
@@ -226,7 +228,8 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
                             int idPropuesta=daoPeticionColaboracion.consultarIdPropuestaDeColaboracionPorIdProfesor(idProfesor);
                             daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuesta, idProfesor);
                             DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-                            daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString());                                                                                                                                                                            
+                            daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString()); 
+                            mandarCorreoRespuestaPeticionDeColaboracion(profesor,"Rechazada");
                             tableView_PeticionesDeColaboracion.getItems().clear();
                             tableView_PeticionesDeColaboracion.getItems().addAll(consultarProfesores());                         
                         }                                                                                               
@@ -247,6 +250,27 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         column_Rechazar.setCellFactory(cellFactory);       
     }
     
+    private void mandarCorreoRespuestaPeticionDeColaboracion(Profesor profesor, String resultado){
+        int resultadoEnvioDeCorreo;
+        ProfesorSingleton profesorAutor = ProfesorSingleton.getInstancia();
+        EnvioDeCorreo mandarCorreoCreacionDeUsuario = new EnvioDeCorreo();
+        String asuntoCorreo = "Respuesta de peticion de colaboración COIL-VIC";
+        String cuerpoCorreo = "Estimado profesor "+profesor.getNombre()+" "+profesor.getApellidoPaterno()+": "+
+                "\nLa petición de solicitud que ha enviado para colaborar con el profesor "+profesorAutor.getNombre()+" "+
+                profesorAutor.getApellidoPaterno()+" ha sido "+resultado+"\n\n Buen día. \n ATTE: Sistema de gestión COIL-VIC";
+        String destinatario = profesor.getCorreo();
+        mandarCorreoCreacionDeUsuario.setAsunto(asuntoCorreo);
+        mandarCorreoCreacionDeUsuario.setContenido(cuerpoCorreo);
+        mandarCorreoCreacionDeUsuario.setDestinatario(destinatario);
+        resultadoEnvioDeCorreo = mandarCorreoCreacionDeUsuario.enviarCorreo();
+        if(resultadoEnvioDeCorreo==1){
+            Alertas.mostrarMensajeNotificacionEnviada();
+        }else{
+             Alertas.mostrarSinConexionAInternet("No se ha podido mandar la notificación al profesor destinatario.\n"
+                     + "Por favor verifique su conexión a internet.");
+        }
+    }
+    
     private int validarNumeroPeticiones(){
         DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
         ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
@@ -254,6 +278,5 @@ public class Ventana_PeticionesDeColaboracionControlador implements Initializabl
         int resultadoPrecondicion=daoPeticionColaboracion.revisarPrecondicionEvaluarPeticionesPorIdProfesor(idProfesor);
         return resultadoPrecondicion;
     }
-    
     
 }

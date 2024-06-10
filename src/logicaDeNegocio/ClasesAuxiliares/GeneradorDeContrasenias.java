@@ -2,7 +2,6 @@ package logicaDeNegocio.ClasesAuxiliares;
 
 import java.security.SecureRandom;
 
-
 public class GeneradorDeContrasenias {
     private static final String CARACTERES_PERMITIDOS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()[]{}<>?/\\|:;,.\\-_+=";
 

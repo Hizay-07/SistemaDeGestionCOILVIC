@@ -23,7 +23,6 @@ import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.enums.EnumProfesor;
 import org.apache.log4j.Logger;
 
-
 public class ventana_InicioDeSesionControlador implements Initializable {
     
     private static final Logger LOG=Logger.getLogger(ventana_InicioDeSesionControlador.class);
@@ -57,7 +56,7 @@ public class ventana_InicioDeSesionControlador implements Initializable {
     private boolean validarDatosProfesorExterno(){
         boolean resultado = true;
          Usuario usuarioAIngresar = new Usuario();
-        resultado &= validarAuxiliar(()->usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText()),lbl_ErrorUsuario);
+        resultado &= validarAuxiliar(()->usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText().toLowerCase()),lbl_ErrorUsuario);
         resultado &= validarAuxiliar(()->usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText()),lbl_ErrorContrasena);
         return resultado; 
     }    
@@ -79,7 +78,7 @@ public class ventana_InicioDeSesionControlador implements Initializable {
         ocultarLabelErrores();
         if(validarDatosProfesorExterno()){
             Usuario usuarioAIngresar = new Usuario();
-            usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText());
+            usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText().toLowerCase());
             usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText());
             DAOUsuarioImplementacion DAOUsuario = new DAOUsuarioImplementacion();
             int validacionCredencial = DAOUsuario.validarCredenciales(usuarioAIngresar, logger);
@@ -152,6 +151,5 @@ public class ventana_InicioDeSesionControlador implements Initializable {
         }
         cerrarVentana();
     }
-    
-    
+     
 }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -33,7 +34,6 @@
                      </children>
                   </Pane>
                   <TextField fx:id="txfd_ExperienciaEducativa" layoutX="181.0" layoutY="119.0" prefHeight="26.0" prefWidth="366.0" style="-fx-border-radius: 12;" />
-                  <TextField fx:id="txfd_ObjetivoGeneral" layoutX="181.0" layoutY="183.0" prefHeight="68.0" prefWidth="290.0" style="-fx-border-radius: 12;" />
                   <TextField fx:id="txfd_ProgramaEducativo" layoutX="181.0" layoutY="149.0" prefHeight="28.0" prefWidth="366.0" style="-fx-border-radius: 12;" />
                   <Button fx:id="btn_Aceptar" layoutX="166.0" layoutY="327.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Aceptar" textFill="WHITE">
                      <font>
@@ -47,8 +47,8 @@
                   <DatePicker fx:id="dtp_FechaInicio" editable="false" layoutX="57.0" layoutY="84.0" prefHeight="25.0" prefWidth="213.0" promptText="Seleccione la fecha de inicio" />
                   <DatePicker fx:id="dtp_FechaCierre" editable="false" layoutX="345.0" layoutY="84.0" prefHeight="25.0" prefWidth="201.0" promptText="Seleccione la fecha de cierre" />
                   <Label layoutX="60.0" layoutY="124.0" text="Experiencia educativa:" />
-                  <Label layoutX="62.0" layoutY="154.0" text="Programa educativo:" />
-                  <Label layoutX="62.0" layoutY="191.0" text="Objetivo general:" />
+                  <Label layoutX="65.0" layoutY="154.0" text="Programa educativo:" />
+                  <Label layoutX="85.0" layoutY="191.0" text="Objetivo general:" />
                   <ComboBox fx:id="cmb_Idiomas" layoutX="330.0" layoutY="276.0" prefWidth="150.0" promptText="Idioma" stylesheets="@Combobox.css" />
                   <Label fx:id="lbl_ErrorFechaInicio" layoutX="283.0" layoutY="81.0" text="*" textFill="RED" visible="false">
                      <font>
@@ -85,6 +85,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
+                  <TextArea fx:id="txa_ObjetivoGeneral" layoutX="181.0" layoutY="183.0" prefHeight="82.0" prefWidth="366.0" />
                </children>
             </AnchorPane>
          </children>

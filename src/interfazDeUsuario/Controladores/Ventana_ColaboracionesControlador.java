@@ -34,7 +34,6 @@ import logicaDeNegocio.enums.EnumColaboracion;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
-
 public class Ventana_ColaboracionesControlador implements Initializable {
     
     private static final Logger LOG=Logger.getLogger(Ventana_ColaboracionesControlador.class);

@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
@@ -44,7 +45,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     @FXML
     private TextField txfd_ProgramaEducativo;
     @FXML
-    private TextField txfd_ObjetivoGeneral; 
+    private TextArea txa_ObjetivoGeneral; 
     @FXML
     private ComboBox<String> cmb_TipoColaboracion; 
     @FXML
@@ -130,7 +131,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
                 tipoColaboracion.setIdTipoColaboracion(daoTipoColaboracion.consultarIdTipoColaboracionPorTipo(tipo));
                 propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText());
                 propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText());
-                propuestaColaboracion.setObjetivo(txfd_ObjetivoGeneral.getText());
+                propuestaColaboracion.setObjetivo(txa_ObjetivoGeneral.getText());
                 propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
                 propuestaColaboracion.setIdioma(idioma);
                 propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
@@ -155,7 +156,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         PropuestaColaboracion propuestaColaboracion = new PropuestaColaboracion();
         resultado &= validarAuxiliar(()-> propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText()),lbl_ErrorExperienciaEducativa);
         resultado &= validarAuxiliar(()->propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText()),lbl_ErrorProgramaEducativo);
-        resultado &= validarAuxiliar(()->propuestaColaboracion.setObjetivo(txfd_ObjetivoGeneral.getText()),lbl_ErrorObjetivoGeneral);
+        resultado &= validarAuxiliar(()->propuestaColaboracion.setObjetivo(txa_ObjetivoGeneral.getText()),lbl_ErrorObjetivoGeneral);
         resultado &= validarSeleccion(()->(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem(),lbl_ErrorTipoDeColaboracion);
         resultado &= validarSeleccion(()->(String) cmb_Idiomas.getSelectionModel().getSelectedItem(),lbl_ErrorIdioma);
         resultado &= validarAuxiliar(()-> propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString()),lbl_ErrorFechaInicio);

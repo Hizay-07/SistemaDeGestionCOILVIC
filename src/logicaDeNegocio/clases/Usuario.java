@@ -3,6 +3,7 @@ package logicaDeNegocio.clases;
 import java.util.regex.Pattern;
 
 public final class Usuario {    
+    
     private int idUsuario;
     private String nombreUsuario;
     private String contrasenia;
