@@ -8,6 +8,7 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumPeticionColaboracion;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,10 +26,10 @@ public class PruebaDAOPeticionColaboracionImplementacion {
     @Test
     public void pruebaRegistrarPeticionColaboracionExitosa(){
         PeticionColaboracion peticion = new PeticionColaboracion();
-        peticion.setIdProfesor(2); 
+        peticion.setIdProfesor(3); 
         peticion.setIdPropuestaColaboracion(1);
         peticion.setEstado(EnumPeticionColaboracion.Registrada.toString());
-        peticion.setFechaEnvio("2024-04-08");
+        peticion.setFechaEnvio("2024-06-08");
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         int resultadoEsperado = 1; 
         int resultadoObtenido = instancia.registrarPeticionColaboracion(peticion);
@@ -42,6 +43,18 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         int resultadoEsperado = 0; 
         int resultadoObtenido = instancia.registrarPeticionColaboracion(peticion);
         assertEquals(resultadoEsperado, resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaRegistrarPeticionColaboracionSinConexionExitosa(){
+        PeticionColaboracion peticion = new PeticionColaboracion();
+        peticion.setIdProfesor(3);
+        peticion.setIdPropuestaColaboracion(1);
+        peticion.setEstado(EnumPeticionColaboracion.Registrada.toString());
+        peticion.setFechaEnvio("2024-06-08");
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.registrarPeticionColaboracion(peticion);
+        assertEquals(0, resultadoObtenido);
     }
 
     @Test
@@ -59,15 +72,60 @@ public class PruebaDAOPeticionColaboracionImplementacion {
     }
     
     @Test
+    public void pruebaConsultarPeticionesSinConexionExitosa(){
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<PeticionColaboracion> peticiones = instancia.consultarPeticiones();
+        assertTrue(peticiones.isEmpty());
+    }
+    
+    @Test 
+    public void pruebaConsultarIdPropuestaDeColaboracionPorIdProfesorExitosa(){
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoEsperado = 1;
+        int resultadoObtenido = instancia.consultarIdPropuestaDeColaboracionPorIdProfesor(3);
+        assertEquals(resultadoEsperado, resultadoObtenido);
+    }
+    
+    @Test 
+    public void pruebaConsultarIdPropuestaDeColaboracionPorIdProfesorFallida(){
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoEsperado = 0;
+        int resultadoObtenido = instancia.consultarIdPropuestaDeColaboracionPorIdProfesor(-1);
+        assertEquals(resultadoEsperado, resultadoObtenido);
+    }
+    
+    @Test 
+    public void pruebaConsultarIdPropuestaDeColaboracionPorIdProfesorSinConexionExitosa(){
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.consultarIdPropuestaDeColaboracionPorIdProfesor(3);
+        assertEquals(-1, resultadoObtenido);
+    }
+    
+    @Test
     public void pruebaConsultarIdProfesoresPorIdPropuestaColaboracionExitosa(){
-        int idPropuestaColaboracion=2;
-        List<Integer> resultadoEsperado=new ArrayList<>();
-        int idProfesorEsperado=2;
+        int idPropuestaColaboracion = 1;
+        List<Integer> resultadoEsperado = new ArrayList<>();
+        int idProfesorEsperado = 3;
         resultadoEsperado.add(idProfesorEsperado);
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
-        List<Integer> resultadoObtenido=new ArrayList<>();
-        resultadoObtenido=instancia.consultarIdProfesoresPorIdPropuestaColaboracion(idPropuestaColaboracion);
-        assertEquals(resultadoEsperado, resultadoObtenido);        
+        List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracion(idPropuestaColaboracion);
+        assertEquals(resultadoEsperado, resultadoObtenido);          
+    }
+    
+    @Test 
+    public void pruebaConsultarIdProfesoresPorIdPropuestaColaboracionFallida(){
+        int idPropuestaColaboracion = -1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracion(idPropuestaColaboracion);
+        assertTrue(resultadoObtenido.isEmpty());
+    }
+    
+    @Test 
+    public void pruebaConsultarIdProfesoresPorIdPropuestaColaboracionSincConexionExitosa(){
+        int idPropuestaColaboracion = 1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracion(idPropuestaColaboracion);
+        assertTrue(resultadoObtenido.isEmpty());
     }
     
     @Test
@@ -78,6 +136,25 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
         int resultadoObtenido=daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
         assertEquals(resultadoEsperado, resultadoObtenido);        
+    }   
+    
+    @Test 
+    public void pruebaAceptarPeticionColaboracionFallida(){
+        int idPropuestaColaboracion = -1;
+        int idProfesor = -1;
+        int resultadoEsperado = 0;
+        DAOPeticionColaboracionImplementacion daoPeticionColaboracion = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
+        assertEquals(resultadoEsperado, resultadoObtenido);        
+    }
+
+    @Test 
+    public void pruebaAceptarPeticionColaboracionSinConexionExitosa(){
+        int idPropuestaColaboracion = 1;
+        int idProfesor = 1;
+        DAOPeticionColaboracionImplementacion daoPeticionColaboracion = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
+        assertEquals(0, resultadoObtenido);
     }
     
     @Test
@@ -88,6 +165,99 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
         int resultadoObtenido=daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
         assertEquals(resultadoEsperado, resultadoObtenido);         
+    }
+    
+    @Test
+    public void pruebaRechazarPeticionColaboracionFallida(){
+        int idPropuestaColaboracion = -1;
+        int idProfesor = -1;
+        int resultadoEsperado = 0;
+        DAOPeticionColaboracionImplementacion daoPeticionColaboracion = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
+        assertEquals(resultadoEsperado, resultadoObtenido);         
+    }
+
+    @Test
+    public void pruebaRechazarPeticionColaboracionSinConexionExitosa(){
+        int idPropuestaColaboracion = 1;
+        int idProfesor = 1;
+        DAOPeticionColaboracionImplementacion daoPeticionColaboracion = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
+        assertEquals(0, resultadoObtenido);         
+    }
+    
+    @Test
+    public void consultarIdProfesoresPorIdPropuestaColaboracionAceptadasExitosa(){
+        int idPropuestaColaboracion = 1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuestaColaboracion);
+        assert(!resultadoObtenido.isEmpty()); //falla
+    }
+    
+    @Test
+    public void consultarIdProfesoresPorIdPropuestaColaboracionAceptadasFallida(){
+        int idPropuestaColaboracion = -1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuestaColaboracion);
+        assertTrue(resultadoObtenido.isEmpty());
+    }
+    
+    @Test
+    public void consultarIdProfesoresPorIdPropuestaColaboracionAceptadasSinConexionExitosa(){
+        int idPropuestaColaboracion = 1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuestaColaboracion);
+        assertTrue(resultadoObtenido.isEmpty());
+    }
+    
+    @Test
+    public void revisarPrecondicionEvaluarPeticionesPorIdProfesorExitosa() {
+        int idProfesor = 3;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.revisarPrecondicionEvaluarPeticionesPorIdProfesor(idProfesor);
+        assertEquals(1, resultadoObtenido);
+    }
+
+    
+    @Test
+    public void revisarPrecondicionEvaluarPeticionesPorIdProfesorFallida() {
+        int idProfesor = -1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.revisarPrecondicionEvaluarPeticionesPorIdProfesor(idProfesor);
+        assertEquals(0, resultadoObtenido);
+    }
+    
+    @Test
+    public void revisarPrecondicionEvaluarPeticionesPorIdProfesorSinConexionExitosa() {
+        int idProfesor = 1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.revisarPrecondicionEvaluarPeticionesPorIdProfesor(idProfesor);
+        assertEquals(-1, resultadoObtenido);
+    }
+    
+    @Test
+    public void cambiarEstadoPeticionesRegistradasPorIdPropuestaExitosa() {
+        int idPropuesta = 1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.cambiarEstadoPeticionesRegistradasPorIdPropuesta(idPropuesta);
+        assertEquals(1, resultadoObtenido);
+    }
+
+    
+    @Test
+    public void cambiarEstadoPeticionesRegistradasPorIdPropuestaFallida() {
+        int idPropuesta = -1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.cambiarEstadoPeticionesRegistradasPorIdPropuesta(idPropuesta);
+        assertEquals(0, resultadoObtenido);
+    }
+    
+    @Test
+    public void cambiarEstadoPeticionesRegistradasPorIdPropuestaSinConexionExitosa() {
+        int idPropuesta = 1;
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
+        int resultadoObtenido = instancia.cambiarEstadoPeticionesRegistradasPorIdPropuesta(idPropuesta);
+        assertEquals(-1, resultadoObtenido);
     }
     
 }

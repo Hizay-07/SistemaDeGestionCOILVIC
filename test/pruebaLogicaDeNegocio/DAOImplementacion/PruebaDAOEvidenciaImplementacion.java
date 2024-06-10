@@ -42,10 +42,19 @@ public class PruebaDAOEvidenciaImplementacion {
         DAOEvidenciaImplementacion pruebaEvidencia = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("Prueba fallida");
-        evidenciaPrueba.setRutaEvidencia("C://Users//oscar//OneDrive//--Coilvic");
         evidenciaPrueba.setIdActividad(1);
         int resultado = pruebaEvidencia.agregarEvidencia(evidenciaPrueba);
-        assertEquals(1, resultado);     
+        assertEquals(-1, resultado);     
+    }
+    
+    @Test
+    public void pruebaRegistrarEvidenciaSinConexionExitosa(){
+        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
+        Evidencia evidenciaPrueba = new Evidencia();
+        evidenciaPrueba.setNombre("Evidencia de prueba");
+        evidenciaPrueba.setRutaEvidencia("Informes//Evidenciapruebauno");
+        int resultado = pruebaDeMetodo.agregarEvidencia(evidenciaPrueba);
+        assertEquals(-1,resultado);
     }
     
     @Test ()
@@ -54,8 +63,8 @@ public class PruebaDAOEvidenciaImplementacion {
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("Evidencia de prueba");
         evidenciaPrueba.setRutaEvidencia("Informes//Escritor.java");
-        evidenciaPrueba.setIdActividad(2);
-        evidenciaPrueba.setIdEvidencia(2);
+        evidenciaPrueba.setIdActividad(1);
+        evidenciaPrueba.setIdEvidencia(1);
         int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
         assertEquals(1,resultado);
     }
@@ -68,8 +77,19 @@ public class PruebaDAOEvidenciaImplementacion {
         evidenciaPrueba.setRutaEvidencia("C://Users//OneDive--CoilvicFalllida");
         evidenciaPrueba.setIdActividad(1);
         int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
-        assertEquals(1, resultado);
+        assertEquals(-1, resultado);
     }    
+    
+    @Test
+    public void pruebaModificarEvidenciaSinConexionExitosa(){
+        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
+        Evidencia evidenciaPrueba = new Evidencia();
+        evidenciaPrueba.setNombre("Evidencia de prueba");
+        evidenciaPrueba.setRutaEvidencia("Informes//Escritor.java");
+        evidenciaPrueba.setIdActividad(1);
+        int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
+        assertEquals(-1,resultado);
+    }
     
     @Test
     public void pruebaObtenerEvidenciasDeActividadExitosa() {
@@ -88,19 +108,35 @@ public class PruebaDAOEvidenciaImplementacion {
     }
     
     @Test
+    public void pruebaObtenerEvidenciasDeActividadSinConexionExitosa(){
+        int idActividad = 1; 
+        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
+        List<Evidencia> evidencias = dao.obtenerEvidenciasDeActividad(idActividad);
+        assertEquals(new ArrayList(), evidencias);
+    }
+    
+    @Test
     public void pruebaObtenerNumeroDeEvidenciasExitosa(){
         int idActividad = 1; 
         DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
         int numeroActividad = dao.obtenerNumeroDeEvidencia(idActividad);
-        assertEquals(0,numeroActividad);
+        assertEquals(1,numeroActividad);
     }
     
     @Test
     public void pruebaObtenerNumeroDeEvidenciasFallida(){
+        int idActividad = -1;
+        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
+        int numeroActividad = dao.obtenerNumeroDeEvidencia(idActividad);
+        assertEquals(0, numeroActividad);
+    }
+    
+    @Test
+    public void pruebaObtenerNumeroDeEvidenciasSinConexionExitosa(){
         int idActividad = 1; 
         DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
         int numeroActividad = dao.obtenerNumeroDeEvidencia(idActividad);
         assertEquals(-1,numeroActividad);
     }
-
+    
 }
