@@ -35,6 +35,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             numeroFilasAfectadas = declaracion.executeUpdate();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            numeroFilasAfectadas = -1;
         }
         return numeroFilasAfectadas;
     }
@@ -126,6 +127,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             idProfesorExterno=declaracion.getInt(2);
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            idProfesorExterno = -1;
         }
         return idProfesorExterno;                
     }

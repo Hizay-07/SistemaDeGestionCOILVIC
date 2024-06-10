@@ -61,7 +61,6 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         propuestaColaboracion.setFechaCierre("2024-07-23");
         propuestaColaboracion.setIdioma("Ingles");
         propuestaColaboracion.setExperienciaEducativa("Programacion");
-        propuestaColaboracion.setObjetivo("Fundamentos de la programación");
         propuestaColaboracion.setProgramaEducativoEstudiantil("Ingenieria de software");
         propuestaColaboracion.setEstadoPropuesta("Registrada");
         TipoColaboracion tipoColaboracion = new TipoColaboracion();
