@@ -175,7 +175,8 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
     }
 
     public void desplegarVentana(String rutaFxml){
-        if(validarConexionEstable()==true){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -187,9 +188,11 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlMenuPrincipal();
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+             regresarAlInicioDeSesion();
         }
     }
     
@@ -200,8 +203,8 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
          }
     }
     
-    public boolean validarConexionEstable(){
-        boolean resultado;
+    public int validarConexionEstable(){
+        int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;

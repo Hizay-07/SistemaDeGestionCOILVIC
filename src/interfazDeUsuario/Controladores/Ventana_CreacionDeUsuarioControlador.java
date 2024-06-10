@@ -56,7 +56,8 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     }
     
     public void regresarVentanaPrincipal(){
-        if(validarConexionEstable()){
+        int resultadoValidacion = validarConexionEstable();
+        if(resultadoValidacion==1){
            String ruta = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
            try{
                Parent root=FXMLLoader.load(getClass().getResource(ruta));
@@ -69,23 +70,26 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
                Alertas.mostrarMensajeErrorAlDesplegarVentana();
                LOG.error(excepcion);
            }   
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();   
-        }
+        }else if(resultadoValidacion==-1){
+            Alertas.mostrarMensajeErrorEnLaConexion();
+            salirAlInicioDeSesion();
+        }else if(resultadoValidacion==0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }       
     }
     
-     private boolean validarConexionEstable(){
-        boolean resultado;
+     public int validarConexionEstable(){
+        int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
     }
      
     public void salirAlInicioDeSesion(){
-        String rutaVentanaFXML = null;
-        try {
-            rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
+        int resultadoValidacion = validarConexionEstable();
+        if(resultadoValidacion==1){
+            try {
+            String rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
             Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -93,9 +97,15 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
             stage.show();
             UsuarioSingleton.resetSingleton();
             cerrarVentana();
-        } catch (IOException excepcion) {
-            Alertas.mostrarMensajeErrorAlDesplegarVentana();
-            LOG.error(excepcion.getCause());
+            } catch (IOException excepcion) {
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion.getCause());
+            }
+        }else if(resultadoValidacion==-1){
+            Alertas.mostrarMensajeErrorEnLaConexion();
+            salirAlInicioDeSesion();
+        }else if(resultadoValidacion==0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
         }
     }
     

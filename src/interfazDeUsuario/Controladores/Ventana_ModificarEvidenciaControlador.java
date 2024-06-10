@@ -93,6 +93,7 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
     }
     
     public void modificarEvidencia(){
+        ocultarLabelErrores();
         Evidencia nuevaEvidencia = new Evidencia();
         File archivoASubir = getArchivoASubir();
         ColaboracionAuxiliar colaboracionAuxiliar = ColaboracionAuxiliar.getInstancia();
@@ -173,30 +174,33 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
         desplegarVentanaCorrespondiente(rutaVentanaFXML); 
     }
     
-    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
-        if(validarConexionEstable()){
-            try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show(); 
-            cerrarVentana();
-            }catch(IOException excepcion){
-                Alertas.mostrarMensajeErrorAlDesplegarVentana();
-                LOG.error(excepcion);
-            }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
-        }
-    }
-    
-     private boolean validarConexionEstable(){
-        boolean resultado;
+    public int validarConexionEstable(){
+        int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
+    }
+    
+    public void desplegarVentanaCorrespondiente(String rutaFxml){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
+            try{
+            Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            cerrarVentana();
+            }catch(IOException excepcion){
+                Alertas.mostrarMensajeErrorAlDesplegarVentana();
+                LOG.error(excepcion.getCause());            
+            }
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
+        }
     }
      
     public void salirAlInicioDeSesion(){

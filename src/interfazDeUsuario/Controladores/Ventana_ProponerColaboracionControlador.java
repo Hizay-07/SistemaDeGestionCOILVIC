@@ -235,7 +235,8 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     }
     
     public void salirDeLaVentana(){
-        if(validarConexionEstable()){
+       int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
@@ -249,14 +250,16 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
         }                        
     }
     
-    private boolean validarConexionEstable(){
-        boolean resultado;
+    public int validarConexionEstable(){
+        int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
