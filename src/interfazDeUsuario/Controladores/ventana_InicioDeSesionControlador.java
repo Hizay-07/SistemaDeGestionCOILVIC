@@ -55,7 +55,7 @@ public class ventana_InicioDeSesionControlador implements Initializable {
     
     private boolean validarDatosProfesorExterno(){
         boolean resultado = true;
-         Usuario usuarioAIngresar = new Usuario();
+        Usuario usuarioAIngresar = new Usuario();
         resultado &= validarAuxiliar(()->usuarioAIngresar.setNombreUsuario(txtf_Usuario.getText().toLowerCase()),lbl_ErrorUsuario);
         resultado &= validarAuxiliar(()->usuarioAIngresar.setContrasenia(pwdf_Contrasenia.getText()),lbl_ErrorContrasena);
         return resultado; 
@@ -96,8 +96,8 @@ public class ventana_InicioDeSesionControlador implements Initializable {
                 Alertas.mostrarMensajeErrorEnLaConexion();
             }     
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
-        }         
+            Alertas.mostrarMensajeUsuarioInvalido();
+        }                   
     }
                 
     public void confirmarConexionALaBaseDeDatos(){

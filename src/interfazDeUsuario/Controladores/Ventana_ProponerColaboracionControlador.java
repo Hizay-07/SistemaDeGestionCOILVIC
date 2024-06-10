@@ -85,7 +85,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         btn_Cancelar.setOnAction(event -> {
             salirDeLaVentana();
         });
-        cargarIdiomas();
+        cargarIdiomas();        
     }
     
     private void cerrarVentana(){
@@ -117,38 +117,41 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     }
     
     public void registrarPropuestaColaboracion(){
-        if(validarDatosEvaluacion()){
-            LocalDate fechaInicio=dtp_FechaInicio.getValue();
-            LocalDate fechaCierre=dtp_FechaCierre.getValue();
-            if(validarFechas(fechaInicio,fechaCierre)){
-                PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-                TipoColaboracion tipoColaboracion=new TipoColaboracion();        
-                DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
-                String tipo=(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem();
-                String idioma = (String) cmb_Idiomas.getSelectionModel().getSelectedItem();
-                DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();         
-                tipoColaboracion.setTipo(tipo);
-                tipoColaboracion.setIdTipoColaboracion(daoTipoColaboracion.consultarIdTipoColaboracionPorTipo(tipo));
-                propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText());
-                propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText());
-                propuestaColaboracion.setObjetivo(txa_ObjetivoGeneral.getText());
-                propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
-                propuestaColaboracion.setIdioma(idioma);
-                propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
-                propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());
-                propuestaColaboracion.setEstadoPropuesta(EnumPropuestaColaboracion.Registrada.toString());
-                int idPropuesta = daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
-                if (idPropuesta != -1) {
-                    registrarEmisionPropuesta(idPropuesta);
-                } else {
-                    Alertas.mostrarMensajeErrorEnLaConexion();
-                }                                    
+        ocultarLabellErrores();
+        if(validarConexionEstable()){
+            if(validarDatosEvaluacion()){
+                LocalDate fechaInicio=dtp_FechaInicio.getValue();
+                LocalDate fechaCierre=dtp_FechaCierre.getValue();
+                if(validarFechas(fechaInicio,fechaCierre)){
+                    PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
+                    TipoColaboracion tipoColaboracion=new TipoColaboracion();        
+                    DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+                    String tipo=(String) cmb_TipoColaboracion.getSelectionModel().getSelectedItem();
+                    String idioma = (String) cmb_Idiomas.getSelectionModel().getSelectedItem();
+                    DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();         
+                    tipoColaboracion.setTipo(tipo);
+                    tipoColaboracion.setIdTipoColaboracion(daoTipoColaboracion.consultarIdTipoColaboracionPorTipo(tipo));
+                    propuestaColaboracion.setExperienciaEducativa(txfd_ExperienciaEducativa.getText());
+                    propuestaColaboracion.setProgramaEducativoEstudiantil(txfd_ProgramaEducativo.getText());
+                    propuestaColaboracion.setObjetivo(txa_ObjetivoGeneral.getText());
+                    propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
+                    propuestaColaboracion.setIdioma(idioma);
+                    propuestaColaboracion.setFechaInicio(dtp_FechaInicio.getValue().toString());
+                    propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString());
+                    propuestaColaboracion.setEstadoPropuesta(EnumPropuestaColaboracion.Registrada.toString());
+                    int idPropuesta = daoPropuestaColaboracion.registrarPropuestaColaboracion(propuestaColaboracion);
+                    if (idPropuesta != -1) {
+                        registrarEmisionPropuesta(idPropuesta);
+                    } else {
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                    }                                    
+                }                                 
             }else{
-                Alertas.mostrarFechasInvalidas();
-            }     
+                Alertas.mostrarMensajeDatosInvalidos(); 
+            }                        
         }else{
-            Alertas.mostrarMensajeDatosInvalidos(); 
-        }                 
+            salirAlInicioDeSesion();        
+        }         
     }
     
     private boolean validarDatosEvaluacion(){
@@ -212,19 +215,29 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         if(fechaInicio.isBefore(fechaCierre)&&fechaInicio.isAfter(fechaActual)){
             int mesInicio=fechaInicio.getMonthValue();
             int mesCierre=fechaCierre.getMonthValue();        
-            if(validarMes(mesInicio)&&validarMes(mesCierre)&&mesInicio+1<mesCierre){
-                int anioInicio=fechaInicio.getYear();
-                int anioCierre=fechaCierre.getYear();
-                if(anioInicio==anioCierre){
-                    validacion=true;                
-                }
+            if(validarMes(mesInicio)&&validarMes(mesCierre)){
+                if(mesInicio+1<mesCierre){
+                    int anioInicio=fechaInicio.getYear();
+                    int anioCierre=fechaCierre.getYear();
+                    if(anioInicio==anioCierre){
+                        validacion=true;                
+                    }else{
+                        Alertas.mostrarMismoAnio();                    
+                    }
+                }else{
+                    Alertas.mostrarMesMinimo();                    
+                }                
+            }else{                
+                Alertas.mostrarPeriodoVacacional();
             }        
+        }else{
+            Alertas.mostrarErrorEleccionFechas();
         }            
         return validacion;                                                        
     }
     
-    private boolean validarMes(int mes){
-        return mes!=1&&mes!=6&&mes!=7&&mes!=12;    
+    private boolean validarMes(int mes){        
+        return mes!=1&&mes!=6&&mes!=7&&mes!=12;            
     }
     
     private String obtenerFechaActual(){
@@ -281,6 +294,16 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
             Alertas.mostrarMensajeErrorAlDesplegarVentana();
             LOG.error(excepcion.getCause());
         }
+    }
+    
+    public void ocultarLabellErrores(){
+        lbl_ErrorFechaInicio.setVisible(false);
+        lbl_ErrorFechaCierre.setVisible(false);
+        lbl_ErrorExperienciaEducativa.setVisible(false);   
+        lbl_ErrorProgramaEducativo.setVisible(false);
+        lbl_ErrorObjetivoGeneral.setVisible(false);    
+        lbl_ErrorIdioma.setVisible(false);    
+        lbl_ErrorTipoDeColaboracion.setVisible(false);            
     }
 
 }

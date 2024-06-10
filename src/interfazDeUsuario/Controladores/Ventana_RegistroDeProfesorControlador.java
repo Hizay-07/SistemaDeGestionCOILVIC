@@ -96,6 +96,9 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(validarConexionEstable()==false){
+            salirAlInicioDeSesion();                                
+        }
     }
     
     private void ocultarLabelErrores(){
@@ -244,31 +247,35 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public void registrarProfesorUV() {
         ocultarLabelErrores();
-        if(validarDatosProfesor()&&validarDatosProfesorUV()){
-            Profesor profesor = obtenerProfesor();
-            ProfesorUV profesorUV = obtenerProfesorUV();
-            if(validarInexistenciaDeProfesorUV(profesorUV)){
-                if(validarInexistenciaDeProfesor(profesor)){
-                    DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-                    int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
-                    if(resultadoRegistro==1){
-                        int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
-                        profesorUV.setIdProfesor(idProfesor);
-                        DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
-                        daoProfesorUV.registrarProfesorUV(profesorUV);
-                        obtenerDatosCuentaProfesor(profesor,"UV");
-                        limpiarInformacionProfesor();
-                        limpiarInformacionProfesorUV();
-                    }else{
-                        salirAlInicioDeSesion();
-                        Alertas.mostrarMensajeErrorEnLaConexion();
+        if(validarConexionEstable()){
+            if(validarDatosProfesor()&&validarDatosProfesorUV()){
+                Profesor profesor = obtenerProfesor();
+                ProfesorUV profesorUV = obtenerProfesorUV();
+                if(validarInexistenciaDeProfesorUV(profesorUV)){
+                    if(validarInexistenciaDeProfesor(profesor)){
+                        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+                        int resultadoRegistro = daoProfesor.registrarProfesor(profesor);
+                        if(resultadoRegistro==1){
+                            int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(profesor.getCorreo());
+                            profesorUV.setIdProfesor(idProfesor);
+                            DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
+                            daoProfesorUV.registrarProfesorUV(profesorUV);
+                            obtenerDatosCuentaProfesor(profesor,"UV");
+                            limpiarInformacionProfesor();
+                            limpiarInformacionProfesorUV();
+                        }else{
+                            salirAlInicioDeSesion();
+                            Alertas.mostrarMensajeErrorEnLaConexion();
+                        }
                     }
                 }
-            }
+            }else{
+                Alertas.mostrarMensajeDatosInvalidos();
+            }        
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
-        }
-        
+            salirAlInicioDeSesion();
+            Alertas.mostrarMensajeSinConexion();        
+        }                
     }
 
     private ProfesorExterno obtenerProfesorExterno() {
@@ -286,8 +293,9 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     }
 
     public void registrarProfesorExterno() {
-        ocultarLabelErrores();
-        if(validarDatosProfesor()&&validarDatosProfesorExterno()){
+        ocultarLabelErrores(); 
+        if(validarConexionEstable()){
+            if(validarDatosProfesor()&&validarDatosProfesorExterno()){
             Profesor profesor = obtenerProfesor();
             ProfesorExterno profesorExterno = obtenerProfesorExterno();
             if(validarInexistenciaDeProfesor(profesor)){
@@ -305,10 +313,15 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
                     salirAlInicioDeSesion();
                     Alertas.mostrarMensajeErrorEnLaConexion();
                 }
-            }
+            }    
+            }else{
+                Alertas.mostrarMensajeDatosInvalidos();
+            }        
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
+            salirAlInicioDeSesion();
+            Alertas.mostrarMensajeSinConexion();
         }
+        
     }
     
     private boolean validarInexistenciaDeProfesor(Profesor profesor){
@@ -477,6 +490,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             Alertas.mostrarMensajeErrorAlDesplegarVentana();
             LOG.error(excepcion.getCause());
         }
-    }
+    }      
 
 }

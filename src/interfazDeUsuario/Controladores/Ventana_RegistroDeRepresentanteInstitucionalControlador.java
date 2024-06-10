@@ -51,8 +51,13 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        llenarComboBoxPais();
-        ocultarLabelErrores();
+        if(validarConexionEstable()){
+            llenarComboBoxPais();
+            ocultarLabelErrores();          
+        }else{
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();        
+        }        
     }    
     
     private void ocultarLabelErrores(){
@@ -135,36 +140,42 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     
     public void registrarRepresentanteInstitucional(){
         ocultarLabelErrores();
-        if(validarDatosRepresentanteInstitucional()){
-            RepresentanteInstitucional representanteInstitucional=obtenerRepresentanteInstitucional();
-            String nombreInstitucion = representanteInstitucional.getNombreInstitucion().toLowerCase().trim().replaceAll("\\s+", "");
-                if(nombreInstitucion.equals("uv")||nombreInstitucion.equals("universidadveracruzana")){
-                    Alertas.mostrarMensajeUniversidadVeracruzana();
-                }else{
-                    DAORepresentanteInstitucionalImplementacion daoRepresentanteInstitucional=new DAORepresentanteInstitucionalImplementacion();
-                    int resultadoRegistro = daoRepresentanteInstitucional.registrarRepresentanteInstitucional(representanteInstitucional);
-                    switch (resultadoRegistro) {
-                        case 1:
-                            Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
-                            regresarMenuPrincipal();
-                            break;
-                        case 0:
-                            Alertas.mostrarMensajeDatosDuplicados();
-                            regresarMenuPrincipal();
-                            break;
-                        case -1:
-                            Alertas.mostrarMensajeErrorEnLaConexion();              
-                            salirAlInicioDeSesion();
-                            break;
-                        default:
-                            Alertas.mostrarMensajeErrorEnLaConexion();
-                            salirAlInicioDeSesion();
-                            break;
+        if(validarConexionEstable()){
+            if(validarDatosRepresentanteInstitucional()){
+                RepresentanteInstitucional representanteInstitucional=obtenerRepresentanteInstitucional();
+                String nombreInstitucion = representanteInstitucional.getNombreInstitucion().toLowerCase().trim().replaceAll("\\s+", "");
+                    if(nombreInstitucion.equals("uv")||nombreInstitucion.equals("universidadveracruzana")){
+                        Alertas.mostrarMensajeUniversidadVeracruzana();
+                    }else{
+                        DAORepresentanteInstitucionalImplementacion daoRepresentanteInstitucional=new DAORepresentanteInstitucionalImplementacion();
+                        int resultadoRegistro = daoRepresentanteInstitucional.registrarRepresentanteInstitucional(representanteInstitucional);
+                        switch (resultadoRegistro) {
+                            case 1:
+                                Alertas.mostrarRegistroRepresentanteInstitucionalExitoso();
+                                regresarMenuPrincipal();
+                                break;
+                            case 0:
+                                Alertas.mostrarMensajeDatosDuplicados();
+                                regresarMenuPrincipal();
+                                break;
+                            case -1:
+                                Alertas.mostrarMensajeErrorEnLaConexion();              
+                                salirAlInicioDeSesion();
+                                break;
+                            default:
+                                Alertas.mostrarMensajeErrorEnLaConexion();
+                                salirAlInicioDeSesion();
+                                break;
+                        }
                     }
-                }
+            }else{
+                Alertas.mostrarMensajeDatosInvalidos();
+            }        
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
+            Alertas.mostrarMensajeSinConexion();
+            salirAlInicioDeSesion();               
         }
+        
     }
     
     public void regresarMenuPrincipal(){

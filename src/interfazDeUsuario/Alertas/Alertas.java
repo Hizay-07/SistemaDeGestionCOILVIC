@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 
 public class Alertas extends Application {
@@ -18,6 +19,55 @@ public class Alertas extends Application {
             mensaje.showAndWait();
         });
     }
+    
+    public static void mostrarMensajeUsuarioInvalido(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Usuario inválido");
+            mensaje.setContentText("Revise que el nombre de usuario y la contraseña sean correctos");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarPeriodoVacacional(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Período vacacional");
+            mensaje.setContentText("Las fechas debe ser fuera de periodos vacacionales");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarErrorEleccionFechas(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            DialogPane dialogPane = mensaje.getDialogPane();
+            dialogPane.setMinWidth(450); 
+            dialogPane.setMinHeight(150);
+            mensaje.setTitle("Fecha inválida");
+            mensaje.setContentText("La fecha de cierre debe ser posterior a la fecha de inicio y esta a la fecha actual");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMesMinimo(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Mes mínimo");
+            mensaje.setContentText("La colaboración debe durar al menos dos meses");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMismoAnio(){
+        Platform.runLater(() -> {
+            Alert mensaje = new Alert(AlertType.ERROR);
+            mensaje.setTitle("Mismo año");
+            mensaje.setContentText("La colaboración debe iniciar y terminar en el mismo año");
+            mensaje.showAndWait();
+        });
+    }
+    
     
     public static void mostrarMensajeUsuarioDuplicado(){
         Platform.runLater(() -> {
@@ -352,9 +402,12 @@ public class Alertas extends Application {
             
     public static void mostrarMensajeSinConexion(){
         Platform.runLater(() ->{
-            Alert mensaje = new Alert(AlertType.ERROR);
+            Alert mensaje = new Alert(AlertType.ERROR); 
+            DialogPane dialogPane = mensaje.getDialogPane();
+            dialogPane.setMinWidth(400); 
+            dialogPane.setMinHeight(200);
             mensaje.setTitle("Error en la conexion");
-            mensaje.setContentText("Se ha perdido la conexión en la base de datos, se le redirigirá al inicio de sesión.");
+            mensaje.setContentText("Se ha perdido la conexión a la base de datos, volverá al inicio de sesión.");
             mensaje.showAndWait();
         });
     }
