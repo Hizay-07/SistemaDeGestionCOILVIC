@@ -92,15 +92,14 @@ public class ventana_InicioDeSesionControlador implements Initializable {
                 }
             }else if(validacionCredencial==0){
                 Alertas.mostrarMensajeUsuarioNoEncontrado();
-            }else{
+            }else if(validacionCredencial==-1){
                 Alertas.mostrarMensajeErrorEnLaConexion();
             }     
         }else{
             Alertas.mostrarMensajeDatosInvalidos();
-        }
-                   
+        }         
     }
-    
+                
     public void confirmarConexionALaBaseDeDatos(){
         Usuario logger = new Usuario();
         logger.setTipoDeUsuario(EnumTipoDeUsuario.Logger.toString());

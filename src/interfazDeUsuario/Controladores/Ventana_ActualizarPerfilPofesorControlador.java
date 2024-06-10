@@ -442,7 +442,8 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     
     
     public void regresarDeVentana(){
-        if(validarConexionEstable()){
+        int resultadoValidacion = validarConexionEstable();
+        if(resultadoValidacion==1){
             String rutaVentanaFXML="/interfazDeUsuario/Ventana_Profesores.fxml";
             try{
                 Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -455,14 +456,15 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else{
+        }else if(resultadoValidacion==-1){
             Alertas.mostrarMensajeSinConexion();
             salirAlInicioDeSesion();
+        }else{
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
         }
     }
-    
-    private boolean validarConexionEstable(){
-        boolean resultado;
+    public int validarConexionEstable(){
+        int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;

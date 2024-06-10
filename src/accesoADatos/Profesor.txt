@@ -1,3 +1,3 @@
-Direccion = jdbc:mysql://localhost/bdsistemacoilvic
+Direccion = jdbc:mysql://192.168.167.26/bdsistemacoilvic
 Usuario = Profesor
 Contrasenia = CoilVIC123

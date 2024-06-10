@@ -121,10 +121,18 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
         escenario.close();
     }
     
-    private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
-        if(validarConexionEstable()){
+    public int validarConexionEstable(){
+        int resultado;
+        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+        resultado = daoUsuario.confirmarConexionDeUsuario();
+        return resultado;
+    }
+    
+    public void desplegarVentanaCorrespondiente(String rutaFxml){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
+            Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -132,20 +140,14 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
             cerrarVentana();
             }catch(IOException excepcion){
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
-                LOG.error(excepcion);
+                LOG.error(excepcion.getCause());            
             }
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
         }
-        
-    }
-    
-    private boolean validarConexionEstable(){
-        boolean resultado;
-        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
-        resultado = daoUsuario.confirmarConexionDeUsuario();
-        return resultado;
     }
      
     public void salirAlInicioDeSesion(){

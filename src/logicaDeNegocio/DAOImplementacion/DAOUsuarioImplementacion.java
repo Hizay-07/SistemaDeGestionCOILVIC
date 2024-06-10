@@ -147,19 +147,10 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     *@return Regresa un booleano con verdadero si hay conexión o falso si no hay conexión
     **/
     @Override 
-    public boolean confirmarConexionDeUsuario(){
-         boolean resultadoDeConfirmacionDeConexion=false;
-        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos()){
-           if(Objects.isNull(conexion)){
-               resultadoDeConfirmacionDeConexion=false;
-           }else{
-              resultadoDeConfirmacionDeConexion=true; 
-           }
-        }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion.getMessage());
-        }
+    public int confirmarConexionDeUsuario(){
+        int resultadoDeConfirmacionDeConexion;
+        resultadoDeConfirmacionDeConexion = BASE_DE_DATOS.validarConectarBaseDeDatos();
         return resultadoDeConfirmacionDeConexion;
-
     }      
     
     /**

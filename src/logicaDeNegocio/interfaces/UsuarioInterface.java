@@ -15,7 +15,7 @@ public interface UsuarioInterface {
 
     public boolean confirmarConexionDeInicioDeSesion(Usuario logger);
      
-    public boolean confirmarConexionDeUsuario();
+    public int confirmarConexionDeUsuario();
     
     public int verificarDuplicidadNombreDeUsuario(String nombre);
     

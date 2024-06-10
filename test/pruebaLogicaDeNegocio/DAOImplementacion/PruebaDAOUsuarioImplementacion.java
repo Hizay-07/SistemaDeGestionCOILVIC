@@ -182,14 +182,16 @@ public class PruebaDAOUsuarioImplementacion {
     @Test
     public void pruebaConfirmarConexionDeUsuarioExitosa(){
         DAOUsuarioImplementacion daoUsuario=new DAOUsuarioImplementacion();
-        assertTrue(daoUsuario.confirmarConexionDeUsuario());
+        int resultadoObtenido = daoUsuario.confirmarConexionDeUsuario();
+        assertEquals(1,resultadoObtenido);
     }
     
     
     @Test
     public void pruebaConfirmarConexionDeUsuarioFallida(){
         DAOUsuarioImplementacion daoUsuario=new DAOUsuarioImplementacion();
-        assertFalse(daoUsuario.confirmarConexionDeUsuario());        
+        int resultadoObtenido = daoUsuario.confirmarConexionDeUsuario();
+        assertEquals(-1,resultadoObtenido);       
     }
     
     @Test
