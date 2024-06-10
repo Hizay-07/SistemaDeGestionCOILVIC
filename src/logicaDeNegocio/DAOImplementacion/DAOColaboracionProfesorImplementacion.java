@@ -78,6 +78,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
             }
        }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getMessage());
+           colaboracionObtenida=null;
        }
        return colaboracionObtenida;
     }
