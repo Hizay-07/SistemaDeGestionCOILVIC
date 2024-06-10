@@ -13,6 +13,7 @@ public class Actividad {
     private String estado;
     private int idColaboracion;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()]+)*$";
+    private static final String NOMBRE_ACTIVIDAD = "^[\\p{L}\\d\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()]+(?:\\s[\\p{L}\\d\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
     private static final String FECHA_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
 
@@ -49,7 +50,7 @@ public class Actividad {
     }
 
     public void setNombre(String nombre)throws IllegalArgumentException {
-        if(nombre!=null&&Pattern.matches(SOLO_LETRAS_PATTERN, nombre.trim())&&nombre.trim().length()<=150){
+        if(nombre!=null&&Pattern.matches(NOMBRE_ACTIVIDAD, nombre.trim())&&nombre.trim().length()<=150){
             this.nombre = nombre.trim().replaceAll("\\s+", " ");
         }else{
             throw new IllegalArgumentException();

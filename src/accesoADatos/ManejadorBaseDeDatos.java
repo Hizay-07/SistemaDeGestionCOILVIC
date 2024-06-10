@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
-import java.util.Objects;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
@@ -67,7 +66,6 @@ public class ManejadorBaseDeDatos {
                 resultadoValidacion = -1;
             }
         }
-        System.out.println(resultadoValidacion);
         return resultadoValidacion;
     }
     
