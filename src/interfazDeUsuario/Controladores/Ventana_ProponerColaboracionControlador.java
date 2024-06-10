@@ -118,7 +118,8 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     
     public void registrarPropuestaColaboracion(){
         ocultarLabellErrores();
-        if(validarConexionEstable()){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             if(validarDatosEvaluacion()){
                 LocalDate fechaInicio=dtp_FechaInicio.getValue();
                 LocalDate fechaCierre=dtp_FechaCierre.getValue();
@@ -149,9 +150,12 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
             }else{
                 Alertas.mostrarMensajeDatosInvalidos(); 
             }                        
-        }else{
-            salirAlInicioDeSesion();        
-        }         
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
+        }           
     }
     
     private boolean validarDatosEvaluacion(){
@@ -248,7 +252,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     }
     
     public void salirDeLaVentana(){
-       int resultadoValidacionConexion = validarConexionEstable();
+        int resultadoValidacionConexion = validarConexionEstable();
         if(resultadoValidacionConexion==1){
             String rutaVentanaFXML = null;
             try{

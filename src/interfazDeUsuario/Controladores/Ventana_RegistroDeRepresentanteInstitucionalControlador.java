@@ -51,13 +51,8 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(validarConexionEstable()){
             llenarComboBoxPais();
-            ocultarLabelErrores();          
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();        
-        }        
+            ocultarLabelErrores();                 
     }    
     
     private void ocultarLabelErrores(){
@@ -140,7 +135,8 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     
     public void registrarRepresentanteInstitucional(){
         ocultarLabelErrores();
-        if(validarConexionEstable()){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             if(validarDatosRepresentanteInstitucional()){
                 RepresentanteInstitucional representanteInstitucional=obtenerRepresentanteInstitucional();
                 String nombreInstitucion = representanteInstitucional.getNombreInstitucion().toLowerCase().trim().replaceAll("\\s+", "");
@@ -171,11 +167,12 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
             }else{
                 Alertas.mostrarMensajeDatosInvalidos();
             }        
-        }else{
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();               
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+              salirAlInicioDeSesion();
         }
-        
     }
     
     public void regresarMenuPrincipal(){

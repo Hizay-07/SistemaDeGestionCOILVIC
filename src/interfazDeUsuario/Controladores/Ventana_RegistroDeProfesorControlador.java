@@ -96,9 +96,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(validarConexionEstable()==false){
-            salirAlInicioDeSesion();                                
-        }
     }
     
     private void ocultarLabelErrores(){
@@ -247,7 +244,8 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public void registrarProfesorUV() {
         ocultarLabelErrores();
-        if(validarConexionEstable()){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             if(validarDatosProfesor()&&validarDatosProfesorUV()){
                 Profesor profesor = obtenerProfesor();
                 ProfesorUV profesorUV = obtenerProfesorUV();
@@ -272,10 +270,12 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             }else{
                 Alertas.mostrarMensajeDatosInvalidos();
             }        
-        }else{
-            salirAlInicioDeSesion();
-            Alertas.mostrarMensajeSinConexion();        
-        }                
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+             salirAlInicioDeSesion();
+        }             
     }
 
     private ProfesorExterno obtenerProfesorExterno() {
@@ -294,7 +294,8 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public void registrarProfesorExterno() {
         ocultarLabelErrores(); 
-        if(validarConexionEstable()){
+        int resultadoValidacionConexion = validarConexionEstable();
+        if(resultadoValidacionConexion==1){
             if(validarDatosProfesor()&&validarDatosProfesorExterno()){
             Profesor profesor = obtenerProfesor();
             ProfesorExterno profesorExterno = obtenerProfesorExterno();
@@ -317,11 +318,12 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             }else{
                 Alertas.mostrarMensajeDatosInvalidos();
             }        
-        }else{
-            salirAlInicioDeSesion();
-            Alertas.mostrarMensajeSinConexion();
+        }else if(resultadoValidacionConexion == 0){
+            Alertas.mostrarMensajeUsuarioNoEncontrado();
+        }else if(resultadoValidacionConexion == -1){
+             Alertas.mostrarMensajeErrorEnLaConexion();
+             salirAlInicioDeSesion();
         }
-        
     }
     
     private boolean validarInexistenciaDeProfesor(Profesor profesor){
@@ -465,7 +467,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
              Alertas.mostrarMensajeErrorEnLaConexion();
              salirAlInicioDeSesion();
         }
-        
     }
     
     public int validarConexionEstable(){
