@@ -117,7 +117,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                 int idProfesor=resultado.getInt("idProfesor");
                 idProfesores.add(idProfesor);                
             }
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
         return idProfesores;                        
@@ -186,7 +186,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                 int idProfesor=resultado.getInt("idProfesor");
                 idProfesores.add(idProfesor);                
             }
-        } catch (SQLException excepcion) {
+        } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
         }
         return idProfesores;                        
@@ -208,7 +208,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.registerOutParameter(2, Types.INTEGER);
             declaracion.execute();
             resultadoPrecondicion=declaracion.getInt(2);  
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoPrecondicion=-1;
         }
@@ -230,7 +230,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setInt(1, idPropuestaColaboracion);            
             declaracion.execute();   
             resultadoCambioEstado=1;        
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoCambioEstado=-1;
         }

@@ -29,12 +29,12 @@ public class PruebaDAOProfesorImplementacion {
     public void pruebaRegistrarProfesorExitosa() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         Profesor profesor = new Profesor();
-        profesor.setNombre("Alberto");
-        profesor.setApellidoPaterno("Cruz");
-        profesor.setApellidoMaterno("Nava");
-        profesor.setCorreo("profesorpruebauno@gmail.com");
+        profesor.setNombre("Jose");
+        profesor.setApellidoPaterno("Morelos");
+        profesor.setApellidoMaterno("Pavón");
+        profesor.setCorreo("profesorpruebados@gmail.com");
         Usuario usuario = new Usuario();
-        usuario.setIdUsuario(1);
+        usuario.setIdUsuario(3);
         profesor.setUsuario(usuario);
         int resultado = dao.registrarProfesor(profesor);
         assertEquals(1, resultado);
