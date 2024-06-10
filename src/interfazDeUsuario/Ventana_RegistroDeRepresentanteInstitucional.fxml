@@ -14,7 +14,7 @@
       <Label layoutX="72.0" layoutY="128.0" text="Clave institucional:" />
       <Label layoutX="72.0" layoutY="199.0" text="País:" />
       <Label layoutX="70.0" layoutY="160.0" text="Contacto:" />
-      <TextField fx:id="txfd_NombreDeInstitucion" layoutX="207.0" layoutY="94.0" prefHeight="25.0" prefWidth="257.0" promptText="Universidad Veracruzana o UV" />
+      <TextField fx:id="txfd_NombreDeInstitucion" layoutX="207.0" layoutY="94.0" prefHeight="25.0" prefWidth="257.0" promptText="Universidad" />
       <TextField fx:id="txfd_ClaveInstitucional" layoutX="187.0" layoutY="125.0" prefHeight="25.0" prefWidth="278.0" promptText="HVZFX346" />
       <TextField fx:id="txfd_Contacto" layoutX="136.0" layoutY="156.0" prefHeight="25.0" prefWidth="328.0" promptText="ejemplo@gmail.com" />
       <ComboBox fx:id="cmb_Pais" layoutX="136.0" layoutY="190.0" prefWidth="150.0" promptText="Seleccionar país" stylesheets="@Combobox.css" />
