@@ -137,7 +137,7 @@ public class Alertas extends Application {
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.WARNING);
             mensaje.setTitle("Fecha inválida");
-            mensaje.setContentText("Verifique que la fecha ingresada sea correcta");
+            mensaje.setContentText("Verifique que las fechas de inicio no sean posteriores a la fecha de cierre");
             mensaje.showAndWait();
         
         });
@@ -182,6 +182,9 @@ public class Alertas extends Application {
     public static void mostrarMensajeColaboracionActiva(String mensajeVentana){
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.WARNING);
+            DialogPane dialogoPane = mensaje.getDialogPane();
+            dialogoPane.setMinWidth(500); 
+            dialogoPane.setMinHeight(150);
             mensaje.setTitle("Colaboracion activa");
             mensaje.setContentText(mensajeVentana);
             mensaje.showAndWait();
@@ -192,7 +195,7 @@ public class Alertas extends Application {
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("Sin colaboracion");
-            mensaje.setContentText("Por el momento no hay una colaboracion activa la cual se pueda visualizar");
+            mensaje.setContentText("No hay una colaboración activa para visualizar");
             mensaje.showAndWait();
         });
     }
@@ -433,7 +436,7 @@ public class Alertas extends Application {
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.WARNING);
             mensaje.setTitle("Sin permiso");
-            mensaje.setContentText("Por el momento no puede acceder a la ventana deseada");
+            mensaje.setContentText("No ha realizado una propuesta de colaboración");
             mensaje.showAndWait();
         });
     }
