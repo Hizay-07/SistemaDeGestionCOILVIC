@@ -138,21 +138,29 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
     public void registrarColaboracion(){      
         Colaboracion colaboracion=obtenerColaboracion();        
         if(colaboracion!=null){
-            DAOColaboracionImplementacion daoColaboracion=new DAOColaboracionImplementacion();
-            if(daoColaboracion.registrarColaboracion(colaboracion)==1){
-                int idPropuestaColaboracion=colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion();
-                DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-                daoPropuestaColaboracion.cambiarEstadoIniciadaPropuestaColaboracionPorId(idPropuestaColaboracion);                
-                DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-                ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
-                int idProfesor=profesorSingleton.getIdProfesor();
-                daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Colaborando.toString());
-                agregarProfesoresAColaboracion(idPropuestaColaboracion);
-                Alertas.mostrarColaboracionIniciada();
-                salirDeLaVentana();
-            }else{
-                Alertas.mostrarMensajeErrorEnLaConexion();                
-            }                         
+            int resultadoValidacionConexion = validarConexionEstable();
+            if(resultadoValidacionConexion==1){
+                DAOColaboracionImplementacion daoColaboracion=new DAOColaboracionImplementacion();
+                if(daoColaboracion.registrarColaboracion(colaboracion)==1){
+                    int idPropuestaColaboracion=colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion();
+                    DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+                    daoPropuestaColaboracion.cambiarEstadoIniciadaPropuestaColaboracionPorId(idPropuestaColaboracion);                
+                    DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+                    ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
+                    int idProfesor=profesorSingleton.getIdProfesor();
+                    daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Colaborando.toString());
+                    agregarProfesoresAColaboracion(idPropuestaColaboracion);
+                    Alertas.mostrarColaboracionIniciada();
+                    salirDeLaVentana();
+                }else{
+                    Alertas.mostrarMensajeErrorEnLaConexion();                
+                }    
+            }else if(resultadoValidacionConexion == 0){
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+            }else if(resultadoValidacionConexion == -1){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            } 
         }                                
     }
     
