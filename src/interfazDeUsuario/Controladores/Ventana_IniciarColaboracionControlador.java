@@ -156,10 +156,11 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
         return colaboracion;        
     }
     
-    public void registrarColaboracion(){   
-        if(obtenerResultadoValidacionConexion()){
-            Colaboracion colaboracion=obtenerColaboracion();        
-            if(colaboracion!=null){
+    public void registrarColaboracion(){      
+        Colaboracion colaboracion=obtenerColaboracion();        
+        if(colaboracion!=null){
+            int resultadoValidacionConexion = validarConexionEstable();
+            if(resultadoValidacionConexion==1){
                 DAOColaboracionImplementacion daoColaboracion=new DAOColaboracionImplementacion();
                 if(daoColaboracion.registrarColaboracion(colaboracion)==1){
                     int idPropuestaColaboracion=colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion();
@@ -174,10 +175,13 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
                     salirDeLaVentana();
                 }else{
                     Alertas.mostrarMensajeErrorEnLaConexion();                
-                }                         
-            }
-        }else{
-            salirAlInicioDeSesion();
+                }    
+            }else if(resultadoValidacionConexion == 0){
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+            }else if(resultadoValidacionConexion == -1){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            } 
         }                                
     }
     

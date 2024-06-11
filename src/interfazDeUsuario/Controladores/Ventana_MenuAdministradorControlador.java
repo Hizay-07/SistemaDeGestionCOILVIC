@@ -83,7 +83,7 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
     
     public void registrarProfesor(){
         int resultadoValidacion = validarConexionEstable();
-        if(resultadoValidacion== 1){
+        if(resultadoValidacion==1){
             DAORegionAcademicaImplementacion daoRegion=new DAORegionAcademicaImplementacion();
             DAOAreaAcademicaImplementacion daoAreaAcademica=new DAOAreaAcademicaImplementacion();
             DAORepresentanteInstitucionalImplementacion daoRepresentante=new DAORepresentanteInstitucionalImplementacion();
@@ -93,9 +93,11 @@ public class Ventana_MenuAdministradorControlador implements Initializable{
             if(verificadorRegion>0&&verificadorArea>0&&verificadorRepresentante>0){
                 String ruta = "/interfazDeUsuario/Ventana_RegistroDeProfesor.fxml";
                 desplegarVentana(ruta);        
-            }else{
-                Alertas.mostrarBaseDatosSinCatalogos();
-            } 
+            }else if(verificadorRepresentante>0){
+                Alertas.mostrarBaseDatosSinCatalogos();                            
+            } else{
+                Alertas.mostrarRepresentanteSinRegistrar();                
+            }
         }else if(resultadoValidacion == 0){
             Alertas.mostrarMensajeUsuarioNoEncontrado();
         }else if(resultadoValidacion == -1){
