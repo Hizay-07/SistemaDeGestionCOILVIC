@@ -105,7 +105,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
             Callback<TableColumn<Actividad, Void>, TableCell<Actividad, Void>> frabricaDeCelda = (final TableColumn<Actividad, Void> param) -> {
                 final TableCell<Actividad, Void> cell = new TableCell<Actividad, Void>() {                
                     private final Button btn_ModificarActividad = new Button();{
-                        btn_ModificarActividad.setText("Modificar actividad");
+                        btn_ModificarActividad.setText("Modificar");
                         btn_ModificarActividad.setOnAction((ActionEvent event) -> {
                             if(validarFechasDeColaboracion()){
                                 Actividad actividadSeleccionada = getTableView().getItems().get(getIndex());

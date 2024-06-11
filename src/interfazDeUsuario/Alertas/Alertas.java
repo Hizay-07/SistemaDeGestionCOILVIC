@@ -137,7 +137,7 @@ public class Alertas extends Application {
         Platform.runLater(() ->{
             Alert mensaje = new Alert(AlertType.WARNING);
             mensaje.setTitle("Fecha inválida");
-            mensaje.setContentText("Verifique que la fecha ingresada sea correcta");
+            mensaje.setContentText("Verifique que las fechas de inicio no sean posteriores a la fecha de cierre");
             mensaje.showAndWait();
         
         });
@@ -509,6 +509,16 @@ public class Alertas extends Application {
             mensaje.setContentText("La notificación ha sido enviada correctamente.");
             mensaje.showAndWait();
         });
+    }
+    
+    public static boolean mostrarMensajeArchivoGeneradoPreviamente() {
+        Alert mensaje = new Alert(AlertType.CONFIRMATION);
+        mensaje.setTitle("Archivo generado previamente");
+        mensaje.setContentText("El informe ya se ha generado previamente.\n ¿Desea volver a descargarlo?");
+
+        Optional<ButtonType> resultado = mensaje.showAndWait();
+
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
     
     @Override
