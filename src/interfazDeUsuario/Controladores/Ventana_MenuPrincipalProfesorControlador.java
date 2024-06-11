@@ -125,19 +125,18 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
         }else if(verificarTipoColaboracion<=0){
             Alertas.mostrarBaseDatosSinCatalogos();                
         }else{
-            String mensaje = "No se pueden realizar propuestas de colaboración estando en una colaboracion activa";
+            String mensaje = "No se pueden realizar propuestas de colaboración estando en una colaboracion";
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
         }
     }
     
     public void visualizarOfertasDeColaboracion(){
-        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();        
         if(profesor.getEstado().equals(EnumProfesor.Activo.toString())){
             String rutafxml = "/interfazDeUsuario/Ventana_OfertaDeColaboraciones.fxml" ;
             desplegarVentana(rutafxml);
         }else{
-            String mensaje = "No se puede acceder a ofertas de colaboración estando en una colaboracion activa";
+            String mensaje = "No se puede acceder a ofertas de colaboración estando en una colaboracion";
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
         }
     }
@@ -169,7 +168,7 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
             String rutafxml = "/interfazDeUsuario/Ventana_IniciarColaboracion.fxml";
             desplegarVentana(rutafxml);
         }else{
-            String mensaje = "No se pueden iniciar una colaboración sin una propuesta de colaboración o sin peticiones de colaboracion aceptadas";
+            String mensaje = "No se pueden iniciar una colaboración sin una propuesta de colaboración realizada";
             Alertas.mostrarMensajeColaboracionActiva(mensaje);
         }   
     }
