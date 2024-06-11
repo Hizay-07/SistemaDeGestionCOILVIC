@@ -176,54 +176,62 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     
     
     private void registrarUsuarioAdministrativo(Usuario usuario){
-        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
-        int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
-        switch (resultadoRegistro) {
-            case 1 -> {
-                int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(),usuario.getContrasenia(),usuario.getTipoDeUsuario());
-                if(resultadoCorreo == 1) {
-                   Alertas.mostrarMensajeDatosIngresados();
-                }else{
-                   Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet antes de registrar un usuario administrativo");
+         if(obtenerResultadoValidacionConexion()){
+            DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+            int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
+            switch (resultadoRegistro) {
+                case 1 -> {
+                    int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(),usuario.getContrasenia(),usuario.getTipoDeUsuario());
+                    if(resultadoCorreo == 1) {
+                       Alertas.mostrarMensajeDatosIngresados();
+                    }else{
+                       Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet antes de registrar un usuario administrativo");
+                    }
+                }
+                case 0 -> Alertas.mostrarMensajeDatosDuplicados();
+                case -1 ->{ 
+                    salirAlInicioDeSesion();
+                    Alertas.mostrarMensajeErrorEnLaConexion();
                 }
             }
-            case 0 -> Alertas.mostrarMensajeDatosDuplicados();
-            case -1 ->{ 
-                salirAlInicioDeSesion();
-                Alertas.mostrarMensajeErrorEnLaConexion();
-            }
+        }else{
+            salirAlInicioDeSesion();
         }
     }
     
     private void registrarUsuarioProfesor(Usuario usuario){
-        DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(usuario.getCorreo());
-        if(idProfesor!=0){
-            int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
-            switch (resultadoRegistro) {
-                case 1 -> {
-                    int resultadoModificacion = daoProfesor.asignarUsuarioDeProfesorPorCorreo(usuario.getCorreo());
-                    if(resultadoModificacion==0){
-                        Alertas.mostrarMensajeProfesorConUsuario();
-                    }else{
-                        int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(),usuario.getContrasenia(),usuario.getTipoDeUsuario());
-                        if(resultadoCorreo==1){
-                            Alertas.mostrarMensajeDatosIngresados();
-                        }else if(resultadoCorreo==-1){
-                            Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet o el correo proporcionado antes de registrar un usuario de profesor");
+        if(obtenerResultadoValidacionConexion()){
+            DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            int idProfesor = daoProfesor.obtenerIdProfesorPorCorreo(usuario.getCorreo());
+            if(idProfesor!=0){
+                int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
+                switch (resultadoRegistro) {
+                    case 1 -> {
+                        int resultadoModificacion = daoProfesor.asignarUsuarioDeProfesorPorCorreo(usuario.getCorreo());
+                        if(resultadoModificacion==0){
+                            Alertas.mostrarMensajeProfesorConUsuario();
+                        }else{
+                            int resultadoCorreo = mandarCorreo(usuario.getNombreUsuario(),usuario.getContrasenia(),usuario.getTipoDeUsuario());
+                            if(resultadoCorreo==1){
+                                Alertas.mostrarMensajeDatosIngresados();
+                            }else if(resultadoCorreo==-1){
+                                Alertas.mostrarSinConexionAInternet("Por favor verifique su conexion a internet o el correo proporcionado antes de registrar un usuario de profesor");
+                            }
                         }
                     }
+                    case -1 ->{ 
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                        salirAlInicioDeSesion();
+                    }
+                    default -> Alertas.mostrarMensajeDatosDuplicados();
                 }
-                case -1 ->{ 
-                    Alertas.mostrarMensajeErrorEnLaConexion();
-                    salirAlInicioDeSesion();
-                }
-                default -> Alertas.mostrarMensajeDatosDuplicados();
+            }else if(idProfesor==0){
+                Alertas.mostrarCorreoDeProfesorInexistente();
             }
-        }else if(idProfesor==0){
-            Alertas.mostrarCorreoDeProfesorInexistente();
-        }
+        }else{
+            salirAlInicioDeSesion();
+        }        
     }
     
     private int mandarCorreo(String usuario, String contrasenia, String tipoDeUsuario){
@@ -241,6 +249,26 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         return resultadoEnvioDeCorreo;
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
     
     public void registrarUsuario() {
         ocultarLabelErrores();

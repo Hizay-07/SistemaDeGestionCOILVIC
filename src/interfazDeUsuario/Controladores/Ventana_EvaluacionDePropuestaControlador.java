@@ -56,36 +56,41 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
     }        
     
     public void registrarEvaluacionPropuesta(){
-        EvaluacionPropuesta evaluacionPropuesta=new EvaluacionPropuesta();
-        UsuarioSingleton usuario=UsuarioSingleton.getInstancia();
-        int idUsuario=usuario.getIdUsuario();
-        DAOEvaluacionPropuestaImplementacion daoEvaluacionPropuesta=new DAOEvaluacionPropuestaImplementacion();
-        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
-        if(validarDatosEvaluacion()){
-            String justificacion = txa_Justificacion.getText();
-            evaluacionPropuesta.setIdUsuario(idUsuario);
-            evaluacionPropuesta.setJustificacion(justificacion);
-            String evaluacion=(String) cmb_EvaluarPropuesta.getSelectionModel().getSelectedItem();
-            evaluacionPropuesta.setEvaluacion(evaluacion);
-            evaluacionPropuesta.setFechaEvaluacion(obtenerFechaActual());
-            evaluacionPropuesta.setIdPropuestaColaboracion(idPropuestaColaboracion);
-            daoEvaluacionPropuesta.registrarEvaluacionPropuesta(evaluacionPropuesta);            
-            if(evaluacion.equals("Aprobada")){
-                daoPropuestaColaboracion.aprobarPropuestaColaboracionPorId(idPropuestaColaboracion); 
-                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
-                mandarCorreoRespuestaPropuestaDeColaboracion(idProfesor,"Aprobada",justificacion);
-            }else{
-                daoPropuestaColaboracion.rechazarPropuestaColaboracionPorId(idPropuestaColaboracion);                
-                int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
-                daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString());
-                mandarCorreoRespuestaPropuestaDeColaboracion(idProfesor,"Rechazada",justificacion);
-            }            
+        if(obtenerResultadoValidacionConexion()){
+            EvaluacionPropuesta evaluacionPropuesta=new EvaluacionPropuesta();
+            UsuarioSingleton usuario=UsuarioSingleton.getInstancia();
+            int idUsuario=usuario.getIdUsuario();
+            DAOEvaluacionPropuestaImplementacion daoEvaluacionPropuesta=new DAOEvaluacionPropuestaImplementacion();
+            DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+            DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+            DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+            if(validarDatosEvaluacion()){
+                String justificacion = txa_Justificacion.getText();
+                evaluacionPropuesta.setIdUsuario(idUsuario);
+                evaluacionPropuesta.setJustificacion(justificacion);
+                String evaluacion=(String) cmb_EvaluarPropuesta.getSelectionModel().getSelectedItem();
+                evaluacionPropuesta.setEvaluacion(evaluacion);
+                evaluacionPropuesta.setFechaEvaluacion(obtenerFechaActual());
+                evaluacionPropuesta.setIdPropuestaColaboracion(idPropuestaColaboracion);
+                daoEvaluacionPropuesta.registrarEvaluacionPropuesta(evaluacionPropuesta);            
+                if(evaluacion.equals("Aprobada")){
+                    daoPropuestaColaboracion.aprobarPropuestaColaboracionPorId(idPropuestaColaboracion); 
+                    int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
+                    mandarCorreoRespuestaPropuestaDeColaboracion(idProfesor,"Aprobada",justificacion);
+                }else{
+                    daoPropuestaColaboracion.rechazarPropuestaColaboracionPorId(idPropuestaColaboracion);                
+                    int idProfesor=daoEmisionPropuesta.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
+                    daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Activo.toString());
+                    mandarCorreoRespuestaPropuestaDeColaboracion(idProfesor,"Rechazada",justificacion);
+                }            
             salirDeLaVentana();
+            }else{
+                Alertas.mostrarMensajeDatosInvalidos();
+            }
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
+            salirAlInicioDeSesion();
         }
+        
     }
     
      private boolean validarDatosEvaluacion(){
@@ -174,6 +179,27 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
              Alertas.mostrarMensajeErrorEnLaConexion();
               salirAlInicioDeSesion();
         }             
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
     
     public int validarConexionEstable(){

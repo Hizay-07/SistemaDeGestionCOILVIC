@@ -179,32 +179,36 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     
     public void modificarDatosRepresentanteInstituciona(){
         ocultarLabelErrores();
-        if(validarDatosRepresentanteInstitucional()){
-            RepresentanteInstitucional representante =  obtenerDatosRepresentanteInstitucional();
-            String nombreRepresentante = representante.getNombreInstitucion().trim().replaceAll("\\s+", "").toLowerCase();
-            if(nombreRepresentante.equals("uv")||nombreRepresentante.equals("universidadveracruzana")){
-                Alertas.mostrarMensajeUniversidadVeracruzana();
-            }else{
-                if(!validarDatosSimilaresRepresentante(representante)){
-                    int resultadoAtributosModificados = realizarModificacionPaisRepresentanteInstitucional(representante);
-                    resultadoAtributosModificados =  realizarModificacionClaveInstitucionalRepresentanteInstitucional(representante);
-                    resultadoAtributosModificados += realizarModificacionContactoRepresentanteInstitucional(representante);
-                    resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
-                    if(resultadoAtributosModificados>=1&&resultadoAtributosModificados<=4){
-                        Alertas.mostrarMensajeDatosModificados();
-                        regresarRepresentantesInstitucionales();
-                    }else if(resultadoAtributosModificados==0){
-                        Alertas.mostrarMensajeDatosDuplicados();
-                    }else{
-                        Alertas.mostrarMensajeErrorEnLaConexion();
-                        salirAlInicioDeSesion();
-                    }
-                }else{
-                    Alertas.mostrarMensajeSinModificarDatos();
-                }
-            }
+        if(obtenerResultadoValidacionConexion()){
+            if(validarDatosRepresentanteInstitucional()){
+               RepresentanteInstitucional representante =  obtenerDatosRepresentanteInstitucional();
+               String nombreRepresentante = representante.getNombreInstitucion().trim().replaceAll("\\s+", "").toLowerCase();
+               if(nombreRepresentante.equals("uv")||nombreRepresentante.equals("universidadveracruzana")){
+                   Alertas.mostrarMensajeUniversidadVeracruzana();
+               }else{
+                   if(!validarDatosSimilaresRepresentante(representante)){
+                       int resultadoAtributosModificados = realizarModificacionPaisRepresentanteInstitucional(representante);
+                       resultadoAtributosModificados =  realizarModificacionClaveInstitucionalRepresentanteInstitucional(representante);
+                       resultadoAtributosModificados += realizarModificacionContactoRepresentanteInstitucional(representante);
+                       resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
+                       if(resultadoAtributosModificados>=1&&resultadoAtributosModificados<=4){
+                           Alertas.mostrarMensajeDatosModificados();
+                           regresarRepresentantesInstitucionales();
+                       }else if(resultadoAtributosModificados==0){
+                           Alertas.mostrarMensajeDatosDuplicados();
+                       }else{
+                           Alertas.mostrarMensajeErrorEnLaConexion();
+                           salirAlInicioDeSesion();
+                       }
+                   }else{
+                       Alertas.mostrarMensajeSinModificarDatos();
+                   }
+               }
+           }else{
+               Alertas.mostrarMensajeDatosInvalidos();
+           }   
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
+            salirAlInicioDeSesion();
         }
     }
     
@@ -217,6 +221,27 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     public void regresarRepresentantesInstitucionales(){
        String ruta = "/interfazDeUsuario/Ventana_RepresentantesInstitucionales.fxml";
        desplegarVentana(ruta);
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
     
     public int validarConexionEstable(){

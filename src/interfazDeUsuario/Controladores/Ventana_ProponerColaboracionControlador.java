@@ -202,18 +202,22 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     }
     
     public void registrarEmisionPropuesta(int idPropuesta){
-        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        int idProfesor=profesor.getIdProfesor();        
-        EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
-        emisionPropuesta.setIdProfesor(idProfesor);
-        emisionPropuesta.setIdPropuestaColaboracion(idPropuesta);
-        emisionPropuesta.setFechaEmision(obtenerFechaActual());
-        DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
-        daoEmisionPropuesta.registrarEmisionPropuesta(emisionPropuesta);     
-        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-        daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Esperando.toString());
-        Alertas.mostrarRegistroPropuesta();
-        salirDeLaVentana();
+        if(obtenerResultadoValidacionConexion()){
+           ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+            int idProfesor=profesor.getIdProfesor();        
+            EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
+            emisionPropuesta.setIdProfesor(idProfesor);
+            emisionPropuesta.setIdPropuestaColaboracion(idPropuesta);
+            emisionPropuesta.setFechaEmision(obtenerFechaActual());
+            DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
+            daoEmisionPropuesta.registrarEmisionPropuesta(emisionPropuesta);     
+            DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+            daoProfesor.cambiarEstadoProfesor(idProfesor, EnumProfesor.Esperando.toString());
+            Alertas.mostrarRegistroPropuesta();
+            salirDeLaVentana(); 
+        }else{
+            salirAlInicioDeSesion();
+        }
     }    
     
     private boolean validarFechas(LocalDate fechaInicio,LocalDate fechaCierre){
@@ -276,6 +280,27 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
              Alertas.mostrarMensajeErrorEnLaConexion();
               salirAlInicioDeSesion();
         }                        
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
     
     public int validarConexionEstable(){
