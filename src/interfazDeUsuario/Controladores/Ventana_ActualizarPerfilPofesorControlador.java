@@ -232,42 +232,51 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     }
     
     private void actualizarPerfilProfesorUv(Profesor profesorAActualizar, ProfesorUV profesorUV) {
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
-        String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
-        int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
-        filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
-        filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
-        filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
-        filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(), profesorAActualizar.getEstado());
-        filasAfectadas += daoProfesorUV.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV(profesorUV.getCategoriaDeContratacion(), profesorUV.getIdProfesorUV());
-        filasAfectadas += daoProfesorUV.editarRegionDeProfesorUVPorIdProfesorUV(profesorUV.getIdRegion(), profesorUV.getIdProfesorUV());
-        filasAfectadas += daoProfesorUV.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(profesorUV.getIdAreaAcademica(), profesorUV.getIdProfesorUV());
-        filasAfectadas += daoProfesorUV.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV(profesorUV.getTipoDeContratacion(), profesorUV.getIdProfesorUV());
-        filasAfectadas += daoProfesorUV.editarNumeroDePersonalPorIdProfesorUV(profesorUV.getNumeroDePersonal(), profesorUV.getIdProfesorUV());
-        if (filasAfectadas >= 9) {
-            Alertas.mostrarMensajeDatosModificados();
-            regresarDeVentana();
-        } else {
-            Alertas.mostrarMensajeErrorEnLaConexion();
+        if(obtenerResultadoValidacionConexion()){
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            DAOProfesorUVImplementacion daoProfesorUV = new DAOProfesorUVImplementacion();
+            String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
+            int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorAActualizar.getNombre(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorAActualizar.getApellidoPaterno(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorAActualizar.getApellidoMaterno(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorAActualizar.getCorreo(), correoProfesor);
+            filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(), profesorAActualizar.getEstado());
+            filasAfectadas += daoProfesorUV.editarCategoriaDeContratacionDeProfesorUVPorIdProfesorUV(profesorUV.getCategoriaDeContratacion(), profesorUV.getIdProfesorUV());
+            filasAfectadas += daoProfesorUV.editarRegionDeProfesorUVPorIdProfesorUV(profesorUV.getIdRegion(), profesorUV.getIdProfesorUV());
+            filasAfectadas += daoProfesorUV.editarAreaAcademicaDeProfesorUVPorIdProfesorUV(profesorUV.getIdAreaAcademica(), profesorUV.getIdProfesorUV());
+            filasAfectadas += daoProfesorUV.editarTipoDeContratacionDeProfesorUVPorIdProfesorUV(profesorUV.getTipoDeContratacion(), profesorUV.getIdProfesorUV());
+            filasAfectadas += daoProfesorUV.editarNumeroDePersonalPorIdProfesorUV(profesorUV.getNumeroDePersonal(), profesorUV.getIdProfesorUV());
+            if (filasAfectadas >= 9) {
+                Alertas.mostrarMensajeDatosModificados();
+                regresarDeVentana();
+            } else {
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
+        }else{
+            salirAlInicioDeSesion();
         }
+       
     }
     
     private void actualizarPerfilProfesorExterno(Profesor profesorNuevo,ProfesorExterno profesorExterno){
-        DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-        DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
-        String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
-        int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorNuevo.getNombre(), correoProfesor);
-        filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorNuevo.getApellidoPaterno(), correoProfesor);
-        filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorNuevo.getApellidoMaterno(), correoProfesor);
-        filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorNuevo.getCorreo(), correoProfesor);
-        filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(), profesorNuevo.getEstado());
-        filasAfectadas += daoProfesorExterno.editarInstitucionProfesorExternoPorIdProfesor(profesorExterno.getIdRepresentanteInstitucional(), profesorExterno.getIdProfesorExterno());
-        if(filasAfectadas==6){
-            Alertas.mostrarMensajeDatosModificados();
-            regresarDeVentana();
+        if(obtenerResultadoValidacionConexion()){
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            DAOProfesorExternoImplementacion daoProfesorExterno = new DAOProfesorExternoImplementacion();
+            String correoProfesor = ProfesorAuxiliar.getInstancia().getCorreo();
+            int filasAfectadas = daoProfesor.modificarNombreProfesor(profesorNuevo.getNombre(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarApellidoPaternoProfesor(profesorNuevo.getApellidoPaterno(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarApellidoMaternoProfesor(profesorNuevo.getApellidoMaterno(), correoProfesor);
+            filasAfectadas += daoProfesor.modificarCorreoProfesor(profesorNuevo.getCorreo(), correoProfesor);
+            filasAfectadas += daoProfesor.cambiarEstadoProfesor(ProfesorAuxiliar.getInstancia().getIdProfesor(), profesorNuevo.getEstado());
+            filasAfectadas += daoProfesorExterno.editarInstitucionProfesorExternoPorIdProfesor(profesorExterno.getIdRepresentanteInstitucional(), profesorExterno.getIdProfesorExterno());
+            if(filasAfectadas==6){
+                Alertas.mostrarMensajeDatosModificados();
+                regresarDeVentana();
+            }else{
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
         }else{
-            Alertas.mostrarMensajeErrorEnLaConexion();
+            salirAlInicioDeSesion();
         }
     }
     
@@ -440,6 +449,26 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         }
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
     
     public void regresarDeVentana(){
         int resultadoValidacion = validarConexionEstable();

@@ -95,7 +95,7 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         }
     }
     
-    public void subirEvidencia(){
+    private void realizarRegistroDeEvidencia(){
         ocultarLabelErrores();
         Evidencia nuevaEvidencia = new Evidencia();
         File archivoASubir = getArchivoASubir();
@@ -144,6 +144,14 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         }
     }
     
+    public void subirEvidencia(){
+        if(obtenerResultadoValidacionConexion()){
+            realizarRegistroDeEvidencia();
+        }else{
+            salirAlInicioDeSesion();
+        }
+    }
+    
     private File getArchivoASubir(){
         return this.archivoASubir;
     }
@@ -165,6 +173,27 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){

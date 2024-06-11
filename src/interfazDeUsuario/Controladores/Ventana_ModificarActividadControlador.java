@@ -189,6 +189,27 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         return resultado;
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     private boolean validarModificacionDeCampos(){
         boolean resultado = true;
         ActividadAuxiliar actividadAuxiliar = ActividadAuxiliar.getInstancia();
@@ -224,31 +245,35 @@ public class Ventana_ModificarActividadControlador implements Initializable {
     }    
     
      public void realizarModificacionDeActividad(){
-        if(validarDatosActividad()){
-            if(validarFechasDeActividad()){
-                if(!validarModificacionDeCampos()){
-                    Actividad actividadAModificar = obtenerDatosActividad();
-                    actividadAModificar.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
-                    DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
-                    if(!daoActividad.validarInexistenciaDeActividad(actividadAModificar)){
-                        int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
-                        int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
-                        if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
-                            Alertas.mostrarMensajeErrorEnLaConexion();
-                        } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {
-                            Alertas.mostrarMensajeDatosModificados();
+        if(obtenerResultadoValidacionConexion()){
+            if(validarDatosActividad()){
+                if(validarFechasDeActividad()){
+                    if(!validarModificacionDeCampos()){
+                        Actividad actividadAModificar = obtenerDatosActividad();
+                        actividadAModificar.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
+                        DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
+                        if(!daoActividad.validarInexistenciaDeActividad(actividadAModificar)){
+                            int resultadoModificacionDatos = daoActividad.modificarActividad(actividadAModificar);
+                            int resultadoModificacionFechas = daoActividad.modificarFechaActividad(actividadAModificar);
+                            if (resultadoModificacionDatos == -1 || resultadoModificacionFechas == -1) {
+                                Alertas.mostrarMensajeErrorEnLaConexion();
+                            } else if (resultadoModificacionDatos == 1 && resultadoModificacionFechas == 1) {
+                                Alertas.mostrarMensajeDatosModificados();
+                            }
+                        }else{
+                            Alertas.mostrarMensajeActividadExistente();
                         }
                     }else{
-                        Alertas.mostrarMensajeActividadExistente();
+                        Alertas.mostrarMensajeSinModificarDatos();
                     }
                 }else{
-                    Alertas.mostrarMensajeSinModificarDatos();
+                    Alertas.mostrarMensajeFechaInvalida();
                 }
             }else{
-                Alertas.mostrarMensajeFechaInvalida();
+                Alertas.mostrarMensajeDatosInvalidos();
             }
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
+            salirAlInicioDeSesion();
         }
     }
 }

@@ -103,6 +103,27 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         };
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     public int validarConexionEstable(){
         int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
@@ -208,27 +229,31 @@ public class Ventana_IniciarActividadControlador implements Initializable {
     
     public void realizarRegistroDeActividad(ActionEvent event){
         ocultarLabelErrores();
-        if(validarDatosActividad()){
-            if(validarFechasDeActividad()){
-                Actividad nuevaActividad = obtenerDatosActividad();
-                nuevaActividad.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
-                DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
-                if(!daoActividad.validarInexistenciaDeActividad(nuevaActividad)){
-                    int resultadoRegistro = daoActividad.registrarActividad(nuevaActividad);
-                    if (resultadoRegistro == 1) {
-                        Alertas.mostrarMensajeDatosIngresados();
-                    } else if (resultadoRegistro == -1) {
-                        Alertas.mostrarMensajeErrorEnLaConexion();
-                        regresarMenuPrincipal();
+        if(obtenerResultadoValidacionConexion()){
+            if(validarDatosActividad()){
+                if(validarFechasDeActividad()){
+                    Actividad nuevaActividad = obtenerDatosActividad();
+                    nuevaActividad.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
+                    DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
+                    if(!daoActividad.validarInexistenciaDeActividad(nuevaActividad)){
+                        int resultadoRegistro = daoActividad.registrarActividad(nuevaActividad);
+                        if (resultadoRegistro == 1) {
+                            Alertas.mostrarMensajeDatosIngresados();
+                        } else if (resultadoRegistro == -1) {
+                            Alertas.mostrarMensajeErrorEnLaConexion();
+                            regresarMenuPrincipal();
+                        }
+                    }else{
+                        Alertas.mostrarMensajeActividadExistente();
                     }
                 }else{
-                    Alertas.mostrarMensajeActividadExistente();
-                }
+                    Alertas.mostrarMensajeFechaInvalida();
+                }  
             }else{
-                Alertas.mostrarMensajeFechaInvalida();
-            }  
+                Alertas.mostrarMensajeDatosInvalidos();
+            }
         }else{
-            Alertas.mostrarMensajeDatosInvalidos();
+            salirAlInicioDeSesion();
         }
     }
     

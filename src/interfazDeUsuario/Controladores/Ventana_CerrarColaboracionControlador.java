@@ -106,26 +106,30 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
     public void cerrarColaboracion(){
         boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea cerrar esta colaboracion?, una vez cerrada ya no se podrá volver a acceder a ella.");
         if(resultadoEleccion){
-            if(Objects.nonNull(this.archivoSyllabus)){
+            if(obtenerResultadoValidacionConexion()){
+                if(Objects.nonNull(this.archivoSyllabus)){
                 Colaboracion colaboracion = new Colaboracion();
                 colaboracion.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
                 ManejadorDeArchivos manejadorArchivos = new ManejadorDeArchivos();
                 int resultadoGuardadoDeSyllabus = manejadorArchivos.guardarSyllabusDeColaboracion(colaboracion, archivoSyllabus);
-                if(resultadoGuardadoDeSyllabus==1){
-                    int resultadoModificacionEstadoProfesores = cambiarDeEstadoProfesores();
-                    int resultadoModificacionEstadoColaboracion = cambiarDeEstadoColaboracion();
-                    if(resultadoModificacionEstadoProfesores>=2&&resultadoModificacionEstadoProfesores<=4&&resultadoModificacionEstadoColaboracion==1){
-                        Alertas.mostrarColaboracionCerrada();
-                        regresarAMenuPrincipalProfesor();
+                    if(resultadoGuardadoDeSyllabus==1){
+                        int resultadoModificacionEstadoProfesores = cambiarDeEstadoProfesores();
+                        int resultadoModificacionEstadoColaboracion = cambiarDeEstadoColaboracion();
+                        if(resultadoModificacionEstadoProfesores>=2&&resultadoModificacionEstadoProfesores<=4&&resultadoModificacionEstadoColaboracion==1){
+                            Alertas.mostrarColaboracionCerrada();
+                            regresarAMenuPrincipalProfesor();
+                        }else{
+                            Alertas.mostrarMensajeErrorEnLaConexion();
+                            salirAlInicioDeSesion();
+                        }
                     }else{
-                        Alertas.mostrarMensajeErrorEnLaConexion();
-                        salirAlInicioDeSesion();
+                        Alertas.mostrarMensajeErrorAlAccederAlaCarpeta();
                     }
                 }else{
-                    Alertas.mostrarMensajeErrorAlAccederAlaCarpeta();
+                    Alertas.mostrarMensajeArchivoSinSeleccionar();
                 }
             }else{
-                Alertas.mostrarMensajeArchivoSinSeleccionar();
+                salirAlInicioDeSesion();
             }
         }
     }
@@ -147,7 +151,28 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
         escenario = (Stage)anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
-        
+     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     public int validarConexionEstable(){
         int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
