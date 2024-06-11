@@ -514,6 +514,16 @@ public class Alertas extends Application {
         });
     }
     
+    public static boolean mostrarMensajeArchivoGeneradoPreviamente() {
+        Alert mensaje = new Alert(AlertType.CONFIRMATION);
+        mensaje.setTitle("Archivo generado previamente");
+        mensaje.setContentText("El informe ya se ha generado previamente.\n ¿Desea volver a descargarlo?");
+
+        Optional<ButtonType> resultado = mensaje.showAndWait();
+
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
+    
     @Override
     public void start(Stage stage){
         try{

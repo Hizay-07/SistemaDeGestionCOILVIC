@@ -22,6 +22,9 @@ import com.itextpdf.text.pdf.PdfReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.TipoColaboracion;
@@ -36,9 +39,9 @@ public class InformeImplementacion {
     public Document crearInformeDeColaboracion(Colaboracion colaboracion,List<Actividad> actividades, List<Profesor> profesores){
         Document informeColaboracion = new Document();
         informeColaboracion.setMargins(50, 50, 50, 50);
-        String rutaInforme = "Informes\\informeDeColaboracionPrueba"+colaboracion.getIdColaboracion()+".pdf";
+        String rutaInforme = "Informes\\informeDeColaboracion"+colaboracion.getIdColaboracion()+".pdf";
         try{
-            PdfWriter.getInstance(informeColaboracion,new FileOutputStream(rutaInforme));
+            PdfWriter pdfEscritor = PdfWriter.getInstance(informeColaboracion,new FileOutputStream(rutaInforme));
             PdfPTable tituloInforme = obtenerTituloDeInforme();
             Paragraph cuerpoDeInforme = obtenerCuerpoDelInforme(colaboracion,profesores);
             PdfPTable tablaActividades = obtenerActividadesDeInforme(actividades);
@@ -51,10 +54,8 @@ public class InformeImplementacion {
             informeColaboracion.close();
         }catch(BadElementException | IOException excepcion){
             LOG.error(excepcion.getMessage());
-            informeColaboracion = null;
         }catch(DocumentException  excepcion){
             LOG.error(excepcion.getMessage());
-            informeColaboracion = null;
         }
         return informeColaboracion;
     }
@@ -136,7 +137,19 @@ public class InformeImplementacion {
         return cuerpoDeInforme;
     }
     
-    public int guardarArchivoDeInforme(File archivo,Document informeAGuardar,int idColaboracion){
+    public boolean validarExistenciaDeInforme(int idColaboracion){
+        boolean resultadoValidacion;
+        String rutaInforme = "Informes\\informeDeColaboracion"+idColaboracion+".pdf";
+        Path informeAGenerar = Paths.get(rutaInforme);
+        if(Files.exists(informeAGenerar)){
+            resultadoValidacion = true;
+        }else{
+            resultadoValidacion = false;
+        }
+        return resultadoValidacion;
+    }
+    
+    public int guardarArchivoDeInforme(File archivo, int idColaboracion){
         int resultadoGuardado = 0;
         Document informeColaboracion = new Document();
         try{

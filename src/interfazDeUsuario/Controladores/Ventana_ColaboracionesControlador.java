@@ -211,7 +211,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
                 final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
                     private final Button btn_VisualizarDetalles = new Button();{
-                        btn_VisualizarDetalles.setText("Visualizar Detalles");
+                        btn_VisualizarDetalles.setText("Visualizar");
                         btn_VisualizarDetalles.setOnAction((ActionEvent event) -> {
                             Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
                             ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);

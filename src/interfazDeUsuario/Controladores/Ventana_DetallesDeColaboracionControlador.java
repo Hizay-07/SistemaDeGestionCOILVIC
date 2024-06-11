@@ -125,8 +125,8 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     
     private Document obtenerInformeDeColaboracion(){
         Document informeGenerado = new Document();
-        ColaboracionAuxiliar colaboracion =  ColaboracionAuxiliar.getInstancia();
-        Colaboracion colaboracionActual = new Colaboracion(); 
+        ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
+        Colaboracion colaboracionActual = new Colaboracion();
         colaboracionActual.setPropuestaColaboracion(colaboracion.getPropuestaColaboracion());
         colaboracionActual.setEstadoColaboracion(colaboracion.getEstadoColaboracion());
         colaboracionActual.setIdColaboracion(colaboracion.getIdColaboracion());
@@ -138,32 +138,52 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         return informeGenerado;
     }
     
-    private void guardarInforme(Document informeAGuardar){
+    private void guardarInforme(){
         FileChooser escogerRutaDeGuardado = new FileChooser();
         escogerRutaDeGuardado.setTitle("Seleccione el lugar donde desea guardar el informe");
         escogerRutaDeGuardado.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
         escogerRutaDeGuardado.setInitialDirectory(new File(System.getProperty("user.home")));
-        File archivoAGuardar = escogerRutaDeGuardado.showSaveDialog(escenario);
-        InformeImplementacion guardadoImplementacion = new InformeImplementacion();
-        ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
-        int resultadoGuardado = guardadoImplementacion.guardarArchivoDeInforme(archivoAGuardar, informeAGuardar,colaboracion.getIdColaboracion());
-        if(resultadoGuardado==1){
-            Alertas.mostrarMensajeInformeGuardadoExitosamente();
-        }else{
-            Alertas.mostrarMensajeErrorAlGuardarInforme();
+        try{
+            File archivoAGuardar = escogerRutaDeGuardado.showSaveDialog(escenario);
+            InformeImplementacion guardadoImplementacion = new InformeImplementacion();
+            ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
+            int resultadoGuardado = guardadoImplementacion.guardarArchivoDeInforme(archivoAGuardar,colaboracion.getIdColaboracion());
+            if(resultadoGuardado==1){
+                Alertas.mostrarMensajeInformeGuardadoExitosamente();
+            }else{
+                Alertas.mostrarMensajeErrorAlGuardarInforme();
+            }
+        }catch(NullPointerException excepcion){
+            LOG.info(excepcion);
         }
     }   
     
     public void generarInforme(){
-        Document informeGenerado = obtenerInformeDeColaboracion();
-        if(Objects.nonNull(informeGenerado)){
-            boolean resultadoAlerta = Alertas.mostrarMensajeDescargaDeArchivo();
-            if(resultadoAlerta){
-                guardarInforme(informeGenerado);
+        InformeImplementacion implementacionInforme = new InformeImplementacion(); 
+        int resultadoValidacionConexion = validarConexionEstable();
+        if (!implementacionInforme.validarExistenciaDeInforme(ColaboracionAuxiliar.getInstancia().getIdColaboracion())) {
+            if (resultadoValidacionConexion == 1) {
+                Document informeGenerado = obtenerInformeDeColaboracion();
+                if (Objects.nonNull(informeGenerado)) {
+                    boolean resultadoAlerta = Alertas.mostrarMensajeDescargaDeArchivo();
+                    if (resultadoAlerta) {
+                        guardarInforme();
+                    }
+                } else {
+                    Alertas.mostrarErrorEnLaCreacionDeInforme();
+                }
+            } else if (resultadoValidacionConexion == 0) {
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+            } else if (resultadoValidacionConexion == -1) {
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
             }
-        }else{
-            Alertas.mostrarErrorEnLaCreacionDeInforme();
+        } else {
+            if (Alertas.mostrarMensajeArchivoGeneradoPreviamente()) {
+                guardarInforme();
+            }
         }
+
     }
     
     public void regresarAVentanaCorrespondiente(){
