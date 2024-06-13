@@ -54,6 +54,12 @@ public class Ventana_ModificarActividadControlador implements Initializable {
         cargarDatosActividadAModificar();
         limitarFechasDePeriodoActividad();
         ocultarLabelErrores();
+        limitarTextFields();
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreDeActividad, 150);
+        ComponentesDeVentanaControlador.limitarTextArea(txa_Descripcion, 255);
     }
     
     private void ocultarLabelErrores(){

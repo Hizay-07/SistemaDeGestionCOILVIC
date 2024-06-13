@@ -41,7 +41,14 @@ public class ventana_InicioDeSesionControlador implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ocultarLabelErrores();
+        limitarTextFields();
     }    
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txtf_Usuario, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(pwdf_Contrasenia, 25);
+    }
+    
     
     private void ocultarLabelErrores(){
         lbl_ErrorUsuario.setVisible(false);

@@ -43,6 +43,11 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboboxTipoDeUsuario();
         ocultarLabelErrores();
+        limitarTextFields();
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreDeUsuario, 255);
     }
     
     private void ocultarLabelErrores(){

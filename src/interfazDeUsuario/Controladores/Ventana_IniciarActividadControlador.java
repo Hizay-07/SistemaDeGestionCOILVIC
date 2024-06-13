@@ -56,6 +56,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         limitarFechasDePeriodoActividad();
         ocultarLabelErrores();
+        limitarTextFields();
     }    
     
     public void cerrarVentana(){
@@ -72,6 +73,12 @@ public class Ventana_IniciarActividadControlador implements Initializable {
     public void regresarMenuPrincipal(){
         String rutaVentanaFXML="/interfazDeUsuario/Ventana_ColaboracionActiva.fxml";
         desplegarVentanaCorrespondiente(rutaVentanaFXML);
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NumeroDeActividad, 2);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreDeActividad, 150);
+        ComponentesDeVentanaControlador.limitarTextArea(txa_Descripcion, 255);
     }
     
     private void limitarFechasDePeriodoActividad(){
