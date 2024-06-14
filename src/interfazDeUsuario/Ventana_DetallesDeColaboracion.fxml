@@ -13,7 +13,7 @@
    <children>
       <Pane fx:id="pane_ColorSuperior" prefHeight="54.0" prefWidth="605.0" style="-fx-background-color: #168394; -fx-border-color: #168394;">
          <children>
-            <Label fx:id="label_Titulo" layoutX="82.0" layoutY="4.0" text="Detalles de colaboración" textFill="WHITE">
+            <Label fx:id="lbl_Titulo" layoutX="82.0" layoutY="4.0" text="Detalles de colaboración" textFill="WHITE">
                <font>
                   <Font name="MS Reference Sans Serif" size="36.0" />
                </font>
@@ -101,7 +101,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <VBox fx:id="vbox_Profesores" layoutX="211.0" layoutY="295.0" prefHeight="86.0" prefWidth="334.0">
+      <VBox fx:id="vb_Profesores" layoutX="211.0" layoutY="295.0" prefHeight="86.0" prefWidth="334.0">
          <children>
             <Label fx:id="lbl_Profesor1" prefHeight="23.0" prefWidth="339.0" style="-fx-border-color: grey;">
                <font>

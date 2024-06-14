@@ -29,7 +29,7 @@
       </ImageView>
       <Button fx:id="btn_Aceptar" layoutX="235.0" layoutY="285.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: green;" text="Aceptar" textFill="WHITE" onAction="#cerrarColaboracion"/>
       <Button fx:id="btn_Cancelar" layoutX="319.0" layoutY="285.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" onAction="#regresarVentanaColaboracionActiva"/>
-      <VBox fx:id="vbox_Instrucciones" layoutX="114.0" layoutY="70.0" prefHeight="71.0" prefWidth="387.0" style="-fx-border-color: #168394;">
+      <VBox fx:id="vb_Instrucciones" layoutX="114.0" layoutY="70.0" prefHeight="71.0" prefWidth="387.0" style="-fx-border-color: #168394;">
          <children>
             <Label fx:id="lbl_Instruccion1" alignment="TOP_CENTER" prefHeight="18.0" prefWidth="395.0" text="¡La colaboración ha llegado a su fecha de cierre!" textAlignment="CENTER">
                <font>
