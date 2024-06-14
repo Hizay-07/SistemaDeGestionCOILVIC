@@ -48,12 +48,17 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cmb_EvaluarPropuesta.getItems().addAll("Aprobada","Rechazada");                
+        cmb_EvaluarPropuesta.getItems().addAll("Aprobada","Rechazada");
+        limitarTextFields();
     }    
     
     public void inicializar(int idPropuestaColaboracion){
         this.idPropuestaColaboracion=idPropuestaColaboracion;
     }        
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextArea(txa_Justificacion, 250);
+    }
     
     public void registrarEvaluacionPropuesta(){
         if(obtenerResultadoValidacionConexion()){

@@ -47,7 +47,12 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ocultarLabelErrores();
+        limitarTextFields();
     } 
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreEvidencia, 50);
+    }
     
     private void ocultarLabelErrores(){
         lbl_ErrorNombreEvidencia.setVisible(false);

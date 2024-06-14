@@ -98,6 +98,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         cargarDatosComboBoxEstadoProfesor();
         cargarDatosProfesor(); 
         ocultarLabelErrores();
+        limitarTextFields();
     }
     
     private void ocultarLabelErrores(){
@@ -108,6 +109,16 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         lbl_ErrorCategoriaDeContratacion.setVisible(false);
         lbl_ErrorTipoDeContratacion.setVisible(false);
         lbl_ErrorNumeroPersonal.setVisible(false);
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_Nombre, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ApellidoPaterno, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ApellidoMaterno, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_Correo, 70);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NumeroDePersonal, 4);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_TipoDeContratacion, 150);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_CategoriaDeContratacion, 150);
     }
     
     private void cerrarVentana(){

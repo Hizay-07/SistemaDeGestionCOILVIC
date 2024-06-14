@@ -52,7 +52,14 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         llenarComboBoxPais();
         cargarDatosRepresentanteInstitucional();
         ocultarLabelErrores();
+        limitarTextFields();
     }    
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreInstitucion, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ClaveInstitucional, 20);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_Contacto, 60);
+    }
     
     private void ocultarLabelErrores(){
         lbl_ErrorNombreInstitucion.setVisible(false);

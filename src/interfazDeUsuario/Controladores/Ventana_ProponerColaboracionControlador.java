@@ -88,6 +88,12 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         cargarIdiomas();        
     }
     
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ExperienciaEducativa, 50);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ProgramaEducativo, 150);
+        ComponentesDeVentanaControlador.limitarTextArea(txa_ObjetivoGeneral, 255);
+    }
+    
     private void cerrarVentana(){
         stage_ventana=(Stage) anchor_VentanaProponerColaboracion.getScene().getWindow();
         stage_ventana.close();

@@ -25,7 +25,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logicaDeNegocio.ClasesAuxiliares.ActividadAuxiliar;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
-import logicaDeNegocio.ClasesAuxiliares.EvidenciaAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Evidencia;

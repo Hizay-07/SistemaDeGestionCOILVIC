@@ -60,6 +60,13 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         lbl_ErrorClaveInstitucional.setVisible(false);
         lbl_ErrorContacto.setVisible(false);
         lbl_ErrorPais.setVisible(false);
+        limitarTextFields();
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreDeInstitucion, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ClaveInstitucional, 20);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_Contacto, 60);
     }
     
     private void llenarComboBoxPais(){
