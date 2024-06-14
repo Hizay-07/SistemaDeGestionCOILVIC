@@ -15,12 +15,12 @@
    <children>
       <Pane fx:id="pane_ColorSuperior" layoutX="-11.0" layoutY="-11.0" prefHeight="63.0" prefWidth="778.0" style="-fx-background-color: #168394;" />
       <Pane fx:id="pane_ColorInferior" layoutY="435.0" prefHeight="52.0" prefWidth="767.0" style="-fx-background-color: #168394;" />
-      <ImageView fx:id="img_LogoCoil" fitHeight="95.0" fitWidth="104.0" layoutX="658.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgv_LogoCoil" fitHeight="95.0" fitWidth="104.0" layoutX="658.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Imagenes/Coil-Interfaz.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="img_MapaMundo" fitHeight="82.0" fitWidth="181.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgv_MapaMundo" fitHeight="82.0" fitWidth="181.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Imagenes/MAPAMUNDO.png" />
          </image>

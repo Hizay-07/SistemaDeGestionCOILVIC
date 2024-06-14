@@ -3,29 +3,29 @@
 }
 
 .button {
-    -fx-background-color: #007B8A; /* Color de fondo del botón */
-    -fx-text-fill: #ffffff; /* Color del texto del botón */
-    -fx-border-radius: 5px; /* Bordes redondeados */
-    -fx-padding: 10px 20px; /* Espaciado interno */
+    -fx-background-color: #007B8A; 
+    -fx-text-fill: #ffffff; 
+    -fx-border-radius: 5px; 
+    -fx-padding: 10px 20px; 
 }
 
 .button:hover {
-    -fx-background-color: #005F6B; /* Color de fondo cuando el botón es hovered */
+    -fx-background-color: #005F6B; 
 }
 
 .button:pressed {
-    -fx-background-color: #004C56; /* Color de fondo cuando el botón es presionado */
+    -fx-background-color: #004C56; 
 }
 
 .button-cancel {
-    -fx-background-color: #D9534F; /* Color de fondo del botón de cancelar */
-    -fx-text-fill: #ffffff; /* Color del texto del botón de cancelar */
+    -fx-background-color: #D9534F;
+    -fx-text-fill: #ffffff;
 }
 
 .button-cancel:hover {
-    -fx-background-color: #C9302C; /* Color de fondo cuando el botón de cancelar es hovered */
+    -fx-background-color: #C9302C; 
 }
 
 .button-cancel:pressed {
-    -fx-background-color: #AC2925; /* Color de fondo cuando el botón de cancelar es presionado */
+    -fx-background-color: #AC2925; 
 }

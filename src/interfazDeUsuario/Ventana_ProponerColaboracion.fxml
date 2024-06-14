@@ -21,7 +21,7 @@
                <children>
                   <Pane layoutX="-20.0" layoutY="-20.0" prefHeight="82.0" prefWidth="624.0" style="-fx-background-color: #168394;">
                      <children>
-                        <Text fx:id="tx_ProponerColaboracion" fill="WHITE" layoutX="204.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proponer Colaboracion">
+                        <Text fill="WHITE" layoutX="204.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proponer Colaboracion">
                            <font>
                               <Font name="System Bold" size="25.0" />
                            </font>

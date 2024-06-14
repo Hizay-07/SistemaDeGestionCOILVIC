@@ -51,10 +51,8 @@ public class Ventana_EvidenciasColaboracionGlobalControlador implements Initiali
     @FXML
     private TableColumn<Evidencia,String> column_NombreEvidencia;
     @FXML
-    private TableColumn<Evidencia,Void> column_VisualizarEvidencia;
-    @FXML
-    private Button btn_SubirEvidencia;
-
+    private TableColumn<Evidencia,Void> column_VisualizarEvidencia;    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ActividadAuxiliar actividadDeEvidencia = ActividadAuxiliar.getInstancia();
@@ -66,8 +64,7 @@ public class Ventana_EvidenciasColaboracionGlobalControlador implements Initiali
         }catch(IllegalArgumentException excepcion){
             Alertas.mostrarMensajeErrorAlObtenerDatos();
         }
-        if(actividadDeEvidencia.getEstado().equals("Inactiva")){
-            btn_SubirEvidencia.setVisible(false);
+        if(actividadDeEvidencia.getEstado().equals("Inactiva")){            
             Alertas.mostrarMensajeActividadInactiva();
         }
         inicializarDatosDeActividadDeEvidencia();
