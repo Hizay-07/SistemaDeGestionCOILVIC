@@ -61,8 +61,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     }
     
     public void regresarVentanaPrincipal(){
-        int resultadoValidacion = validarConexionEstable();
-        if(resultadoValidacion==1){
+        if(obtenerResultadoValidacionConexion()){
            String ruta = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
            try{
                Parent root=FXMLLoader.load(getClass().getResource(ruta));
@@ -75,10 +74,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
                Alertas.mostrarMensajeErrorAlDesplegarVentana();
                LOG.error(excepcion);
            }   
-        }else if(resultadoValidacion==-1){
-            Alertas.mostrarMensajeErrorEnLaConexion();
-            salirAlInicioDeSesion();
-        }else if(resultadoValidacion==0){
+        }else{
             Alertas.mostrarMensajeUsuarioNoEncontrado();
         }       
     }
@@ -91,8 +87,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
     }
      
     public void salirAlInicioDeSesion(){
-        int resultadoValidacion = validarConexionEstable();
-        if(resultadoValidacion==1){
+        if(obtenerResultadoValidacionConexion()){
             try {
             String rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
             Parent root = FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -106,10 +101,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());
             }
-        }else if(resultadoValidacion==-1){
-            Alertas.mostrarMensajeErrorEnLaConexion();
-            salirAlInicioDeSesion();
-        }else if(resultadoValidacion==0){
+        }else{
             Alertas.mostrarMensajeUsuarioNoEncontrado();
         }
     }
@@ -145,20 +137,20 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
         resultado &= validarSeleccion(()->(String) cmb_TipoDeUsuario.getSelectionModel().getSelectedItem(),lbl_ErrorSeleccion);
         return resultado; 
     }    
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
     }
     
-    private boolean validarSeleccion(Supplier<String> selector,Label errorLabel){
+    private boolean validarSeleccion(Supplier<String> selector,Label lbl_Error){
         boolean resultado = true;
         try{
             String seleccion = selector.get();
@@ -167,7 +159,7 @@ public class Ventana_CreacionDeUsuarioControlador implements Initializable {
             }
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;

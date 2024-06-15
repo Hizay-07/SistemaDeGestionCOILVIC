@@ -66,15 +66,12 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         btn_Regresar.setOnAction(Event -> {
             regresarAMenuPrincipal();
         });
-        
         btn_Actividades.setOnAction(Event ->{
             inicializarVentanaActividades();
         });
-        
         btn_IniciarActividad.setOnAction(Event-> {
             inicializarVentanaIniciarActividad();
-        });
-       
+        }); 
         asignarDatosDeColaboracion();
     }   
     
@@ -174,15 +171,23 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
         try{
             Profesor profesorActivo = obtenerDatosDeProfesorSingleton();
             colaboracionActiva = obtenerDatosColaboracion(profesorActivo);
-            if(Objects.nonNull(colaboracionActiva.getPropuestaColaboracion())&&Objects.nonNull(colaboracionActiva)){
-                profesoresObtenidos = obtenerProfesoresColaboracion(colaboracionActiva);
-                propuestaActiva = obtenerDatosPropuestaColaboracion(colaboracionActiva);
-                cargarDatosColaboracion(propuestaActiva,profesoresObtenidos,colaboracionActiva);
-                ColaboracionAuxiliar.setInstancia(colaboracionActiva);
-                PropuestaColaboracionAuxiliar.setInstancia(propuestaActiva);
-            }else{
+            if(Objects.isNull(colaboracionActiva.getPropuestaColaboracion())&&Objects.isNull(colaboracionActiva)){
                 Alertas.mostrarMensajeColaboracionActiva("Por el momento no hay ninguna colaboracion activa");
                 regresarAMenuPrincipal();
+            }else if(colaboracionActiva.getEstadoColaboracion().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            }else{
+                profesoresObtenidos = obtenerProfesoresColaboracion(colaboracionActiva);
+                propuestaActiva = obtenerDatosPropuestaColaboracion(colaboracionActiva);
+                if(profesoresObtenidos.get(0).getNombre().equals("Excepcion")||propuestaActiva.getEstadoPropuesta().equals("Excepcion")){
+                    Alertas.mostrarMensajeErrorEnLaConexion();
+                    salirAlInicioDeSesion();
+                }else{
+                    cargarDatosColaboracion(propuestaActiva,profesoresObtenidos,colaboracionActiva);
+                    ColaboracionAuxiliar.setInstancia(colaboracionActiva);
+                    PropuestaColaboracionAuxiliar.setInstancia(propuestaActiva);
+                } 
             }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
@@ -225,8 +230,7 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -238,12 +242,30 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
      
     public void salirAlInicioDeSesion(){

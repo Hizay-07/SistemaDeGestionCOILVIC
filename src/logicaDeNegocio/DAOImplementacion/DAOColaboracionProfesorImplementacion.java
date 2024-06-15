@@ -46,6 +46,9 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
             }
        }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getMessage());
+           Profesor profesorObtenido = new Profesor();
+           profesorObtenido.setNombre("Excepcion");
+           profesoresObtenidos.add(0,profesorObtenido);
        }
        return profesoresObtenidos;
     }
@@ -77,7 +80,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
             }
        }catch(SQLException | NullPointerException excepcion){
            LOG.error(excepcion.getMessage());
-           colaboracionObtenida=null;
+           colaboracionObtenida.setEstadoColaboracion("Excepcion");
        }
        return colaboracionObtenida;
     }

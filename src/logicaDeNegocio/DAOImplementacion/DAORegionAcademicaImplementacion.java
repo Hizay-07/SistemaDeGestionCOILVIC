@@ -38,6 +38,9 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            RegionAcademica regionAcademica=new RegionAcademica();
+            regionAcademica.setRegion("Excepcion");
+            regionesAcademicas.add(0,regionAcademica);
         }
         return regionesAcademicas;        
     }

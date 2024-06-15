@@ -19,7 +19,6 @@ import logicaDeNegocio.manejadorDeArchivos.InformeImplementacion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +37,7 @@ public class InformeImplemenracionPrueba {
     @Test
     public void pruebaCrearInformeDeColaboracionExitoso() {
         Colaboracion colaboracion = new Colaboracion();
-        colaboracion.setIdColaboracion(1);        
+        colaboracion.setIdColaboracion(20);        
         PropuestaColaboracion propuesta = new PropuestaColaboracion();
         propuesta.setFechaInicio("2021-01-01");
         propuesta.setFechaCierre("2021-12-31");
@@ -200,10 +199,9 @@ public class InformeImplemenracionPrueba {
         colaboracion.setCantidadEstudiantes(30);        
         List<Actividad> actividades = new ArrayList<>();
         List<Profesor> profesores = new ArrayList<>();        
-        InformeImplementacion informe = new InformeImplementacion();
-        Document doc = informe.crearInformeDeColaboracion(colaboracion, actividades, profesores);        
+        InformeImplementacion informe = new InformeImplementacion();     
         File archivo = new File("Informes/informeDeColaboracionTest.pdf");
-        int resultado = informe.guardarArchivoDeInforme(archivo, doc, colaboracion.getIdColaboracion());        
+        int resultado = informe.guardarArchivoDeInforme(archivo, colaboracion.getIdColaboracion());        
         assertEquals(1, resultado);
         assertTrue(archivo.exists());
         archivo.delete(); 
@@ -227,10 +225,9 @@ public class InformeImplemenracionPrueba {
         colaboracion.setCantidadEstudiantes(30);        
         List<Actividad> actividades = new ArrayList<>();
         List<Profesor> profesores = new ArrayList<>();        
-        InformeImplementacion informe = new InformeImplementacion();
-        Document doc = informe.crearInformeDeColaboracion(colaboracion, actividades, profesores);        
+        InformeImplementacion informe = new InformeImplementacion();     
         File archivo = new File("ruta/no/existente/informeDeColaboracionTest.pdf");
-        int resultado = informe.guardarArchivoDeInforme(archivo, doc, colaboracion.getIdColaboracion());        
+        int resultado = informe.guardarArchivoDeInforme(archivo, colaboracion.getIdColaboracion());        
         assertEquals(-1, resultado);
     }
 }

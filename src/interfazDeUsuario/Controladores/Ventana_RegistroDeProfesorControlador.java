@@ -45,8 +45,6 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     @FXML
     private Pane pane_ProfesorUV;
     @FXML
-    private Pane pane_Profesores;
-    @FXML
     private Pane pane_ProfesorExterno;
     @FXML
     private ComboBox cmb_AreaAcademica;
@@ -98,6 +96,9 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         limitarTextFields();
         ocultarLabelErrores();
+        llenarComboBoxRegionAcademica();
+        llenarComboBoxAreaAcademica();
+        llenarComboBoxUniversidad();
     }
     
     private void ocultarLabelErrores(){
@@ -150,14 +151,14 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         return resultado; 
     }    
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -256,8 +257,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public void registrarProfesorUV() {
         ocultarLabelErrores();
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             if(validarDatosProfesor()&&validarDatosProfesorUV()){
                 Profesor profesor = obtenerProfesor();
                 ProfesorUV profesorUV = obtenerProfesorUV();
@@ -282,11 +282,8 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             }else{
                 Alertas.mostrarMensajeDatosInvalidos();
             }        
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-             salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }             
     }
 
@@ -306,8 +303,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
 
     public void registrarProfesorExterno() {
         ocultarLabelErrores(); 
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             if(validarDatosProfesor()&&validarDatosProfesorExterno()){
             Profesor profesor = obtenerProfesor();
             ProfesorExterno profesorExterno = obtenerProfesorExterno();
@@ -330,11 +326,8 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             }else{
                 Alertas.mostrarMensajeDatosInvalidos();
             }        
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-             salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
     
@@ -399,7 +392,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         cmb_Universidad.setPromptText(prompText_Universidad);
     }
 
-    public void registrarUsuarioProfesor(Usuario usuario, String tipoProfesor) {
+    private void registrarUsuarioProfesor(Usuario usuario) {
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
         int resultadoRegistro = daoUsuario.registrarUsuario(usuario);
@@ -415,7 +408,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
                         salirDeLaVentana();
                     } else if (resultadoCorreo == -1) {
                         Alertas.mostrarSinConexionAInternet("No se mandó el correo por la falta de internet.\n Si desea mandar nuevamente la cuenta"
-                                + " asignada al profesor registrado, consulte los profesores y presione el botón 'Reenviar Datos'.");
+                        + " asignada al profesor registrado, consulte los profesores y presione el botón 'Reenviar Datos'.");
                         salirDeLaVentana();
                     }
                 }
@@ -436,7 +429,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
             usuario.setNombreUsuario(profesor.getCorreo());
             usuario.setTipoDeUsuario("Profesor");
             usuario.setCorreo(profesor.getCorreo());
-            registrarUsuarioProfesor(usuario,tipo);
+            registrarUsuarioProfesor(usuario);
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getMessage());
         }          
@@ -458,8 +451,7 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
     }
 
     public void salirDeLaVentana() {
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML = null;
             try {
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
@@ -473,11 +465,8 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
                 LOG.error(excepcion);
             }
             cerrarVentana();
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-             salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
     
@@ -486,6 +475,27 @@ public class Ventana_RegistroDeProfesorControlador implements Initializable {
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
      
     public void salirAlInicioDeSesion(){

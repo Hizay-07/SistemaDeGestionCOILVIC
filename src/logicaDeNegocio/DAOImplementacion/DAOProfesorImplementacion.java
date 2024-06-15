@@ -202,6 +202,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            profesor.setNombre("Excepcion");
         }
         return profesor;        
     }    
@@ -257,7 +258,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
-            profesor = null;
+            profesor.setNombre("Excepcion");
         }
         return profesor; 
    }

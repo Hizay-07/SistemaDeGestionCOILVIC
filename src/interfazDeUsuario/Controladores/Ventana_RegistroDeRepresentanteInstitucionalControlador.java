@@ -82,7 +82,6 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
             Alertas.mostrarMensajeErrorEnLaConexion();
             regresarMenuPrincipal();
         }
-        
     }
     
     private void cerrarVentana(){
@@ -100,7 +99,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         return resultado;
     }
     
-    private boolean validarSeleccion(Supplier<String> selector,Label errorLabel){
+    private boolean validarSeleccion(Supplier<String> selector,Label lbl_Error){
         boolean resultado = true;
         try{
             String seleccion = selector.get();
@@ -109,20 +108,20 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
             }
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
     }
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -142,8 +141,7 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
     
     public void registrarRepresentanteInstitucional(){
         ocultarLabelErrores();
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             if(validarDatosRepresentanteInstitucional()){
                 RepresentanteInstitucional representanteInstitucional=obtenerRepresentanteInstitucional();
                 String nombreInstitucion = representanteInstitucional.getNombreInstitucion().toLowerCase().trim().replaceAll("\\s+", "");
@@ -174,11 +172,8 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
             }else{
                 Alertas.mostrarMensajeDatosInvalidos();
             }        
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
     
@@ -194,9 +189,29 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
         return resultado;
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     public void desplegarVentana(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -208,11 +223,8 @@ public class Ventana_RegistroDeRepresentanteInstitucionalControlador implements 
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

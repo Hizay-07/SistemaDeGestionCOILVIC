@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 import java.sql.Types;
-import java.util.Objects;
 import logicaDeNegocio.clases.Profesor;
 import org.apache.log4j.Logger;
 

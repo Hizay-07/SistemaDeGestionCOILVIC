@@ -52,8 +52,7 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
     }
     
     public void salirDeLaVentana(){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
@@ -67,11 +66,8 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }            
     }
     
@@ -124,19 +120,23 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
     private PropuestaColaboracion obtenerPropuesta(){
         DAOEmisionPropuestaImplementacion daoEmisionPropuesta=new DAOEmisionPropuestaImplementacion();
         ProfesorSingleton profesorSingleton = ProfesorSingleton.getInstancia();
+        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
         Profesor profesor=new Profesor();
         profesor.setIdProfesor(profesorSingleton.getIdProfesor());
         List<Integer> idPropuestas=daoEmisionPropuesta.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
-        DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
-        PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();
-        int indice=0;
-        while(indice<idPropuestas.size()){
-            propuestaColaboracion=daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(idPropuestas.get(indice));
-            if(propuestaColaboracion.getEstadoPropuesta().equals(EnumPropuestaColaboracion.Aprobada.toString())){
-                indice=idPropuestas.size();
+        if(idPropuestas.get(0)!=-1){
+            DAOPropuestaColaboracionImplementacion daoPropuestaColaboracion=new DAOPropuestaColaboracionImplementacion();
+            int indice=0;
+            while(indice<idPropuestas.size()){
+                propuestaColaboracion=daoPropuestaColaboracion.obtenerPropuestaDeColaboracionPorId(idPropuestas.get(indice));
+                if(propuestaColaboracion.getEstadoPropuesta().equals(EnumPropuestaColaboracion.Aprobada.toString())){
+                    indice=idPropuestas.size();
+                }
+                indice++;
             }
-            indice++;
-        }        
+        }else{
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
+        }
         return propuestaColaboracion;                        
     }
     
@@ -157,10 +157,10 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
     }
     
     public void registrarColaboracion(){      
-        Colaboracion colaboracion=obtenerColaboracion();        
-        if(colaboracion!=null){
+        Colaboracion colaboracion=obtenerColaboracion();  
+        if(obtenerResultadoValidacionConexion()){
+            if(!colaboracion.getPropuestaColaboracion().getEstadoPropuesta().equals("Excepcion")){
             int resultadoValidacionConexion = validarConexionEstable();
-            if(resultadoValidacionConexion==1){
                 DAOColaboracionImplementacion daoColaboracion=new DAOColaboracionImplementacion();
                 if(daoColaboracion.registrarColaboracion(colaboracion)==1){
                     int idPropuestaColaboracion=colaboracion.getPropuestaColaboracion().getIdPropuestaColaboracion();
@@ -175,14 +175,14 @@ public class Ventana_IniciarColaboracionControlador implements Initializable {
                     salirDeLaVentana();
                 }else{
                     Alertas.mostrarMensajeErrorEnLaConexion();                
-                }    
-            }else if(resultadoValidacionConexion == 0){
-                Alertas.mostrarMensajeUsuarioNoEncontrado();
-            }else if(resultadoValidacionConexion == -1){
+                }  
+            }else{
                 Alertas.mostrarMensajeErrorEnLaConexion();
                 salirAlInicioDeSesion();
-            } 
-        }                                
+            }
+        }else{
+            salirAlInicioDeSesion();
+        }                               
     }
     
 

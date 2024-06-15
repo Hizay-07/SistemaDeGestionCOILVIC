@@ -70,6 +70,9 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            ProfesorExterno profesorExterno = new ProfesorExterno();
+            profesorExterno.setNombre("Excepcion");
+            profesoresExternos.add(0,profesorExterno);
         }
         return profesoresExternos;
     }
@@ -105,6 +108,9 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            ProfesorExterno profesorExterno = new ProfesorExterno();
+            profesorExterno.setNombre("Excepcion");
+            profesoresExternos.add(0,profesorExterno);
         }
         return profesoresExternos;
     }

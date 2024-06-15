@@ -345,14 +345,14 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         return resultado;
     }
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -482,8 +482,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     }
     
     public void regresarDeVentana(){
-        int resultadoValidacion = validarConexionEstable();
-        if(resultadoValidacion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML="/interfazDeUsuario/Ventana_Profesores.fxml";
             try{
                 Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -496,9 +495,6 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacion==-1){
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
         }else{
             Alertas.mostrarMensajeUsuarioNoEncontrado();
         }

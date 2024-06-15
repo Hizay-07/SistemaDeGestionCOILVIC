@@ -82,8 +82,15 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
             return new SimpleStringProperty(valorInstitucion);
         });
         List<PropuestaColaboracion> propuestas=obtenerPropuestasDeColaboracion();
-        tableView_OfertaDeColaboracion.getItems().addAll(propuestas);                                        
-        agregarBoton();
+        if(propuestas.isEmpty()){
+            Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado propuestas de colaboracion registradas");
+        }else if(propuestas.get(0).getEstadoPropuesta().equals("Excepcion")){
+            Alertas.mostrarMensajeErrorEnLaConexion();
+            salirAlInicioDeSesion();
+        }else{
+            tableView_OfertaDeColaboracion.getItems().addAll(propuestas);                                        
+            agregarBoton();
+        }
     }                  
        
     private List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
@@ -100,28 +107,32 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
     }     
     
     private void agregarBoton() {        
-        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> cellFactory = (final TableColumn<PropuestaColaboracion, Void> param) -> {
-            final TableCell<PropuestaColaboracion, Void> cell = new TableCell<PropuestaColaboracion, Void>() {                
-                private final Button btn_EnviarPeticion = new Button();                                
-                {
+        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> fabricaCeldas = (final TableColumn<PropuestaColaboracion, Void> param) -> {
+            final TableCell<PropuestaColaboracion, Void> celda = new TableCell<PropuestaColaboracion, Void>() {                
+                private final Button btn_EnviarPeticion = new Button();{
                     btn_EnviarPeticion.setText("Enviar peticion de colaboracion");
                     btn_EnviarPeticion.setOnAction((ActionEvent event) -> {
-                        PropuestaColaboracion propuestaColaboracion = getTableView().getItems().get(getIndex());
-                        int idPropuestaColaboracion=propuestaColaboracion.getIdPropuestaColaboracion();                        
-                        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-                        int idProfesor=profesor.getIdProfesor();
-                        PeticionColaboracion peticionColaboracion=new PeticionColaboracion();                        
-                        peticionColaboracion.setEstado(EnumPeticionColaboracion.Registrada.toString());
-                        peticionColaboracion.setIdPropuestaColaboracion(idPropuestaColaboracion);
-                        peticionColaboracion.setIdProfesor(idProfesor);
-                        peticionColaboracion.setFechaEnvio(obtenerFechaActual());
-                        DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
-                        daoPeticionColaboracion.registrarPeticionColaboracion(peticionColaboracion);                        
-                        DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
-                        daoProfesor.cambiarEstadoProfesor(idProfesor,   EnumProfesor.Esperando.toString());
-                        column_Opcion.setVisible(false);
-                        Alertas.mostrarPeticionColaboracionRegistrada();
-                        salirDeLaVentana();
+                        if(obtenerResultadoValidacionConexion()){
+                            PropuestaColaboracion propuestaColaboracion = getTableView().getItems().get(getIndex());
+                            int idPropuestaColaboracion=propuestaColaboracion.getIdPropuestaColaboracion();                        
+                            ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+                            int idProfesor=profesor.getIdProfesor();
+                            PeticionColaboracion peticionColaboracion=new PeticionColaboracion();                        
+                            peticionColaboracion.setEstado(EnumPeticionColaboracion.Registrada.toString());
+                            peticionColaboracion.setIdPropuestaColaboracion(idPropuestaColaboracion);
+                            peticionColaboracion.setIdProfesor(idProfesor);
+                            peticionColaboracion.setFechaEnvio(obtenerFechaActual());
+                            DAOPeticionColaboracionImplementacion daoPeticionColaboracion=new DAOPeticionColaboracionImplementacion();
+                            daoPeticionColaboracion.registrarPeticionColaboracion(peticionColaboracion);                        
+                            DAOProfesorImplementacion daoProfesor=new DAOProfesorImplementacion();
+                            daoProfesor.cambiarEstadoProfesor(idProfesor,   EnumProfesor.Esperando.toString());
+                            column_Opcion.setVisible(false);
+                            Alertas.mostrarPeticionColaboracionRegistrada();
+                            salirDeLaVentana();
+                        }else{
+                            Alertas.mostrarMensajeErrorEnLaConexion();
+                            salirAlInicioDeSesion();
+                        }
                     });
                 }                
                 @Override
@@ -134,9 +145,9 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
                     }
                 }
             };
-            return cell;
+            return celda;
         };
-        column_Opcion.setCellFactory(cellFactory);       
+        column_Opcion.setCellFactory(fabricaCeldas);       
     }
     
     private String obtenerValorInstitucion(PropuestaColaboracion propuesta){
@@ -159,8 +170,7 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
     }
     
     public void salirDeLaVentana(){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
@@ -174,11 +184,8 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }                       
     }
     
@@ -187,6 +194,27 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
      
     public void salirAlInicioDeSesion(){

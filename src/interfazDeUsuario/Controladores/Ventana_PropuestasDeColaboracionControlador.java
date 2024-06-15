@@ -79,8 +79,15 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         });
         
         List<PropuestaColaboracion> propuestas=obtenerPropuestasDeColaboracion();
-        tableView_PropuestasDeColaboracion.getItems().addAll(propuestas);                                        
-        agregarBoton();
+        if(propuestas.isEmpty()){
+            Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado propuestas de colaboración registradas");
+        }else if(propuestas.get(0).getEstadoPropuesta().equals("Excepcion")){
+            Alertas.mostrarMensajeErrorEnLaConexion();
+            salirAlInicioDeSesion();
+        }else{
+            tableView_PropuestasDeColaboracion.getItems().addAll(propuestas);                                        
+            agregarBoton();
+        }
     }   
     
     private List<PropuestaColaboracion> obtenerPropuestasDeColaboracion(){
@@ -114,8 +121,8 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
     }
     
     private void agregarBoton() {        
-        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> cellFactory = (final TableColumn<PropuestaColaboracion, Void> param) -> {
-            final TableCell<PropuestaColaboracion, Void> cell = new TableCell<PropuestaColaboracion, Void>() {                
+        Callback<TableColumn<PropuestaColaboracion, Void>, TableCell<PropuestaColaboracion, Void>> fabricaCeldas = (final TableColumn<PropuestaColaboracion, Void> param) -> {
+            final TableCell<PropuestaColaboracion, Void> celda = new TableCell<PropuestaColaboracion, Void>() {                
                 private final Button btn_EvaluarPropuestaColaboracion = new Button();                                
                 {
                     btn_EvaluarPropuestaColaboracion.setText("Evaluar propuesta de colaboracion");
@@ -135,14 +142,13 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
                     }
                 }
             };
-            return cell;
+            return celda;
         };
-        column_Opcion.setCellFactory(cellFactory);       
+        column_Opcion.setCellFactory(fabricaCeldas);       
     }
     
     public void salirDeLaVentana(){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuAdministrador.fxml";
@@ -156,11 +162,8 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }                       
     }
     
@@ -188,14 +191,34 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
         }
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     private void cerrarVentana(){
         stage_ventana=(Stage) vb_PropuestasDeColaboracion.getScene().getWindow();
         stage_ventana.close();
     }
     
     private void desplegarVentanaEvaluacionDePropuesta(int idPropuestaColaboracion){   
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/interfazDeUsuario/Ventana_EvaluacionDePropuesta.fxml"));
             Parent root = loader.load();
@@ -210,11 +233,8 @@ public class Ventana_PropuestasDeColaboracionControlador implements Initializabl
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }   
     }
     

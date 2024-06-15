@@ -127,8 +127,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setProfesor(profesor);                
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.warn(excepcion);
+            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
+            propuestasColaboracion.add(0,propuestaColaboracion);
         }
         return propuestasColaboracion;        
     }
@@ -167,7 +170,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
-            propuestaColaboracion = null;
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
         }
         return propuestaColaboracion;
     }
@@ -212,7 +215,9 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion);
-            return new ArrayList<>();
+            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
+            propuestasColaboracion.add(0,propuestaColaboracion);
         }
         return propuestasColaboracion;                
     }
@@ -282,6 +287,9 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
+            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
+            propuestasColaboracion.add(0,propuestaColaboracion);
         }
         return propuestasColaboracion; 
     }
