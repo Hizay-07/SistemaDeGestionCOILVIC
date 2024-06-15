@@ -61,6 +61,9 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+             EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
+             emisionPropuesta.setIdProfesor(0);
+             emisionesPropuesta.add(0,emisionPropuesta);
         }
         return emisionesPropuesta;        
     }
@@ -117,7 +120,8 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             }
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
-            LOG.error(excepcion.getMessage());            
+            LOG.error(excepcion.getMessage());   
+            idPropuestas.add(0,-1);
         }
         return idPropuestas;
     }

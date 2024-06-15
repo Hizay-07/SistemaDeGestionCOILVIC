@@ -63,7 +63,12 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
     private void mostrarDatosRepresentantesInstitucionales(){
         try{
             List<RepresentanteInstitucional> representantes = obtenerRepresentantesInstitucionales();
-            if(!representantes.isEmpty()){
+            if(representantes.isEmpty()){
+                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado Representantes Institucionales registrados");
+            }else if(representantes.get(0).getNombreInstitucion().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            }else{
                 tableView_RepresentanteInstitucional.getItems().addAll(representantes);
                 column_Nombre.setCellValueFactory(new PropertyValueFactory<>("nombreInstitucion"));
                 column_ClaveInstitucional.setCellValueFactory(new PropertyValueFactory<>("claveInstitucional"));
@@ -75,8 +80,6 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
                     }
                     return property;
                 });
-            }else{
-                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado Representantes Institucionales registrados");
             }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
@@ -86,7 +89,7 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
     
     private void asignarBotonesDeModificarRepresentante(){
         Callback<TableColumn<RepresentanteInstitucional, Void>, TableCell<RepresentanteInstitucional, Void>> frabricaDeCelda = (final TableColumn<RepresentanteInstitucional, Void> param) -> {
-                final TableCell<RepresentanteInstitucional, Void> cell = new TableCell<RepresentanteInstitucional, Void>() {                
+                final TableCell<RepresentanteInstitucional, Void> celda = new TableCell<RepresentanteInstitucional, Void>() {                
                     private final Button btn_Modificar = new Button();{
                         btn_Modificar.setText("Actualizar");
                         btn_Modificar.setOnAction((ActionEvent event) -> {
@@ -106,7 +109,7 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
             column_Actualizar.setCellFactory(frabricaDeCelda);
     }
@@ -128,9 +131,29 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
         return resultado;
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -142,11 +165,8 @@ public class Ventana_RepresentantesInstitucionalesControlador implements Initial
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

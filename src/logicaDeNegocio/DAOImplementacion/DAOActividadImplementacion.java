@@ -117,6 +117,9 @@ public class DAOActividadImplementacion implements ActividadInterface {
             }
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
+            Actividad excepcionEnConsulta = new Actividad();
+            excepcionEnConsulta.setNombre("Excepcion");
+            actividades.add(0,excepcionEnConsulta);
         }      
         return actividades;
     }
@@ -153,7 +156,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     **/
     @Override
     public boolean validarInexistenciaDeActividad(Actividad actividad) {
-        boolean resultadoValidacion;       
+        boolean resultadoValidacion=true;       
         try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
             PreparedStatement sentencia = conexion.prepareStatement("SELECT COUNT(*) FROM actividad WHERE idColaboracion = ? AND (numeroDeActividad = ? OR nombre = ?)")){
             sentencia.setInt(1, actividad.getIdColaboracion());
@@ -171,7 +174,6 @@ public class DAOActividadImplementacion implements ActividadInterface {
             }    
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
-            resultadoValidacion = false;
         }
         return resultadoValidacion;
     }

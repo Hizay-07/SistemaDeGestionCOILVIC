@@ -76,6 +76,9 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             }                    
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            ProfesorUV profesorUV=new ProfesorUV();
+            profesorUV.setCategoriaDeContratacion("Excepcion");
+            profesoresUV.add(0,profesorUV);
         }
         return profesoresUV;
     }
@@ -212,12 +215,10 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
                     profesorObtenido.setIdAreaAcademica(resultado.getInt("idAreaAcademica"));
                     profesorObtenido.setIdRegion(resultado.getInt("idRegionAcademica"));
                 }
-            }else{
-                profesorObtenido = null;
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
-            profesorObtenido = null;
+            profesorObtenido.setCategoriaDeContratacion("Excepcion");
         }
         return profesorObtenido;
     }

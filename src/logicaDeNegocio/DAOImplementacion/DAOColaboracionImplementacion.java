@@ -67,6 +67,9 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            Colaboracion colaboracion=new Colaboracion();
+            colaboracion.setEstadoColaboracion("Excepcion");
+            colaboraciones.add(0,colaboracion);
         }
         return colaboraciones;
     }
@@ -101,6 +104,9 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            Colaboracion colaboracion=new Colaboracion();
+            colaboracion.setEstadoColaboracion("Excepcion");
+            colaboraciones.add(colaboracion);
         }
         return colaboraciones;
     }

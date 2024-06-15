@@ -71,7 +71,15 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         try{
             List<Actividad> actividadesDeColaboracion = obtenerActividades();
             tableView_Actividades.getItems().addAll(actividadesDeColaboracion);
+            if(actividadesDeColaboracion.isEmpty()){
+                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado actividades registradas");
+            }else if(actividadesDeColaboracion.get(0).getNombre().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }else{
+                tableView_Actividades.getItems().addAll(actividadesDeColaboracion);
+            }  
         }catch(IllegalArgumentException excepcion){
+            LOG.info(excepcion);
             Alertas.mostrarMensajeErrorAlObtenerDatos();
         }
         btn_Regresar.setOnAction(Event ->{
@@ -104,9 +112,30 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         return resultado;
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     private void asignarBotonEvidencias(){
         Callback<TableColumn<Actividad, Void>, TableCell<Actividad, Void>> fabricaDeCelda = (final TableColumn<Actividad, Void> param) -> {
-            final TableCell<Actividad, Void> cell = new TableCell<Actividad, Void>() {
+            final TableCell<Actividad, Void> celda = new TableCell<Actividad, Void>() {
                 private final Button btn_Evidencias = new Button();{
                     btn_Evidencias.setText("Evidencias");
                     btn_Evidencias.setOnAction((ActionEvent event) -> {
@@ -126,14 +155,13 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
                     }
                 }
             };
-            return cell;
+            return celda;
         };
         column_Evidencias.setCellFactory(fabricaDeCelda);
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -145,11 +173,8 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

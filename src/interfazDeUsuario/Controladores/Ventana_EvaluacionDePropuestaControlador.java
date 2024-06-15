@@ -105,20 +105,20 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
         resultado &= validarSeleccion(()->(String) cmb_EvaluarPropuesta.getSelectionModel().getSelectedItem(),lbl_ErrorEvaluacionPropuesta);
         return resultado; 
     }    
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
     }
     
-    private boolean validarSeleccion(Supplier<String> selector,Label errorLabel){
+    private boolean validarSeleccion(Supplier<String> selector,Label lbl_Error){
         boolean resultado = true;
         try{
             String seleccion = selector.get();
@@ -127,7 +127,7 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
             }
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -163,8 +163,7 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
     }
     
     public void salirDeLaVentana(){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_PropuestasDeColaboracion.fxml";
@@ -178,11 +177,8 @@ public class Ventana_EvaluacionDePropuestaControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }    
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }             
     }
     

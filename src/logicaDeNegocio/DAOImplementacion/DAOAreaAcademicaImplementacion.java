@@ -38,6 +38,9 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
             conexion.close();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            AreaAcademica areaAcademica=new AreaAcademica();
+            areaAcademica.setArea("Excepcion generada");
+            areasAcademicas.add(0,areaAcademica);
         }
         return areasAcademicas;
     }

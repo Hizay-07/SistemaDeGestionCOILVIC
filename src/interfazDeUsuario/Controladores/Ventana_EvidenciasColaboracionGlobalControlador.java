@@ -59,7 +59,14 @@ public class Ventana_EvidenciasColaboracionGlobalControlador implements Initiali
         column_NombreEvidencia.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         try{
             List<Evidencia> evidenciasObtenidas = obtenerEvidenciasDeActividad();
-            tableView_TablaEvidencias.getItems().addAll(evidenciasObtenidas);
+            if(evidenciasObtenidas.isEmpty()){
+                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado evidencias registradas");
+            }else if(evidenciasObtenidas.get(0).getNombre().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            }else{
+                tableView_TablaEvidencias.getItems().addAll(evidenciasObtenidas);
+            }
         }catch(IllegalArgumentException excepcion){
             Alertas.mostrarMensajeErrorAlObtenerDatos();
         }
@@ -87,7 +94,7 @@ public class Ventana_EvidenciasColaboracionGlobalControlador implements Initiali
     
      private void asignarBotonDeVisualizar(){
          Callback<TableColumn<Evidencia, Void>, TableCell<Evidencia, Void>> frabricaDeCelda = (final TableColumn<Evidencia, Void> param) -> {
-            final TableCell<Evidencia, Void> cell = new TableCell<Evidencia, Void>() {
+            final TableCell<Evidencia, Void> celda = new TableCell<Evidencia, Void>() {
                 private final Button btn_VisualizarEvidencia = new Button();{
                     btn_VisualizarEvidencia.setText("Visualizar");
                     btn_VisualizarEvidencia.setOnAction((ActionEvent event) -> {
@@ -115,7 +122,7 @@ public class Ventana_EvidenciasColaboracionGlobalControlador implements Initiali
                     }
                 }
             };
-            return cell;
+            return celda;
         };
         column_VisualizarEvidencia.setCellFactory(frabricaDeCelda);
     }
@@ -138,8 +145,7 @@ public class Ventana_EvidenciasColaboracionGlobalControlador implements Initiali
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -151,12 +157,30 @@ public class Ventana_EvidenciasColaboracionGlobalControlador implements Initiali
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
      
     public void salirAlInicioDeSesion(){

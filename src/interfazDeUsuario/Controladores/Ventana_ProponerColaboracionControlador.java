@@ -85,7 +85,8 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         btn_Cancelar.setOnAction(event -> {
             salirDeLaVentana();
         });
-        cargarIdiomas();        
+        cargarIdiomas(); 
+        limitarTextFields();
     }
     
     private void limitarTextFields(){
@@ -124,8 +125,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     
     public void registrarPropuestaColaboracion(){
         ocultarLabellErrores();
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             if(validarDatosEvaluacion()){
                 LocalDate fechaInicio=dtp_FechaInicio.getValue();
                 LocalDate fechaCierre=dtp_FechaCierre.getValue();
@@ -159,11 +159,8 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
             }else{
                 Alertas.mostrarMensajeDatosInvalidos(); 
             }                        
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }           
     }
     
@@ -179,14 +176,14 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
         resultado &= validarAuxiliar(()->propuestaColaboracion.setFechaCierre(dtp_FechaCierre.getValue().toString()),lbl_ErrorFechaCierre);
         return resultado; 
     }    
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -265,8 +262,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
     }
     
     public void salirDeLaVentana(){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML = null;
             try{
                 rutaVentanaFXML = "/interfazDeUsuario/Ventana_MenuPrincipalProfesor.fxml";
@@ -280,10 +276,7 @@ public class Ventana_ProponerColaboracionControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
+        }else{
               salirAlInicioDeSesion();
         }                        
     }

@@ -101,7 +101,12 @@ public class Ventana_ProfesoresControlador implements Initializable {
         tableView_Profesores.getItems().clear();
         try{
             List<ProfesorUV> profesoresUV = obtenerProfesoresUV();
-            if(!profesoresUV.isEmpty()){
+            if(profesoresUV.isEmpty()){
+                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado profesores UV registrados");
+            }else if(profesoresUV.get(0).getTipoDeContratacion().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            }else{
                 tableView_Profesores.getItems().addAll(profesoresUV);
                 column_Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
                 column_ApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
@@ -113,8 +118,6 @@ public class Ventana_ProfesoresControlador implements Initializable {
                     String valorInstitucion = obtenerValorInstitucion(profesor);
                     return new SimpleStringProperty(valorInstitucion);
                 });
-            }else{
-                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado profesores UV registrados");
             }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
@@ -126,7 +129,12 @@ public class Ventana_ProfesoresControlador implements Initializable {
         tableView_Profesores.getItems().clear();
         try{
             List<ProfesorExterno> profesoresExternos = obtenerProfesoresExternos();
-            if(!profesoresExternos.isEmpty()){
+            if(profesoresExternos.isEmpty()){
+                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado profesores UV registrados");
+            }else if(profesoresExternos.get(0).getNombre().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            }else{
                 tableView_Profesores.getItems().addAll(profesoresExternos);
                 column_Nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
                 column_ApellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
@@ -138,8 +146,6 @@ public class Ventana_ProfesoresControlador implements Initializable {
                     String valorInstitucion = obtenerValorInstitucion(profesor);
                     return new SimpleStringProperty(valorInstitucion);
                 });
-            }else{
-                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado profesores UV registrados");
             }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
@@ -175,7 +181,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
     
     private void asignarBotonesDeModificarPerfil(){
         Callback<TableColumn<Profesor, Void>, TableCell<Profesor, Void>> frabricaDeCelda = (final TableColumn<Profesor, Void> param) -> {
-                final TableCell<Profesor, Void> cell = new TableCell<Profesor, Void>() {                
+                final TableCell<Profesor, Void> celda = new TableCell<Profesor, Void>() {                
                     private final Button btn_Modificar = new Button();{
                         btn_Modificar.setText("Actualizar");
                         btn_Modificar.setOnAction((ActionEvent event) -> {
@@ -195,19 +201,21 @@ public class Ventana_ProfesoresControlador implements Initializable {
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
         column_Modificar.setCellFactory(frabricaDeCelda);
     }
     
     private void asignarBotonDeReenvioDeCredenciales(){
         Callback<TableColumn<Profesor, Void>, TableCell<Profesor, Void>> frabricaDeCelda = (final TableColumn<Profesor, Void> param) -> {
-                final TableCell<Profesor, Void> cell = new TableCell<Profesor, Void>() {                
+                final TableCell<Profesor, Void> celda = new TableCell<Profesor, Void>() {                
                     private final Button btn_Credenciales = new Button();{
                         btn_Credenciales.setText("Reenviar");
                         btn_Credenciales.setOnAction((ActionEvent event) -> {
-                            Profesor profesorSeleccionado = getTableView().getItems().get(getIndex());
-                            reenviarCredencialesProfesor(profesorSeleccionado);
+                            if(obtenerResultadoValidacionConexion()){
+                                Profesor profesorSeleccionado = getTableView().getItems().get(getIndex());
+                                reenviarCredencialesProfesor(profesorSeleccionado);
+                            }
                         });
                     }                
                     @Override
@@ -220,7 +228,7 @@ public class Ventana_ProfesoresControlador implements Initializable {
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
         column_Credenciales.setCellFactory(frabricaDeCelda);
     }
@@ -275,9 +283,30 @@ public class Ventana_ProfesoresControlador implements Initializable {
         return resultado;
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     public void desplegarVentanaCorrespondiente(String rutaFxml){
         int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -289,11 +318,8 @@ public class Ventana_ProfesoresControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

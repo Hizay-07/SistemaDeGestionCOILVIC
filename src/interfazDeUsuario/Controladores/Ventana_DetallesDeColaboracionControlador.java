@@ -133,8 +133,10 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         colaboracionActual.setCantidadEstudiantes(colaboracion.getCantidadEstudiantes());
         List<Actividad> actividades = obtenerActividadesColaboracion(colaboracionActual);
         List<Profesor> profesores = obtenerProfesoresColaboracion(colaboracionActual);
-        InformeImplementacion creacionDeInforme = new InformeImplementacion();
-        informeGenerado = creacionDeInforme.crearInformeDeColaboracion(colaboracionActual, actividades, profesores);
+        if(!actividades.get(0).getNombre().equals("Excepcion")&&!profesores.get(0).getNombre().equals("Excepcion")){
+            InformeImplementacion creacionDeInforme = new InformeImplementacion();
+            informeGenerado = creacionDeInforme.crearInformeDeColaboracion(colaboracionActual, actividades, profesores);
+        }
         return informeGenerado;
     }
     
@@ -160,9 +162,8 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     
     public void generarInforme(){
         InformeImplementacion implementacionInforme = new InformeImplementacion(); 
-        int resultadoValidacionConexion = validarConexionEstable();
         if (!implementacionInforme.validarExistenciaDeInforme(ColaboracionAuxiliar.getInstancia().getIdColaboracion())) {
-            if (resultadoValidacionConexion == 1) {
+            if (obtenerResultadoValidacionConexion()) {
                 Document informeGenerado = obtenerInformeDeColaboracion();
                 if (Objects.nonNull(informeGenerado)) {
                     boolean resultadoAlerta = Alertas.mostrarMensajeDescargaDeArchivo();
@@ -172,10 +173,7 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
                 } else {
                     Alertas.mostrarErrorEnLaCreacionDeInforme();
                 }
-            } else if (resultadoValidacionConexion == 0) {
-                Alertas.mostrarMensajeUsuarioNoEncontrado();
-            } else if (resultadoValidacionConexion == -1) {
-                Alertas.mostrarMensajeErrorEnLaConexion();
+            }else{
                 salirAlInicioDeSesion();
             }
         } else {
@@ -202,8 +200,7 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     }
     
     private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
@@ -215,11 +212,8 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }  
     }
     
@@ -228,6 +222,27 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
      
     public void salirAlInicioDeSesion(){

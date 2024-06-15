@@ -82,8 +82,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     
     public void mostrarConsultaSeleccionada(){
         String seleccion = (String) cmb_TipoDeColaboracion.getSelectionModel().getSelectedItem();
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
              switch(seleccion){
             case "Activa":
                 mostrarColaboraciones("Activa");
@@ -99,11 +98,8 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                 Alertas.mostrarMensajeDatosInvalidos();
                 break;
             }        
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
     
@@ -137,8 +133,11 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                 case "Cerrada" -> colaboracionesObtenidas = obtenerColaboracionesCerradas();
                 case "Finalizada" -> colaboracionesObtenidas = obtenerColaboracionesFinalizadas();
             }
-            
-            if(!colaboracionesObtenidas.isEmpty()){
+            if(colaboracionesObtenidas.isEmpty()){
+                Alertas.mostrarMensajeColaboracionActiva("No se han encontrado colaboraciones "+tipoDeColaboracion);
+            }else if(colaboracionesObtenidas.get(0).getEstadoColaboracion().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorAlObtenerDatos();
+            }else{
                 tableView_Colaboraciones.getItems().addAll(colaboracionesObtenidas);
                 column_IdColaboracion.setCellValueFactory(new PropertyValueFactory<>("idColaboracion"));
                 column_Estado.setCellValueFactory(new PropertyValueFactory<>("estadoColaboracion"));
@@ -155,8 +154,6 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                     return new SimpleStringProperty(colaboracion.getPropuestaColaboracion().getFechaCierre());
                 });
                 asignarBotonesDeVisualizarDetalles();
-            }else{
-                Alertas.mostrarMensajeColaboracionActiva("No se han encontrado colaboraciones "+tipoDeColaboracion);
             }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
@@ -166,7 +163,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     
     private void asignarBotonesDarDeBajaColaboracion(){
         Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
-                final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
+                final TableCell<Colaboracion, Void> celda = new TableCell<Colaboracion, Void>() {                
                     private final Button btn_DarDeBajaColaboracion = new Button();{
                         btn_DarDeBajaColaboracion.setText("Dar de baja");
                         btn_DarDeBajaColaboracion.setOnAction((ActionEvent event) -> {
@@ -184,7 +181,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
         column_DarDeBajaColaboracion.setCellFactory(frabricaDeCelda);
     }
@@ -209,7 +206,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     
     private void asignarBotonesDeVisualizarDetalles(){
         Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
-                final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
+                final TableCell<Colaboracion, Void> celda = new TableCell<Colaboracion, Void>() {                
                     private final Button btn_VisualizarDetalles = new Button();{
                         btn_VisualizarDetalles.setText("Visualizar");
                         btn_VisualizarDetalles.setOnAction((ActionEvent event) -> {
@@ -229,7 +226,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
         column_Visualizar.setCellFactory(frabricaDeCelda);
     }
@@ -257,9 +254,29 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         return resultado;
     }
     
+     public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -271,11 +288,8 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      
