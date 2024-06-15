@@ -37,6 +37,10 @@ public class PruebaDAOProfesorUVImplementacion {
         DAOProfesorUVImplementacion dao=new DAOProfesorUVImplementacion(); 
         ProfesorUV profesorUV=new ProfesorUV();
         profesorUV.setNumeroDePersonal("1234");
+        profesorUV.setCategoriaDeContratacion("Docente");
+        profesorUV.setTipoDeContratacion("Planta");        
+        profesorUV.setIdRegion(1);       
+        profesorUV.setIdAreaAcademica(1);
         List<ProfesorUV> profesoresEsperados=new ArrayList<>();
         profesoresEsperados.add(profesorUV);        
         List<ProfesorUV> profesoresObtenidos = dao.consultarProfesoresUV();        

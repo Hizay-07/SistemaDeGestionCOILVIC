@@ -9,8 +9,8 @@ import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 import org.junit.BeforeClass;
 
 public class PruebaDAOProfesorImplementacion {
@@ -18,7 +18,7 @@ public class PruebaDAOProfesorImplementacion {
     @BeforeClass
     public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
+        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
         usuarioPrueba.setTipoDeUsuario("Administrativo");
         UsuarioSingleton.getInstancia(usuarioPrueba);
@@ -46,6 +46,34 @@ public class PruebaDAOProfesorImplementacion {
         int idProfesor = dao.obtenerIdProfesorPorCorreo(correo);
         assertEquals(0, idProfesor);
     }        
+    
+    @Test
+    public void pruebaConsultarProfesorPorIdExitosa(){
+        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
+        Profesor profesorObtenido = dao.consultarProfesorPorId(1);
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setNombre("Jose");
+        profesorEsperado.setApellidoPaterno("Morelos");
+        profesorEsperado.setApellidoMaterno("Pavón");
+        profesorEsperado.setCorreo("profesorpruebauno@gmail.com"); 
+        profesorEsperado.setEstado("Activo");
+        profesorEsperado.setIdProfesor(1);
+        assertEquals(profesorEsperado,profesorObtenido);
+    }
+    
+    @Test
+    public void pruebaConsultarProfesorPorIdFallida(){
+        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
+        Profesor profesorObtenido = dao.consultarProfesorPorId(5);
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setNombre("Jose");
+        profesorEsperado.setApellidoPaterno("Morelos");
+        profesorEsperado.setApellidoMaterno("Pavón");
+        profesorEsperado.setCorreo("profesorpruebauno@gmail.com"); 
+        profesorEsperado.setEstado("Activo");
+        profesorEsperado.setIdProfesor(1);
+        assertNotEquals(profesorEsperado,profesorObtenido);
+    }
     
     @Test
     public void pruebaAsignarUsuarioDeProfesorPorCorreoExitosa() {
@@ -77,8 +105,11 @@ public class PruebaDAOProfesorImplementacion {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         int idUsuario = 999; 
         Usuario logger = new Usuario(); 
+        logger.setTipoDeUsuario("Logger");
         Profesor profesor = dao.obtenerProfesorPorIdUsuario(idUsuario, logger);
-        assertNull(profesor);
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setNombre("Sin coincidencias");
+        assertEquals(profesorEsperado.getNombre(),profesor.getNombre());
     }        
 
     @Test

@@ -35,7 +35,9 @@ public class PruebaDAOEvidenciaImplementacionSinConexionExitosa {
         int idActividad = 1; 
         DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
         List<Evidencia> evidencias = dao.obtenerEvidenciasDeActividad(idActividad);
-        assertEquals(new ArrayList(), evidencias);
+        Evidencia evidenciaEsperada = new Evidencia();
+        evidenciaEsperada.setNombre("Excepcion");
+        assertEquals(evidenciaEsperada.getNombre(), evidencias.get(0).getNombre());
     }
     
     @Test

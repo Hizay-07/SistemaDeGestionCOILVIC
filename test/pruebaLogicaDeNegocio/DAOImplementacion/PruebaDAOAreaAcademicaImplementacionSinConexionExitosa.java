@@ -11,9 +11,11 @@ public class PruebaDAOAreaAcademicaImplementacionSinConexionExitosa {
     
     @Test
     public void pruebaConsultarAreasAcademicasSinConexionExitosa(){
-        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();                                        
+        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
+        AreaAcademica areaAcademicaEsperada = new AreaAcademica();
+        areaAcademicaEsperada.setArea("Excepcion generada");
         List<AreaAcademica> areasAcademicasObtenidas = dao.consultarAreasAcademicas();
-        assertTrue(areasAcademicasObtenidas.isEmpty());        
+        assertEquals(areaAcademicaEsperada.getArea(),areasAcademicasObtenidas.get(0).getArea());        
     }
     
     @Test

@@ -25,7 +25,9 @@ public class PruebaDAOEmisionPropuestaImplementacionSinConexionExitosa {
     public void pruebaConsultarEmisionesDePropuestasSinConexionExitosa(){
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
         List<EmisionPropuesta> resultadoObtenido = dao.consultarEmisionesDePropuestas();
-        assertTrue(resultadoObtenido.isEmpty());
+        EmisionPropuesta emisionEsperada = new EmisionPropuesta();
+        emisionEsperada.setIdProfesor(0);
+        assertEquals(emisionEsperada.getIdProfesor(),resultadoObtenido.get(0).getIdProfesor());
     }
     
     @Test 
@@ -42,6 +44,7 @@ public class PruebaDAOEmisionPropuestaImplementacionSinConexionExitosa {
         profesor.setIdProfesor(1);
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
         List<Integer> resultadoObtenido = dao.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
-        assertTrue(resultadoObtenido.isEmpty());
+        Integer resultadoEsperado = -1;
+        assertEquals(resultadoEsperado,resultadoObtenido.get(0));
     }        
 }

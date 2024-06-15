@@ -65,6 +65,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            tipo = "Excepcion";
         }
         return tipo;        
     }

@@ -23,11 +23,13 @@ public class PruebaDAORepresentanteInstitucionalImplementacionSinConexionExitosa
         assertEquals(-1,resultadoDePrueba);        
     }
     
-        @Test
+    @Test
     public void pruebaObtenerRepresentanteInstitucionalSinConexionExitosa(){
         DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();
         List<RepresentanteInstitucional> representantesObtenidos = dao.obtenerRepresentantesInstitucionales();
-        assertTrue(representantesObtenidos.isEmpty());        
+        RepresentanteInstitucional representanteEsperado = new RepresentanteInstitucional();
+        representanteEsperado.setNombreInstitucion("Excepcion");
+        assertEquals(representanteEsperado.getNombreInstitucion(),representantesObtenidos.get(0).getNombreInstitucion());   
     }
     
     @Test
@@ -44,7 +46,7 @@ public class PruebaDAORepresentanteInstitucionalImplementacionSinConexionExitosa
         DAORepresentanteInstitucionalImplementacion dao = new DAORepresentanteInstitucionalImplementacion();        
         int idRepresentanteInstitucional = 1;
         String nombreInstitucion = dao.consultarNombreInstitucionPorIdRepresentanteInstitucional(idRepresentanteInstitucional);
-        assertEquals("", nombreInstitucion);                
+        assertEquals("Excepcion", nombreInstitucion);                
     }
     
     @Test

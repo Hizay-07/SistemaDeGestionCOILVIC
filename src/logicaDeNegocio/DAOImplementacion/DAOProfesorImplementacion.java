@@ -199,6 +199,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                     profesor.setCorreo(resultado.getString("correo"));
                     profesor.setEstado(resultado.getString("estadoProfesor"));
                 }
+            }else{
+                profesor.setNombre("Sin coincidencias");
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
@@ -255,6 +257,8 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                     profesor.setCorreo(resultado.getString("correo")); 
                     profesor.setEstado(resultado.getString("estadoProfesor"));
                 }
+            }else{
+                profesor.setNombre("Sin coincidencias");
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());

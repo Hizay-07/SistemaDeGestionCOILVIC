@@ -5,7 +5,6 @@ import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.enums.EnumActividades;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -27,9 +26,11 @@ public class PruebaDAOActividadImplementacionSinConexionExitosa {
     
     @Test
     public void pruebaObtenerActividadesSinConexionExitosa(){
-        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();                                        
+        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();   
+        Actividad actividadEsperada = new Actividad();
+        actividadEsperada.setNombre("Excepcion");
         List<Actividad> actividadesObtenidas = implementacion.obtenerActividades(1);
-        assertTrue(actividadesObtenidas.isEmpty());
+        assertEquals(actividadEsperada.getNombre(),actividadesObtenidas.get(0).getNombre());
     }
     
     @Test
@@ -50,7 +51,7 @@ public class PruebaDAOActividadImplementacionSinConexionExitosa {
         actividadPrueba.setIdColaboracion(1);
         actividadPrueba.setNumeroActividad(1);         
         boolean resultado = implementacion.validarInexistenciaDeActividad(actividadPrueba);
-        assertFalse(resultado);
+        assertTrue(resultado);
     }
     
     @Test

@@ -150,7 +150,8 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                 idColaboracion=resultado.getInt("idColaboracion");                                                
             }
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion);        
+            LOG.error(excepcion);   
+            idColaboracion=-1;
         }
         return idColaboracion;                
     }
