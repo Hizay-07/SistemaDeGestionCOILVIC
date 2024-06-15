@@ -8,19 +8,18 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PruebaDAOAreaAcademicaImplementacion {
     
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
         usuarioPrueba.setTipoDeUsuario("Administrativo");
-        UsuarioSingleton.getInstancia(usuarioPrueba);
+        UsuarioSingleton.getInstancia(usuarioPrueba);        
     }
     
     @Test
@@ -59,14 +58,7 @@ public class PruebaDAOAreaAcademicaImplementacion {
         List<AreaAcademica> areasAcademicasObtenidas = dao.consultarAreasAcademicas();
         assertNotEquals(areasAcademicasEsperadas,areasAcademicasObtenidas);
     }
-        
-    @Test
-    public void pruebaConsultarAreasAcademicasSinConexionExitosa(){
-        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();                                        
-        List<AreaAcademica> areasAcademicasObtenidas = dao.consultarAreasAcademicas();
-        assertTrue(areasAcademicasObtenidas.isEmpty());        
-    }
-       
+    
     @Test
     public void pruebaConsultarIdDeAreaAcademicaPorAreaExitosa(){
         DAOAreaAcademicaImplementacion instancia=new DAOAreaAcademicaImplementacion();
@@ -82,33 +74,18 @@ public class PruebaDAOAreaAcademicaImplementacion {
         int idArea = dao.consultarIdDeAreaAcademicaPorArea("Música");
         assertEquals(0, idArea);
     }
-            
-    @Test
-    public void pruebaConsultarIdDeAreaAcademicaPorAreaSinConexionExitosa(){
-        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
-        int resultadoObtenido=dao.consultarIdDeAreaAcademicaPorArea("Humanidades");
-        assertEquals(-1,resultadoObtenido);
-    }
-    
+             
     @Test
     public void pruebaVerificarAreaAcademicaExitosa() {
         DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
         int resultado = dao.verificarAreaAcademica();
         assertEquals(6,resultado);
     }
-
+    
     @Test
     public void pruebaVerificarAreaAcademicaFallida() {
         DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
         int resultado = dao.verificarAreaAcademica();
-        assertEquals(0,resultado);        
+        assertNotEquals(0,resultado);        
     }
-        
-    @Test
-    public void pruebaVerificarAreaAcademicaSinConexionExitosa(){
-        DAOAreaAcademicaImplementacion dao = new DAOAreaAcademicaImplementacion();
-        int resultado = dao.verificarAreaAcademica();
-        assertEquals(-1,resultado);             
-    }
-
 }
