@@ -18,7 +18,7 @@ public class PruebaDAOProfesorImplementacion {
     @BeforeClass
     public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
+        usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
         usuarioPrueba.setTipoDeUsuario("Administrativo");
         UsuarioSingleton.getInstancia(usuarioPrueba);

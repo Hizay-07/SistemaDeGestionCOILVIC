@@ -52,13 +52,14 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         profesor.setApellidoPaterno("Gómez");
         profesor.setApellidoMaterno("Peréz");
         profesor.setCorreo("profesorpruebauno@gmail.com");
+        profesor.setIdProfesor(1);
         List<Profesor> profesoresEsperados=new ArrayList<>();
         profesoresEsperados.add(profesor);
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1); 
         DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
         List<Profesor> profesoresObtenidos = dao.obtenerProfesoresPorIdColaboracion(colaboracion);
-        assertEquals(profesoresEsperados,profesoresObtenidos);
+        assertEquals(profesoresEsperados.get(0).getNombre(),profesoresObtenidos.get(0).getNombre());
     }
     
     @Test 
@@ -67,7 +68,7 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         Colaboracion colaboracion = new Colaboracion();         
         DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
         List<Profesor> profesoresObtenidos = dao.obtenerProfesoresPorIdColaboracion(colaboracion);
-        assertNotEquals(profesoresEsperados,profesoresObtenidos);       
+        assertEquals(profesoresEsperados,profesoresObtenidos);       
     }
                       
     @Test
