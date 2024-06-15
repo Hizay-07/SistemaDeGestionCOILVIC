@@ -19,8 +19,10 @@ public class PruebaDAOColaboracionImplementacionSinConexionExitosa {
     @Test 
     public void pruebaConsultarColaboracionesSinConexionExitosa(){
         DAOColaboracionImplementacion dao = new DAOColaboracionImplementacion();
+        Colaboracion colaboracionEsperada = new Colaboracion();
+        colaboracionEsperada.setEstadoColaboracion("Excepcion");
         List<Colaboracion> colaboraciones = dao.consultarColaboraciones();
-        assertEquals(0, colaboraciones.size());
+        assertEquals(colaboracionEsperada.getEstadoColaboracion(),colaboraciones.get(0).getEstadoColaboracion());
     }
     
     @Test 
@@ -28,7 +30,9 @@ public class PruebaDAOColaboracionImplementacionSinConexionExitosa {
         String estado = "Activa";
         DAOColaboracionImplementacion dao = new DAOColaboracionImplementacion();
         List<Colaboracion> colaboraciones = dao.consultarColaboracionesPorEstado(estado);
-        assertEquals(0, colaboraciones.size());
+        Colaboracion colaboracionEsperada = new Colaboracion();
+        colaboracionEsperada.setEstadoColaboracion("Excepcion");
+        assertEquals(colaboracionEsperada.getEstadoColaboracion(),colaboraciones.get(0).getEstadoColaboracion());
     }
     
     @Test 
@@ -45,7 +49,7 @@ public class PruebaDAOColaboracionImplementacionSinConexionExitosa {
     public void obtenerIdColaboracionPorIdPropuestaSinConexionExitosa(){
        int idPropuestaColaboracion = 1;
        DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
-       int resultadoEsperado = 0;
+       int resultadoEsperado = -1;
        int resultadoObtenido = instancia.obtenerIdColaboracionPorIdPropuesta(idPropuestaColaboracion);
        assertEquals(resultadoEsperado, resultadoObtenido);
     }

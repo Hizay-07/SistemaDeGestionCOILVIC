@@ -159,11 +159,11 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
                     profesorObtenido.setIdProfesor(resultado.getInt("idProfesor"));
                 }
             }else{
-                profesorObtenido = null;
+                profesorObtenido.setIdProfesor(0);
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
-            profesorObtenido = null;
+            profesorObtenido.setIdRepresentanteInstitucional(0);
         }
         return profesorObtenido;
     }

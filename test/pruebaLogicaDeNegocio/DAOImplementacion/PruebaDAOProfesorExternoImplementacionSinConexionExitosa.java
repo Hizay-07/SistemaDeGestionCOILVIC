@@ -4,7 +4,6 @@ import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorExternoImplementacion;
 import logicaDeNegocio.clases.ProfesorExterno;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PruebaDAOProfesorExternoImplementacionSinConexionExitosa {
@@ -23,14 +22,27 @@ public class PruebaDAOProfesorExternoImplementacionSinConexionExitosa {
     public void pruebaConsultarProfesoresExternosSinConexionExitosa(){
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         List<ProfesorExterno> profesoresExternos = dao.consultarProfesoresExternos();
-        assertTrue(profesoresExternos.isEmpty());
+        ProfesorExterno profesorEsperado = new ProfesorExterno();
+        profesorEsperado.setNombre("Excepcion");
+        assertEquals(profesorEsperado.getNombre(),profesoresExternos.get(0).getNombre());
     }
     
     @Test
     public void pruebaConsultarProfesoresExternosPorRepresentanteInstitucionalSinConexionExitosa(){
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         List<ProfesorExterno> profesoresExternos = dao.consultarProfesoresExternosPorRepresentanteInstitucional(1);
-        assertTrue(profesoresExternos.isEmpty());
+        ProfesorExterno profesorEsperado = new ProfesorExterno();
+        profesorEsperado.setNombre("Excepcion");
+        assertEquals(profesorEsperado.getNombre(),profesoresExternos.get(0).getNombre());
+    }
+    
+    @Test
+    public void pruebaObtenerProfesorExternoPorIdProfesorSinConexionExitosa(){
+        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
+        ProfesorExterno profesorObtenido = dao.obtenerProfesorExternoPorIDProfesor(1);
+        ProfesorExterno profesorEsperado = new ProfesorExterno();
+        profesorEsperado.setIdRepresentanteInstitucional(0);
+        assertEquals(profesorEsperado.getIdProfesorExterno(),profesorObtenido.getIdRepresentanteInstitucional());
     }
     
     @Test

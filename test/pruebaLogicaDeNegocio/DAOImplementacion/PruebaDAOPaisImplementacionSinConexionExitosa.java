@@ -22,7 +22,9 @@ public class PruebaDAOPaisImplementacionSinConexionExitosa {
     public void pruebaConsultarPaisesSinConexionExitosa(){
         DAOPaisImplementacion dao = new DAOPaisImplementacion();
         List<Pais> paisesObtenidos = dao.consultarPaises();
-        assertTrue(paisesObtenidos.isEmpty());        
+        Pais paisEsperado = new Pais();
+        paisEsperado.setNombrePais("Excepcion");
+        assertEquals(paisEsperado.getNombrePais(),paisesObtenidos.get(0).getNombrePais());        
     }
     
     @Test

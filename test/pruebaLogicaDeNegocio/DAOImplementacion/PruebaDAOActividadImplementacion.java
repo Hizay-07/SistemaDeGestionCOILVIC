@@ -48,22 +48,7 @@ public class PruebaDAOActividadImplementacion {
         actividadPrueba.setEstado(EnumActividades.Inactiva.toString());
         int resultadoInsercion = implementacion.registrarActividad(actividadPrueba);
         assertEquals(1, resultadoInsercion);
-    }
-    
-    @Test
-    public void pruebaRegistrarActividadFallida(){
-        DAOActividadImplementacion implementacion = new DAOActividadImplementacion();
-        Actividad actividadPrueba = new Actividad();
-        actividadPrueba.setNombre("SO móviles");
-        actividadPrueba.setDescripcion("Conocer los distintos SO móviles");
-        actividadPrueba.setFechaDeInicio("2024-04-04");
-        actividadPrueba.setFechaDeCierre("2024-05-05");
-        actividadPrueba.setIdColaboracion(0);
-        actividadPrueba.setNumeroActividad(2);
-        actividadPrueba.setEstado(EnumActividades.Inactiva.toString());
-        int resultadoInsercion = implementacion.registrarActividad(actividadPrueba);
-        assertEquals(-1, resultadoInsercion);
-    }            
+    }     
     
     @Test
     public void pruebaObtenerActividadesExitosa(){

@@ -5,8 +5,6 @@ import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.TipoColaboracion;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PruebaDAOPropuestaColaboracionImplementacionSinConexionExitosa {
@@ -33,14 +31,18 @@ public class PruebaDAOPropuestaColaboracionImplementacionSinConexionExitosa {
     public void pruebaObtenerPropuestaDeColaboracionPorIdSinConexionExitosa(){
         DAOPropuestaColaboracionImplementacion daoPropuesta=new DAOPropuestaColaboracionImplementacion();
         PropuestaColaboracion propuestaObtenida=daoPropuesta.obtenerPropuestaDeColaboracionPorId(0);
-        assertNull(propuestaObtenida);          
+        PropuestaColaboracion propuestaEsperada = new PropuestaColaboracion();
+        propuestaEsperada.setEstadoPropuesta("Excepcion");
+        assertEquals(propuestaEsperada.getEstadoPropuesta(),propuestaObtenida.getEstadoPropuesta());          
     } 
     
     @Test
     public void pruebaConsultarPropuestasDeColaboracionRegistradasSinConexionExitosa(){
         DAOPropuestaColaboracionImplementacion daoPropuesta=new DAOPropuestaColaboracionImplementacion();
         List<PropuestaColaboracion> propuestasObtenidas=daoPropuesta.consultarPropuestasDeColaboracionRegistradas();
-        assertTrue(propuestasObtenidas.isEmpty());
+        PropuestaColaboracion propuestaEsperada = new PropuestaColaboracion();
+        propuestaEsperada.setEstadoPropuesta("Excepcion");
+        assertEquals(propuestaEsperada.getEstadoPropuesta(),propuestasObtenidas.get(0).getEstadoPropuesta());    
     }
     
     @Test
@@ -72,7 +74,9 @@ public class PruebaDAOPropuestaColaboracionImplementacionSinConexionExitosa {
     public void pruebaConsultarPropuestasDeColaboracionAprobadasSinConexionExitosa(){
         DAOPropuestaColaboracionImplementacion instancia = new DAOPropuestaColaboracionImplementacion();
         List<PropuestaColaboracion> propuestasConsultadas = instancia.consultarPropuestasDeColaboracionAprobadas();
-        assertTrue(propuestasConsultadas.isEmpty());
+        PropuestaColaboracion propuestaEsperada = new PropuestaColaboracion();
+        propuestaEsperada.setEstadoPropuesta("Excepcion");
+        assertEquals(propuestaEsperada.getEstadoPropuesta(),propuestasConsultadas.get(0).getEstadoPropuesta());   
     }
     
     @Test
@@ -89,7 +93,9 @@ public class PruebaDAOPropuestaColaboracionImplementacionSinConexionExitosa {
         DAOPropuestaColaboracionImplementacion instancia = new DAOPropuestaColaboracionImplementacion();
         int idProfesor = 0;        
         List<PropuestaColaboracion> propuestasObtenidas= instancia.consultarPropuestasDeColaboracionAprobadasSinPeticiones(idProfesor);
-        assertTrue(propuestasObtenidas.isEmpty());         
+        PropuestaColaboracion propuestaEsperada = new PropuestaColaboracion();
+        propuestaEsperada.setEstadoPropuesta("Excepcion");
+        assertEquals(propuestaEsperada.getEstadoPropuesta(),propuestasObtenidas.get(0).getEstadoPropuesta());        
     } 
     
 }

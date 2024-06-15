@@ -93,6 +93,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             }
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
+            resultadoTipoDeUsuario = "Excepcion";
         }
         return resultadoTipoDeUsuario;
     }

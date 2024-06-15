@@ -52,7 +52,7 @@ public class PruebaDAOUsuarioImplementacionSinConexionExitosa {
         usuarioPrueba.setNombreUsuario("profesorpruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");        
         String resultado = implementacion.obtenerTipoDeUsuario(usuarioPrueba,logger);
-        assertEquals("", resultado);        
+        assertEquals("Excepcion", resultado);        
     }
     
     @Test

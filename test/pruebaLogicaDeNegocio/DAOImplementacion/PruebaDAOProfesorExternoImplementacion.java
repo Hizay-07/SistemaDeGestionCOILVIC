@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -56,7 +57,29 @@ public class PruebaDAOProfesorExternoImplementacion {
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         List<ProfesorExterno> profesoresExternos = dao.consultarProfesoresExternos();
         assertTrue(profesoresExternos.isEmpty());
-    }        
+    }   
+    
+    @Test
+    public void pruebaObtenerProfesorExternoPorIdProfesorExitosa(){
+        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
+        ProfesorExterno profesorObtenido = dao.obtenerProfesorExternoPorIDProfesor(1);
+        ProfesorExterno profesorEsperado = new ProfesorExterno();
+        profesorEsperado.setIdProfesorExterno(1);
+        profesorEsperado.setIdRepresentanteInstitucional(1);
+        profesorEsperado.setIdProfesor(1);
+        assertEquals(profesorObtenido,profesorEsperado);
+    }
+    
+    @Test
+    public void pruebaObtenerProfesorExternoPorIdProfesorFallida(){
+        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
+        ProfesorExterno profesorObtenido = dao.obtenerProfesorExternoPorIDProfesor(5);
+        ProfesorExterno profesorEsperado = new ProfesorExterno();
+        profesorEsperado.setIdProfesorExterno(1);
+        profesorEsperado.setIdRepresentanteInstitucional(1);
+        profesorEsperado.setIdProfesor(1);
+        assertNotEquals(profesorObtenido,profesorEsperado);
+    }
     
     @Test
     public void pruebaConsultarProfesoresExternosPorRepresentanteInstitucionalExitosa() {

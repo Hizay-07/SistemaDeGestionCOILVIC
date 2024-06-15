@@ -278,6 +278,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            nombreInstitucion = "Excepcion";
         }
         return nombreInstitucion;        
     }

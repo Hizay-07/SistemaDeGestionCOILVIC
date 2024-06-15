@@ -5,7 +5,6 @@ import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.enums.EnumProfesor;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 public class PruebaDAOProfesorImplementacionSinConexionExitosa {
@@ -92,7 +91,20 @@ public class PruebaDAOProfesorImplementacionSinConexionExitosa {
         int idUsuario = 2;
         Usuario logger = new Usuario();
         Profesor profesor = dao.obtenerProfesorPorIdUsuario(idUsuario, logger);
-        assertNull(profesor);
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setNombre("Excepcion");
+        assertEquals(profesorEsperado.getNombre(),profesor.getNombre());
+    }
+    
+    @Test
+    public void pruebaObetenerProfesorPorIdSinConexionExitosa(){
+        DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
+        int idUsuario = 2;
+        Usuario logger = new Usuario();
+        Profesor profesor = dao.obtenerProfesorPorIdUsuario(idUsuario, logger);
+        Profesor profesorEsperado = new Profesor();
+        profesorEsperado.setNombre("Excepcion");
+        assertEquals(profesorEsperado.getNombre(),profesor.getNombre());
     }
     
     @Test

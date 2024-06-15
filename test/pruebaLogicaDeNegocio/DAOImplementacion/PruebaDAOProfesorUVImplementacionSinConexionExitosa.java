@@ -4,8 +4,6 @@ import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorUVImplementacion;
 import logicaDeNegocio.clases.ProfesorUV;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PruebaDAOProfesorUVImplementacionSinConexionExitosa {
@@ -28,14 +26,18 @@ public class PruebaDAOProfesorUVImplementacionSinConexionExitosa {
     public void pruebaConsultarProfesoresUVSinConexionExitosa(){
         DAOProfesorUVImplementacion instancia=new DAOProfesorUVImplementacion();
         List<ProfesorUV> resultadoObtenido=instancia.consultarProfesoresUV();   
-        assertTrue(resultadoObtenido.isEmpty());                
+        ProfesorUV profesorEsperado = new ProfesorUV();
+        profesorEsperado.setCategoriaDeContratacion("Excepcion");
+        assertEquals(profesorEsperado.getCategoriaDeContratacion(),resultadoObtenido.get(0).getCategoriaDeContratacion());            
     }
     
     @Test
     public void pruebaObtenerProfesorUVPorIDProfesorSinConexionExitosa(){                
         DAOProfesorUVImplementacion daoProfesorUV=new DAOProfesorUVImplementacion();        
-        ProfesorUV profesorObtenido=daoProfesorUV.obtenerProfesorUVPorIDProfesor(0);
-        assertNull(profesorObtenido);        
+        ProfesorUV profesorObtenido=daoProfesorUV.obtenerProfesorUVPorIDProfesor(2);
+        ProfesorUV profesorEsperado = new ProfesorUV();
+        profesorEsperado.setCategoriaDeContratacion("Excepcion");
+        assertEquals(profesorEsperado.getCategoriaDeContratacion(),profesorObtenido.getCategoriaDeContratacion());        
     }
     
     @Test

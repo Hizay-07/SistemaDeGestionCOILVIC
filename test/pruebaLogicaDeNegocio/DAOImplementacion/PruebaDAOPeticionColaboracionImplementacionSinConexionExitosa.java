@@ -5,7 +5,6 @@ import logicaDeNegocio.DAOImplementacion.DAOPeticionColaboracionImplementacion;
 import logicaDeNegocio.clases.PeticionColaboracion;
 import logicaDeNegocio.enums.EnumPeticionColaboracion;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PruebaDAOPeticionColaboracionImplementacionSinConexionExitosa {
@@ -26,7 +25,9 @@ public class PruebaDAOPeticionColaboracionImplementacionSinConexionExitosa {
     public void pruebaConsultarPeticionesSinConexionExitosa(){
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         List<PeticionColaboracion> peticiones = instancia.consultarPeticiones();
-        assertTrue(peticiones.isEmpty());
+        PeticionColaboracion peticionEsperada = new PeticionColaboracion();
+        peticionEsperada.setEstado("Excepcion");
+        assertEquals(peticionEsperada.getEstado(),peticiones.get(0).getEstado());
     }
     
     @Test 
@@ -41,7 +42,8 @@ public class PruebaDAOPeticionColaboracionImplementacionSinConexionExitosa {
         int idPropuestaColaboracion = 1;
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracion(idPropuestaColaboracion);
-        assertTrue(resultadoObtenido.isEmpty());
+        Integer resultadoEsperado = -1;
+        assertEquals(resultadoObtenido.get(0),resultadoEsperado);
     }
     
     @Test 
@@ -67,7 +69,8 @@ public class PruebaDAOPeticionColaboracionImplementacionSinConexionExitosa {
         int idPropuestaColaboracion = 1;
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         List<Integer> resultadoObtenido = instancia.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuestaColaboracion);
-        assertTrue(resultadoObtenido.isEmpty());
+        Integer resultadoEsperado = -1;
+        assertEquals(resultadoEsperado,resultadoObtenido.get(0));
     }
     
     @Test
