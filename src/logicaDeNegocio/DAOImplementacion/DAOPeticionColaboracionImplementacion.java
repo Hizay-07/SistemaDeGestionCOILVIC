@@ -37,6 +37,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            numeroFilasAfectadas=-1;
         }
         return numeroFilasAfectadas;
     }
@@ -144,6 +145,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            numeroFilasAfectadas=-1;
         }
         return numeroFilasAfectadas;
     }
@@ -166,6 +168,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             numeroFilasAfectadas = declaracion.executeUpdate();
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            numeroFilasAfectadas=-1;
         }
         return numeroFilasAfectadas;
     }

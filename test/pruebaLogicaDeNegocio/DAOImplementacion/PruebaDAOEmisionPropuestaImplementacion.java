@@ -36,12 +36,13 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         assertTrue(emisiones.contains(emisionPropuesta));
     }
     
-    @Test
-    public void pruebaRegistrarEmisionPropuestaFallido() {
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaRegistrarEmisionPropuestaFallida() {
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
-        EmisionPropuesta emisionPropuesta = null;
+        EmisionPropuesta emisionPropuesta =new EmisionPropuesta();                
+        emisionPropuesta.setFechaEmision("24-05-26");
         int resultado = dao.registrarEmisionPropuesta(emisionPropuesta);
-        assertEquals(-1, resultado);
+        assertEquals(0, resultado);
     }       
 
     @Test

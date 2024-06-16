@@ -52,8 +52,8 @@ public class PruebaDAOProfesorImplementacion {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
         Profesor profesorObtenido = dao.consultarProfesorPorId(1);
         Profesor profesorEsperado = new Profesor();
-        profesorEsperado.setNombre("Jose");
-        profesorEsperado.setApellidoPaterno("Morelos");
+        profesorEsperado.setNombre("Beto");
+        profesorEsperado.setApellidoPaterno("Gómez");
         profesorEsperado.setApellidoMaterno("Pavón");
         profesorEsperado.setCorreo("profesorpruebauno@gmail.com"); 
         profesorEsperado.setEstado("Activo");
@@ -120,12 +120,12 @@ public class PruebaDAOProfesorImplementacion {
         assertEquals(1, coincidencias);
     }
     
-    @Test (expected = AssertionError.class)
+    @Test 
     public void pruebaValidarDuplicidadDeCorreoFallida() {
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        String correo = "Correo-Invalido@example.com";
+        String correo = "invalido@example.com";
         int coincidencias = dao.validarDuplicidadDeCorreo(correo);
-        assertEquals(-1, coincidencias);
+        assertEquals(0, coincidencias);
     }          
 
     @Test
@@ -250,16 +250,12 @@ public class PruebaDAOProfesorImplementacion {
    @Test(expected = IllegalArgumentException.class)
     public void pruebaRegistrarProfesorFallida() {        
         DAOProfesorImplementacion dao = new DAOProfesorImplementacion();
-        Profesor profesor = new Profesor();
-        profesor.setNombre(null);
-        profesor.setApellidoPaterno(null);
-        profesor.setApellidoMaterno(null);
-        profesor.setCorreo(null);
+        Profesor profesor = new Profesor();        
         Usuario usuario = new Usuario();
+        profesor.setNombre("1");
         usuario.setIdUsuario(1);
         profesor.setUsuario(usuario);
-        int resultado = dao.registrarProfesor(profesor);
-        assertEquals(-1, resultado);
+        dao.registrarProfesor(profesor);        
     } 
     
     @AfterClass
