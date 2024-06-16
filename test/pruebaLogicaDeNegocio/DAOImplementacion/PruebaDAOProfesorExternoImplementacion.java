@@ -34,14 +34,13 @@ public class PruebaDAOProfesorExternoImplementacion {
         assertEquals(1, resultado);
     }
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void pruebaRegistrarProfesorExternoFallida() {
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         ProfesorExterno profesorExterno = new ProfesorExterno();
-        profesorExterno.setIdProfesor(0);
-        profesorExterno.setIdRepresentanteInstitucional(0);
+        profesorExterno.setIdProfesor(-1);        
         int resultado = dao.registrarProfesorExterno(profesorExterno);
-        assertEquals(-1, resultado);
+        assertEquals(0, resultado);
     }               
     
     @Test

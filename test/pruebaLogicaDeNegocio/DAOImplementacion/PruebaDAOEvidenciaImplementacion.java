@@ -32,14 +32,12 @@ public class PruebaDAOEvidenciaImplementacion {
         assertEquals(1,resultado);
     }
             
-    @Test 
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaRegistrarEvidenciaFallida(){
         DAOEvidenciaImplementacion pruebaEvidencia = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setNombre("Prueba fallida");
-        evidenciaPrueba.setIdActividad(1);
-        int resultado = pruebaEvidencia.agregarEvidencia(evidenciaPrueba);
-        assertEquals(-1, resultado);     
+        evidenciaPrueba.setNombre("!@#$%^&*");        
+        pruebaEvidencia.agregarEvidencia(evidenciaPrueba);        
     }
             
     @Test

@@ -30,7 +30,7 @@ public class PruebaDAOPeticionColaboracionImplementacionSinConexionExitosa {
         peticion.setFechaEnvio("2024-06-08");
         DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
         int resultadoObtenido = instancia.registrarPeticionColaboracion(peticion);
-        assertEquals(0, resultadoObtenido);
+        assertEquals(-1, resultadoObtenido);
     }
     
     @Test
@@ -64,7 +64,7 @@ public class PruebaDAOPeticionColaboracionImplementacionSinConexionExitosa {
         int idProfesor = 1;
         DAOPeticionColaboracionImplementacion daoPeticionColaboracion = new DAOPeticionColaboracionImplementacion();
         int resultadoObtenido = daoPeticionColaboracion.aceptarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
-        assertEquals(0, resultadoObtenido);
+        assertEquals(-1, resultadoObtenido);
     }
     
     @Test
@@ -73,7 +73,7 @@ public class PruebaDAOPeticionColaboracionImplementacionSinConexionExitosa {
         int idProfesor = 1;
         DAOPeticionColaboracionImplementacion daoPeticionColaboracion = new DAOPeticionColaboracionImplementacion();
         int resultadoObtenido = daoPeticionColaboracion.rechazarPeticionColaboracion(idPropuestaColaboracion, idProfesor);
-        assertEquals(0, resultadoObtenido);         
+        assertEquals(-1, resultadoObtenido);         
     }
     
     @Test

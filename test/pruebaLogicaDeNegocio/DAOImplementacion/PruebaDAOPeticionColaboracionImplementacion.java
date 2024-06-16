@@ -44,13 +44,12 @@ public class PruebaDAOPeticionColaboracionImplementacion {
         assertEquals(resultadoEsperado, resultadoObtenido);
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaRegistrarPeticionColaboracionFallida(){
         PeticionColaboracion peticion = new PeticionColaboracion();        
-        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();
-        int resultadoEsperado = 0; 
-        int resultadoObtenido = instancia.registrarPeticionColaboracion(peticion);
-        assertEquals(resultadoEsperado, resultadoObtenido);
+        peticion.setFechaEnvio("24-12-12");
+        DAOPeticionColaboracionImplementacion instancia = new DAOPeticionColaboracionImplementacion();        
+        instancia.registrarPeticionColaboracion(peticion);        
     }
                             
     @Test

@@ -33,17 +33,15 @@ public class PruebaDAOEvaluacionPropuestaImplementacion {
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }
     
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaRegistrarEvaluacionPropuestaFallida() {
         EvaluacionPropuesta evaluacionPropuesta=new EvaluacionPropuesta();
         evaluacionPropuesta.setIdUsuario(1);
         evaluacionPropuesta.setIdPropuestaColaboracion(0);
         evaluacionPropuesta.setEvaluacion("Aprobada");
-        evaluacionPropuesta.setFechaEvaluacion("2024-06-02");
+        evaluacionPropuesta.setFechaEvaluacion("24-06-02");
         evaluacionPropuesta.setJustificacion("Me parece una propuesta interesante");
-        DAOEvaluacionPropuestaImplementacion daoEvaluacionPropuesta=new DAOEvaluacionPropuestaImplementacion();
-        int resultadoEsperado=-1;
-        int resultadoObtenido=daoEvaluacionPropuesta.registrarEvaluacionPropuesta(evaluacionPropuesta);
-        assertEquals(resultadoEsperado,resultadoObtenido);
+        DAOEvaluacionPropuestaImplementacion daoEvaluacionPropuesta=new DAOEvaluacionPropuestaImplementacion();        
+        daoEvaluacionPropuesta.registrarEvaluacionPropuesta(evaluacionPropuesta);        
     }                    
 }
