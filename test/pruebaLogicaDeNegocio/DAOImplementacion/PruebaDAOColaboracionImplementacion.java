@@ -142,7 +142,7 @@ public class PruebaDAOColaboracionImplementacion {
         DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(0);
-        colaboracion.setRetroalimentacion("La colaboracion no existe papu");
+        colaboracion.setRetroalimentacion("La colaboración no existe papu");
         int resultadoObtenido = instancia.realizarRetroalimentacionColaboracion(colaboracion);
         int resultadoEsperado = 0;
         assertEquals(resultadoEsperado,resultadoObtenido);
