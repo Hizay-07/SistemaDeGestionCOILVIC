@@ -22,4 +22,5 @@ public enum EnumPais {
     Japon,
     NuevaZelanda,
     Mexico,
+    
 }
