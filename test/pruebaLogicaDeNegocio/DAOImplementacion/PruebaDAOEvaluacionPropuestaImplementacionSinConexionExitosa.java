@@ -2,10 +2,23 @@ package pruebaLogicaDeNegocio.DAOImplementacion;
 
 import logicaDeNegocio.DAOImplementacion.DAOEvaluacionPropuestaImplementacion;
 import logicaDeNegocio.clases.EvaluacionPropuesta;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PruebaDAOEvaluacionPropuestaImplementacionSinConexionExitosa {
+    
+    @BeforeClass
+    public static void inicializar() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
+    
     @Test
     public void pruebaRegistrarEvaluacionPropuestaSinConexionExitosa(){
         EvaluacionPropuesta evaluacionPropuesta=new EvaluacionPropuesta();
