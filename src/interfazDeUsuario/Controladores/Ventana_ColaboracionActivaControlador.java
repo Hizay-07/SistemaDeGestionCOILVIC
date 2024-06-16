@@ -23,11 +23,14 @@ import logicaDeNegocio.ClasesAuxiliares.PropuestaColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOPropuestaColaboracionImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
 import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.UsuarioSingleton;
+import logicaDeNegocio.clases.Actividad;
+import logicaDeNegocio.enums.EnumPropuestaColaboracion;
 import org.apache.log4j.Logger;
 
 public class Ventana_ColaboracionActivaControlador implements Initializable {
@@ -81,14 +84,46 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
     }
     
     public void cerrarColaboracion(){
-        PropuestaColaboracionAuxiliar propuesta = PropuestaColaboracionAuxiliar.getInstnacia();
-        LocalDate fechaActual = LocalDate.now();
-        LocalDate fechaCierrePropuesta = LocalDate.parse(propuesta.getFechaCierre());
-        if(fechaActual.isEqual(fechaCierrePropuesta)||fechaActual.isAfter(fechaCierrePropuesta)){
-            inicializarVentanaCerrarColaboracion();
-        }else{
-            Alertas.mostrarMensajeSinCerrarColaboracion();
+        if(obtenerResultadoValidacionConexion()){
+            if(validarAutoridadDeColaboracion()){
+                PropuestaColaboracionAuxiliar propuesta = PropuestaColaboracionAuxiliar.getInstnacia();
+                LocalDate fechaActual = LocalDate.now();
+                LocalDate fechaCierrePropuesta = LocalDate.parse(propuesta.getFechaCierre());
+                DAOActividadImplementacion daoActividad = new DAOActividadImplementacion();
+                DAOColaboracionProfesorImplementacion daoColaboracionProfesor = new DAOColaboracionProfesorImplementacion();
+                Profesor profesor = new Profesor();
+                profesor.setIdProfesor(ProfesorSingleton.getInstancia().getIdProfesor());
+                Colaboracion colaboracionObtenida = daoColaboracionProfesor.obtenerColaboracionPorIdProfesor(profesor,"Activa");
+                List<Actividad> actividades = daoActividad.obtenerActividades(colaboracionObtenida.getIdColaboracion());
+                if(fechaActual.isEqual(fechaCierrePropuesta)||fechaActual.isAfter(fechaCierrePropuesta)){
+                    if(actividades.size()>=3){
+                        inicializarVentanaCerrarColaboracion();
+                    }else{
+                        Alertas.mostrarMensajeNoSePuedeCerrarColaboracion("Para cerrar la colaboración debe"
+                                + " haber como mínimo 3 actividades registradas");
+                    }
+                }else{
+                    Alertas.mostrarMensajeSinCerrarColaboracion();
+                }
+            }else{
+                Alertas.mostrarMensajeNoSePuedeCerrarColaboracion("Solo el propietario de la colaboración"
+                                + " puede cerrar la colaboracion");
+            }
         }
+    }
+    
+    public boolean validarAutoridadDeColaboracion(){
+        boolean resultadoValidacion=false;
+        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+        DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
+        int idPropuestaColaboracion = daoPropuesta.obtenerIdPropuestaColaboracionPorEstadoPorIdProfesor(profesor.getIdProfesor(),EnumPropuestaColaboracion.Iniciada.toString());
+        PropuestaColaboracion propuestaObtenida = daoPropuesta.obtenerPropuestaDeColaboracionPorId(idPropuestaColaboracion);
+        if(Objects.nonNull(propuestaObtenida.getTipoColaboracion())&&propuestaObtenida.getEstadoPropuesta().equals(EnumPropuestaColaboracion.Iniciada.toString())){
+            resultadoValidacion = true;
+        }else{
+            resultadoValidacion = false;
+        }
+        return resultadoValidacion;
     }
     
     public void cambiarEstadoProfesor(List<Profesor> profesoresColaboracion){
@@ -125,7 +160,10 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
     private Colaboracion obtenerDatosColaboracion(Profesor profesor){
         Colaboracion colaboracionObtenida = new Colaboracion();
         DAOColaboracionProfesorImplementacion daoColaboracionImplementacion = new DAOColaboracionProfesorImplementacion();
-        colaboracionObtenida = daoColaboracionImplementacion.obtenerColaboracionPorIdProfesor(profesor);
+        colaboracionObtenida = daoColaboracionImplementacion.obtenerColaboracionPorIdProfesor(profesor,"Activa");
+        if(Objects.isNull(colaboracionObtenida.getPropuestaColaboracion())){
+            colaboracionObtenida = daoColaboracionImplementacion.obtenerColaboracionPorIdProfesor(profesor,"Cerrada");
+        }
         return colaboracionObtenida;
     }
     

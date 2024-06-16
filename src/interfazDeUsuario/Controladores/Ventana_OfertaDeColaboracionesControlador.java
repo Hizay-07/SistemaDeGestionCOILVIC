@@ -130,7 +130,6 @@ public class Ventana_OfertaDeColaboracionesControlador implements Initializable 
                             Alertas.mostrarPeticionColaboracionRegistrada();
                             salirDeLaVentana();
                         }else{
-                            Alertas.mostrarMensajeErrorEnLaConexion();
                             salirAlInicioDeSesion();
                         }
                     });

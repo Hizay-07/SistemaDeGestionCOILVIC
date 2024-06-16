@@ -166,7 +166,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         DAOPropuestaColaboracionImplementacion instancia = new DAOPropuestaColaboracionImplementacion();
         int idProfesor = 1;
         int resultadoEsperado = 1;
-        int resultadoObtenido = instancia.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(idProfesor);
+        int resultadoObtenido = instancia.obtenerIdPropuestaColaboracionPorEstadoPorIdProfesor(idProfesor,"Aprobada");
         assertEquals(resultadoEsperado, resultadoObtenido);                        
     }
     
@@ -174,7 +174,7 @@ public class PruebaDAOPropuestaColaboracionImplementacion {
         public void pruebaObtenerIdPropuestaColaboracionAprobadaPorIdProfesorFallida(){
         DAOPropuestaColaboracionImplementacion instancia = new DAOPropuestaColaboracionImplementacion();
         int resultadoEsperado = 0;
-        int resultadoObtenido = instancia.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(0);
+        int resultadoObtenido = instancia.obtenerIdPropuestaColaboracionPorEstadoPorIdProfesor(0,"Aprobada");
         assertEquals(resultadoEsperado, resultadoObtenido);                        
     }                            
     

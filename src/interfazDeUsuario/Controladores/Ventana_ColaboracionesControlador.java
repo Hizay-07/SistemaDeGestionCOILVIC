@@ -26,11 +26,15 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumColaboracion;
+import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
@@ -57,12 +61,24 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     @FXML
     private TableColumn<Colaboracion,Void> column_DarDeBajaColaboracion;
     @FXML
+    private TableColumn<Colaboracion,Void> column_Retroalimentar;
+    @FXML
     private ComboBox cmb_TipoDeColaboracion;
     
     @Override
     public void initialize(URL url, ResourceBundle rb){
         mostrarColaboraciones("Activa");
-        llenarComboBoxTipoDeColaboracion();              
+        llenarComboBoxTipoDeColaboracion();
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
+        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+            column_DarDeBajaColaboracion.setVisible(true);
+            column_Retroalimentar.setVisible(true);
+            asignarBotonesDarDeBajaColaboracion();
+            asignarBotonRetroalimentar();
+        }else{
+            column_DarDeBajaColaboracion.setVisible(false);
+            column_Retroalimentar.setVisible(false);
+        }
     }
     
     private void llenarComboBoxTipoDeColaboracion(){
@@ -71,28 +87,30 @@ public class Ventana_ColaboracionesControlador implements Initializable {
             tiposDeColaboracion.add(colaboracion.toString());
         }
         cmb_TipoDeColaboracion.setItems(tiposDeColaboracion);
-        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
-        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
-            column_DarDeBajaColaboracion.setVisible(true);
-            asignarBotonesDarDeBajaColaboracion();
-        }else{
-            column_DarDeBajaColaboracion.setVisible(false);
-        }
     }
     
     public void mostrarConsultaSeleccionada(){
         String seleccion = (String) cmb_TipoDeColaboracion.getSelectionModel().getSelectedItem();
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
         if(obtenerResultadoValidacionConexion()){
              switch(seleccion){
             case "Activa":
                 mostrarColaboraciones("Activa");
+                column_Retroalimentar.setVisible(false);
                 break;
             case "Finalizada":
                 mostrarColaboraciones("Finalizada");
-                column_DarDeBajaColaboracion.setVisible(false);
+                if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+                    column_DarDeBajaColaboracion.setVisible(false);
+                    column_Retroalimentar.setVisible(true);
+                }
                 break;
             case "Cerrada":
                 mostrarColaboraciones("Cerrada");
+                if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+                    column_DarDeBajaColaboracion.setVisible(true);
+                    column_Retroalimentar.setVisible(true);
+                }
                 break;
             default:
                 Alertas.mostrarMensajeDatosInvalidos();
@@ -167,8 +185,22 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                     private final Button btn_DarDeBajaColaboracion = new Button();{
                         btn_DarDeBajaColaboracion.setText("Dar de baja");
                         btn_DarDeBajaColaboracion.setOnAction((ActionEvent event) -> {
-                            Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
-                            darDeBajaColaboracion(colaboracionSeleccionada);
+                            if(Alertas.mostrarConfirmacionDeAccion("¿Desea dar de baja y dar como finalizada esta colaboracion?")){
+                                if(obtenerResultadoValidacionConexion()){
+                                    Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
+                                    ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);
+                                    int resultadoModificacionEstadoProfesores = cambiarDeEstadoProfesores();
+                                    if(resultadoModificacionEstadoProfesores>=2&&resultadoModificacionEstadoProfesores<=4){
+                                        darDeBajaColaboracion(colaboracionSeleccionada);
+                                        Alertas.mostrarMensajeDatosModificados();
+                                    }else{
+                                        Alertas.mostrarMensajeErrorEnLaConexion();
+                                        salirAlInicioDeSesion();
+                                    }
+                                }else{
+                                    salirAlInicioDeSesion();
+                                }
+                            }
                         });
                     }                
                     @Override
@@ -186,22 +218,64 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         column_DarDeBajaColaboracion.setCellFactory(frabricaDeCelda);
     }
     
-    private void darDeBajaColaboracion(Colaboracion colaboracion){
-        boolean resultadoAccion = Alertas.mostrarConfirmacionDeAccion("¿Desea dar fin a la Colaboracion seleccionada?");
-        if(resultadoAccion){
-            if(!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())){
-                    DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
-                    int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion(EnumColaboracion.Finalizada.toString(), colaboracion);
-                    if(resultadoModificacion==1){
-                        Alertas.mostrarColaboracionFinalizada();
-                        tableView_Colaboraciones.getItems().clear();
-                    }else if(resultadoModificacion==-1){
-                        Alertas.mostrarMensajeErrorEnLaConexion();
+    private void asignarBotonRetroalimentar(){
+        Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
+                final TableCell<Colaboracion, Void> celda = new TableCell<Colaboracion, Void>() {                
+                    private final Button btn_Retroalimentar = new Button();{
+                        btn_Retroalimentar.setText("Retroalimentar");
+                        btn_Retroalimentar.setOnAction((ActionEvent event) -> {
+                            Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
+                            ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);
+                            String ruta = "/interfazDeUsuario/Ventana_RetroalimentacionColaboracion.fxml";
+                            desplegarVentanaCorrespondiente(ruta);
+                        });
+                    }                
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        }else{ 
+                            setGraphic(btn_Retroalimentar);
+                        }
                     }
-            }else{
-                Alertas.mostrarMensajeColaboracionActiva("No se pueden finalizar colaboraciones activas");
+                };
+            return celda;
+            };
+        column_Retroalimentar.setCellFactory(frabricaDeCelda);
+    }
+    
+    private void darDeBajaColaboracion(Colaboracion colaboracion){
+        if (!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())) {
+            DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+            int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion(EnumColaboracion.Finalizada.toString(), colaboracion);
+            if (resultadoModificacion == 1) {
+                Alertas.mostrarColaboracionFinalizada();
+                tableView_Colaboraciones.getItems().clear();
+            } else if (resultadoModificacion == -1) {
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
+        } else {
+            Alertas.mostrarMensajeColaboracionActiva("No se pueden finalizar colaboraciones activas");
+        }
+    }
+    
+    private int cambiarDeEstadoProfesores(){
+        int resultadoModificacionProfesores = 0;
+        List<Profesor> profesores = new ArrayList();
+        ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
+        Colaboracion colaboracionActual = new Colaboracion();
+        colaboracionActual.setIdColaboracion(colaboracion.getIdColaboracion());
+        DAOColaboracionProfesorImplementacion daoColaboracionProfesor = new DAOColaboracionProfesorImplementacion();
+        profesores = daoColaboracionProfesor.obtenerProfesoresPorIdColaboracion(colaboracionActual);
+        if(!profesores.isEmpty()){
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            for(int numeroDeProfesorDeLaLista=0;numeroDeProfesorDeLaLista<profesores.size();numeroDeProfesorDeLaLista++){
+                Profesor profesor = profesores.get(numeroDeProfesorDeLaLista);
+                resultadoModificacionProfesores += daoProfesor.cambiarEstadoProfesor(profesor.getIdProfesor(), EnumProfesor.Activo.toString());
             }
         }
+        return resultadoModificacionProfesores;
     }
     
     private void asignarBotonesDeVisualizarDetalles(){

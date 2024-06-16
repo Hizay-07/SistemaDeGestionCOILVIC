@@ -2,6 +2,7 @@ package interfazDeUsuario.Controladores;
 
 import com.itextpdf.text.Document;
 import interfazDeUsuario.Alertas.Alertas;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +24,7 @@ import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.manejadorDeArchivos.InformeImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.Colaboracion;
@@ -41,6 +43,8 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     private AnchorPane anchor_Ventana;
     @FXML
     private Button btn_GenerarInforme;
+    @FXML
+    private Button btn_Syllabus;
     @FXML
     private Label lbl_IdColaboracionDato;
     @FXML
@@ -72,6 +76,11 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
             btn_GenerarInforme.setVisible(true);
         }else{
             btn_GenerarInforme.setVisible(false);
+        }
+        if(usuario.getTipoDeUsuario().equals("Administrativo")&&!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())){
+            btn_Syllabus.setVisible(true);
+        }else{
+            btn_Syllabus.setVisible(false);
         }
         inicializarDatosColaboracion();
     } 
@@ -181,7 +190,35 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
                 guardarInforme();
             }
         }
-
+    }
+    
+    public void abrirSyllabusColaboracion(){
+        if(obtenerResultadoValidacionConexion()){
+            DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+            Colaboracion colaboracionActual = new Colaboracion();
+            colaboracionActual.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
+            String rutaArchivoObtenido = daoColaboracion.obtenerSyllabusColaboracion(colaboracionActual);
+            if(rutaArchivoObtenido.isEmpty()){
+                Alertas.mostrarMensajeErrorAlObtenerDatos();
+            }else if(rutaArchivoObtenido.equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            }else{
+                File archivoSyllabus = new File(rutaArchivoObtenido);
+                if(archivoSyllabus.exists()&&archivoSyllabus.isFile()){
+                    try{
+                        Desktop.getDesktop().open(archivoSyllabus);
+                    }catch(IOException excepcion){
+                        LOG.error(excepcion);
+                        Alertas.mostrarMensajeErrorAlObtenerDatos();
+                    }
+                }else{
+                    Alertas.mostrarMensajeErrorAlAccederAlaCarpeta();
+                }
+            }
+        }else{
+            salirAlInicioDeSesion();
+        }
     }
     
     public void regresarAVentanaCorrespondiente(){

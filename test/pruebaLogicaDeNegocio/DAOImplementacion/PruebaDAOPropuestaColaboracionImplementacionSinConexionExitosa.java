@@ -84,7 +84,7 @@ public class PruebaDAOPropuestaColaboracionImplementacionSinConexionExitosa {
         DAOPropuestaColaboracionImplementacion instancia = new DAOPropuestaColaboracionImplementacion();
         int idProfesor = 1;
         int resultadoEsperado = -1;
-        int resultadoObtenido = instancia.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(idProfesor);
+        int resultadoObtenido = instancia.obtenerIdPropuestaColaboracionPorEstadoPorIdProfesor(idProfesor,"Aprobada");
         assertEquals(resultadoEsperado, resultadoObtenido);
     }
     

@@ -78,7 +78,7 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         Colaboracion colaboracionEsperada=new Colaboracion();
         colaboracionEsperada.setIdColaboracion(1);
         DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
-        Colaboracion colaboracionObtenida = dao.obtenerColaboracionPorIdProfesor(profesor);
+        Colaboracion colaboracionObtenida = dao.obtenerColaboracionPorIdProfesor(profesor,"Activa");
         assertEquals(colaboracionEsperada,colaboracionObtenida);        
     }
 
@@ -88,7 +88,7 @@ public class PruebaDAOColaboracionProfesorImplementacion {
         profesor.setIdProfesor(1);
         Colaboracion colaboracionEsperada=new Colaboracion();        
         DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
-        Colaboracion colaboracionObtenida = dao.obtenerColaboracionPorIdProfesor(profesor);
+        Colaboracion colaboracionObtenida = dao.obtenerColaboracionPorIdProfesor(profesor,"Activa");
         assertNotEquals(colaboracionEsperada,colaboracionObtenida);
     }                 
 }

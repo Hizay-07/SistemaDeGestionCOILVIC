@@ -56,16 +56,17 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
     /**
     *Obtener el ID de colaboración asociada a un profesor
     *@param profesor Profesor del cual se desea obtener el ID de colaboración a la cual pertenece
+    *@parama estado indica el estado de la colaboracion de la cual se interesa obtener detalles
     *@return Regresa el ID de colaboración asociado al profesor ingresado
     **/
     @Override
-    public Colaboracion obtenerColaboracionPorIdProfesor(Profesor profesor){
+    public Colaboracion obtenerColaboracionPorIdProfesor(Profesor profesor,String estado){
        ResultSet resultado;
        Colaboracion colaboracionObtenida = new Colaboracion();
        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
            PreparedStatement sentencia = conexion.prepareStatement("SELECT colaboracion.* from colaboracion,colaboracionprofesor where ? = colaboracionprofesor.idProfesor and colaboracionProfesor.idColaboracion = colaboracion.idColaboracion and estadoColaboracion = ?")){
            sentencia.setInt(1, profesor.getIdProfesor());
-           sentencia.setString(2, "Activa");
+           sentencia.setString(2,estado);
            resultado = sentencia.executeQuery();
             if(resultado.isBeforeFirst()){
                 while(resultado.next()){

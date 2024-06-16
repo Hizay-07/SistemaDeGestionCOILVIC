@@ -36,7 +36,7 @@ public class PruebaDAOColaboracionProfesorImplementacionSinConexionExitosa {
         Profesor profesor = new Profesor();
         profesor.setIdProfesor(1);                
         DAOColaboracionProfesorImplementacion dao = new DAOColaboracionProfesorImplementacion();
-        Colaboracion colaboracionObtenida = dao.obtenerColaboracionPorIdProfesor(profesor);   
+        Colaboracion colaboracionObtenida = dao.obtenerColaboracionPorIdProfesor(profesor,"Activa");   
         Colaboracion colaboracionEsperada = new Colaboracion();
         colaboracionEsperada.setEstadoColaboracion("Excepcion");
         assertEquals(colaboracionEsperada.getEstadoColaboracion(),colaboracionObtenida.getEstadoColaboracion());

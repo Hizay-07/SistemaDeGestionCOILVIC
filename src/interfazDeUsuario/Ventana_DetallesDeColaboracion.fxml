@@ -125,17 +125,22 @@
             </Label>
          </children>
       </VBox>
-      <Button fx:id="btn_Regresar" layoutX="458.0" layoutY="412.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Regresar" textFill="WHITE" onAction="#regresarAVentanaCorrespondiente">
+      <Button fx:id="btn_Regresar" layoutX="458.0" layoutY="412.0" mnemonicParsing="false" onAction="#regresarAVentanaCorrespondiente" style="-fx-background-color: red;" text="Regresar" textFill="WHITE">
          <font>
             <Font name="MS Reference Sans Serif" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btn_Actividades" layoutX="346.0" layoutY="413.0" mnemonicParsing="false" style="-fx-background-color: #87CEEB;" text="Actividades" textFill="WHITE" onAction="#visualizarActividades">
+      <Button fx:id="btn_Actividades" layoutX="346.0" layoutY="413.0" mnemonicParsing="false" onAction="#visualizarActividades" style="-fx-background-color: #87CEEB;" text="Actividades" textFill="WHITE">
          <font>
             <Font name="MS Reference Sans Serif" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btn_GenerarInforme" layoutX="193.0" layoutY="414.0" mnemonicParsing="false" style="-fx-background-color: #96CFBE;" text="Generar informe" textFill="WHITE" onAction="#generarInforme">
+      <Button fx:id="btn_GenerarInforme" layoutX="193.0" layoutY="414.0" mnemonicParsing="false" onAction="#generarInforme" style="-fx-background-color: #96CFBE;" text="Generar informe" textFill="WHITE">
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_Syllabus" onAction="#abrirSyllabusColaboracion" layoutX="103.0" layoutY="414.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Syllabus" textFill="WHITE">
          <font>
             <Font name="MS Reference Sans Serif" size="15.0" />
          </font>

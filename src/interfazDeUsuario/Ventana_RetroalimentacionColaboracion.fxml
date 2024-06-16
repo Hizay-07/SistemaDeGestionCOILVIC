@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchor_Ventana" prefHeight="495.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_RetroalimentacionColaboracionControlador">
+   <children>
+      <Pane id="pane_ColorSuperior" fx:id="pane_ColorSuperior" layoutX="-11.0" prefHeight="60.0" prefWidth="746.0" style="-fx-background-color: #168394;">
+         <children>
+            <Button fx:id="btn_Regresar" layoutX="40.0" layoutY="16.0" mnemonicParsing="false" onAction="#regresarDeVentana" style="-fx-background-color: red;" text="Regresar" textFill="WHITE">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="lbl_Titulo" layoutX="202.0" layoutY="5.0" text="Retroalimentar colaboración" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane id="pane_ColorInferior" fx:id="pane_ColorSuperior1" layoutY="436.0" prefHeight="60.0" prefWidth="734.0" style="-fx-background-color: #168394;" />
+      <Button fx:id="btn_Enviar" layoutX="299.0" layoutY="396.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Enviar" textFill="WHITE" onAction="#realizarRegistroRetroalimentacion">
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_Cancelar" layoutX="396.0" layoutY="396.0" mnemonicParsing="false" onAction="#cancelarRegistro" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="txa_Retroalimentacion" layoutX="114.0" layoutY="241.0" prefHeight="128.0" prefWidth="538.0">
+         <font>
+            <Font name="MS Reference Sans Serif" size="14.0" />
+         </font>
+      </TextArea>
+      <Label id="lbl_Retroalimentacion" layoutX="114.0" layoutY="213.0" text="Escribir retroalimentacion:">
+         <font>
+            <Font name="MS Reference Sans Serif" size="17.0" />
+         </font>
+      </Label>
+      <Label id="lbl_FechaDeInicio" layoutX="114.0" layoutY="169.0" text="Fecha de inicio:">
+         <font>
+            <Font name="MS Reference Sans Serif" size="16.0" />
+         </font>
+      </Label>
+      <Label id="lbl_FechaDeCierre" layoutX="380.0" layoutY="169.0" text="Fecha de cierre:">
+         <font>
+            <Font name="MS Reference Sans Serif" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_FechaDeInicioDato" layoutX="243.0" layoutY="169.0" prefHeight="20.0" prefWidth="130.0" style="-fx-border-color: black;">
+         <font>
+            <Font name="MS Reference Sans Serif" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_FechaDeCierreDato" layoutX="521.0" layoutY="169.0" prefHeight="20.0" prefWidth="130.0" style="-fx-border-color: black;">
+         <font>
+            <Font name="MS Reference Sans Serif" size="14.0" />
+         </font>
+      </Label>
+      <Label id="lbl_ExperienciaEducativa" layoutX="151.0" layoutY="92.0" text="Experiencia educativa:">
+         <font>
+            <Font name="MS Reference Sans Serif" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ExperienciaEducativaDato" layoutX="337.0" layoutY="92.0" prefHeight="20.0" prefWidth="314.0" style="-fx-border-color: black;">
+         <font>
+            <Font name="MS Reference Sans Serif" size="14.0" />
+         </font>
+      </Label>
+      <Label id="lbl_ProgramaEducativo" layoutX="151.0" layoutY="124.0" text="Programa educativo:">
+         <font>
+            <Font name="MS Reference Sans Serif" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ProgramaEducativoDato" layoutX="325.0" layoutY="124.0" prefHeight="20.0" prefWidth="327.0" style="-fx-border-color: black;">
+         <font>
+            <Font name="MS Reference Sans Serif" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_ErrorTextArea" layoutX="659.0" layoutY="260.0" text="*" textFill="RED" visible="false">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

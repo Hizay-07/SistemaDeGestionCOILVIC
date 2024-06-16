@@ -7,6 +7,7 @@ import logicaDeNegocio.clases.PropuestaColaboracion;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,7 +49,12 @@ public class PruebaDAOColaboracionImplementacion {
     public void pruebaRegistrarColaboracionFallida(){
         Colaboracion colaboracion=new Colaboracion();        
         DAOColaboracionImplementacion instancia=new DAOColaboracionImplementacion();
-        int resultadoEsperado=-1;
+        PropuestaColaboracion propuestaDeCOlaboracion = new PropuestaColaboracion();
+        propuestaDeCOlaboracion.setIdPropuestaColaboracion(1);
+        colaboracion.setEstadoColaboracion("Activa");
+        colaboracion.setPropuestaColaboracion(propuestaDeCOlaboracion);
+        colaboracion.setCantidadEstudiantes(50);
+        int resultadoEsperado=0;
         int resultadoObtenido=instancia.registrarColaboracion(colaboracion);
         assertEquals(resultadoEsperado,resultadoObtenido);        
     }        
@@ -104,7 +110,7 @@ public class PruebaDAOColaboracionImplementacion {
     }        
     
     @Test
-    public void obtenerIdColaboracionPorIdPropuestaExitosa(){
+    public void pruebaObtenerIdColaboracionPorIdPropuestaExitosa(){
         int idPropuestaColaboracion = 1;
         DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
         int resultadoObtenido = instancia.obtenerIdColaboracionPorIdPropuesta(idPropuestaColaboracion);
@@ -112,11 +118,75 @@ public class PruebaDAOColaboracionImplementacion {
     }
     
     @Test
-    public void obtenerIdColaboracionPorIdPropuestaFallida(){
+    public void pruebaObtenerIdColaboracionPorIdPropuestaFallida(){
         int idPropuestaColaboracion = 9999;
         DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
         int resultadoEsperado = 0;
         int resultadoObtenido = instancia.obtenerIdColaboracionPorIdPropuesta(idPropuestaColaboracion);
         assertEquals(resultadoEsperado, resultadoObtenido);    
     }        
+    
+    @Test
+    public void pruebaRealizarRetroalimentacionColaboracionExitosa(){
+        DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1);
+        colaboracion.setRetroalimentacion("La colaboracion es muy buena, de las mejores que he visto");
+        int resultadoObtenido = instancia.realizarRetroalimentacionColaboracion(colaboracion);
+        int resultadoEsperado = 1;
+        assertEquals(resultadoEsperado,resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaRealizarRetroalimentacionColaboracionFallida(){
+        DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(0);
+        colaboracion.setRetroalimentacion("La colaboracion no existe papu");
+        int resultadoObtenido = instancia.realizarRetroalimentacionColaboracion(colaboracion);
+        int resultadoEsperado = 0;
+        assertEquals(resultadoEsperado,resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaSubirSyllabusColaboracionExitosa(){
+        DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1);
+        colaboracion.setSyllabus("\\Colaboraciones\\Colaboracion1\\Syllabus");
+        int resultadoObtenido = instancia.subirSyllabusColaboracion(colaboracion);
+        int resultadoEsperado = 1;
+        assertEquals(resultadoEsperado,resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaSubirSyllabusColaboracionFallida(){
+        DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(25);
+        colaboracion.setSyllabus("\\Colaboraciones\\Colaboracion1\\Syllabus");
+        int resultadoObtenido = instancia.subirSyllabusColaboracion(colaboracion);
+        int resultadoEsperado = 0;
+        assertEquals(resultadoEsperado,resultadoObtenido);
+    }
+    
+    @Test
+    public void pruebaObtenerSyllabusColaboracionExitosa(){
+        DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(1);
+        String rutaObtenida = instancia.obtenerSyllabusColaboracion(colaboracion);
+        String rutaEsperada = "\\Colaboraciones\\Colaboracion1\\Syllabus";
+        assertEquals(rutaEsperada,rutaObtenida);
+    }
+    
+    @Test
+    public void pruebaObtenerSyllabusColaboracionFallida(){
+        DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(2);
+        String rutaObtenida = instancia.obtenerSyllabusColaboracion(colaboracion);
+        String rutaEsperada = "\\Colaboraciones\\Colaboracion1\\Syllabus";
+        assertNotEquals(rutaEsperada,rutaObtenida);
+    }
 }

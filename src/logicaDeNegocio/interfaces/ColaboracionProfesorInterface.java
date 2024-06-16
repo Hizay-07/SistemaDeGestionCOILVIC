@@ -9,7 +9,7 @@ public interface ColaboracionProfesorInterface {
     
     public List<Profesor> obtenerProfesoresPorIdColaboracion(Colaboracion colaboracion);
 
-    public Colaboracion obtenerColaboracionPorIdProfesor(Profesor profesor);
+    public Colaboracion obtenerColaboracionPorIdProfesor(Profesor profesor, String estado);
 
     public int registrarColaboracionProfesor(Profesor profesor, Colaboracion colaboracion);
 }

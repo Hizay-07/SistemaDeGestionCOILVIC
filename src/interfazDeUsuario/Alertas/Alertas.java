@@ -249,7 +249,8 @@ public class Alertas extends Application {
          Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("Error en el guardador");
-            mensaje.setContentText("No se pudo acceder a los elementos deseados");
+            mensaje.setContentText("No se pudo acceder a los elementos deseados.\n"
+                    + "El archivo no existe o no es un documento");
 
             mensaje.showAndWait();
         });
@@ -510,6 +511,15 @@ public class Alertas extends Application {
             Alert mensaje = new Alert(AlertType.CONFIRMATION);
             mensaje.setTitle("Notificación enviada");
             mensaje.setContentText("La notificación ha sido enviada correctamente.");
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static void mostrarMensajeNoSePuedeCerrarColaboracion(String mensajeAlerta){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("No es posible cerrar la colaboracion");
+            mensaje.setContentText(mensajeAlerta);
             mensaje.showAndWait();
         });
     }
