@@ -15,4 +15,10 @@ public interface ColaboracionInterface {
 
     public int obtenerIdColaboracionPorIdPropuesta(int idPropuestaColaboracion);
     
+    public int realizarRetroalimentacionColaboracion(Colaboracion colaboracion);
+    
+    public int subirSyllabusColaboracion(Colaboracion colaboracion);
+    
+    public String obtenerSyllabusColaboracion(Colaboracion colaboracion);
+    
 }

@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_Ventana" prefHeight="487.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ColaboracionesControlador">
+<AnchorPane fx:id="anchor_Ventana" prefHeight="487.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfazDeUsuario.Controladores.Ventana_ColaboracionesControlador">
    <children>
-      <Pane fx:id="pane_ColorSuperior" layoutX="-11.0" layoutY="-11.0" prefHeight="63.0" prefWidth="778.0" style="-fx-background-color: #168394;" />
-      <Pane fx:id="pane_ColorInferior" layoutY="435.0" prefHeight="52.0" prefWidth="767.0" style="-fx-background-color: #168394;" />
-      <ImageView fx:id="imgv_LogoCoil" fitHeight="95.0" fitWidth="104.0" layoutX="658.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+      <Pane fx:id="pane_ColorSuperior" layoutX="-11.0" layoutY="-11.0" prefHeight="63.0" prefWidth="868.0" style="-fx-background-color: #168394;" />
+      <Pane fx:id="pane_ColorInferior" layoutY="435.0" prefHeight="52.0" prefWidth="857.0" style="-fx-background-color: #168394;" />
+      <ImageView fx:id="imgv_LogoCoil" fitHeight="95.0" fitWidth="104.0" layoutX="740.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Imagenes/Coil-Interfaz.png" />
          </image>
@@ -25,7 +25,7 @@
             <Image url="@Imagenes/MAPAMUNDO.png" />
          </image>
       </ImageView>
-      <TableView fx:id="tableView_Colaboraciones" layoutX="17.0" layoutY="178.0" prefHeight="200.0" prefWidth="733.0" stylesheets="@EstiloTabla.css">
+      <TableView fx:id="tableView_Colaboraciones" layoutX="4.0" layoutY="178.0" prefHeight="200.0" prefWidth="851.0" stylesheets="@EstiloTabla.css">
         <columns>
           <TableColumn fx:id="column_IdColaboracion" prefWidth="45.599998474121094" text="ID" />
           <TableColumn fx:id="column_ProgramaEducativo" minWidth="0.0" prefWidth="182.39996337890625" text="Programa educativo" />
@@ -34,14 +34,15 @@
             <TableColumn fx:id="column_Estado" prefWidth="60.800018310546875" text="Estado" />
             <TableColumn fx:id="column_Visualizar" prefWidth="78.4000244140625" text="Visualizar" />
             <TableColumn fx:id="column_DarDeBajaColaboracion" prefWidth="136.800048828125" text="Dar de baja" />
+            <TableColumn fx:id="column_Retroalimentar" prefWidth="105.60009765625" text="Retroalimentar" />
         </columns>
       </TableView>
-      <Label fx:id="lbl_Titulo" layoutX="180.0" layoutY="81.0" text="COLABORACIONES COIL-VIC">
+      <Label fx:id="lbl_Titulo" layoutX="213.0" layoutY="82.0" text="COLABORACIONES COIL-VIC">
          <font>
             <Font name="MS Reference Sans Serif" size="32.0" />
          </font>
       </Label>
       <Button fx:id="btn_Regresar" layoutX="600.0" layoutY="386.0" mnemonicParsing="false" onAction="#regresarAMenuPrincipal" prefHeight="27.0" prefWidth="67.0" style="-fx-background-color: red;" text="Regresar" textFill="WHITE" />
-      <ComboBox fx:id="cmb_TipoDeColaboracion" layoutX="477.0" layoutY="130.0" onAction="#mostrarConsultaSeleccionada" prefHeight="26.0" prefWidth="172.0" promptText="Tipo de colaboraciones" stylesheets="@Combobox.css" />
+      <ComboBox fx:id="cmb_TipoDeColaboracion" layoutX="548.0" layoutY="131.0" onAction="#mostrarConsultaSeleccionada" prefHeight="26.0" prefWidth="172.0" promptText="Tipo de colaboraciones" stylesheets="@Combobox.css" />
    </children>
 </AnchorPane>

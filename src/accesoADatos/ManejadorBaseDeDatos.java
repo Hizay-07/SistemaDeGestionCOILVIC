@@ -34,12 +34,8 @@ public class ManejadorBaseDeDatos {
             String nombreUsuario = datosUsuario.getProperty("Usuario");
             String contrasenia = datosUsuario.getProperty("Contrasenia");
             conexion = DriverManager.getConnection(nombreBaseDeDatos,nombreUsuario,contrasenia);
-        }catch(SQLSyntaxErrorException excepcion){
-            LOG.fatal(excepcion.getCause());
-            conexion = null;
         }catch(SQLException excepcion){
             LOG.fatal(excepcion.getCause());
-            conexion = null;
         }
         return conexion;
     }
@@ -80,12 +76,8 @@ public class ManejadorBaseDeDatos {
             String nombreUsuario = datosLogger.getProperty("Usuario");
             String contrasenia = datosLogger.getProperty("Contrasenia");
             conexion = DriverManager.getConnection(nombreBaseDeDatos,nombreUsuario,contrasenia);
-        }catch(SQLSyntaxErrorException excepcion){
-            LOG.fatal(excepcion.getCause());
-            conexion = null;
         }catch(SQLException excepcion){
             LOG.fatal(excepcion.getCause());
-            conexion = null;
         }
         return conexion;
     }
@@ -127,18 +119,6 @@ public class ManejadorBaseDeDatos {
             LOG.fatal(excepcion.getCause());
         }
         return propiedadesProfesor;
-    }
-    
-    public void cerrarConexion(Connection conexion){
-        if(conexion!=null){
-            try{
-                if(!conexion.isClosed()){
-                    conexion.close();
-                }
-            }catch(SQLException excepcion){
-                LOG.fatal(excepcion.getCause());
-            }
-        }
     }
     
 }
