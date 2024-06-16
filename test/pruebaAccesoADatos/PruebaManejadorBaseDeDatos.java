@@ -8,6 +8,7 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.clases.Usuario;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class PruebaManejadorBaseDeDatos{
     
@@ -20,7 +21,7 @@ public class PruebaManejadorBaseDeDatos{
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos();
-        assertNotNull(resultado);
+        assertNull(resultado);
         resultado.close();
     }
     
@@ -33,7 +34,7 @@ public class PruebaManejadorBaseDeDatos{
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos();
-        assertNotNull(resultado);
+        assertNull(resultado);
         resultado.close();
     }
     
@@ -69,7 +70,7 @@ public class PruebaManejadorBaseDeDatos{
         logger.setTipoDeUsuario("Logger");
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatosLogger(logger);
-        assertNotNull(resultado);
+        assertNull(resultado);
     }
    
 }

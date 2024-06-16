@@ -56,7 +56,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
     /**
     *Obtener el ID de colaboración asociada a un profesor
     *@param profesor Profesor del cual se desea obtener el ID de colaboración a la cual pertenece
-    *@parama estado indica el estado de la colaboracion de la cual se interesa obtener detalles
+    *@param estado String el cual indica el estado de la colaboracion de la cual se interesa obtener detalles
     *@return Regresa el ID de colaboración asociado al profesor ingresado
     **/
     @Override

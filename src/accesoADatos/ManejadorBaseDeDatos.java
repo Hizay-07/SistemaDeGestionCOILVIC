@@ -35,7 +35,8 @@ public class ManejadorBaseDeDatos {
             String contrasenia = datosUsuario.getProperty("Contrasenia");
             conexion = DriverManager.getConnection(nombreBaseDeDatos,nombreUsuario,contrasenia);
         }catch(SQLException excepcion){
-            LOG.fatal(excepcion.getCause());
+            LOG.fatal(excepcion);
+            conexion = null;
         }
         return conexion;
     }

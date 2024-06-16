@@ -6,11 +6,14 @@ public class Colaboracion {
     
     private int idColaboracion;
     private String retroalimentacion;
+    private String syllabus;
     private String estadoColaboracion;
     private int cantidadEstudiantes;
     private PropuestaColaboracion propuestaColaboracion;
     private static final String SOLO_LETRAS_PATTERN = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ']+)*$";
+    private static final String RETROALIMENTACION = "^[\\p{L}\\d\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()]+(?:\\s[\\p{L}\\d\\sáéíóúÁÉÍÓÚüÜ.,;'-_?¿()]+)*$";
     private static final String SOLO_NUMEROS_PATTERN = "\\d+";
+    private static final String RUTA = "^[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,'-_()0-9]+(?:\\s[\\p{L}\\sáéíóúÁÉÍÓÚüÜ.,'-_()0-9]+)*$";
 
     public Colaboracion() {
         
@@ -56,6 +59,30 @@ public class Colaboracion {
     public void setCantidadEstudiantes(int cantidadEstudiantes)throws IllegalArgumentException {
         if(Pattern.matches(SOLO_NUMEROS_PATTERN, String.valueOf(cantidadEstudiantes)) && cantidadEstudiantes >= 0 && cantidadEstudiantes <= 150){
             this.cantidadEstudiantes = cantidadEstudiantes;
+        }else{
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    public String getRetroalimentacion(){
+        return retroalimentacion;
+    }
+    
+    public void setRetroalimentacion(String retroalimentacion)throws IllegalArgumentException{
+        if(Pattern.matches(RETROALIMENTACION, retroalimentacion) && retroalimentacion.length()>=10&&retroalimentacion.length()<=255){
+            this.retroalimentacion = retroalimentacion;
+        }else{
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    public String getSyllabus(){
+        return syllabus;
+    }
+    
+    public void setSyllabus(String rutaSyllabus)throws IllegalArgumentException{
+        if(Pattern.matches(RUTA, rutaSyllabus) && rutaSyllabus.length()>=10&&rutaSyllabus.length()<=255){
+            this.syllabus = rutaSyllabus;
         }else{
             throw new IllegalArgumentException();
         }

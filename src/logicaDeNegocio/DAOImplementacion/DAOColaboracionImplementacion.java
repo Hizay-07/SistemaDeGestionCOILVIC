@@ -157,7 +157,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     }
     
     /**
-    *Poder asignar una retroalimentación a una colaboración registrada en la base de datos
+    *Permite asignar una retroalimentación a una colaboración registrada en la base de datos
     * @param colaboracion Colaboracion con los datos a registrar en la base de datos
     * @return regresa un Int con el número de filas afectadas
     **/
@@ -165,7 +165,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     public int realizarRetroalimentacionColaboracion(Colaboracion colaboracion) {
         int resultadoModifiacion=0;
         try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion = conexion.prepareStatement("update colaboracion set retroalimentacion = ? where idColaboracion = ?")){
+            PreparedStatement declaracion = conexion.prepareStatement("update colaboracion set retroalimentacion = ? where idColaboracion = ? and (estadoColaboracion='Cerrada' or estadoColaboracion='Finalizada')")){
             declaracion.setString(1, colaboracion.getRetroalimentacion());
             declaracion.setInt(2, colaboracion.getIdColaboracion());
             resultadoModifiacion = declaracion.executeUpdate();
@@ -185,7 +185,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     public int subirSyllabusColaboracion(Colaboracion colaboracion) {
         int resultadoModifiacion=0;
         try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion = conexion.prepareStatement("update colaboracion set syllabus = ? where idColaboracion = ?")){
+            PreparedStatement declaracion = conexion.prepareStatement("update colaboracion set syllabus = ? where idColaboracion = ? and estadoColaboracion = 'Cerrada'")){
             declaracion.setString(1, colaboracion.getSyllabus());
             declaracion.setInt(2, colaboracion.getIdColaboracion());
             resultadoModifiacion = declaracion.executeUpdate();

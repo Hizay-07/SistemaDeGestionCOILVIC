@@ -85,7 +85,7 @@ public class PruebaDAOColaboracionImplementacionSinConexionExitosa {
     }
     
     @Test
-    public void pruebaSubirSyllabusColaboracionExitosa(){
+    public void pruebaSubirSyllabusColaboracionSinConexionExitosa(){
         DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1);
@@ -96,7 +96,7 @@ public class PruebaDAOColaboracionImplementacionSinConexionExitosa {
     }
     
     @Test
-    public void pruebaObtenerSyllabusColaboracionExitosa(){
+    public void pruebaObtenerSyllabusColaboracionSinConexionExitosa(){
         DAOColaboracionImplementacion instancia = new DAOColaboracionImplementacion();
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1);
