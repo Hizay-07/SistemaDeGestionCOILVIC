@@ -57,13 +57,10 @@ public class DAOActividadImplementacion implements ActividadInterface {
             sentencia.setString(3, actividadActualizada.getEstado());
             sentencia.setInt(4, actividadActualizada.getIdActividad());
             resultadoModificacion = sentencia.executeUpdate();
-        }catch(SQLException excepcion){
+        }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
-        }catch(NullPointerException excepcion){
-            LOG.fatal(excepcion.getMessage());
-            resultadoModificacion = -1;
-        }        
+        }     
         return resultadoModificacion;
     }
     

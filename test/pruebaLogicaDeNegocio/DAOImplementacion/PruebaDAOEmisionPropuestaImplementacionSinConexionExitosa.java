@@ -4,11 +4,22 @@ import java.util.List;
 import logicaDeNegocio.DAOImplementacion.DAOEmisionPropuestaImplementacion;
 import logicaDeNegocio.clases.EmisionPropuesta;
 import logicaDeNegocio.clases.Profesor;
+import logicaDeNegocio.clases.Usuario;
+import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PruebaDAOEmisionPropuestaImplementacionSinConexionExitosa {
+    
+    @BeforeClass
+    public static void inicializar() {
+        Usuario usuarioPrueba = new Usuario();
+        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
+        usuarioPrueba.setContrasenia("Contrasenia123*");
+        usuarioPrueba.setTipoDeUsuario("Administrativo");
+        UsuarioSingleton.getInstancia(usuarioPrueba);
+    }
     
     @Test
     public void pruebaRegistrarEmisionPropuestaSinConexionExitosa(){
