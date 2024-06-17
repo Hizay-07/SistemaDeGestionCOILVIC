@@ -94,6 +94,9 @@ public class Ventana_ColaboracionActivaControlador implements Initializable {
                 Profesor profesor = new Profesor();
                 profesor.setIdProfesor(ProfesorSingleton.getInstancia().getIdProfesor());
                 Colaboracion colaboracionObtenida = daoColaboracionProfesor.obtenerColaboracionPorIdProfesor(profesor,"Activa");
+                if(colaboracionObtenida.getIdColaboracion()==0){
+                   colaboracionObtenida = daoColaboracionProfesor.obtenerColaboracionPorIdProfesor(profesor,"Cerrada");
+                }
                 List<Actividad> actividades = daoActividad.obtenerActividades(colaboracionObtenida.getIdColaboracion());
                 if(fechaActual.isEqual(fechaCierrePropuesta)||fechaActual.isAfter(fechaCierrePropuesta)){
                     if(actividades.size()>=3){
