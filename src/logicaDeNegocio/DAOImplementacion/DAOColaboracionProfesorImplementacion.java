@@ -21,7 +21,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
     
     /**
     *Obtener los profesores pertenecientes a una colaboración a través del ID de la colaboración
-    *@param colaboracion Colaboración de la cual se desea obtener los profesores asociados 
+    *@param colaboracion Objeto Colaboración de la cual se desea obtener los profesores asociados 
     *@return Regresa la lista de profesores pertenecientes a la colaboración ingresada
     **/
     @Override
@@ -55,7 +55,7 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
 
     /**
     *Obtener el ID de colaboración asociada a un profesor
-    *@param profesor Profesor del cual se desea obtener el ID de colaboración a la cual pertenece
+    *@param profesor Objeto Profesor del cual se desea obtener el ID de colaboración a la cual pertenece
     *@param estado String el cual indica el estado de la colaboracion de la cual se interesa obtener detalles
     *@return Regresa el ID de colaboración asociado al profesor ingresado
     **/
@@ -88,8 +88,8 @@ public class DAOColaboracionProfesorImplementacion implements ColaboracionProfes
     
     /**
     *Registrar un profesor a una colaboración dentro de la base de datos
-    *@param profesor Profesor que se desea asignar a una colaboración
-    *@param colaboracion Colaboración que se desea asociar a un profesor
+    *@param profesor Objeto Profesor que se desea asignar a una colaboración
+    *@param colaboracion Objeto Colaboración que se desea asociar a un profesor
     *@return Regresa el numero de filas afectadas
     **/
     @Override

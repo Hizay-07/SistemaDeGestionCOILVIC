@@ -18,7 +18,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     
     /**
     *Registrar una nueva actividad dentro de la base de datos
-    *@param actividadNueva Actividad nueva a registrar dentro de la base datos
+    *@param actividadNueva Objeto Actividad nueva a registrar dentro de la base datos
     *@return Regresa el numero de filas afectadas
     **/
     @Override
@@ -43,7 +43,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
 
     /**
     *Modificar los datos de una actividad registrada en la base de datos 
-    *@param actividadActualizada Actividad que contiene datos nuevos a modificar
+    *@param actividadActualizada Objeto Actividad que contiene datos nuevos a modificar
     *@return Regresa el numero de filas afectadas
     * 
     **/
@@ -66,7 +66,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     
     /**
     *Modificar las fechas de una actividad registrada en la base de datos 
-    *@param actividadActualizada Actividad que contiene las fechas nuevas a modificar
+    *@param actividadActualizada Objeto Actividad que contiene las fechas nuevas de inicio y cierre a modificar
     *@return Regresa el numero de filas afectadas
     **/
     @Override
@@ -88,7 +88,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     
     /**
     *Obtener la lista de actividades de una coolaboración a través de su ID 
-    *@param idColaboracion id de la colaboración de la cual se desea obtener actividades
+    *@param idColaboracion Int con el id de la colaboración de la cual se desea obtener actividades
     *@return Regresa la lista de actividades recuperadas de la base de datos
     **/
     @Override
@@ -123,7 +123,7 @@ public class DAOActividadImplementacion implements ActividadInterface {
     
     /**
     *Obtener el numero de una actividad deseada
-    *@param actividad Actividad de la cual se requiere conocer su número
+    *@param actividad Objeto Actividad de la cual se requiere conocer su número de actividad asignado
     *@return Regresa el numero de la actividad deseada
     **/
     @Override
@@ -177,8 +177,8 @@ public class DAOActividadImplementacion implements ActividadInterface {
 
     /**
     *Actualizar el estado de una actividad 
-    *@param actividad Actividad de la cual se desea cambiar su estado
-    *@param estado Estado de la actividad que se desea actualizar
+    *@param actividad Objeto Actividad de la cual se desea cambiar su estado
+    *@param estado String con el Estado de la actividad que se desea actualizar
     *@return Regresa el número de filas afectadas
     **/
     @Override

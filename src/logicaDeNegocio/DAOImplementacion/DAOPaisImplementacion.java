@@ -18,7 +18,7 @@ public class DAOPaisImplementacion implements PaisInterface {
 
     /**
     *Obtener el numero de un país registrado en la base de datos
-    *@param paisAConsultar Pais del cual se desea obtener su numero registrado en
+    *@param paisAConsultar Objeto Pais del cual se desea obtener su numero registrado en
     * la base de datos
     *@return Regresa el numero de pais asignado en la base de datos
     **/

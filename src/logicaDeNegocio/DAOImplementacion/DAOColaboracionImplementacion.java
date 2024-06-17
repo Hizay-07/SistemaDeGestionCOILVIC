@@ -20,7 +20,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     
     /**
     *Registrar una colaboración dentro de la base de datos
-    *@param colaboracion Colaboración con los datos a registrar dentro de la base de datos
+    *@param colaboracion Objeto Colaboración con los datos a registrar dentro de la base de datos
     *@return Regresa el número de filas afectadas
     **/
     @Override
@@ -77,7 +77,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     /**
     *Obtener las colaboraciones con un estado específico que se encuentran registradas
     *en la base de datos
-    *@param estado String con el estado de la colaboración
+    *@param estado String con el estado de las colaboraciones a consultar
     *@return Regresa la lista de colaboraciones con un estado específico 
     * encontradas en la base de datos
     **/
@@ -114,7 +114,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     /**
     *Cambiar el estado de una colaboración registrada en la base de datos
     *@param estado String con el estado nuevo a actualizar
-    *@param colaboracion Colaboración a actualizar registrada en la base de datos
+    *@param colaboracion Objeto Colaboración a actualizar registrada en la base de datos
     *@return Regresa el número de filas afectadas
     **/
     @Override
@@ -158,7 +158,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     
     /**
     *Permite asignar una retroalimentación a una colaboración registrada en la base de datos
-    * @param colaboracion Colaboracion con los datos a registrar en la base de datos
+    * @param colaboracion Objeto Colaboracion con los datos a registrar en la base de datos
     * @return regresa un Int con el número de filas afectadas
     **/
     @Override
@@ -178,7 +178,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
 
     /**
     *Poder subir la ruta del syllabus de una colaboración registrada en la base de datos
-    * @param colaboracion Colaboracion con los datos a registrar en la base de datos
+    * @param colaboracion Objeto Colaboracion con los datos a registrar en la base de datos
     * @return Regresa un Int con el número de filas afectadas
     **/
     @Override
@@ -198,7 +198,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
     
     /**
     *Permite obtener la ruta del archivo Syllabus asociado a una base de datos registrada en la base de datos
-    * @param colaboracion Colaboracion con los datos para realizar la consulta
+    * @param colaboracion Objeto Colaboracion con los datos para realizar la consulta
     * @return Regresa un String con la ruta del Syllabus de colaboracion asociada en la base de datos
     **/
     @Override

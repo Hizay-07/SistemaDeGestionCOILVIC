@@ -20,7 +20,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
 
     /**
     *Registrar una petición de colaboracion dentro de la base de datos
-    *@param peticion PeticionColaboracion con los datos a registrar en la base de
+    *@param peticion Objeto PeticionColaboracion con los datos a registrar en la base de
     * datos
     *@return Regresa el numero de filas afectadas
     **/
@@ -226,7 +226,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
     *Actualizar el estado de peticiones de colaboración registradas en la base de datos a través
     * del ID de la propuesta de colaboración asociado
     *@param idPropuestaColaboracion Int con el ID de una propuesta de colaboración asociada
-    * a una peticiónd de colaboración
+    * a una petición de colaboración
     *@return Regresa el resultado del cambio de estado de la petición de colaboración
     **/
     @Override

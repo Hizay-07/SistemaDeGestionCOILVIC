@@ -19,7 +19,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
 
     /**
     *Registrar un representante institucional dentro de la base de datos
-    *@param representanteIngresado RepresentanteInstitucional con los datos a registrar
+    *@param representanteIngresado Objeto RepresentanteInstitucional con los datos a registrar
     * dentro de la base de datos
     *@return Regresa el numero de filas afectadas
     **/
@@ -44,7 +44,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     
     /**
     *Editar el nombre asociado a un representante institucional registrado en la base de datos
-    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@param representanteAActualizar Objeto RepresentanteInstitucional a actualizar
     *@param nombreActualizado String con el nuevo nombre a asignar
     *@return Regresa el numero de filas afectadas
     **/  
@@ -65,7 +65,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
 
     /**
     *Editar la clave institucional asociada a un representante institucional registrado en la base de datos
-    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@param representanteAActualizar Objeto RepresentanteInstitucional a actualizar
     *@param claveActualizada String con la nueva clave institucional a asignar
     *@return Regresa el numero de filas afectadas
     **/  
@@ -86,7 +86,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
 
     /**
     *Editar el contacto asociado a un representante institucional registrado en la base de datos
-    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@param representanteAActualizar Objeto RepresentanteInstitucional a actualizar
     *@param contactoActualizado String con el contacto nombre a asignar
     *@return Regresa el numero de filas afectadas
     **/ 
@@ -107,7 +107,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     
     /**
     *Editar el país asociado a un representante institucional registrado en la base de datos
-    *@param representanteAActualizar RepresentanteInstitucional a actualizar
+    *@param representanteAActualizar Objeto RepresentanteInstitucional a actualizar
     *@return Regresa el numero de filas afectadas
     **/ 
     @Override
@@ -130,7 +130,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     /**
     *Verificar la existencia de un representante institucional en la base de datos
     * a través de su clave institucional asociado
-    *@param representanteAConsultar RepresentanteInstitucional a consultar
+    *@param representanteAConsultar Objeto RepresentanteInstitucional a consultar
     *@return Regresa el numero de coincidencias encontradas
     **/ 
     @Override
@@ -153,7 +153,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     /**
     *Verificar la existencia de un representante institucional en la base de datos
     * a través de su nombre asociado
-    *@param representanteAConsultar RepresentanteInstitucional a consultar
+    *@param representanteAConsultar Objeto RepresentanteInstitucional a consultar
     *@return Regresa el numero de coincidencias encontradas
     **/ 
     @Override
@@ -176,7 +176,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
     /**
     *Verificar la existencia de un representante institucional en la base de datos
     * a través de su contacto asociado
-    *@param representanteAConsultar RepresentanteInstitucional a consultar
+    *@param representanteAConsultar Objeto RepresentanteInstitucional a consultar
     *@return Regresa el numero de coincidencias encontradas
     **/ 
     @Override

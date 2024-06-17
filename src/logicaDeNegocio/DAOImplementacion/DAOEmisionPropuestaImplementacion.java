@@ -19,7 +19,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
     
     /**
     *Registrar una emisión de propuesta dentro de la base de datos
-    *@param emisionPropuesta EmisionPropuesta con los datos a registrar dentro de la
+    *@param emisionPropuesta Objeto EmisionPropuesta con los datos a registrar dentro de la
     *base de datos
     *@return Regresa el número de filas afectadas
     **/
@@ -99,7 +99,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
     
     /**
     *Obtener los ID de propuestas de colaboración realizadas por un profesor
-    * @param profesor Profesor del cual se desea obtener las propuestas de colaboración
+    * @param profesor Objeto Profesor del cual se desea obtener las propuestas de colaboración
     * asociadas a el, registradas en la base de datos
     *@return Regresa la lista de los ID de propuestas de colaboración asociadas al profesor
     * ingresado
