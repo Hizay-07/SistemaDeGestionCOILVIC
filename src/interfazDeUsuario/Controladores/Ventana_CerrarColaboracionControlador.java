@@ -4,8 +4,6 @@ import interfazDeUsuario.Alertas.Alertas;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -19,15 +17,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
-import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
-import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
-import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumColaboracion;
-import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.manejadorDeArchivos.ManejadorDeArchivos;
 import org.apache.log4j.Logger;
 
@@ -99,8 +93,8 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
                 int resultadoGuardadoDeSyllabus = manejadorArchivos.guardarSyllabusDeColaboracion(colaboracion, archivoSyllabus);
                     if(resultadoGuardadoDeSyllabus==1){
                         DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
-                        int resultadoGuardadoDeSyllabusBaseDeDatos = daoColaboracion.subirSyllabusColaboracion(colaboracion);
                         int resultadoModificacionEstadoColaboracion = cambiarDeEstadoColaboracion();
+                        int resultadoGuardadoDeSyllabusBaseDeDatos = daoColaboracion.subirSyllabusColaboracion(colaboracion);
                         if(resultadoGuardadoDeSyllabusBaseDeDatos==1&&resultadoModificacionEstadoColaboracion==1){
                             Alertas.mostrarColaboracionCerrada();
                             regresarAMenuPrincipalProfesor();
