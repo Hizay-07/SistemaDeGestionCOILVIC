@@ -69,7 +69,7 @@ public class Colaboracion {
     }
     
     public void setRetroalimentacion(String retroalimentacion)throws IllegalArgumentException{
-        if(Pattern.matches(RETROALIMENTACION, retroalimentacion) && retroalimentacion.length()>=10&&retroalimentacion.length()<=255){
+        if(Pattern.matches(RETROALIMENTACION, retroalimentacion) && retroalimentacion.length()>=1&&retroalimentacion.length()<=255){
             this.retroalimentacion = retroalimentacion;
         }else{
             throw new IllegalArgumentException();
