@@ -98,6 +98,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         cargarDatosComboBoxEstadoProfesor();
         cargarDatosProfesor(); 
         ocultarLabelErrores();
+        limitarTextFields();
     }
     
     private void ocultarLabelErrores(){
@@ -108,6 +109,16 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         lbl_ErrorCategoriaDeContratacion.setVisible(false);
         lbl_ErrorTipoDeContratacion.setVisible(false);
         lbl_ErrorNumeroPersonal.setVisible(false);
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_Nombre, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ApellidoPaterno, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ApellidoMaterno, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_Correo, 70);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NumeroDePersonal, 4);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_TipoDeContratacion, 150);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_CategoriaDeContratacion, 150);
     }
     
     private void cerrarVentana(){
@@ -334,14 +345,14 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
         return resultado;
     }
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -471,8 +482,7 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
     }
     
     public void regresarDeVentana(){
-        int resultadoValidacion = validarConexionEstable();
-        if(resultadoValidacion==1){
+        if(obtenerResultadoValidacionConexion()){
             String rutaVentanaFXML="/interfazDeUsuario/Ventana_Profesores.fxml";
             try{
                 Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
@@ -485,9 +495,6 @@ public class Ventana_ActualizarPerfilPofesorControlador implements Initializable
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacion==-1){
-            Alertas.mostrarMensajeSinConexion();
-            salirAlInicioDeSesion();
         }else{
             Alertas.mostrarMensajeUsuarioNoEncontrado();
         }

@@ -2,6 +2,7 @@ package interfazDeUsuario.Controladores;
 
 import com.itextpdf.text.Document;
 import interfazDeUsuario.Alertas.Alertas;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +24,7 @@ import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
 import logicaDeNegocio.manejadorDeArchivos.InformeImplementacion;
 import logicaDeNegocio.clases.Actividad;
 import logicaDeNegocio.clases.Colaboracion;
@@ -41,6 +43,8 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     private AnchorPane anchor_Ventana;
     @FXML
     private Button btn_GenerarInforme;
+    @FXML
+    private Button btn_Syllabus;
     @FXML
     private Label lbl_IdColaboracionDato;
     @FXML
@@ -72,6 +76,11 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
             btn_GenerarInforme.setVisible(true);
         }else{
             btn_GenerarInforme.setVisible(false);
+        }
+        if(usuario.getTipoDeUsuario().equals("Administrativo")&&!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())){
+            btn_Syllabus.setVisible(true);
+        }else{
+            btn_Syllabus.setVisible(false);
         }
         inicializarDatosColaboracion();
     } 
@@ -125,44 +134,90 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     
     private Document obtenerInformeDeColaboracion(){
         Document informeGenerado = new Document();
-        ColaboracionAuxiliar colaboracion =  ColaboracionAuxiliar.getInstancia();
-        Colaboracion colaboracionActual = new Colaboracion(); 
+        ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
+        Colaboracion colaboracionActual = new Colaboracion();
         colaboracionActual.setPropuestaColaboracion(colaboracion.getPropuestaColaboracion());
         colaboracionActual.setEstadoColaboracion(colaboracion.getEstadoColaboracion());
         colaboracionActual.setIdColaboracion(colaboracion.getIdColaboracion());
         colaboracionActual.setCantidadEstudiantes(colaboracion.getCantidadEstudiantes());
         List<Actividad> actividades = obtenerActividadesColaboracion(colaboracionActual);
         List<Profesor> profesores = obtenerProfesoresColaboracion(colaboracionActual);
-        InformeImplementacion creacionDeInforme = new InformeImplementacion();
-        informeGenerado = creacionDeInforme.crearInformeDeColaboracion(colaboracionActual, actividades, profesores);
+        if(!actividades.get(0).getNombre().equals("Excepcion")&&!profesores.get(0).getNombre().equals("Excepcion")){
+            InformeImplementacion creacionDeInforme = new InformeImplementacion();
+            informeGenerado = creacionDeInforme.crearInformeDeColaboracion(colaboracionActual, actividades, profesores);
+        }
         return informeGenerado;
     }
     
-    private void guardarInforme(Document informeAGuardar){
+    private void guardarInforme(){
         FileChooser escogerRutaDeGuardado = new FileChooser();
         escogerRutaDeGuardado.setTitle("Seleccione el lugar donde desea guardar el informe");
         escogerRutaDeGuardado.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
         escogerRutaDeGuardado.setInitialDirectory(new File(System.getProperty("user.home")));
-        File archivoAGuardar = escogerRutaDeGuardado.showSaveDialog(escenario);
-        InformeImplementacion guardadoImplementacion = new InformeImplementacion();
-        ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
-        int resultadoGuardado = guardadoImplementacion.guardarArchivoDeInforme(archivoAGuardar, informeAGuardar,colaboracion.getIdColaboracion());
-        if(resultadoGuardado==1){
-            Alertas.mostrarMensajeInformeGuardadoExitosamente();
-        }else{
-            Alertas.mostrarMensajeErrorAlGuardarInforme();
+        try{
+            File archivoAGuardar = escogerRutaDeGuardado.showSaveDialog(escenario);
+            InformeImplementacion guardadoImplementacion = new InformeImplementacion();
+            ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
+            int resultadoGuardado = guardadoImplementacion.guardarArchivoDeInforme(archivoAGuardar,colaboracion.getIdColaboracion());
+            if(resultadoGuardado==1){
+                Alertas.mostrarMensajeInformeGuardadoExitosamente();
+            }else{
+                Alertas.mostrarMensajeErrorAlGuardarInforme();
+            }
+        }catch(NullPointerException excepcion){
+            LOG.info(excepcion);
         }
     }   
     
     public void generarInforme(){
-        Document informeGenerado = obtenerInformeDeColaboracion();
-        if(Objects.nonNull(informeGenerado)){
-            boolean resultadoAlerta = Alertas.mostrarMensajeDescargaDeArchivo();
-            if(resultadoAlerta){
-                guardarInforme(informeGenerado);
+        InformeImplementacion implementacionInforme = new InformeImplementacion(); 
+        if (!implementacionInforme.validarExistenciaDeInforme(ColaboracionAuxiliar.getInstancia().getIdColaboracion())) {
+            if (obtenerResultadoValidacionConexion()) {
+                Document informeGenerado = obtenerInformeDeColaboracion();
+                if (Objects.nonNull(informeGenerado)) {
+                    boolean resultadoAlerta = Alertas.mostrarMensajeDescargaDeArchivo();
+                    if (resultadoAlerta) {
+                        guardarInforme();
+                    }
+                } else {
+                    Alertas.mostrarErrorEnLaCreacionDeInforme();
+                }
+            }else{
+                salirAlInicioDeSesion();
+            }
+        } else {
+            if (Alertas.mostrarMensajeArchivoGeneradoPreviamente()) {
+                guardarInforme();
+            }
+        }
+    }
+    
+    public void abrirSyllabusColaboracion(){
+        if(obtenerResultadoValidacionConexion()){
+            DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+            Colaboracion colaboracionActual = new Colaboracion();
+            colaboracionActual.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
+            String rutaArchivoObtenido = daoColaboracion.obtenerSyllabusColaboracion(colaboracionActual);
+            if(rutaArchivoObtenido.isEmpty()){
+                Alertas.mostrarMensajeErrorAlObtenerDatos();
+            }else if(rutaArchivoObtenido.equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                salirAlInicioDeSesion();
+            }else{
+                File archivoSyllabus = new File(rutaArchivoObtenido);
+                if(archivoSyllabus.exists()&&archivoSyllabus.isFile()){
+                    try{
+                        Desktop.getDesktop().open(archivoSyllabus);
+                    }catch(IOException excepcion){
+                        LOG.error(excepcion);
+                        Alertas.mostrarMensajeErrorAlObtenerDatos();
+                    }
+                }else{
+                    Alertas.mostrarMensajeErrorAlAccederAlaCarpeta();
+                }
             }
         }else{
-            Alertas.mostrarErrorEnLaCreacionDeInforme();
+            salirAlInicioDeSesion();
         }
     }
     
@@ -182,8 +237,7 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
     }
     
     private void desplegarVentanaCorrespondiente(String rutaVentanaFXML){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaVentanaFXML));
             Scene scene = new Scene(root);
@@ -195,11 +249,8 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion);
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }  
     }
     
@@ -208,6 +259,27 @@ public class Ventana_DetallesDeColaboracionControlador implements Initializable 
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
      
     public void salirAlInicioDeSesion(){

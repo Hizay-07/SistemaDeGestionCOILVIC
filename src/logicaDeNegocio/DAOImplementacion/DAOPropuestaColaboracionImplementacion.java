@@ -127,8 +127,11 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setProfesor(profesor);                
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-        } catch (SQLException | NullPointerException ex) {
-            LOG.warn(ex);
+        } catch (SQLException | NullPointerException excepcion) {
+            LOG.warn(excepcion);
+            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
+            propuestasColaboracion.add(0,propuestaColaboracion);
         }
         return propuestasColaboracion;        
     }
@@ -167,7 +170,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
-            propuestaColaboracion = null;
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
         }
         return propuestaColaboracion;
     }
@@ -212,7 +215,9 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion);
-            return new ArrayList<>();
+            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
+            propuestasColaboracion.add(0,propuestaColaboracion);
         }
         return propuestasColaboracion;                
     }
@@ -221,15 +226,17 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     *Obtener el ID de propuesta de colaboración aprobada a través de un ID de profesor
     * asociado en la base de datos
     * @param idProfesor int con el ID de profesor registrado en la base de datos
+    * @param estado String con el estado de propuesta de colaboracion que se desea obtener
     *@return Regresa el ID de propuesta de colaboración encontrada
     **/
     @Override
-    public int obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(int idProfesor){
+    public int obtenerIdPropuestaColaboracionPorEstadoPorIdProfesor(int idProfesor,String estado){
         ResultSet resultado;
         int idPropuestaColaboracion=0;
         try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
-            PreparedStatement declaracion=conexion.prepareStatement("select p.idPropuestaColaboracion from emisionPropuesta e, propuestaColaboracion p where idProfesor=? AND p.idPropuestaColaboracion=e.idPropuestaColaboracion AND p.estadoPropuesta='Aprobada';")){
+            PreparedStatement declaracion=conexion.prepareStatement("select p.idPropuestaColaboracion from emisionPropuesta e, propuestaColaboracion p where idProfesor=? AND p.idPropuestaColaboracion=e.idPropuestaColaboracion AND p.estadoPropuesta=?;")){
             declaracion.setInt(1, idProfesor);
+            declaracion.setString(2, estado);
             resultado=declaracion.executeQuery();           
             if(resultado.next()){
                 idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");                
@@ -282,6 +289,9 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             }
         } catch (SQLException | NullPointerException ex) {
             LOG.warn(ex);
+            PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
+            propuestaColaboracion.setEstadoPropuesta("Excepcion");
+            propuestasColaboracion.add(0,propuestaColaboracion);
         }
         return propuestasColaboracion; 
     }

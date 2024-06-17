@@ -226,6 +226,9 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             }
        }catch(SQLException | NullPointerException excepcion){
           LOG.error(excepcion.getMessage());
+          RepresentanteInstitucional representanteConsultado = new RepresentanteInstitucional();
+          representanteConsultado.setNombreInstitucion("Excepcion");
+          representantes.add(0,representanteConsultado);
        }
        return representantes;
     }  
@@ -275,6 +278,7 @@ public class DAORepresentanteInstitucionalImplementacion implements Representant
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            nombreInstitucion = "Excepcion";
         }
         return nombreInstitucion;        
     }

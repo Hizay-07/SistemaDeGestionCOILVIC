@@ -9,14 +9,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import logicaDeNegocio.ClasesAuxiliares.ActividadAuxiliar;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOActividadImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
@@ -46,6 +50,8 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
     @FXML
     private TableColumn<Actividad, String> column_Estado;
     @FXML
+    private TableColumn<Actividad, Void> column_Evidencias;
+    @FXML
     private Button btn_Regresar;
     
     @Override
@@ -56,10 +62,24 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         column_Inicio.setCellValueFactory(new PropertyValueFactory<>("fechaDeInicio"));
         column_Cierre.setCellValueFactory(new PropertyValueFactory<>("fechaDeCierre"));
         column_Estado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        String tipoDeUsuario = UsuarioSingleton.getInstancia().getTipoDeUsuario();
+        if(tipoDeUsuario.equals("Administrativo")){
+            asignarBotonEvidencias();
+        }else{
+            column_Evidencias.setVisible(false);
+        }
         try{
             List<Actividad> actividadesDeColaboracion = obtenerActividades();
             tableView_Actividades.getItems().addAll(actividadesDeColaboracion);
+            if(actividadesDeColaboracion.isEmpty()){
+                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado actividades registradas");
+            }else if(actividadesDeColaboracion.get(0).getNombre().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }else{
+                tableView_Actividades.getItems().addAll(actividadesDeColaboracion);
+            }  
         }catch(IllegalArgumentException excepcion){
+            LOG.info(excepcion);
             Alertas.mostrarMensajeErrorAlObtenerDatos();
         }
         btn_Regresar.setOnAction(Event ->{
@@ -92,9 +112,56 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         return resultado;
     }
     
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
+    private void asignarBotonEvidencias(){
+        Callback<TableColumn<Actividad, Void>, TableCell<Actividad, Void>> fabricaDeCelda = (final TableColumn<Actividad, Void> param) -> {
+            final TableCell<Actividad, Void> celda = new TableCell<Actividad, Void>() {
+                private final Button btn_Evidencias = new Button();{
+                    btn_Evidencias.setText("Evidencias");
+                    btn_Evidencias.setOnAction((ActionEvent event) -> {
+                        Actividad actividadSeleccionada = getTableView().getItems().get(getIndex());
+                        ActividadAuxiliar.setInstancia(actividadSeleccionada);
+                        String ruta = "/interfazDeUsuario/Ventana_EvidenciasColaboracionGlobal.fxml";
+                        desplegarVentanaCorrespondiente(ruta);
+                    });
+                }
+                @Override
+                public void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn_Evidencias);
+                    }
+                }
+            };
+            return celda;
+        };
+        column_Evidencias.setCellFactory(fabricaDeCelda);
+    }
+    
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -106,11 +173,8 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

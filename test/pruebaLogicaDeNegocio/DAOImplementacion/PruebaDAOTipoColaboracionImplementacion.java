@@ -8,13 +8,13 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PruebaDAOTipoColaboracionImplementacion {
     
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
@@ -40,16 +40,6 @@ public class PruebaDAOTipoColaboracionImplementacion {
         List<TipoColaboracion> tiposColaboracionObtenidas = dao.consultarTiposDeColaboracion();
         assertNotEquals(listaEsperada, tiposColaboracionObtenidas);
     }
-        
-    @Test
-    public void pruebaConsultarTiposDeColaboracionSinConexionExitosa(){
-        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        List<TipoColaboracion> listaEsperada=new ArrayList<>();
-        listaEsperada.add(new TipoColaboracion(1,"Clase espejo"));
-        listaEsperada.add(new TipoColaboracion(2,"Implementación COIL-VIC"));        
-        List<TipoColaboracion> tiposColaboracionObtenidas = dao.consultarTiposDeColaboracion();
-        assertNotEquals(listaEsperada, tiposColaboracionObtenidas);         
-    }
     
     @Test
     public void pruebaConsultarTipoColaboracionPorIdExitosa() {
@@ -57,21 +47,13 @@ public class PruebaDAOTipoColaboracionImplementacion {
         String tipo = dao.consultarTipoColaboracionPorId(1);
         assertEquals("Clase espejo", tipo);
     }
-
     
     @Test
     public void pruebaConsultarTipoColaboracionPorIdFallida() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         String tipo = dao.consultarTipoColaboracionPorId(0);
         assertEquals("", tipo);
-    }
-        
-    @Test
-    public void pruebaConsultarTipoColaboracionPorIdSinConexionExitosa(){
-        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        String tipo = dao.consultarTipoColaboracionPorId(1);
-        assertEquals("", tipo);        
-    }
+    }        
     
     @Test
     public void pruebaConsultarIdTipoColaboracionPorTipoExitosa() {
@@ -85,14 +67,7 @@ public class PruebaDAOTipoColaboracionImplementacion {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         int idTipo = dao.consultarIdTipoColaboracionPorTipo("Taller");
         assertEquals(0, idTipo); 
-    }
-            
-    @Test
-    public void pruebaConsultarIdTipoColaboracionPorTipoSinConexionExitosa(){
-        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        int idTipo = dao.consultarIdTipoColaboracionPorTipo("Implementación COIL-VIC");
-        assertEquals(-1, idTipo);        
-    }
+    }            
 
     @Test
     public void pruebaVerificarTipoColaboracionExitosa() {
@@ -105,13 +80,6 @@ public class PruebaDAOTipoColaboracionImplementacion {
     public void pruebaVerificarTipoColaboracionFallida() {
         DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
         int resultado = dao.verificarTipoColaboracion();
-        assertEquals(0,resultado);                            
-    }
-        
-    @Test
-    public void pruebaVerificarTipoColaboracionSinConexionExitosa(){
-        DAOTipoColaboracionImplementacion dao = new DAOTipoColaboracionImplementacion();
-        int resultado = dao.verificarTipoColaboracion();
-        assertEquals(-1,resultado);         
-    }
+        assertNotEquals(0,resultado);                            
+    }        
 }

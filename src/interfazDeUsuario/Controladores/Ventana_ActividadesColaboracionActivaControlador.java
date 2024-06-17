@@ -69,7 +69,13 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         column_EstadoDeActividad.setCellValueFactory(new PropertyValueFactory<>("estado"));
         try{
             List<Actividad> actividadesDeColaboracion = obtenerActividades();
-            tableView_TablaActividades.getItems().addAll(actividadesDeColaboracion);
+            if(actividadesDeColaboracion.isEmpty()){
+                Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado actividades registradas");
+            }else if(actividadesDeColaboracion.get(0).getNombre().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }else{
+                tableView_TablaActividades.getItems().addAll(actividadesDeColaboracion);
+            }          
         }catch(IllegalArgumentException excepcion){
             Alertas.mostrarMensajeErrorAlObtenerDatos();
         }
@@ -103,9 +109,9 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
         String estadoColaboracion = colaboracion.getEstadoColaboracion();
         if(estadoColaboracion.equals("Activa")){
             Callback<TableColumn<Actividad, Void>, TableCell<Actividad, Void>> frabricaDeCelda = (final TableColumn<Actividad, Void> param) -> {
-                final TableCell<Actividad, Void> cell = new TableCell<Actividad, Void>() {                
+                final TableCell<Actividad, Void> celda = new TableCell<Actividad, Void>() {                
                     private final Button btn_ModificarActividad = new Button();{
-                        btn_ModificarActividad.setText("Modificar actividad");
+                        btn_ModificarActividad.setText("Modificar");
                         btn_ModificarActividad.setOnAction((ActionEvent event) -> {
                             if(validarFechasDeColaboracion()){
                                 Actividad actividadSeleccionada = getTableView().getItems().get(getIndex());
@@ -127,7 +133,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
             column_Modificar.setCellFactory(frabricaDeCelda);
         }else{
@@ -137,10 +143,8 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
     
     private void asignarBotonEvidencias(){
         Callback<TableColumn<Actividad, Void>, TableCell<Actividad, Void>> frabricaDeCelda = (final TableColumn<Actividad, Void> param) -> {
-            final TableCell<Actividad, Void> cell = new TableCell<Actividad, Void>() {
-                private final Button btn_Evidencias = new Button();
-
-                {
+            final TableCell<Actividad, Void> celda = new TableCell<Actividad, Void>() {
+                private final Button btn_Evidencias = new Button();{
                     btn_Evidencias.setText("Evidencias");
                     btn_Evidencias.setOnAction((ActionEvent event) -> {
                         Actividad actividadSeleccionada = getTableView().getItems().get(getIndex());
@@ -149,7 +153,6 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
                         desplegarVentanaCorrespondiente(ruta);
                     });
                 }
-
                 @Override
                 public void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
@@ -160,7 +163,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
                     }
                 }
             };
-            return cell;
+            return celda;
         };
         column_Evidencia.setCellFactory(frabricaDeCelda);
     }
@@ -207,8 +210,7 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -220,11 +222,8 @@ public class Ventana_ActividadesColaboracionActivaControlador implements Initial
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

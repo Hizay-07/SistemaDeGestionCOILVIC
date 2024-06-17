@@ -26,11 +26,15 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logicaDeNegocio.ClasesAuxiliares.ColaboracionAuxiliar;
 import logicaDeNegocio.DAOImplementacion.DAOColaboracionImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOColaboracionProfesorImplementacion;
+import logicaDeNegocio.DAOImplementacion.DAOProfesorImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOUsuarioImplementacion;
 import logicaDeNegocio.clases.Colaboracion;
+import logicaDeNegocio.clases.Profesor;
 import logicaDeNegocio.clases.ProfesorSingleton;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import logicaDeNegocio.enums.EnumColaboracion;
+import logicaDeNegocio.enums.EnumProfesor;
 import logicaDeNegocio.enums.EnumTipoDeUsuario;
 import org.apache.log4j.Logger;
 
@@ -57,12 +61,24 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     @FXML
     private TableColumn<Colaboracion,Void> column_DarDeBajaColaboracion;
     @FXML
+    private TableColumn<Colaboracion,Void> column_Retroalimentar;
+    @FXML
     private ComboBox cmb_TipoDeColaboracion;
     
     @Override
     public void initialize(URL url, ResourceBundle rb){
         mostrarColaboraciones("Activa");
-        llenarComboBoxTipoDeColaboracion();              
+        llenarComboBoxTipoDeColaboracion();
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
+        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+            column_DarDeBajaColaboracion.setVisible(true);
+            column_Retroalimentar.setVisible(true);
+            asignarBotonesDarDeBajaColaboracion();
+            asignarBotonRetroalimentar();
+        }else{
+            column_DarDeBajaColaboracion.setVisible(false);
+            column_Retroalimentar.setVisible(false);
+        }
     }
     
     private void llenarComboBoxTipoDeColaboracion(){
@@ -71,39 +87,37 @@ public class Ventana_ColaboracionesControlador implements Initializable {
             tiposDeColaboracion.add(colaboracion.toString());
         }
         cmb_TipoDeColaboracion.setItems(tiposDeColaboracion);
-        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
-        if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
-            column_DarDeBajaColaboracion.setVisible(true);
-            asignarBotonesDarDeBajaColaboracion();
-        }else{
-            column_DarDeBajaColaboracion.setVisible(false);
-        }
     }
     
     public void mostrarConsultaSeleccionada(){
         String seleccion = (String) cmb_TipoDeColaboracion.getSelectionModel().getSelectedItem();
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
+        if(obtenerResultadoValidacionConexion()){
              switch(seleccion){
             case "Activa":
                 mostrarColaboraciones("Activa");
+                column_Retroalimentar.setVisible(false);
                 break;
             case "Finalizada":
                 mostrarColaboraciones("Finalizada");
-                column_DarDeBajaColaboracion.setVisible(false);
+                if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+                    column_DarDeBajaColaboracion.setVisible(false);
+                    column_Retroalimentar.setVisible(true);
+                }
                 break;
             case "Cerrada":
                 mostrarColaboraciones("Cerrada");
+                if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
+                    column_DarDeBajaColaboracion.setVisible(true);
+                    column_Retroalimentar.setVisible(true);
+                }
                 break;
             default:
                 Alertas.mostrarMensajeDatosInvalidos();
                 break;
             }        
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
     
@@ -137,8 +151,11 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                 case "Cerrada" -> colaboracionesObtenidas = obtenerColaboracionesCerradas();
                 case "Finalizada" -> colaboracionesObtenidas = obtenerColaboracionesFinalizadas();
             }
-            
-            if(!colaboracionesObtenidas.isEmpty()){
+            if(colaboracionesObtenidas.isEmpty()){
+                Alertas.mostrarMensajeColaboracionActiva("No se han encontrado colaboraciones "+tipoDeColaboracion);
+            }else if(colaboracionesObtenidas.get(0).getEstadoColaboracion().equals("Excepcion")){
+                Alertas.mostrarMensajeErrorAlObtenerDatos();
+            }else{
                 tableView_Colaboraciones.getItems().addAll(colaboracionesObtenidas);
                 column_IdColaboracion.setCellValueFactory(new PropertyValueFactory<>("idColaboracion"));
                 column_Estado.setCellValueFactory(new PropertyValueFactory<>("estadoColaboracion"));
@@ -155,8 +172,6 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                     return new SimpleStringProperty(colaboracion.getPropuestaColaboracion().getFechaCierre());
                 });
                 asignarBotonesDeVisualizarDetalles();
-            }else{
-                Alertas.mostrarMensajeColaboracionActiva("No se han encontrado colaboraciones "+tipoDeColaboracion);
             }
         }catch(IllegalArgumentException excepcion){
             LOG.error(excepcion.getCause());
@@ -166,12 +181,26 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     
     private void asignarBotonesDarDeBajaColaboracion(){
         Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
-                final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
+                final TableCell<Colaboracion, Void> celda = new TableCell<Colaboracion, Void>() {                
                     private final Button btn_DarDeBajaColaboracion = new Button();{
                         btn_DarDeBajaColaboracion.setText("Dar de baja");
                         btn_DarDeBajaColaboracion.setOnAction((ActionEvent event) -> {
-                            Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
-                            darDeBajaColaboracion(colaboracionSeleccionada);
+                            if(Alertas.mostrarConfirmacionDeAccion("¿Desea dar de baja y dar como finalizada esta colaboracion?")){
+                                if(obtenerResultadoValidacionConexion()){
+                                    Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
+                                    ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);
+                                    int resultadoModificacionEstadoProfesores = cambiarDeEstadoProfesores();
+                                    if(resultadoModificacionEstadoProfesores>=2&&resultadoModificacionEstadoProfesores<=4){
+                                        darDeBajaColaboracion(colaboracionSeleccionada);
+                                        Alertas.mostrarMensajeDatosModificados();
+                                    }else{
+                                        Alertas.mostrarMensajeErrorEnLaConexion();
+                                        salirAlInicioDeSesion();
+                                    }
+                                }else{
+                                    salirAlInicioDeSesion();
+                                }
+                            }
                         });
                     }                
                     @Override
@@ -184,34 +213,76 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
         column_DarDeBajaColaboracion.setCellFactory(frabricaDeCelda);
     }
     
-    private void darDeBajaColaboracion(Colaboracion colaboracion){
-        boolean resultadoAccion = Alertas.mostrarConfirmacionDeAccion("¿Desea dar fin a la Colaboracion seleccionada?");
-        if(resultadoAccion){
-            if(!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())){
-                    DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
-                    int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion(EnumColaboracion.Finalizada.toString(), colaboracion);
-                    if(resultadoModificacion==1){
-                        Alertas.mostrarColaboracionFinalizada();
-                        tableView_Colaboraciones.getItems().clear();
-                    }else if(resultadoModificacion==-1){
-                        Alertas.mostrarMensajeErrorEnLaConexion();
+    private void asignarBotonRetroalimentar(){
+        Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
+                final TableCell<Colaboracion, Void> celda = new TableCell<Colaboracion, Void>() {                
+                    private final Button btn_Retroalimentar = new Button();{
+                        btn_Retroalimentar.setText("Retroalimentar");
+                        btn_Retroalimentar.setOnAction((ActionEvent event) -> {
+                            Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
+                            ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);
+                            String ruta = "/interfazDeUsuario/Ventana_RetroalimentacionColaboracion.fxml";
+                            desplegarVentanaCorrespondiente(ruta);
+                        });
+                    }                
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        }else{ 
+                            setGraphic(btn_Retroalimentar);
+                        }
                     }
-            }else{
-                Alertas.mostrarMensajeColaboracionActiva("No se pueden finalizar colaboraciones activas");
+                };
+            return celda;
+            };
+        column_Retroalimentar.setCellFactory(frabricaDeCelda);
+    }
+    
+    private void darDeBajaColaboracion(Colaboracion colaboracion){
+        if (!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())) {
+            DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+            int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion(EnumColaboracion.Finalizada.toString(), colaboracion);
+            if (resultadoModificacion == 1) {
+                Alertas.mostrarColaboracionFinalizada();
+                tableView_Colaboraciones.getItems().clear();
+            } else if (resultadoModificacion == -1) {
+                Alertas.mostrarMensajeErrorEnLaConexion();
+            }
+        } else {
+            Alertas.mostrarMensajeColaboracionActiva("No se pueden finalizar colaboraciones activas");
+        }
+    }
+    
+    private int cambiarDeEstadoProfesores(){
+        int resultadoModificacionProfesores = 0;
+        List<Profesor> profesores = new ArrayList();
+        ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
+        Colaboracion colaboracionActual = new Colaboracion();
+        colaboracionActual.setIdColaboracion(colaboracion.getIdColaboracion());
+        DAOColaboracionProfesorImplementacion daoColaboracionProfesor = new DAOColaboracionProfesorImplementacion();
+        profesores = daoColaboracionProfesor.obtenerProfesoresPorIdColaboracion(colaboracionActual);
+        if(!profesores.isEmpty()){
+            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
+            for(int numeroDeProfesorDeLaLista=0;numeroDeProfesorDeLaLista<profesores.size();numeroDeProfesorDeLaLista++){
+                Profesor profesor = profesores.get(numeroDeProfesorDeLaLista);
+                resultadoModificacionProfesores += daoProfesor.cambiarEstadoProfesor(profesor.getIdProfesor(), EnumProfesor.Activo.toString());
             }
         }
+        return resultadoModificacionProfesores;
     }
     
     private void asignarBotonesDeVisualizarDetalles(){
         Callback<TableColumn<Colaboracion, Void>, TableCell<Colaboracion, Void>> frabricaDeCelda = (final TableColumn<Colaboracion, Void> param) -> {
-                final TableCell<Colaboracion, Void> cell = new TableCell<Colaboracion, Void>() {                
+                final TableCell<Colaboracion, Void> celda = new TableCell<Colaboracion, Void>() {                
                     private final Button btn_VisualizarDetalles = new Button();{
-                        btn_VisualizarDetalles.setText("Visualizar Detalles");
+                        btn_VisualizarDetalles.setText("Visualizar");
                         btn_VisualizarDetalles.setOnAction((ActionEvent event) -> {
                             Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
                             ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);
@@ -229,7 +300,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                         }
                     }
                 };
-            return cell;
+            return celda;
             };
         column_Visualizar.setCellFactory(frabricaDeCelda);
     }
@@ -257,9 +328,29 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         return resultado;
     }
     
+     public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
+    }
+    
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -271,11 +362,8 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

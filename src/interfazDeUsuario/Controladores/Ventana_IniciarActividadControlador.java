@@ -56,6 +56,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         limitarFechasDePeriodoActividad();
         ocultarLabelErrores();
+        limitarTextFields();
     }    
     
     public void cerrarVentana(){
@@ -72,6 +73,12 @@ public class Ventana_IniciarActividadControlador implements Initializable {
     public void regresarMenuPrincipal(){
         String rutaVentanaFXML="/interfazDeUsuario/Ventana_ColaboracionActiva.fxml";
         desplegarVentanaCorrespondiente(rutaVentanaFXML);
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NumeroDeActividad, 2);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreDeActividad, 150);
+        ComponentesDeVentanaControlador.limitarTextArea(txa_Descripcion, 255);
     }
     
     private void limitarFechasDePeriodoActividad(){
@@ -132,8 +139,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -145,11 +151,8 @@ public class Ventana_IniciarActividadControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      
@@ -180,14 +183,14 @@ public class Ventana_IniciarActividadControlador implements Initializable {
         return resultado; 
     }    
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;

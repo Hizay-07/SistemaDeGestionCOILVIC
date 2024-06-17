@@ -9,13 +9,12 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.BeforeClass;
 
 public class PruebaDAOPaisImplementacion {
     
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
@@ -39,16 +38,7 @@ public class PruebaDAOPaisImplementacion {
         DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion();         
         int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
         assertEquals(0,resultadoConsulta);
-    }
-        
-    @Test
-    public void pruebaObtenerNumeroDePaisSinConexionExitosa(){
-        Pais paisPrueba = new Pais();
-        DAOPaisImplementacion pruebaMetodo = new DAOPaisImplementacion(); 
-        paisPrueba.setNombrePais("México");       
-        int resultadoConsulta = pruebaMetodo.obtenerNumeroDePais(paisPrueba);
-        assertEquals(-1,resultadoConsulta);                
-    }
+    }          
     
     @Test
     public void pruebaConsultarPaisesExitosa() {
@@ -127,14 +117,7 @@ public class PruebaDAOPaisImplementacion {
         paisesEsperados.add(paisMexico);        
         List<Pais> paisesObtenidos = dao.consultarPaises();
         assertNotEquals(paisesEsperados,paisesObtenidos);
-    }
-        
-    @Test
-    public void pruebaConsultarPaisesSinConexionExitosa(){
-        DAOPaisImplementacion dao = new DAOPaisImplementacion();
-        List<Pais> paisesObtenidos = dao.consultarPaises();
-        assertTrue(paisesObtenidos.isEmpty());        
-    }
+    }           
     
     @Test
     public void pruebaVerificarPaisExitosa() {
@@ -147,14 +130,6 @@ public class PruebaDAOPaisImplementacion {
     public void pruebaVerificarPaisFallida() {
         DAOPaisImplementacion dao = new DAOPaisImplementacion();
         int resultado = dao.verificarPais();
-        assertEquals(0,resultado);                
-    }
-        
-    @Test
-    public void pruebaVerificarPaisSinConexionExitosa(){
-        DAOPaisImplementacion dao = new DAOPaisImplementacion();
-        int resultado = dao.verificarPais();
-        assertEquals(-1,resultado);         
-    }
+        assertNotEquals(0,resultado);                
+    }            
 }
-

@@ -67,6 +67,9 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            Colaboracion colaboracion=new Colaboracion();
+            colaboracion.setEstadoColaboracion("Excepcion");
+            colaboraciones.add(0,colaboracion);
         }
         return colaboraciones;
     }
@@ -101,6 +104,9 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            Colaboracion colaboracion=new Colaboracion();
+            colaboracion.setEstadoColaboracion("Excepcion");
+            colaboraciones.add(colaboracion);
         }
         return colaboraciones;
     }
@@ -144,9 +150,73 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                 idColaboracion=resultado.getInt("idColaboracion");                                                
             }
         }catch(SQLException | NullPointerException excepcion){
-            LOG.error(excepcion);        
+            LOG.error(excepcion);   
+            idColaboracion=-1;
         }
         return idColaboracion;                
     }
     
+    /**
+    *Permite asignar una retroalimentación a una colaboración registrada en la base de datos
+    * @param colaboracion Colaboracion con los datos a registrar en la base de datos
+    * @return regresa un Int con el número de filas afectadas
+    **/
+    @Override
+    public int realizarRetroalimentacionColaboracion(Colaboracion colaboracion) {
+        int resultadoModifiacion=0;
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("update colaboracion set retroalimentacion = ? where idColaboracion = ? and (estadoColaboracion='Cerrada' or estadoColaboracion='Finalizada')")){
+            declaracion.setString(1, colaboracion.getRetroalimentacion());
+            declaracion.setInt(2, colaboracion.getIdColaboracion());
+            resultadoModifiacion = declaracion.executeUpdate();
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion);   
+            resultadoModifiacion=-1;
+        }
+        return resultadoModifiacion;
+    }
+
+    /**
+    *Poder subir la ruta del syllabus de una colaboración registrada en la base de datos
+    * @param colaboracion Colaboracion con los datos a registrar en la base de datos
+    * @return Regresa un Int con el número de filas afectadas
+    **/
+    @Override
+    public int subirSyllabusColaboracion(Colaboracion colaboracion) {
+        int resultadoModifiacion=0;
+        try(Connection conexion=BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("update colaboracion set syllabus = ? where idColaboracion = ? and estadoColaboracion = 'Cerrada'")){
+            declaracion.setString(1, colaboracion.getSyllabus());
+            declaracion.setInt(2, colaboracion.getIdColaboracion());
+            resultadoModifiacion = declaracion.executeUpdate();
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion);   
+            resultadoModifiacion=-1;
+        }
+        return resultadoModifiacion;
+    }
+    
+    /**
+    *Permite obtener la ruta del archivo Syllabus asociado a una base de datos registrada en la base de datos
+    * @param colaboracion Colaboracion con los datos para realizar la consulta
+    * @return Regresa un String con la ruta del Syllabus de colaboracion asociada en la base de datos
+    **/
+    @Override
+    public String obtenerSyllabusColaboracion(Colaboracion colaboracion){
+        String rutaEncontrada="";
+        try(Connection conexion = BASE_DE_DATOS.conectarBaseDeDatos();
+            PreparedStatement declaracion = conexion.prepareStatement("Select syllabus from colaboracion where idColaboracion = ?")){
+            declaracion.setInt(1, colaboracion.getIdColaboracion());
+            ResultSet resultado = declaracion.executeQuery();
+            if(resultado.isBeforeFirst()){
+                while(resultado.next()){
+                    rutaEncontrada = resultado.getString("syllabus");
+                }
+            }
+        }catch(SQLException | NullPointerException excepcion){
+            LOG.error(excepcion);   
+            rutaEncontrada="Excepcion";
+        }
+        return rutaEncontrada;
+    }
 }

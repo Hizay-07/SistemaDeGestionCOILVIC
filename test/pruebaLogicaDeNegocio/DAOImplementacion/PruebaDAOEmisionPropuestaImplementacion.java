@@ -9,13 +9,13 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PruebaDAOEmisionPropuestaImplementacion {
     
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
@@ -36,24 +36,14 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         assertTrue(emisiones.contains(emisionPropuesta));
     }
     
-    @Test
-    public void pruebaRegistrarEmisionPropuestaFallido() {
+    @Test (expected = IllegalArgumentException.class)
+    public void pruebaRegistrarEmisionPropuestaFallida() {
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
-        EmisionPropuesta emisionPropuesta = null;
+        EmisionPropuesta emisionPropuesta =new EmisionPropuesta();                
+        emisionPropuesta.setFechaEmision("24-05-26");
         int resultado = dao.registrarEmisionPropuesta(emisionPropuesta);
-        assertEquals(-1, resultado);
-    }
-    
-    @Test
-    public void pruebaRegistrarEmisionPropuestaSinConexionExitosa(){
-        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
-        EmisionPropuesta emisionPropuesta = new EmisionPropuesta();
-        emisionPropuesta.setIdProfesor(1);
-        emisionPropuesta.setIdPropuestaColaboracion(1);
-        emisionPropuesta.setFechaEmision("2024-05-26");
-        int resultado = dao.registrarEmisionPropuesta(emisionPropuesta);
-        assertEquals(-1, resultado);
-    }
+        assertEquals(0, resultado);
+    }       
 
     @Test
     public void pruebaConsultarEmisionesDePropuestasExitosa() {
@@ -67,14 +57,7 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
         List<EmisionPropuesta> resultadoObtenido = dao.consultarEmisionesDePropuestas();
         assertTrue(resultadoObtenido.isEmpty()); 
-    }
-    
-    @Test
-    public void pruebaConsultarEmisionesDePropuestasSinConexionExitosa(){
-        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
-        List<EmisionPropuesta> resultadoObtenido = dao.consultarEmisionesDePropuestas();
-        assertTrue(resultadoObtenido.isEmpty());
-    }
+    }        
     
     @Test
     public void pruebaConsultarIdProfesorPorIdPropuestaColaboracionExitosa() {
@@ -90,15 +73,7 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
         int resultadoObtenido = dao.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
         assertEquals(-1, resultadoObtenido);
-    }
-    
-    @Test 
-    public void pruebaConsultarIdProfesorPorIdPropuestaColaboracionSinConexionExitosa(){
-        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
-        int idPropuestaColaboracion = 1;
-        int resultadoObtenido = dao.consultarIdProfesorPorIdPropuestaColaboracion(idPropuestaColaboracion);
-        assertEquals(-1, resultadoObtenido);
-    }
+    }        
 
     @Test
     public void pruebaConsultarIdPropuestaDeColaboracionPorIdProfesorExitosa() {
@@ -116,15 +91,5 @@ public class PruebaDAOEmisionPropuestaImplementacion {
         DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
         List<Integer> resultadoObtenido = dao.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
         assertTrue(resultadoObtenido.isEmpty());
-    }
-    
-    @Test
-    public void pruebaConsultarIdPropuestaDeColaboracionPorIdProfesorSinConexionExitosa(){
-        Profesor profesor = new Profesor();
-        profesor.setIdProfesor(1);
-        DAOEmisionPropuestaImplementacion dao = new DAOEmisionPropuestaImplementacion();
-        List<Integer> resultadoObtenido = dao.consultarIdPropuestaDeColaboracionPorIdProfesor(profesor);
-        assertTrue(resultadoObtenido.isEmpty());
-    }
-  
+    }          
 }

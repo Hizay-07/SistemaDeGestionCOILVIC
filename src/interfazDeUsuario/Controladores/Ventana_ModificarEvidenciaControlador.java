@@ -11,11 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logicaDeNegocio.ClasesAuxiliares.ActividadAuxiliar;
@@ -53,6 +51,11 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cargarDatosEvidencia();
         ocultarLabelErrores();
+        limitarTextFields();
+    }
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreEvidenciaModificador, 50);
     }
     
     private void ocultarLabelErrores(){
@@ -79,14 +82,14 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
         return resultado; 
     }    
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -150,7 +153,6 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
         }
     }
     
-    
     public boolean obtenerResultadoValidacionConexion(){
         boolean resultadoValidacion = true;
         int resultado = validarConexionEstable();
@@ -212,8 +214,7 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -225,11 +226,8 @@ public class Ventana_ModificarEvidenciaControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

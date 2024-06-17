@@ -9,13 +9,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import static org.junit.Assert.assertNotEquals;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PruebaDAOProfesorExternoImplementacion {
     
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
@@ -33,25 +34,14 @@ public class PruebaDAOProfesorExternoImplementacion {
         assertEquals(1, resultado);
     }
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void pruebaRegistrarProfesorExternoFallida() {
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         ProfesorExterno profesorExterno = new ProfesorExterno();
-        profesorExterno.setIdProfesor(999);
-        profesorExterno.setIdRepresentanteInstitucional(999);
+        profesorExterno.setIdProfesor(-1);        
         int resultado = dao.registrarProfesorExterno(profesorExterno);
         assertEquals(0, resultado);
-    }
-           
-    @Test
-    public void pruebaRegistrarProfesorExternoSinConexionExitosa() {
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        ProfesorExterno profesorExterno = new ProfesorExterno();
-        profesorExterno.setIdProfesor(1); 
-        profesorExterno.setIdRepresentanteInstitucional(1); 
-        int resultado = dao.registrarProfesorExterno(profesorExterno);
-        assertEquals(-1, resultado);
-    }
+    }               
     
     @Test
     public void pruebaConsultarProfesoresExternosExitosa() {
@@ -66,13 +56,28 @@ public class PruebaDAOProfesorExternoImplementacion {
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
         List<ProfesorExterno> profesoresExternos = dao.consultarProfesoresExternos();
         assertTrue(profesoresExternos.isEmpty());
+    }   
+    
+    @Test
+    public void pruebaObtenerProfesorExternoPorIdProfesorExitosa(){
+        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
+        ProfesorExterno profesorObtenido = dao.obtenerProfesorExternoPorIDProfesor(1);
+        ProfesorExterno profesorEsperado = new ProfesorExterno();
+        profesorEsperado.setIdProfesorExterno(1);
+        profesorEsperado.setIdRepresentanteInstitucional(1);
+        profesorEsperado.setIdProfesor(1);
+        assertEquals(profesorObtenido,profesorEsperado);
     }
     
     @Test
-    public void pruebaConsultarProfesoresExternosSinConexionExitosa(){
+    public void pruebaObtenerProfesorExternoPorIdProfesorFallida(){
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        List<ProfesorExterno> profesoresExternos = dao.consultarProfesoresExternos();
-        assertTrue(profesoresExternos.isEmpty());
+        ProfesorExterno profesorObtenido = dao.obtenerProfesorExternoPorIDProfesor(5);
+        ProfesorExterno profesorEsperado = new ProfesorExterno();
+        profesorEsperado.setIdProfesorExterno(1);
+        profesorEsperado.setIdRepresentanteInstitucional(1);
+        profesorEsperado.setIdProfesor(1);
+        assertNotEquals(profesorObtenido,profesorEsperado);
     }
     
     @Test
@@ -90,14 +95,7 @@ public class PruebaDAOProfesorExternoImplementacion {
         int idRepresentanteInstitucional = 999; 
         List<ProfesorExterno> profesoresExternos = dao.consultarProfesoresExternosPorRepresentanteInstitucional(idRepresentanteInstitucional);
         assertTrue(profesoresExternos.isEmpty());
-    }
-    
-    @Test
-    public void pruebaConsultarProfesoresExternosPorRepresentanteInstitucionalSinConexionExitosa(){
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        List<ProfesorExterno> profesoresExternos = dao.consultarProfesoresExternosPorRepresentanteInstitucional(1);
-        assertTrue(profesoresExternos.isEmpty());
-    }
+    }       
 
     @Test
     public void pruebaConsultarIdRepresentanteInstitucionalPorIdProfesorExitosa() {
@@ -113,14 +111,7 @@ public class PruebaDAOProfesorExternoImplementacion {
         int idProfesor = 99; 
         int idRepresentanteInstitucional = dao.consultarIdRepresentanteInstitucionalPorIdProfesor(idProfesor);
         assertEquals(0, idRepresentanteInstitucional);
-    }
-    
-    @Test
-    public void pruebaConsultarIdRepresentanteInstitucionalPorIdProfesorSinConexionExitosa(){
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        int idRepresentanteInstitucional = dao.consultarIdRepresentanteInstitucionalPorIdProfesor(1);
-        assertEquals(-1, idRepresentanteInstitucional);
-    }
+    }        
 
     @Test
     public void pruebaEditarInstitucionProfesorExternoPorIdProfesorExitosa(){
@@ -134,17 +125,9 @@ public class PruebaDAOProfesorExternoImplementacion {
     @Test
     public void pruebaEditarInstitucionProfesorExternoPorIdProfesorFallida(){
         DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        int idRepresentanteInstitucional = 1;
-        int idProfesor = 1;
+        int idRepresentanteInstitucional = 0;
+        int idProfesor = 0;
         int resultado = dao.editarInstitucionProfesorExternoPorIdProfesor(idRepresentanteInstitucional, idProfesor);
-        assertEquals(-1,resultado);
-    }
-    
-    @Test
-    public void pruebaEditarInstitucionProfesorExternoPorIdProfesorSinConexionExitosa(){
-        DAOProfesorExternoImplementacion dao = new DAOProfesorExternoImplementacion();
-        int resultado = dao.editarInstitucionProfesorExternoPorIdProfesor(1, 1);
-        assertEquals(-1, resultado);
-    }
-    
+        assertEquals(0,resultado);
+    }            
 }

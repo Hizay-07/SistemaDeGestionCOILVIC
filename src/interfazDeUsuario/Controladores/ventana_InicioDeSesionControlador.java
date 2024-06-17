@@ -41,7 +41,14 @@ public class ventana_InicioDeSesionControlador implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ocultarLabelErrores();
+        limitarTextFields();
     }    
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txtf_Usuario, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(pwdf_Contrasenia, 25);
+    }
+    
     
     private void ocultarLabelErrores(){
         lbl_ErrorUsuario.setVisible(false);
@@ -61,14 +68,14 @@ public class ventana_InicioDeSesionControlador implements Initializable {
         return resultado; 
     }    
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;

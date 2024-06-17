@@ -90,7 +90,7 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
         boolean resultadoValidacion=false;
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
         DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
-        int idPropuestaColaboracion = daoPropuesta.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(profesor.getIdProfesor());
+        int idPropuestaColaboracion = daoPropuesta.obtenerIdPropuestaColaboracionPorEstadoPorIdProfesor(profesor.getIdProfesor(),"Aprobada");
         PropuestaColaboracion propuestaObtenida = daoPropuesta.obtenerPropuestaDeColaboracionPorId(idPropuestaColaboracion);
         if(Objects.nonNull(propuestaObtenida.getTipoColaboracion())&&propuestaObtenida.getEstadoPropuesta().equals(EnumPropuestaColaboracion.Aprobada.toString())){
             resultadoValidacion = true;
@@ -116,17 +116,21 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
     }
     
     public void realizarPropuestaDeColaboracion(){
-        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
-        int verificarTipoColaboracion=daoTipoColaboracion.verificarTipoColaboracion();
-        if(profesor.getEstado().equals(EnumProfesor.Activo.toString())&&verificarTipoColaboracion>0){
-            String rutafxml = "/interfazDeUsuario/Ventana_ProponerColaboracion.fxml";
-            desplegarVentana(rutafxml);
-        }else if(verificarTipoColaboracion<=0){
-            Alertas.mostrarBaseDatosSinCatalogos();                
+        if(obtenerResultadoValidacionConexion()){
+            ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+            DAOTipoColaboracionImplementacion daoTipoColaboracion=new DAOTipoColaboracionImplementacion();
+            int verificarTipoColaboracion=daoTipoColaboracion.verificarTipoColaboracion();
+            if(profesor.getEstado().equals(EnumProfesor.Activo.toString())&&verificarTipoColaboracion>0){
+                String rutafxml = "/interfazDeUsuario/Ventana_ProponerColaboracion.fxml";
+                desplegarVentana(rutafxml);
+            }else if(verificarTipoColaboracion<=0){
+                Alertas.mostrarBaseDatosSinCatalogos();                
+            }else{
+                String mensaje = "No se pueden realizar propuestas de colaboración estando en una colaboracion";
+                Alertas.mostrarMensajeColaboracionActiva(mensaje);
+            }
         }else{
-            String mensaje = "No se pueden realizar propuestas de colaboración estando en una colaboracion";
-            Alertas.mostrarMensajeColaboracionActiva(mensaje);
+            regresarAlInicioDeSesion();
         }
     }
     
@@ -142,40 +146,47 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
     }
      public void visualizarPeticionesColaboracion(){
         ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        if(validarAutoridadDeColaboracion()){
-            if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
-            String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
-            desplegarVentana(rutafxml);
-            }else if (profesor.getEstado().equals(EnumProfesor.Colaborando.toString())){
-                String mensaje = "La colaboracion ya ha iniciado";
-                Alertas.mostrarMensajeColaboracionActiva(mensaje);
+        if(obtenerResultadoValidacionConexion()){
+            if(validarAutoridadDeColaboracion()){
+                if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())){
+                String rutafxml = "/interfazDeUsuario/Ventana_PeticionesDeColaboracion.fxml";
+                desplegarVentana(rutafxml);
+                }else if (profesor.getEstado().equals(EnumProfesor.Colaborando.toString())){
+                    String mensaje = "La colaboracion ya ha iniciado";
+                    Alertas.mostrarMensajeColaboracionActiva(mensaje);
+                }else{
+                    String mensaje = "No tiene ninguna colaboracion por iniciar";
+                    Alertas.mostrarMensajeColaboracionActiva(mensaje);            
+                }   
             }else{
-                String mensaje = "No tiene ninguna colaboracion por iniciar";
-                Alertas.mostrarMensajeColaboracionActiva(mensaje);            
-            }   
+                Alertas.mostrarMensajeAccesoAVentanaInvalida();
+            }  
         }else{
-            Alertas.mostrarMensajeAccesoAVentanaInvalida();
-        }                         
+            regresarAlInicioDeSesion();
+        }
     }
     
     public void visualizarInicioColaboracion(){
-        ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
-        DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
-        DAOPeticionColaboracionImplementacion daoPeticion = new DAOPeticionColaboracionImplementacion();
-        int idPropuesta = daoPropuesta.obtenerIdPropuestaColaboracionAprobadaPorIdProfesor(profesor.getIdProfesor());
-        List<Integer> peticionesAceptadas = daoPeticion.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuesta);
-        if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())&&peticionesAceptadas.size()>=1&&peticionesAceptadas.size()<=3){
-            String rutafxml = "/interfazDeUsuario/Ventana_IniciarColaboracion.fxml";
-            desplegarVentana(rutafxml);
+        if(obtenerResultadoValidacionConexion()){
+            ProfesorSingleton profesor = ProfesorSingleton.getInstancia();
+            DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
+            DAOPeticionColaboracionImplementacion daoPeticion = new DAOPeticionColaboracionImplementacion();
+            int idPropuesta = daoPropuesta.obtenerIdPropuestaColaboracionPorEstadoPorIdProfesor(profesor.getIdProfesor(),"Aprobada");
+            List<Integer> peticionesAceptadas = daoPeticion.consultarIdProfesoresPorIdPropuestaColaboracionAceptadas(idPropuesta);
+            if(profesor.getEstado().equals(EnumProfesor.Esperando.toString())&&peticionesAceptadas.size()>=1&&peticionesAceptadas.size()<=3){
+                String rutafxml = "/interfazDeUsuario/Ventana_IniciarColaboracion.fxml";
+                desplegarVentana(rutafxml);
+            }else{
+                String mensaje = "No se pueden iniciar una colaboración sin una propuesta de colaboración realizada";
+                Alertas.mostrarMensajeColaboracionActiva(mensaje);
+            }
         }else{
-            String mensaje = "No se pueden iniciar una colaboración sin una propuesta de colaboración realizada";
-            Alertas.mostrarMensajeColaboracionActiva(mensaje);
-        }   
+            regresarAlInicioDeSesion();
+        }
     }
 
     public void desplegarVentana(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -187,11 +198,8 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-             regresarAlInicioDeSesion();
+        }else{
+            regresarAlInicioDeSesion();
         }
     }
     
@@ -207,6 +215,27 @@ public class Ventana_MenuPrincipalProfesorControlador implements Initializable{
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
+    }
+    
+    public boolean obtenerResultadoValidacionConexion(){
+        boolean resultadoValidacion = true;
+        int resultado = validarConexionEstable();
+        switch (resultado) {
+            case 1:
+                resultadoValidacion = true;
+                break;
+            case 0:
+                Alertas.mostrarMensajeUsuarioNoEncontrado();
+                resultadoValidacion = false;
+                break;
+            case -1:
+                Alertas.mostrarMensajeErrorEnLaConexion();
+                resultadoValidacion = false;
+                break;
+            default:
+                break;
+        }
+        return resultadoValidacion;
     }
      
     public void salirAlMenuPrincipal(){

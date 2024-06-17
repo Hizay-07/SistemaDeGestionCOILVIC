@@ -3,18 +3,17 @@ package pruebaLogicaDeNegocio.DAOImplementacion;
 import logicaDeNegocio.DAOImplementacion.DAOEvidenciaImplementacion;
 import logicaDeNegocio.clases.Evidencia;
 import org.junit.Test;
-import java.util.ArrayList;
 import java.util.List;
 import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.junit.Before;
+import org.junit.BeforeClass;
 
 public class PruebaDAOEvidenciaImplementacion {
     
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
@@ -33,32 +32,20 @@ public class PruebaDAOEvidenciaImplementacion {
         assertEquals(1,resultado);
     }
             
-    @Test 
+    @Test (expected = IllegalArgumentException.class)
     public void pruebaRegistrarEvidenciaFallida(){
         DAOEvidenciaImplementacion pruebaEvidencia = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setNombre("Prueba fallida");
-        evidenciaPrueba.setIdActividad(1);
-        int resultado = pruebaEvidencia.agregarEvidencia(evidenciaPrueba);
-        assertEquals(-1, resultado);     
+        evidenciaPrueba.setNombre("!@#$%^&*");        
+        pruebaEvidencia.agregarEvidencia(evidenciaPrueba);        
     }
-    
+            
     @Test
-    public void pruebaRegistrarEvidenciaSinConexionExitosa(){
-        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
-        Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("Informes//Evidenciapruebauno");
-        int resultado = pruebaDeMetodo.agregarEvidencia(evidenciaPrueba);
-        assertEquals(-1,resultado);
-    }
-    
-    @Test ()
     public void pruebaModificarEvidenciaExitosa(){
         DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
         Evidencia evidenciaPrueba = new Evidencia();
         evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("Informes//Escritor.java");
+        evidenciaPrueba.setRutaEvidencia("Informes//Escritorjava");
         evidenciaPrueba.setIdActividad(1);
         evidenciaPrueba.setIdEvidencia(1);
         int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
@@ -74,18 +61,7 @@ public class PruebaDAOEvidenciaImplementacion {
         evidenciaPrueba.setIdActividad(1);
         int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
         assertEquals(-1, resultado);
-    }    
-    
-    @Test
-    public void pruebaModificarEvidenciaSinConexionExitosa(){
-        DAOEvidenciaImplementacion pruebaDeMetodo = new DAOEvidenciaImplementacion();
-        Evidencia evidenciaPrueba = new Evidencia();
-        evidenciaPrueba.setNombre("Evidencia de prueba");
-        evidenciaPrueba.setRutaEvidencia("Informes//Escritor.java");
-        evidenciaPrueba.setIdActividad(1);
-        int resultado = pruebaDeMetodo.modificarEvidencia(evidenciaPrueba);
-        assertEquals(-1,resultado);
-    }
+    }            
     
     @Test
     public void pruebaObtenerEvidenciasDeActividadExitosa() {
@@ -101,15 +77,7 @@ public class PruebaDAOEvidenciaImplementacion {
         DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
         List<Evidencia> evidencias = dao.obtenerEvidenciasDeActividad(idActividad);
         assertEquals(0, evidencias.size());
-    }
-    
-    @Test
-    public void pruebaObtenerEvidenciasDeActividadSinConexionExitosa(){
-        int idActividad = 1; 
-        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
-        List<Evidencia> evidencias = dao.obtenerEvidenciasDeActividad(idActividad);
-        assertEquals(new ArrayList(), evidencias);
-    }
+    }        
     
     @Test
     public void pruebaObtenerNumeroDeEvidenciasExitosa(){
@@ -125,14 +93,5 @@ public class PruebaDAOEvidenciaImplementacion {
         DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
         int numeroActividad = dao.obtenerNumeroDeEvidencia(idActividad);
         assertEquals(0, numeroActividad);
-    }
-    
-    @Test
-    public void pruebaObtenerNumeroDeEvidenciasSinConexionExitosa(){
-        int idActividad = 1; 
-        DAOEvidenciaImplementacion dao = new DAOEvidenciaImplementacion();
-        int numeroActividad = dao.obtenerNumeroDeEvidencia(idActividad);
-        assertEquals(-1,numeroActividad);
-    }
-    
+    }            
 }

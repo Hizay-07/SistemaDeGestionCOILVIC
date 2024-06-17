@@ -60,6 +60,9 @@ public class DAOPaisImplementacion implements PaisInterface {
             }
         } catch (SQLException | NullPointerException excepcion) {
             LOG.error(excepcion.getMessage());
+            Pais pais=new Pais();
+            pais.setNombrePais("Excepcion");
+            paises.add(0,pais);
         }         
         return paises;
     }

@@ -91,7 +91,9 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             }
         }catch(SQLException | NullPointerException excepcion){
             LOG.error(excepcion.getMessage());
-            return new ArrayList<>();
+            Evidencia evidenciaObtenida = new Evidencia();
+            evidenciaObtenida.setNombre("Excepcion");
+            evidenciasDeActividad.add(0,evidenciaObtenida);
         }
         return evidenciasDeActividad;
     }

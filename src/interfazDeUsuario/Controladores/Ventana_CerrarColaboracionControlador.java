@@ -75,24 +75,6 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
         }
     }  
     
-    private int cambiarDeEstadoProfesores(){
-        int resultadoModificacionProfesores = 0;
-        List<Profesor> profesores = new ArrayList();
-        ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
-        Colaboracion colaboracionActual = new Colaboracion();
-        colaboracionActual.setIdColaboracion(colaboracion.getIdColaboracion());
-        DAOColaboracionProfesorImplementacion daoColaboracionProfesor = new DAOColaboracionProfesorImplementacion();
-        profesores = daoColaboracionProfesor.obtenerProfesoresPorIdColaboracion(colaboracionActual);
-        if(!profesores.isEmpty()){
-            DAOProfesorImplementacion daoProfesor = new DAOProfesorImplementacion();
-            for(int numeroDeProfesorDeLaLista=0;numeroDeProfesorDeLaLista<profesores.size();numeroDeProfesorDeLaLista++){
-                Profesor profesor = profesores.get(numeroDeProfesorDeLaLista);
-                resultadoModificacionProfesores += daoProfesor.cambiarEstadoProfesor(profesor.getIdProfesor(), EnumProfesor.Activo.toString());
-            }
-        }
-        return resultadoModificacionProfesores;
-    }
-    
     private int cambiarDeEstadoColaboracion(){
         int resultadoModificacionColaboracion = 0;
         ColaboracionAuxiliar colaboracion = ColaboracionAuxiliar.getInstancia();
@@ -104,18 +86,22 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
     }
     
     public void cerrarColaboracion(){
-        boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea cerrar esta colaboracion?, una vez cerrada ya no se podrá volver a acceder a ella.");
+        boolean resultadoEleccion = Alertas.mostrarConfirmacionDeAccion("¿Desea cerrar esta colaboracion?. Una vez cerrada solo podrá acceder para corregir el Syllabus");
         if(resultadoEleccion){
             if(obtenerResultadoValidacionConexion()){
                 if(Objects.nonNull(this.archivoSyllabus)){
                 Colaboracion colaboracion = new Colaboracion();
                 colaboracion.setIdColaboracion(ColaboracionAuxiliar.getInstancia().getIdColaboracion());
                 ManejadorDeArchivos manejadorArchivos = new ManejadorDeArchivos();
+                String nombreArchivo = "SyllabusColaboracion"+colaboracion.getIdColaboracion()+".pdf";
+                String rutaDeDestino = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/Syllabus/"+nombreArchivo;
+                colaboracion.setSyllabus(rutaDeDestino);
                 int resultadoGuardadoDeSyllabus = manejadorArchivos.guardarSyllabusDeColaboracion(colaboracion, archivoSyllabus);
                     if(resultadoGuardadoDeSyllabus==1){
-                        int resultadoModificacionEstadoProfesores = cambiarDeEstadoProfesores();
+                        DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
+                        int resultadoGuardadoDeSyllabusBaseDeDatos = daoColaboracion.subirSyllabusColaboracion(colaboracion);
                         int resultadoModificacionEstadoColaboracion = cambiarDeEstadoColaboracion();
-                        if(resultadoModificacionEstadoProfesores>=2&&resultadoModificacionEstadoProfesores<=4&&resultadoModificacionEstadoColaboracion==1){
+                        if(resultadoGuardadoDeSyllabusBaseDeDatos==1&&resultadoModificacionEstadoColaboracion==1){
                             Alertas.mostrarColaboracionCerrada();
                             regresarAMenuPrincipalProfesor();
                         }else{
@@ -181,8 +167,7 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
     }
     
     public void desplegarVentanaCorrespondiente(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -194,11 +179,8 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      

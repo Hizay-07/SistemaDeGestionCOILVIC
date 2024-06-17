@@ -13,7 +13,7 @@
    <children>
       <Pane fx:id="pane_ColorSuperior" prefHeight="54.0" prefWidth="605.0" style="-fx-background-color: #168394; -fx-border-color: #168394;">
          <children>
-            <Label fx:id="label_Titulo" layoutX="82.0" layoutY="4.0" text="Detalles de colaboración" textFill="WHITE">
+            <Label fx:id="lbl_Titulo" layoutX="82.0" layoutY="4.0" text="Detalles de colaboración" textFill="WHITE">
                <font>
                   <Font name="MS Reference Sans Serif" size="36.0" />
                </font>
@@ -101,7 +101,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <VBox fx:id="vbox_Profesores" layoutX="211.0" layoutY="295.0" prefHeight="86.0" prefWidth="334.0">
+      <VBox fx:id="vb_Profesores" layoutX="211.0" layoutY="295.0" prefHeight="86.0" prefWidth="334.0">
          <children>
             <Label fx:id="lbl_Profesor1" prefHeight="23.0" prefWidth="339.0" style="-fx-border-color: grey;">
                <font>
@@ -125,17 +125,22 @@
             </Label>
          </children>
       </VBox>
-      <Button fx:id="btn_Regresar" layoutX="458.0" layoutY="412.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Regresar" textFill="WHITE" onAction="#regresarAVentanaCorrespondiente">
+      <Button fx:id="btn_Regresar" layoutX="458.0" layoutY="412.0" mnemonicParsing="false" onAction="#regresarAVentanaCorrespondiente" style="-fx-background-color: red;" text="Regresar" textFill="WHITE">
          <font>
             <Font name="MS Reference Sans Serif" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btn_Actividades" layoutX="346.0" layoutY="413.0" mnemonicParsing="false" style="-fx-background-color: #87CEEB;" text="Actividades" textFill="WHITE" onAction="#visualizarActividades">
+      <Button fx:id="btn_Actividades" layoutX="346.0" layoutY="413.0" mnemonicParsing="false" onAction="#visualizarActividades" style="-fx-background-color: #87CEEB;" text="Actividades" textFill="WHITE">
          <font>
             <Font name="MS Reference Sans Serif" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btn_GenerarInforme" layoutX="193.0" layoutY="414.0" mnemonicParsing="false" style="-fx-background-color: #96CFBE;" text="Generar informe" textFill="WHITE" onAction="#generarInforme">
+      <Button fx:id="btn_GenerarInforme" layoutX="193.0" layoutY="414.0" mnemonicParsing="false" onAction="#generarInforme" style="-fx-background-color: #96CFBE;" text="Generar informe" textFill="WHITE">
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_Syllabus" onAction="#abrirSyllabusColaboracion" layoutX="103.0" layoutY="414.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Syllabus" textFill="WHITE">
          <font>
             <Font name="MS Reference Sans Serif" size="15.0" />
          </font>

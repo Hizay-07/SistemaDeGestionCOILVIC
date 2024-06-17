@@ -11,7 +11,7 @@
    <children>
       <AnchorPane id="AnchorPane" prefHeight="340.0" prefWidth="605.0">
          <children>
-            <ImageView fx:id="img_ImagenDeFondo" fitHeight="542.0" fitWidth="1008.0" layoutX="-2.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgv_ImagenDeFondo" fitHeight="542.0" fitWidth="1008.0" layoutX="-2.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/fondo.jpg" />
                </image>

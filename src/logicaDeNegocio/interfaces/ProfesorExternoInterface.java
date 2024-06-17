@@ -14,7 +14,7 @@ public interface ProfesorExternoInterface {
     public int consultarIdRepresentanteInstitucionalPorIdProfesor(int idProfesor);
 
     public ProfesorExterno obtenerProfesorExternoPorIDProfesor(int idProfesor);
-
+    
     public int editarInstitucionProfesorExternoPorIdProfesor(int idRepresentanteInstitucional, int idProfesorExterno);
 
 }

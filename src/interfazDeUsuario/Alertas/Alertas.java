@@ -15,7 +15,7 @@ public class Alertas extends Application {
         Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.ERROR);
             mensaje.setTitle("Usuario no encontrado");
-            mensaje.setContentText("El usuario que ha ingresado no se encuentra registrado");
+            mensaje.setContentText("El usuario no se ha podido conectar a la base de datos\nInténtelo más tarde.");
             mensaje.showAndWait();
         });
     }
@@ -249,7 +249,8 @@ public class Alertas extends Application {
          Platform.runLater(() -> {
             Alert mensaje = new Alert(AlertType.INFORMATION);
             mensaje.setTitle("Error en el guardador");
-            mensaje.setContentText("No se pudo acceder a los elementos deseados");
+            mensaje.setContentText("No se pudo acceder a los elementos deseados.\n"
+                    + "El archivo no existe o no es un documento");
 
             mensaje.showAndWait();
         });
@@ -512,6 +513,25 @@ public class Alertas extends Application {
             mensaje.setContentText("La notificación ha sido enviada correctamente.");
             mensaje.showAndWait();
         });
+    }
+    
+    public static void mostrarMensajeNoSePuedeCerrarColaboracion(String mensajeAlerta){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("No es posible cerrar la colaboracion");
+            mensaje.setContentText(mensajeAlerta);
+            mensaje.showAndWait();
+        });
+    }
+    
+    public static boolean mostrarMensajeArchivoGeneradoPreviamente() {
+        Alert mensaje = new Alert(AlertType.CONFIRMATION);
+        mensaje.setTitle("Archivo generado previamente");
+        mensaje.setContentText("El informe ya se ha generado previamente.\n¿Desea descargarlo?");
+
+        Optional<ButtonType> resultado = mensaje.showAndWait();
+
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
     
     @Override

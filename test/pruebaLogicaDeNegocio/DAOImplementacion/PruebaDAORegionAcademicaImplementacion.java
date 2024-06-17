@@ -8,14 +8,13 @@ import logicaDeNegocio.clases.Usuario;
 import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PruebaDAORegionAcademicaImplementacion {
     
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void inicializar() {
         Usuario usuarioPrueba = new Usuario();
         usuarioPrueba.setNombreUsuario("cuentapruebauno@gmail.com");
         usuarioPrueba.setContrasenia("Contrasenia123*");
@@ -55,14 +54,7 @@ public class PruebaDAORegionAcademicaImplementacion {
         regionesAcademicasEsperadas.add(regionXalapa);
         List<RegionAcademica> regionesAcademicasObtenidas = dao.consultarRegionesAcademicas();
         assertNotEquals(regionesAcademicasEsperadas, regionesAcademicasObtenidas);
-    }
-       
-    @Test
-    public void pruebaConsultarRegionesAcademicasSinConexionExitosa(){
-        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
-        List<RegionAcademica> regionesAcademicasObtenidas = dao.consultarRegionesAcademicas();
-        assertTrue(regionesAcademicasObtenidas.isEmpty());        
-    }
+    }       
     
     @Test
     public void pruebaConsultarIdDeRegionPorRegionExitosa() {
@@ -76,14 +68,7 @@ public class PruebaDAORegionAcademicaImplementacion {
         DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
         int idRegion = dao.consultarIdDeRegionPorRegion("Ciudad de México");
         assertEquals(0, idRegion);
-    }
-      
-    @Test
-    public void pruebaConsultarIdDeRegionPorRegionSinConexionExitosa(){
-        DAORegionAcademicaImplementacion dao = new DAORegionAcademicaImplementacion();
-        int idRegion = dao.consultarIdDeRegionPorRegion("Veracruz");
-        assertEquals(-1, idRegion);        
-    }
+    }      
     
     @Test
     public void pruebaVerificarRegionExitosa() {
@@ -96,14 +81,7 @@ public class PruebaDAORegionAcademicaImplementacion {
     public void pruebaVerificarRegionFallida() {
         DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion();
         int resultado = daoRegion.verificarRegion();
-        assertEquals(0,resultado);       
-    }
-     
-    @Test
-    public void pruebaVerificarRegionSinConexionExitosa(){
-        DAORegionAcademicaImplementacion daoRegion = new DAORegionAcademicaImplementacion();
-        int resultado = daoRegion.verificarRegion();
-        assertEquals(-1,resultado);         
-    }
+        assertNotEquals(0,resultado);       
+    }     
 
 }

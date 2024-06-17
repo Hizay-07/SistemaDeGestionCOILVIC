@@ -52,7 +52,14 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         llenarComboBoxPais();
         cargarDatosRepresentanteInstitucional();
         ocultarLabelErrores();
+        limitarTextFields();
     }    
+    
+    private void limitarTextFields(){
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreInstitucion, 45);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_ClaveInstitucional, 20);
+        ComponentesDeVentanaControlador.limitarTextfield(txfd_Contacto, 60);
+    }
     
     private void ocultarLabelErrores(){
         lbl_ErrorNombreInstitucion.setVisible(false);
@@ -88,14 +95,14 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
         return resultado;
     }
     
-    private boolean validarAuxiliar(Runnable setter, Label errorLabel){
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
         boolean resultado = true;
         try{
-            setter.run();
+            asignador.run();
             resultado = true;
         }catch(IllegalArgumentException | NullPointerException excepcion){
             LOG.info(excepcion);
-            errorLabel.setVisible(true);
+            lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
@@ -179,36 +186,36 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     
     public void modificarDatosRepresentanteInstituciona(){
         ocultarLabelErrores();
-        if(obtenerResultadoValidacionConexion()){
-            if(validarDatosRepresentanteInstitucional()){
-               RepresentanteInstitucional representante =  obtenerDatosRepresentanteInstitucional();
-               String nombreRepresentante = representante.getNombreInstitucion().trim().replaceAll("\\s+", "").toLowerCase();
-               if(nombreRepresentante.equals("uv")||nombreRepresentante.equals("universidadveracruzana")){
-                   Alertas.mostrarMensajeUniversidadVeracruzana();
-               }else{
-                   if(!validarDatosSimilaresRepresentante(representante)){
-                       int resultadoAtributosModificados = realizarModificacionPaisRepresentanteInstitucional(representante);
-                       resultadoAtributosModificados =  realizarModificacionClaveInstitucionalRepresentanteInstitucional(representante);
-                       resultadoAtributosModificados += realizarModificacionContactoRepresentanteInstitucional(representante);
-                       resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
-                       if(resultadoAtributosModificados>=1&&resultadoAtributosModificados<=4){
-                           Alertas.mostrarMensajeDatosModificados();
-                           regresarRepresentantesInstitucionales();
-                       }else if(resultadoAtributosModificados==0){
-                           Alertas.mostrarMensajeDatosDuplicados();
-                       }else{
-                           Alertas.mostrarMensajeErrorEnLaConexion();
-                           salirAlInicioDeSesion();
-                       }
-                   }else{
-                       Alertas.mostrarMensajeSinModificarDatos();
-                   }
-               }
-           }else{
-               Alertas.mostrarMensajeDatosInvalidos();
-           }   
-        }else{
-            salirAlInicioDeSesion();
+        if (validarDatosRepresentanteInstitucional()) {
+            RepresentanteInstitucional representante = obtenerDatosRepresentanteInstitucional();
+            String nombreRepresentante = representante.getNombreInstitucion().trim().replaceAll("\\s+", "").toLowerCase();
+            if (nombreRepresentante.equals("uv") || nombreRepresentante.equals("universidadveracruzana")) {
+                Alertas.mostrarMensajeUniversidadVeracruzana();
+            }else{
+                if (!validarDatosSimilaresRepresentante(representante)) {
+                    if (obtenerResultadoValidacionConexion()) {
+                        int resultadoAtributosModificados = realizarModificacionPaisRepresentanteInstitucional(representante);
+                        resultadoAtributosModificados = realizarModificacionClaveInstitucionalRepresentanteInstitucional(representante);
+                        resultadoAtributosModificados += realizarModificacionContactoRepresentanteInstitucional(representante);
+                        resultadoAtributosModificados += realizarModificacionNombreInstitucionRepresentanteInstitucional(representante);
+                        if (resultadoAtributosModificados >= 1 && resultadoAtributosModificados <= 4) {
+                            Alertas.mostrarMensajeDatosModificados();
+                            regresarRepresentantesInstitucionales();
+                        } else if (resultadoAtributosModificados == 0) {
+                            Alertas.mostrarMensajeDatosDuplicados();
+                        } else {
+                            Alertas.mostrarMensajeErrorEnLaConexion();
+                            salirAlInicioDeSesion();
+                        }
+                    }else{
+                        salirAlInicioDeSesion();
+                    }
+                }else{
+                    Alertas.mostrarMensajeSinModificarDatos();
+                }
+            }
+        } else {
+            Alertas.mostrarMensajeDatosInvalidos();
         }
     }
     
@@ -252,8 +259,7 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
     }
     
     public void desplegarVentana(String rutaFxml){
-        int resultadoValidacionConexion = validarConexionEstable();
-        if(resultadoValidacionConexion==1){
+        if(obtenerResultadoValidacionConexion()){
             try{
             Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
             Scene scene = new Scene(root);
@@ -265,11 +271,8 @@ public class Ventana_ActualizarRepresentanteInstitucionalControlador implements 
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
                 LOG.error(excepcion.getCause());            
             }
-        }else if(resultadoValidacionConexion == 0){
-            Alertas.mostrarMensajeUsuarioNoEncontrado();
-        }else if(resultadoValidacionConexion == -1){
-             Alertas.mostrarMensajeErrorEnLaConexion();
-              salirAlInicioDeSesion();
+        }else{
+            salirAlInicioDeSesion();
         }
     }
      
