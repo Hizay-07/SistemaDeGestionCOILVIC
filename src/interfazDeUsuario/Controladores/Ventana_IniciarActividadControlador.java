@@ -242,6 +242,7 @@ public class Ventana_IniciarActividadControlador implements Initializable {
                         int resultadoRegistro = daoActividad.registrarActividad(nuevaActividad);
                         if (resultadoRegistro == 1) {
                             Alertas.mostrarMensajeDatosIngresados();
+                            regresarMenuPrincipal();
                         } else if (resultadoRegistro == -1) {
                             Alertas.mostrarMensajeErrorEnLaConexion();
                             regresarMenuPrincipal();

@@ -99,8 +99,8 @@ public class Ventana_CerrarColaboracionControlador implements Initializable {
                 int resultadoGuardadoDeSyllabus = manejadorArchivos.guardarSyllabusDeColaboracion(colaboracion, archivoSyllabus);
                     if(resultadoGuardadoDeSyllabus==1){
                         DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
-                        int resultadoGuardadoDeSyllabusBaseDeDatos = daoColaboracion.subirSyllabusColaboracion(colaboracion);
                         int resultadoModificacionEstadoColaboracion = cambiarDeEstadoColaboracion();
+                        int resultadoGuardadoDeSyllabusBaseDeDatos = daoColaboracion.subirSyllabusColaboracion(colaboracion);                        
                         if(resultadoGuardadoDeSyllabusBaseDeDatos==1&&resultadoModificacionEstadoColaboracion==1){
                             Alertas.mostrarColaboracionCerrada();
                             regresarAMenuPrincipalProfesor();
