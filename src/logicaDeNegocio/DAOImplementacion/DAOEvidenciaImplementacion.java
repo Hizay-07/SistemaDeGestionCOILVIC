@@ -21,7 +21,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
     
     /**
     *Registrar una evidencia dentro de la base de datos
-    *@param evidencia Evidencia con los datos a registrar dentro de la
+    *@param evidencia Objeto Evidencia con los datos a registrar dentro de la
     *base de datos
     *@return Regresa el número de filas afectadas
     **/
@@ -45,7 +45,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
     
     /**
     *Modificar una evidencia registrada dentro de la base de datos
-    *@param evidenciaNueva Evidencia con los datos actualizados a modificar dentro de la
+    *@param evidenciaNueva Objeto Evidencia con los datos actualizados a modificar dentro de la
     *base de datos
     *@return Regresa el número de filas afectadas
     **/

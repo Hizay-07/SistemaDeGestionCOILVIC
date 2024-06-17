@@ -19,7 +19,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     
     /**
     *Registrar un usuario dentro de la base de datos
-    *@param usuario Usuario con los datos a registrar dentro de la base de datos
+    *@param usuario Objeto Usuario con los datos a registrar dentro de la base de datos
     *@return Regresa el numero de filas afectadas
     **/
     @Override
@@ -180,7 +180,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
     
     /**
     *Actualizar las credenciales de un usuario registrado en la base de datos
-    *@param profesor Profesor con los datos para modificar su usuario
+    *@param profesor Objeto Profesor con los datos para modificar su usuario
     *@param contrasenia String con la nueva contrasenia del usuario
     *@return Regresa el numero de filas afectadas
     **/

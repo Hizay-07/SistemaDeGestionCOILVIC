@@ -20,7 +20,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
     
     /**
     *Registrar un profesor dentro de la base de datos
-    *@param profesor Profesor con los datos a registrar dentro de la base de datos
+    *@param profesor Objeto Profesor con los datos a registrar dentro de la base de datos
     *@return Regresa el numero de filas afectadas
     **/
     @Override

@@ -21,7 +21,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
     
     /**
     *Registrar una propuesta de colaboración dentro de la base de datos
-    *@param propuestaColaboracion PropuestaColaboracion con los datos a registrar
+    *@param propuestaColaboracion Objeto PropuestaColaboracion con los datos a registrar
     * dentro de la base de datos
     *@return Regresa el numero de filas afectadas
     **/

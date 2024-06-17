@@ -15,7 +15,7 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
     
     /**
     *Registrar una evaluación de propuesta dentro de la base de datos
-    *@param evaluacionPropuesta EvaluacionPropuesta con los datos a registrar dentro de la
+    *@param evaluacionPropuesta Objeto EvaluacionPropuesta con los datos a registrar dentro de la
     *base de datos
     *@return Regresa el número de filas afectadas
     **/

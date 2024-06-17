@@ -19,7 +19,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
 
     /**
     *Registrar un profesor UV dentro de la base de datos
-    *@param profesorUV ProfesorUV con los datos a registrar dentro de la base de datos
+    *@param profesorUV Objeto ProfesorUV con los datos a registrar dentro de la base de datos
     *@return Regresa el numero de filas afectadas
     **/
     @Override
