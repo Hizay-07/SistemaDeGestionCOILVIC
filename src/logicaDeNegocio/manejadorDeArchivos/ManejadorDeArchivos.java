@@ -32,11 +32,13 @@ public class ManejadorDeArchivos {
     
     public int guardarSyllabusDeColaboracion(Colaboracion colaboracion,File archivoSyllabus){
         int resultadoGuardoDeSyllabus = 0;
+        String nombreArchivo = "SyllabusColaboracion"+colaboracion.getIdColaboracion()+".pdf";
         String rutaOriginal = archivoSyllabus.getAbsolutePath();
-        String rutaDeDestino = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/"+archivoSyllabus.getName();
+        String rutaDeDestino = "Colaboraciones/Colaboracion"+colaboracion.getIdColaboracion()+"/Syllabus/"+nombreArchivo;
         Path rutaDeArchivoOriginal = Paths.get(rutaOriginal);
         Path rutaArchivoDeDestino = Paths.get(rutaDeDestino);
         try{
+            Files.createDirectories(rutaArchivoDeDestino.getParent());
             Files.copy(rutaDeArchivoOriginal, rutaArchivoDeDestino, StandardCopyOption.REPLACE_EXISTING);
             resultadoGuardoDeSyllabus = 1;
         }catch(IOException excepcion){
