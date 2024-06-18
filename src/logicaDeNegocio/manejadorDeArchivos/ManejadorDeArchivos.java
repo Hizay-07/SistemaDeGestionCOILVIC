@@ -24,7 +24,7 @@ public class ManejadorDeArchivos {
                 resultadoCreacionDeCarpeta = carpetaActividad.mkdirs();
             }
         }catch(SecurityException excepcion){
-            LOG.error(excepcion.getMessage());
+            LOG.error(excepcion);
             resultadoCreacionDeCarpeta = false;
         }
         return resultadoCreacionDeCarpeta;
@@ -75,7 +75,7 @@ public class ManejadorDeArchivos {
             Files.move(rutaDeArchivoOriginal, rutaArchivoDeDestino, StandardCopyOption.REPLACE_EXISTING);
             rutaDeRegistro = rutaDeDestino;
         }catch(IOException excepcion){
-            LOG.error(excepcion.getCause());
+            LOG.error(excepcion);
         }
         return rutaDeRegistro;
     }
