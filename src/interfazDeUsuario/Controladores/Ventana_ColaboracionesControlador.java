@@ -72,7 +72,7 @@ public class Ventana_ColaboracionesControlador implements Initializable {
         UsuarioSingleton usuario = UsuarioSingleton.getInstancia();
         if(usuario.getTipoDeUsuario().equals(EnumTipoDeUsuario.Administrativo.toString())){
             column_DarDeBajaColaboracion.setVisible(true);
-            column_Retroalimentar.setVisible(true);
+            column_Retroalimentar.setVisible(false);
             asignarBotonesDarDeBajaColaboracion();
             asignarBotonRetroalimentar();
         }else{
