@@ -36,7 +36,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             sentencia.registerOutParameter(4,Types.INTEGER);
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(4);
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoInsercion = -1;
         }
@@ -58,7 +58,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             sentencia.setString(2, evidenciaNueva.getRutaEvidencia());
             sentencia.setInt(3, evidenciaNueva.getIdEvidencia());
             resultadoModificacion = sentencia.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
         }
@@ -89,7 +89,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
                     evidenciasDeActividad.add(evidenciaObtenida);
                 }
             }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             Evidencia evidenciaObtenida = new Evidencia();
             evidenciaObtenida.setNombre("Excepcion");
@@ -114,7 +114,7 @@ public class DAOEvidenciaImplementacion implements EvidenciaInterface{
             while(resultado.next()){
                 numeroDeActividades = resultado.getInt(1);
             }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             numeroDeActividades = -1;
         }

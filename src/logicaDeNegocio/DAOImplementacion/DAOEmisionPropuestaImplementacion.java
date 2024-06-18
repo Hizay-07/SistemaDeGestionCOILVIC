@@ -32,7 +32,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
             declaracion.setInt(2, emisionPropuesta.getIdPropuestaColaboracion());
             declaracion.setString(3, emisionPropuesta.getFechaEmision());
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
@@ -59,7 +59,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
                     emisionesPropuesta.add(emisionPropuesta);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
              EmisionPropuesta emisionPropuesta=new EmisionPropuesta();
              emisionPropuesta.setIdProfesor(0);
@@ -89,7 +89,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
                     idProfesor=resultado.getInt("idProfesor");
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idProfesor=-1;
         }
@@ -119,7 +119,7 @@ public class DAOEmisionPropuestaImplementacion implements EmisionPropuestaInterf
                 }
             }
             conexion.close();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());   
             idPropuestas.add(0,-1);
         }

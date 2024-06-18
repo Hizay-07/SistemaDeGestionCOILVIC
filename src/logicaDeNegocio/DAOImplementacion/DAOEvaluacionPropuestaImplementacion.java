@@ -30,7 +30,7 @@ public class DAOEvaluacionPropuestaImplementacion implements EvaluacionPropuesta
             declaracion.setString(4, evaluacionPropuesta.getFechaEvaluacion());
             declaracion.setString(5, evaluacionPropuesta.getJustificacion());
             numeroFilasAfectadas=declaracion.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }

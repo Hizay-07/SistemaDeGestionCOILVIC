@@ -36,7 +36,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
                 }
             }
             conexion.close();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             AreaAcademica areaAcademica=new AreaAcademica();
             areaAcademica.setArea("Excepcion generada");
@@ -64,7 +64,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
                 }
             }
             conexion.close();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idArea = -1;
         }
@@ -86,7 +86,7 @@ public class DAOAreaAcademicaImplementacion implements AreaAcademicaInterface {
                 resultadoVerificacion=resultado.getInt(1);                
             }            
             conexion.close();
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoVerificacion=-1;
         }

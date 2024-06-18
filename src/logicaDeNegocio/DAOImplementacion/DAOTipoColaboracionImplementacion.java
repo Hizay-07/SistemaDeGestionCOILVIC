@@ -35,7 +35,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
                     tiposColaboracion.add(tipoColaboracion);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             TipoColaboracion tipoColaboracion=new TipoColaboracion();
             tipoColaboracion.setTipo("Excepcion");
@@ -63,7 +63,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
                     tipo=resultado.getString("tipo");                
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             tipo = "Excepcion";
         }
@@ -87,7 +87,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             if(resultado.next()){
                 idTipoColaboracion=resultado.getInt("idTipoColaboracion");                               
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idTipoColaboracion = -1;
         }
@@ -108,7 +108,7 @@ public class DAOTipoColaboracionImplementacion implements TipoColaboracionInterf
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }            
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;
         }
