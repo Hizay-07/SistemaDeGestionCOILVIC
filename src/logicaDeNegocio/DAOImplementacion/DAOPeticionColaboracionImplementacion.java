@@ -35,7 +35,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setString(3, peticion.getEstado());
             declaracion.setString(4, peticion.getFechaEnvio());
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -64,7 +64,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                     peticiones.add(peticion);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             PeticionColaboracion peticion = new PeticionColaboracion();
             peticion.setEstado("Excepcion");
@@ -93,7 +93,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                     idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idPropuestaColaboracion=-1;
         }
@@ -120,7 +120,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                 int idProfesor=resultado.getInt("idProfesor");
                 idProfesores.add(idProfesor);                
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idProfesores.add(0, -1);
         }
@@ -166,7 +166,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.setInt(1, idPropuestaColaboracion);
             declaracion.setInt(2, idProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -192,7 +192,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
                 int idProfesor=resultado.getInt("idProfesor");
                 idProfesores.add(idProfesor);                
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idProfesores.add(0,-1);
         }
@@ -215,7 +215,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             declaracion.registerOutParameter(2, Types.INTEGER);
             declaracion.execute();
             resultadoPrecondicion=declaracion.getInt(2);  
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoPrecondicion=-1;
         }
@@ -236,7 +236,7 @@ public class DAOPeticionColaboracionImplementacion implements PeticionColaboraci
             CallableStatement declaracion=(CallableStatement) conexion.prepareCall("CALL CambiarEstadoPeticiones(?); ")){
             declaracion.setInt(1, idPropuestaColaboracion);            
             resultadoCambioEstado=declaracion.executeUpdate();               
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoCambioEstado=-1;
         }

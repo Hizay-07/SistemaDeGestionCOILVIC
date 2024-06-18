@@ -34,7 +34,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.registerOutParameter(4, Types.INTEGER);
             declaracion.execute();
             numeroFilasAfectadas = declaracion.getInt(4);
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion);
             numeroFilasAfectadas = -1;
         }
@@ -65,7 +65,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                     colaboraciones.add(colaboracion);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             Colaboracion colaboracion=new Colaboracion();
             colaboracion.setEstadoColaboracion("Excepcion");
@@ -103,7 +103,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                     colaboraciones.add(colaboracion);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             Colaboracion colaboracion=new Colaboracion();
             colaboracion.setEstadoColaboracion("Excepcion");
@@ -126,7 +126,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.setString(1, estado);
             declaracion.setInt(2,colaboracion.getIdColaboracion());
             numeroFilasAfectadas = declaracion.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
@@ -150,7 +150,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             while(resultado.next()){
                 idColaboracion=resultado.getInt("idColaboracion");                                                
             }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion);   
             idColaboracion=-1;
         }
@@ -170,7 +170,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.setString(1, colaboracion.getRetroalimentacion());
             declaracion.setInt(2, colaboracion.getIdColaboracion());
             resultadoModifiacion = declaracion.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion);   
             resultadoModifiacion=-1;
         }
@@ -190,7 +190,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
             declaracion.setString(1, colaboracion.getSyllabus());
             declaracion.setInt(2, colaboracion.getIdColaboracion());
             resultadoModifiacion = declaracion.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion);   
             resultadoModifiacion=-1;
         }
@@ -214,7 +214,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                     rutaEncontrada = resultado.getString("syllabus");
                 }
             }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion);   
             rutaEncontrada="Excepcion";
         }

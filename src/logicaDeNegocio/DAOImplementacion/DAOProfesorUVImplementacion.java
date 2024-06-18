@@ -35,7 +35,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setInt(5, profesorUV.getIdRegion());
             declaracion.setInt(6, profesorUV.getIdAreaAcademica());
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -74,7 +74,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
                     profesoresUV.add(profesorUV);           
                 }
             }                    
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             ProfesorUV profesorUV=new ProfesorUV();
             profesorUV.setCategoriaDeContratacion("Excepcion");
@@ -98,7 +98,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(1, tipoDeContratacion);
             declaracion.setInt(2, idProfesorUV);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -120,7 +120,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(1, categoriaDeContratacion);
             declaracion.setInt(2, idProfesorUV);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -142,7 +142,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setInt(1, areaAcademica);
             declaracion.setInt(2, idProfesorUV);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -164,7 +164,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setInt(1, region);
             declaracion.setInt(2, idProfesorUV);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -186,7 +186,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             declaracion.setString(1, numeroDePersonal);
             declaracion.setInt(2, idProfesorUV);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas=-1;
         }
@@ -216,7 +216,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
                     profesorObtenido.setIdRegion(resultado.getInt("idRegionAcademica"));
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             profesorObtenido.setCategoriaDeContratacion("Excepcion");
         }
@@ -239,7 +239,7 @@ public class DAOProfesorUVImplementacion implements ProfesorUVInterface{
             while(resultado.next()){
                 numeroDeCoincidencias = resultado.getInt(1);
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroDeCoincidencias = -1;
         }

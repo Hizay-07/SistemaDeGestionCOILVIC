@@ -33,7 +33,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             declaracion.setInt(1, profesorExterno.getIdProfesor());
             declaracion.setInt(2, profesorExterno.getIdRepresentanteInstitucional());
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
@@ -68,7 +68,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
                     profesoresExternos.add(profesorExterno);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             ProfesorExterno profesorExterno = new ProfesorExterno();
             profesorExterno.setNombre("Excepcion");
@@ -106,7 +106,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
                     profesoresExternos.add(profesorExterno);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             ProfesorExterno profesorExterno = new ProfesorExterno();
             profesorExterno.setNombre("Excepcion");
@@ -131,7 +131,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             declaracion.registerOutParameter(2,Types.INTEGER);
             declaracion.execute();
             idProfesorExterno=declaracion.getInt(2);
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idProfesorExterno = -1;
         }
@@ -161,7 +161,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             }else{
                 profesorObtenido.setIdProfesor(0);
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             profesorObtenido.setIdRepresentanteInstitucional(0);
         }
@@ -185,7 +185,7 @@ public class DAOProfesorExternoImplementacion implements ProfesorExternoInterfac
             declaracion.setInt(1, idRepresentanteInstitucional);
             declaracion.setInt(2, idProfesorExterno);
             resultadoModificacion = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
         }

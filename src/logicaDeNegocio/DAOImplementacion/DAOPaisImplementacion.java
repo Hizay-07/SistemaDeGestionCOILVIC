@@ -34,7 +34,7 @@ public class DAOPaisImplementacion implements PaisInterface {
                   paisObtenido = (int)numeroPaisObtenido.getObject(1);  
                 }
            }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             paisObtenido = -1;
         }
@@ -58,7 +58,7 @@ public class DAOPaisImplementacion implements PaisInterface {
                 pais.setNumeroDePais(resultado.getInt("numeroDePais"));
                 paises.add(pais);
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             Pais pais=new Pais();
             pais.setNombrePais("Excepcion");
@@ -81,7 +81,7 @@ public class DAOPaisImplementacion implements PaisInterface {
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }        
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoVerificacion=-1;
         }

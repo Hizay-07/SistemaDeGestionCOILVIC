@@ -55,7 +55,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(1, nuevoEstado);
             declaracion.setInt(2, idProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion);
             numeroFilasAfectadas = -1;
         }
@@ -77,7 +77,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(1, nombreActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
@@ -99,7 +99,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(1, apellidoPaternoActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
@@ -121,7 +121,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(1, apellidoMaternoActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
@@ -143,7 +143,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.setString(1, correoActualizado);
             declaracion.setString(2, correoProfesor);
             numeroFilasAfectadas = declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             numeroFilasAfectadas = -1;
         }
@@ -170,7 +170,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                     idProfesor=resultado.getInt("idProfesor");
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idProfesor = -1;
         }
@@ -202,7 +202,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             }else{
                 profesor.setNombre("Sin coincidencias");
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             profesor.setNombre("Excepcion");
         }
@@ -225,7 +225,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
            declaracion.registerOutParameter(2, Types.INTEGER);
            declaracion.execute();
            resultadoModificacion = declaracion.getInt(2);
-       }catch(SQLException | NullPointerException excepcion){
+       }catch(SQLException excepcion){
            LOG.error(excepcion.getMessage());
            resultadoModificacion = -1;
        }
@@ -260,7 +260,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             }else{
                 profesor.setNombre("Sin coincidencias");
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             profesor.setNombre("Excepcion");
         }
@@ -288,7 +288,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
                     coincidenciasEncontradas = resultado.getInt("coincidencias encontradas");
                 }
             }
-        }catch (SQLException | NullPointerException excepcion) {
+        }catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             coincidenciasEncontradas = -1;
         }
@@ -309,7 +309,7 @@ public class DAOProfesorImplementacion implements ProfesorInterface {
             declaracion.registerOutParameter(1, Types.INTEGER);
             declaracion.execute();
             resultadoConsulta=declaracion.getInt(1);    
-        }catch (SQLException | NullPointerException excepcion) {
+        }catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());    
             resultadoConsulta = -1;
         }

@@ -36,7 +36,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
                     regionesAcademicas.add(regionAcademica);
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             RegionAcademica regionAcademica=new RegionAcademica();
             regionAcademica.setRegion("Excepcion");
@@ -65,7 +65,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
                     idRegion=resultado.getInt("idRegionAcademica");
                 }
             }                    
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             idRegion=-1;
         }
@@ -86,7 +86,7 @@ public class DAORegionAcademicaImplementacion implements RegionAcademicaInterfac
             while(resultado.next()){
                 resultadoVerificacion=resultado.getInt(1);                
             }            
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion);
             resultadoVerificacion=-1;
         }

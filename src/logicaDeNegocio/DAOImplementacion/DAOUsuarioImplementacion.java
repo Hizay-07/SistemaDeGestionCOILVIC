@@ -33,7 +33,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             sentencia.registerOutParameter(4,Types.INTEGER);
             sentencia.execute();
             resultadoInsercion = sentencia.getInt(4);
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoInsercion = -1;
         }
@@ -64,7 +64,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             }else{
                 resultadoValidacion = 0;
             }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoValidacion = -1;
         }
@@ -91,7 +91,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                     resultadoTipoDeUsuario = resultado.getString(1);
                 }
             }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoTipoDeUsuario = "Excepcion";
         }
@@ -118,7 +118,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                     resultadoId = resultado.getInt("idUsuario");
                 }
             }
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoId = -1;
         }
@@ -171,7 +171,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
                     coincidenciasEncontradas = resultado.getInt("coincidencias encontradas");
                 }
             }
-        }catch (SQLException | NullPointerException excepcion) {
+        }catch (SQLException excepcion) {
             LOG.error(excepcion.getMessage());
             coincidenciasEncontradas = -1;
         }
@@ -193,7 +193,7 @@ public class DAOUsuarioImplementacion implements UsuarioInterface{
             declaracion.setString(2, contrasenia);
             declaracion.setInt(3, profesor.getUsuario().getIdUsuario());
             resultadoModificacion = declaracion.executeUpdate();
-        }catch(SQLException | NullPointerException excepcion){
+        }catch(SQLException excepcion){
             LOG.error(excepcion.getMessage());
             resultadoModificacion = -1;
         }

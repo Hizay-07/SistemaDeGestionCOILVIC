@@ -41,7 +41,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             declaracion.registerOutParameter(9, Types.INTEGER);
             declaracion.execute();            
             idPropuestaColaboracion=declaracion.getInt(9);           
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.fatal(excepcion.getMessage());
             System.out.println(excepcion.getMessage());
             idPropuestaColaboracion = -1;
@@ -63,7 +63,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Aprobada' where idPropuestaColaboracion=?;")){
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
+        } catch (SQLException ex) {
             LOG.error(ex);
             numeroFilasAfectadas = -1;
         }
@@ -84,7 +84,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Rechazada' where idPropuestaColaboracion=?;")){
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
+        } catch (SQLException ex) {
             LOG.error(ex);
             numeroFilasAfectadas = -1;
         }
@@ -127,7 +127,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setProfesor(profesor);                
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.warn(excepcion);
             PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
             propuestaColaboracion.setEstadoPropuesta("Excepcion");
@@ -168,7 +168,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 tipoColaboracion.setTipo(tipo);
                 propuestaColaboracion.setTipoColaboracion(tipoColaboracion);
             }
-        } catch (SQLException | NullPointerException ex) {
+        } catch (SQLException ex) {
             LOG.warn(ex);
             propuestaColaboracion.setEstadoPropuesta("Excepcion");
         }
@@ -213,7 +213,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                     propuestasColaboracion.add(propuestaColaboracion);                
                 }
             }
-        } catch (SQLException | NullPointerException excepcion) {
+        } catch (SQLException excepcion) {
             LOG.error(excepcion);
             PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
             propuestaColaboracion.setEstadoPropuesta("Excepcion");
@@ -241,7 +241,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             if(resultado.next()){
                 idPropuestaColaboracion=resultado.getInt("idPropuestaColaboracion");                
             }      
-        }catch (SQLException | NullPointerException ex) {
+        }catch (SQLException ex) {
             LOG.warn(ex);
             return -1;
         }
@@ -287,7 +287,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
                 propuestaColaboracion.setProfesor(profesor);                
                 propuestasColaboracion.add(propuestaColaboracion);                
             }
-        } catch (SQLException | NullPointerException ex) {
+        } catch (SQLException ex) {
             LOG.warn(ex);
             PropuestaColaboracion propuestaColaboracion=new PropuestaColaboracion();   
             propuestaColaboracion.setEstadoPropuesta("Excepcion");
@@ -310,7 +310,7 @@ public class DAOPropuestaColaboracionImplementacion implements PropuestaColabora
             PreparedStatement declaracion=conexion.prepareStatement("UPDATE PropuestaColaboracion set estadoPropuesta='Iniciada' where idPropuestaColaboracion=?;")){
             declaracion.setInt(1, idPropuestaColaboracion);
             numeroFilasAfectadas=declaracion.executeUpdate();
-        } catch (SQLException | NullPointerException ex) {
+        } catch (SQLException ex) {
             LOG.error(ex);
             numeroFilasAfectadas=-1;
         }
