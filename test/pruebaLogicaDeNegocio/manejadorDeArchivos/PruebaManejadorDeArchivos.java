@@ -6,7 +6,7 @@ import logicaDeNegocio.clases.Colaboracion;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import java.io.File;
-import java.io.IOException;
+import java.io.IOException; 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,7 +19,7 @@ import org.junit.Before;
 public class PruebaManejadorDeArchivos {
     
     @Before
-    public void setUp() {
+    public void inicializar() {
         Profesor profesor = new Profesor();
         profesor.setNombre("Beto");
         profesor.setApellidoPaterno("Gómez");
@@ -124,7 +124,7 @@ public class PruebaManejadorDeArchivos {
         actividad.setIdActividad(4); 
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1); 
-        File archivoEvidencia = new File("Colaboraciones/Colaboracion1/Actividad4/Evidencia/Beto_Gómez_Pérez_evidencia4.txt");
+        File archivoEvidencia = new File("Colaboraciones/Colaboracion1/Actividad4/Evidencia/evidencia4.txt");
         int idEvidencia = 1;        
         ManejadorDeArchivos manejador = new ManejadorDeArchivos();
         boolean resultado = manejador.validarExistenciaDeArchivo(actividad, colaboracion, archivoEvidencia, idEvidencia);
