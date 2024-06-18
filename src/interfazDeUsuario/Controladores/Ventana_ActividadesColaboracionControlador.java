@@ -70,7 +70,6 @@ public class Ventana_ActividadesColaboracionControlador implements Initializable
         }
         try{
             List<Actividad> actividadesDeColaboracion = obtenerActividades();
-            tableView_Actividades.getItems().addAll(actividadesDeColaboracion);
             if(actividadesDeColaboracion.isEmpty()){
                 Alertas.mostrarMensajeSinResultadosEncontrados("No se han encontrado actividades registradas");
             }else if(actividadesDeColaboracion.get(0).getNombre().equals("Excepcion")){

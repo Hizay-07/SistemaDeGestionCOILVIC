@@ -56,6 +56,7 @@ public class Ventana_RetroalimentacionColaboracionControlador implements Initial
     
     private void limitarTextFields(){
         ComponentesDeVentanaControlador.limitarTextArea(txa_Retroalimentacion, 250);
+        txa_Retroalimentacion.setText(ColaboracionAuxiliar.getInstancia().getRetroalimentacion());
     }
     
     private boolean validarDatosEvaluacion(){
