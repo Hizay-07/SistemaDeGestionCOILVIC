@@ -188,14 +188,18 @@ public class Ventana_ColaboracionesControlador implements Initializable {
                             if(Alertas.mostrarConfirmacionDeAccion("¿Desea dar de baja y dar como finalizada esta colaboracion?")){
                                 if(obtenerResultadoValidacionConexion()){
                                     Colaboracion colaboracionSeleccionada = getTableView().getItems().get(getIndex());
-                                    ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);
-                                    int resultadoModificacionEstadoProfesores = cambiarDeEstadoProfesores();
-                                    if(resultadoModificacionEstadoProfesores>=2&&resultadoModificacionEstadoProfesores<=4){
-                                        darDeBajaColaboracion(colaboracionSeleccionada);
-                                        Alertas.mostrarMensajeDatosModificados();
-                                    }else{
-                                        Alertas.mostrarMensajeErrorEnLaConexion();
-                                        salirAlInicioDeSesion();
+                                    if (!colaboracionSeleccionada.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())) {
+                                        ColaboracionAuxiliar.setInstancia(colaboracionSeleccionada);
+                                        int resultadoModificacionEstadoProfesores = cambiarDeEstadoProfesores();
+                                        if(resultadoModificacionEstadoProfesores>=2&&resultadoModificacionEstadoProfesores<=4){
+                                            darDeBajaColaboracion(colaboracionSeleccionada);
+                                            Alertas.mostrarMensajeDatosModificados();
+                                        }else{
+                                            Alertas.mostrarMensajeErrorEnLaConexion();
+                                            salirAlInicioDeSesion();
+                                        }
+                                    } else {
+                                        Alertas.mostrarMensajeColaboracionActiva("No se pueden finalizar colaboraciones activas");
                                     }
                                 }else{
                                     salirAlInicioDeSesion();
@@ -246,7 +250,6 @@ public class Ventana_ColaboracionesControlador implements Initializable {
     }
     
     private void darDeBajaColaboracion(Colaboracion colaboracion){
-        if (!colaboracion.getEstadoColaboracion().equals(EnumColaboracion.Activa.toString())) {
             DAOColaboracionImplementacion daoColaboracion = new DAOColaboracionImplementacion();
             int resultadoModificacion = daoColaboracion.cambiarEstadoColaboracion(EnumColaboracion.Finalizada.toString(), colaboracion);
             if (resultadoModificacion == 1) {
@@ -255,9 +258,6 @@ public class Ventana_ColaboracionesControlador implements Initializable {
             } else if (resultadoModificacion == -1) {
                 Alertas.mostrarMensajeErrorEnLaConexion();
             }
-        } else {
-            Alertas.mostrarMensajeColaboracionActiva("No se pueden finalizar colaboraciones activas");
-        }
     }
     
     private int cambiarDeEstadoProfesores(){

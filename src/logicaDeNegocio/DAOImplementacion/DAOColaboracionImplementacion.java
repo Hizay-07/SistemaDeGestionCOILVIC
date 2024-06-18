@@ -99,6 +99,7 @@ public class DAOColaboracionImplementacion implements ColaboracionInterface{
                     DAOPropuestaColaboracionImplementacion daoPropuesta = new DAOPropuestaColaboracionImplementacion();
                     PropuestaColaboracion propuestaDeColaboracion = daoPropuesta.obtenerPropuestaDeColaboracionPorId(idPropuestaDeColaboracion);
                     colaboracion.setPropuestaColaboracion(propuestaDeColaboracion);
+                    colaboracion.setRetroalimentacion(resultado.getString("retroalimentacion"));
                     colaboraciones.add(colaboracion);
                 }
             }
