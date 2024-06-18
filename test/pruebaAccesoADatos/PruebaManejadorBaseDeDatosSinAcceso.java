@@ -7,6 +7,7 @@ import logicaDeNegocio.clases.UsuarioSingleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import java.sql.SQLException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,16 +22,11 @@ public class PruebaManejadorBaseDeDatosSinAcceso {
         UsuarioSingleton.getInstancia(usuarioPrueba);
     }
     
-    @Test
-    public void pruebaConectarBaseDeDatosSinConexionAdministrativoExitosa(){
-        Usuario usuarioPrueba = new Usuario();
-        usuarioPrueba.setNombreUsuario("cuentaadmin@gmail.com");
-        usuarioPrueba.setContrasenia("Contrasenia123*");
-        usuarioPrueba.setTipoDeUsuario("Administrativo");
-        UsuarioSingleton usuario = UsuarioSingleton.getInstancia(usuarioPrueba);
+    @Test (expected = NullPointerException.class)
+    public void pruebaConectarBaseDeDatosSinConexionAdministrativoExitosa()throws SQLException{
         ManejadorBaseDeDatos baseDeDatosPrueba = new ManejadorBaseDeDatos();
         Connection resultado = baseDeDatosPrueba.conectarBaseDeDatos();
-        assertNotNull(resultado);
+        resultado.close();
     }
     
     @Test
