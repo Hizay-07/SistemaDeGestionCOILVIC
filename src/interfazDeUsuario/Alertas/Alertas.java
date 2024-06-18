@@ -534,6 +534,15 @@ public class Alertas extends Application {
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
     
+    public static void mostrarMensajeNoSePuedeGuardarLaEvidencia(){
+        Platform.runLater(() ->{
+            Alert mensaje = new Alert(AlertType.CONFIRMATION);
+            mensaje.setTitle("No es posible guardar la evidencia");
+            mensaje.setContentText("No se puede acceder a la carpeta de guardado de evidencia.\n Intente de nuevo.");
+            mensaje.showAndWait();
+        });
+    }
+    
     @Override
     public void start(Stage stage){
         try{

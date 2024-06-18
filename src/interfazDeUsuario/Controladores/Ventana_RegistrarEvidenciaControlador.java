@@ -29,8 +29,8 @@ import logicaDeNegocio.manejadorDeArchivos.ManejadorDeArchivos;
 import org.apache.log4j.Logger;
 
 public class Ventana_RegistrarEvidenciaControlador implements Initializable {
-    
-    private static final Logger LOG=Logger.getLogger(Ventana_RegistrarEvidenciaControlador.class);
+
+    private static final Logger LOG = Logger.getLogger(Ventana_RegistrarEvidenciaControlador.class);
     private Stage escenario;
     private File archivoASubir;
     @FXML
@@ -43,144 +43,154 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
     private FileChooser filechooser_Evidencia = new FileChooser();
     @FXML
     private Label lbl_ErrorNombreEvidencia;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ocultarLabelErrores();
         limitarTextFields();
-    } 
-    
-    private void limitarTextFields(){
+    }
+
+    private void limitarTextFields() {
         ComponentesDeVentanaControlador.limitarTextfield(txfd_NombreEvidencia, 50);
     }
-    
-    private void ocultarLabelErrores(){
+
+    private void ocultarLabelErrores() {
         lbl_ErrorNombreEvidencia.setVisible(false);
+        lbl_NombreArchivo.setText("");
     }
-    
-    private void restringirTiposDeArchivo(){
+
+    private void restringirTiposDeArchivo() {
         FileChooser.ExtensionFilter archivosWord2007 = new FileChooser.ExtensionFilter("Archivos de Word 2007 (.doc)", "*.doc");
         FileChooser.ExtensionFilter archivosWordActual = new FileChooser.ExtensionFilter("Archivos de Word (.docx)", "*.docx");
         FileChooser.ExtensionFilter archivosPDF = new FileChooser.ExtensionFilter("Archivos PDF (.pdf)", "*.pdf");
         FileChooser.ExtensionFilter archivosExcel = new FileChooser.ExtensionFilter("Archivos de Excel (.xlsx)", "*.xlsx");
-        filechooser_Evidencia.getExtensionFilters().addAll(archivosWord2007,archivosWordActual,archivosPDF,archivosExcel);
+        filechooser_Evidencia.getExtensionFilters().addAll(archivosWord2007, archivosWordActual, archivosPDF, archivosExcel);
     }
-    
-    private boolean validarDatosEvidencia(){
+
+    private boolean validarDatosEvidencia() {
         boolean resultado = true;
         Evidencia evidencia = new Evidencia();
-        resultado &= validarAuxiliar(()->evidencia.setNombre(txfd_NombreEvidencia.getText()),lbl_ErrorNombreEvidencia);
-        return resultado; 
-    }    
-    
-    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error){
+        resultado &= validarAuxiliar(() -> evidencia.setNombre(txfd_NombreEvidencia.getText()), lbl_ErrorNombreEvidencia);
+        return resultado;
+    }
+
+    private boolean validarAuxiliar(Runnable asignador, Label lbl_Error) {
         boolean resultado = true;
-        try{
+        try {
             asignador.run();
             resultado = true;
-        }catch(IllegalArgumentException | NullPointerException excepcion){
+        } catch (IllegalArgumentException | NullPointerException excepcion) {
             LOG.info(excepcion);
             lbl_Error.setVisible(true);
             resultado = false;
         }
         return resultado;
     }
-    
-    public void obtenerArchivoASubir(){
+
+    public void obtenerArchivoASubir() {
         setArchivoASubir(null);
         lbl_NombreArchivo.setText("Seleccione un archivo");
         filechooser_Evidencia.setTitle("Seleccionar Evidencia de actividad");
         restringirTiposDeArchivo();
-        try{
+        try {
             File archivoSeleccionado = filechooser_Evidencia.showOpenDialog(escenario);
             setArchivoASubir(archivoSeleccionado);
             lbl_NombreArchivo.setText(archivoSeleccionado.getName());
-        }catch(NullPointerException excepcion){
+        } catch (NullPointerException excepcion) {
             LOG.error(excepcion.getCause());
         }
     }
-    
-    private void realizarRegistroDeEvidencia(){
-        ocultarLabelErrores();
-        Evidencia nuevaEvidencia = new Evidencia();
-        File archivoASubir = getArchivoASubir();
-        ColaboracionAuxiliar colaboracionAuxiliar = ColaboracionAuxiliar.getInstancia();
-        ActividadAuxiliar actividadAuxiliar = ActividadAuxiliar.getInstancia();
-        Actividad actividad = new Actividad();
-        Colaboracion colaboracion = new Colaboracion();
-        actividad.setIdActividad(actividadAuxiliar.getIdActividad());
-        colaboracion.setIdColaboracion(colaboracionAuxiliar.getIdColaboracion());
-        DAOEvidenciaImplementacion daoEvidencia = new DAOEvidenciaImplementacion();
+
+    private void realizarRegistroDeEvidencia(Actividad actividad, Colaboracion colaboracion) {
         ManejadorDeArchivos manejadorArchivos = new ManejadorDeArchivos();
-        boolean resultadoAccesoACarpeta = manejadorArchivos.crearCarpetaDeActividad(actividad, colaboracion);
+        Evidencia nuevaEvidencia = new Evidencia();
+        DAOEvidenciaImplementacion daoEvidencia = new DAOEvidenciaImplementacion();
         int numeroDeEvidencias = daoEvidencia.obtenerNumeroDeEvidencia(actividad.getIdActividad()) + 1;
-        if(resultadoAccesoACarpeta&&Objects.nonNull(archivoASubir)){
-            if(!manejadorArchivos.validarExistenciaDeArchivo(actividad, colaboracion, archivoASubir, numeroDeEvidencias)){
-                String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir,numeroDeEvidencias);
-                if(validarDatosEvidencia()){
-                    if(numeroDeEvidencias>=0){
-                            nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
-                            nuevaEvidencia.setRutaEvidencia(rutaArchivo);
-                            nuevaEvidencia.setIdActividad(actividad.getIdActividad());
-                            int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
-                            switch(resultadoInsercion) {
-                                case 1 -> {
-                                    Alertas.mostrarMensajeDatosIngresados();
-                                    cancelarRegistro();
-                                }
-                                case 0 -> Alertas.mostrarMensajeDatosDuplicados();
-                                default -> {
-                                    Alertas.mostrarMensajeErrorEnLaConexion();
-                                    manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                                }
-                            }
-                    }else{
-                        Alertas.mostrarMensajeErrorEnLaConexion();
+        if(!manejadorArchivos.validarExistenciaDeArchivo(actividad, colaboracion, archivoASubir, numeroDeEvidencias)) {
+            String rutaArchivo = manejadorArchivos.guardarEvidenciaDeActividad(actividad, colaboracion, archivoASubir, numeroDeEvidencias);
+            if (numeroDeEvidencias >= 0) {
+                nuevaEvidencia.setNombre(txfd_NombreEvidencia.getText());
+                nuevaEvidencia.setRutaEvidencia(rutaArchivo);
+                nuevaEvidencia.setIdActividad(actividad.getIdActividad());
+                int resultadoInsercion = daoEvidencia.agregarEvidencia(nuevaEvidencia);
+                switch (resultadoInsercion) {
+                    case 1 -> {
+                        Alertas.mostrarMensajeDatosIngresados();
+                        cancelarRegistro();
                     }
-                }else{
-                    manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
-                    Alertas.mostrarMensajeDatosInvalidos();
+                    case 0 ->
+                        Alertas.mostrarMensajeDatosDuplicados();
+                    default -> {
+                        Alertas.mostrarMensajeErrorEnLaConexion();
+                        manejadorArchivos.borrarArchivoDeEvidencia(rutaArchivo);
+                    }
                 }
-            }else{
-                Alertas.mostrarMensajeArchivoASubirExistente();
+            } else {
+                Alertas.mostrarMensajeErrorEnLaConexion();
             }
-        }else{
-            Alertas.mostrarMensajeArchivoSinSeleccionar();
+        } else {
+            Alertas.mostrarMensajeArchivoASubirExistente();
         }
     }
-    
-    public void subirEvidencia(){
-        if(obtenerResultadoValidacionConexion()){
-            realizarRegistroDeEvidencia();
-        }else{
+
+    public void subirEvidencia() {
+        ocultarLabelErrores();
+        if (obtenerResultadoValidacionConexion()) {
+            ManejadorDeArchivos manejadorArchivos = new ManejadorDeArchivos();
+            if (validarDatosEvidencia()) {
+                if(Objects.nonNull(archivoASubir)){
+                    File archivoASubir = getArchivoASubir();
+                    ColaboracionAuxiliar colaboracionAuxiliar = ColaboracionAuxiliar.getInstancia();
+                    ActividadAuxiliar actividadAuxiliar = ActividadAuxiliar.getInstancia();
+                    Actividad actividad = new Actividad();
+                    Colaboracion colaboracion = new Colaboracion();
+                    actividad.setIdActividad(actividadAuxiliar.getIdActividad());
+                    colaboracion.setIdColaboracion(colaboracionAuxiliar.getIdColaboracion());
+                    boolean resultadoAccesoACarpeta = manejadorArchivos.crearCarpetaDeActividad(actividad, colaboracion);
+                    if (resultadoAccesoACarpeta) {
+                        realizarRegistroDeEvidencia(actividad,colaboracion);
+                    } else {
+                        Alertas.mostrarMensajeNoSePuedeGuardarLaEvidencia();
+                    }
+                }else{
+                    Alertas.mostrarMensajeArchivoSinSeleccionar();
+                }
+            } else {
+                manejadorArchivos.borrarArchivoDeEvidencia(archivoASubir.getPath());
+                Alertas.mostrarMensajeDatosInvalidos();
+                archivoASubir = null;
+            }
+        } else {
             salirAlInicioDeSesion();
         }
     }
-    
-    private File getArchivoASubir(){
+
+    private File getArchivoASubir() {
         return this.archivoASubir;
     }
-    private void setArchivoASubir(File archivo){
+
+    private void setArchivoASubir(File archivo) {
         archivoASubir = archivo;
     }
-    private void cerrarVentana(){
-        escenario = (Stage)anchor_Ventana.getScene().getWindow();
+
+    private void cerrarVentana() {
+        escenario = (Stage) anchor_Ventana.getScene().getWindow();
         escenario.close();
     }
-    
-    public void cancelarRegistro(){
-        String rutaVentanaFXML="/interfazDeUsuario/Ventana_Evidencias.fxml";
-        desplegarVentanaCorrespondiente(rutaVentanaFXML); 
+
+    public void cancelarRegistro() {
+        String rutaVentanaFXML = "/interfazDeUsuario/Ventana_Evidencias.fxml";
+        desplegarVentanaCorrespondiente(rutaVentanaFXML);
     }
-    
-    public int validarConexionEstable(){
+
+    public int validarConexionEstable() {
         int resultado;
         DAOUsuarioImplementacion daoUsuario = new DAOUsuarioImplementacion();
         resultado = daoUsuario.confirmarConexionDeUsuario();
         return resultado;
     }
-    
-    public boolean obtenerResultadoValidacionConexion(){
+
+    public boolean obtenerResultadoValidacionConexion() {
         boolean resultadoValidacion = true;
         int resultado = validarConexionEstable();
         switch (resultado) {
@@ -200,26 +210,26 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
         }
         return resultadoValidacion;
     }
-    
-    public void desplegarVentanaCorrespondiente(String rutaFxml){
-        if(obtenerResultadoValidacionConexion()){
-            try{
-            Parent root=FXMLLoader.load(getClass().getResource(rutaFxml));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-            cerrarVentana();
-            }catch(IOException excepcion){
+
+    public void desplegarVentanaCorrespondiente(String rutaFxml) {
+        if (obtenerResultadoValidacionConexion()) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource(rutaFxml));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                cerrarVentana();
+            } catch (IOException excepcion) {
                 Alertas.mostrarMensajeErrorAlDesplegarVentana();
-                LOG.error(excepcion.getCause());            
+                LOG.error(excepcion.getCause());
             }
-        }else{
+        } else {
             salirAlInicioDeSesion();
         }
     }
-     
-    public void salirAlInicioDeSesion(){
+
+    public void salirAlInicioDeSesion() {
         String rutaVentanaFXML = null;
         try {
             rutaVentanaFXML = "/interfazDeUsuario/Ventana_InicioDeSesion.fxml";
@@ -236,5 +246,5 @@ public class Ventana_RegistrarEvidenciaControlador implements Initializable {
             LOG.error(excepcion.getCause());
         }
     }
-    
+
 }
